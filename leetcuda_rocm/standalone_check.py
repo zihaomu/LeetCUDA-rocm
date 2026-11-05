@@ -96,12 +96,12 @@ def run(args):
         suite=args.suite,
         environment=identity,
         source_kind=(
-            "native_port_of_original_SIMT"
-            if args.suite == "base"
+            "upstream_original"
+            if args.backend == "cuda"
             else (
-                "SIMT_and_BF16_WMMA_single_TF32"
-                if args.backend == "hip"
-                else "upstream_original"
+                "native_port_of_original_SIMT"
+                if args.suite == "base"
+                else "SIMT_and_BF16_WMMA_single_TF32"
             )
         ),
         upstream_commit=UPSTREAM,

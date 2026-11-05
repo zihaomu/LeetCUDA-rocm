@@ -249,14 +249,24 @@ def inspect_isa(lib, destination):
     for i in range(1, len(sections), 3):
         symbol, body = sections[i + 1 : i + 3]
         match = re.search(
-            r"attention_tiledILi(\d+)ELi([12])ELb([01])ELi([137])EEE", symbol
+            r"attention_tiledILi(\d+)ELi([12])ELb([01])ELi([137])E(?:Li(\d+)E)?(?:Li(\d+)E)?(?:Li(\d+)E)?EE",
+            symbol,
         )
         if not match:
             continue
-        d, stage, tile_v, mask = map(int, match.groups())
-        br = bc = 64 if d < 128 else 128
+        d, stage, tile_v, mask = map(int, match.groups()[:4])
+        bc = 64 if d < 128 else 128
+        br = int(match.group(5)) if match.group(5) else bc
         od = min(d, 128)
-        data = stage * max((br + bc) * 16, bc * 16 if tile_v else 16 * od)
+        kc = int(match.group(6)) if match.group(6) else 16
+        vpad = int(match.group(7)) if match.group(7) else 0
+        v = (bc + vpad) * 16 if tile_v else 16 * od
+        data = stage * max((br + bc) * kc, v)
+        half_elements = (
+            max(data, stage * v + br * bc)
+            if kc == 32 or vpad
+            else data + br * bc
+        )
         overlap = 0
         lines = body.splitlines()
         for idx, line in enumerate(lines):
@@ -280,7 +290,9 @@ def inspect_isa(lib, destination):
                 key_tile=bc,
                 output_panel=od,
                 output_state="FP16" if d >= 256 else "FP32",
-                dynamic_lds_bytes=(data + br * bc) * 2,
+                dynamic_lds_bytes=half_elements * 2,
+                qk_depth=kc,
+                v_row_padding=vpad,
                 wmma=body.count("v_wmma_f32_16x16x16_f16"),
                 scratch=body.count("scratch_"),
                 prefetch_order_sites=overlap,
@@ -428,13 +440,13 @@ def layout_checks():
     ]
     # Compile the exact production helpers, excluding unrelated Attention
     # instantiations from this internal LDS probe.
-    source = (
-        files[0]
-        .read_text()
-        .split("template <int D, int Stage, bool TileV> struct Config", 1)[0]
-    )
+    source = re.split(
+        r"template <int D, int Stage, bool TileV[^>]*> struct Config",
+        files[0].read_text(),
+        maxsplit=1,
+    )[0]
     source += "\n} // namespace\n" + files[1].read_text()
-    source += '\nPYBIND11_MODULE(TORCH_EXTENSION_NAME, m) { m.def("probe", &layout_probe); }\n'
+    source += '\nPYBIND11_MODULE(TORCH_EXTENSION_NAME, m) { m.def("probe", &layout_probe); m.def("padded_probe", &padded_probe); }\n'
     identity = verify()
     lib = _load(
         "flash_swizzle_probe",
@@ -487,6 +499,23 @@ def layout_checks():
                         binary_sha256=sha(lib.__file__),
                     )
                 )
+        expected = inputs.transpose(1, 2).contiguous()
+        physical_expected = torch.full(
+            (2, 16, rows + 8), -321, dtype=torch.float16
+        )
+        physical_expected[:, :, :rows] = expected
+        physical, logical = lib.padded_probe(inputs.cuda())
+        checks.append(
+            dict(
+                id=f"layout/plain_v_padding8/rows{rows}",
+                slots=2,
+                elements_checked=physical.numel() + logical.numel(),
+                passed=torch.equal(physical.cpu(), physical_expected)
+                and torch.equal(logical.cpu().reshape_as(expected), expected),
+                source_sha256={str(p.relative_to(ROOT)): sha(p) for p in files},
+                binary_sha256=sha(lib.__file__),
+            )
+        )
     return checks
 
 
@@ -643,13 +672,45 @@ def run(args):
     torch.set_num_threads(4)
     torch.set_grad_enabled(False)
     torch.cuda.set_device(args.device)
+    # Freeze source before any experiment can edit a later candidate.
+    import shutil
+
+    snapshot = args.output.parent / (args.output.stem + "_sources")
+    snapshot.mkdir(parents=True, exist_ok=True)
+    for path in (
+        Path(__file__),
+        ROOT / "kernels/rocm/flash_attention_tiled.cu",
+        ROOT / "leetcuda_rocm/native/flash_swizzle_probe.cu",
+    ):
+        shutil.copy2(path, snapshot / path.name)
     builds = {}
     if args.backend == "hip":
         from .environment import verify
         from .loader import load, source_paths
 
         identity = verify()
-        lib = load("flash_attn")
+        if args.probe:
+            from .loader import _load, _prepare
+            from .environment import cache_key
+
+            path = ROOT / "kernels/rocm/flash_attention_tiled.cu"
+            source = path.read_text()
+            source += (
+                "\nPYBIND11_MODULE(TORCH_EXTENSION_NAME,m){"
+                + "".join(
+                    f'm.def("{name}",&{name});' for name in (*NAMES, PARENT)
+                )
+                + "}\n"
+            )
+            lib = _load(
+                "flash_swizzle_candidate",
+                (_prepare(source),),
+                cache_key(identity),
+                identity["gpu_architecture"],
+                False,
+            )
+        else:
+            lib = load("flash_attn")
         functions = {name: getattr(lib, name) for name in NAMES}
         parent = getattr(lib, PARENT)
         if args.frozen_baseline:
@@ -664,9 +725,18 @@ def run(args):
             parent = getattr(frozen, PARENT)
             builds["frozen_parent"] = baseline["builds"]["hip"]
         builds["hip"] = dict(
+            compilation_mode=(
+                "tiled_candidate_probe"
+                if args.probe
+                else "full_flash_attn_module"
+            ),
             source_sha256={
                 str(p.relative_to(ROOT)): sha(p)
-                for p in source_paths("flash_attn")
+                for p in (
+                    [ROOT / "kernels/rocm/flash_attention_tiled.cu"]
+                    if args.probe
+                    else source_paths("flash_attn")
+                )
             },
             binary_sha256=sha(lib.__file__),
         )
@@ -746,6 +816,8 @@ def run(args):
         report["performance"] = performance(
             functions, parent, fixture, args, report
         )
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(report, indent=2) + "\n")
     report["storage_checks"] = storage_checks(functions)
     if args.backend == "hip":
         report["boundaries"] = boundaries(lib)
@@ -870,6 +942,11 @@ def main():
     parser.add_argument("--fixtures", type=Path)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--performance", action="store_true")
+    parser.add_argument(
+        "--probe",
+        action="store_true",
+        help="Compile only the tiled candidate for research; final integration uses the full module",
+    )
     parser.add_argument(
         "--names", nargs="+", choices=list(VARIANTS), default=list(VARIANTS)
     )

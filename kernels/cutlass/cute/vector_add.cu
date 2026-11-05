@@ -1,3 +1,6 @@
+#if defined(LEETCUDA_ROCM)
+#include "../../rocm/cute_vector_hip.cuh"
+#else
 #include <cublas_v2.h>
 #include <cuda.h> // NOLINT
 #include <cute/tensor.hpp>
@@ -53,3 +56,5 @@ __global__ void vector_add_local_tile_multi_elem_per_thread_half(
   // STG.128
   copy(tzRx, tzr);
 };
+
+#endif // LEETCUDA_ROCM

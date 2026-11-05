@@ -1,0 +1,493 @@
+{
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "visible_device_pci_bus_ids": [
+      "0000:03:00.0",
+      "0000:43:00.0"
+    ],
+    "selected_device_pci_bus_id": "0000:03:00.0",
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "2,1",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/49dada5b729e48808e7efd74db584838.json"
+  },
+  "harness_sha256": "6a9fb263fe48d834af971aba6973603c1ae1b486a72a1f526a881ce861b34601",
+  "suites": [
+    {
+      "name": "original229",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.smoke",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/original229.json"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/original229.log",
+      "log_sha256": "2c3bb8ad38aa1a0aa7418c1197a63d645494f1636f4bb7612ca1fb94858f0d75",
+      "passed": true,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/original229.json",
+      "report_sha256": "a6a3b83dcc05f21be5a721529cec848ed0f54457ae11aec9b19b1a10488ceaa1",
+      "counts": null
+    },
+    {
+      "name": "matrix_attention",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.matrix_attention_check",
+        "--correctness-only",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/matrix_attention.json"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/matrix_attention.log",
+      "log_sha256": "29165f020484b1d0847cd89f8aa7e7d88f022ea6e11bd299adc902d685c02988",
+      "passed": true,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/matrix_attention.json",
+      "report_sha256": "b180b8c1c1a4eb1b0f6c24d0de602e32790d611786b5cf76a82d3040d5246248",
+      "counts": null
+    },
+    {
+      "name": "fp8_e4m3",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.fp8_check",
+        "--fp8-format",
+        "e4m3",
+        "--guard-device",
+        "1",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/fp8_e4m3.json"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/fp8_e4m3.log",
+      "log_sha256": "275f22a2c8979ead1ab9fd9266a857d50749e85b493a31d7739da619117491a8",
+      "passed": true,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/fp8_e4m3.json",
+      "report_sha256": "be1502a9a64c70655fab1e3958f5782cad312eb8629ae6c7c50570920da01848",
+      "counts": null
+    },
+    {
+      "name": "fp8_e5m2",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.fp8_check",
+        "--fp8-format",
+        "e5m2",
+        "--guard-device",
+        "1",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/fp8_e5m2.json"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/fp8_e5m2.log",
+      "log_sha256": "275f22a2c8979ead1ab9fd9266a857d50749e85b493a31d7739da619117491a8",
+      "passed": true,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/fp8_e5m2.json",
+      "report_sha256": "42726ae7d2b16310dc5cda09d0f543f863de3b8ac67304ff24db1f29c6c04b7b",
+      "counts": null
+    },
+    {
+      "name": "fp4",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.fp4_check",
+        "--guard-device",
+        "1",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/fp4.json"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/fp4.log",
+      "log_sha256": "b65202b64ddd5a651a1b8d09fa31e940dd9af57ee84746efb99e13599e0e298c",
+      "passed": true,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/fp4.json",
+      "report_sha256": "8195db4cccef4bd33802806d61031aecdd8879259471645ea6e2eb8a361468da",
+      "counts": null
+    },
+    {
+      "name": "triton_fixtures",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.triton_examples_check",
+        "fixtures",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/triton_fixtures.pt"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/triton_fixtures.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    },
+    {
+      "name": "triton",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.triton_examples_check",
+        "run",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/triton_fixtures.pt",
+        "--guard-device",
+        "1",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/triton.json"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/triton.log",
+      "log_sha256": "a27fa14ba14b04306dfa0c4253d99477aec97927182b70b70858f56d49cdb65a",
+      "passed": true,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/triton.json",
+      "report_sha256": "0eef51f419304639fc0c19059bf9e79e69dca8d3d3df0bd05a4d587e76f78980",
+      "counts": null
+    },
+    {
+      "name": "training_fixtures",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.attention_training_check",
+        "fixtures",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/training_fixtures.pt"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/training_fixtures.log",
+      "log_sha256": "57efb60f4125bee0791fc241981587cd7a3d08d9a44a623d55b8be6e33f48c2f",
+      "passed": true
+    },
+    {
+      "name": "training",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.attention_training_check",
+        "run",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/training_fixtures.pt",
+        "--backend",
+        "hip",
+        "--guard-device",
+        "1",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/training.json"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/training.log",
+      "log_sha256": "772ebe79b5cb0e19e616480c8ed66aea266e5f6b8207b1964662691f343e4b89",
+      "passed": true,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/training.json",
+      "report_sha256": "279a3988d0ec7098e0303b38c5c9b13c5126239b543ffed7bdc1c1760e1e716c",
+      "counts": null
+    },
+    {
+      "name": "ffpa_fixtures",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.ffpa_check",
+        "fixtures",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/ffpa_fixtures.pt"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/ffpa_fixtures.log",
+      "log_sha256": "ce5b835b0c354af3b67bc3707f6128deb94df067cfc599dc5024ef2e68924cfa",
+      "passed": true
+    },
+    {
+      "name": "ffpa",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.ffpa_check",
+        "run",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/ffpa_fixtures.pt",
+        "--backend",
+        "hip",
+        "--extras",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/ffpa.json"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/ffpa.log",
+      "log_sha256": "b9d7782e225a68917043b4b1085a79d2f886a70859eb2a9a3dcf8960daaf61b7",
+      "passed": true,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/ffpa.json",
+      "report_sha256": "f5122f852c1a6cc08043c25f7ed363103a8f462b7a4bbf5449eaf1c05c766478",
+      "counts": null
+    },
+    {
+      "name": "interview_attention_fixtures",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.interview_attention_check",
+        "fixtures",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/interview_attention_fixtures.pt"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/interview_attention_fixtures.log",
+      "log_sha256": "9004e85149059a8256397303c6f2a1c56c0aad4e9421697476d05e451686ca1e",
+      "passed": true
+    },
+    {
+      "name": "interview_attention",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.interview_attention_check",
+        "run",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/interview_attention_fixtures.pt",
+        "--backend",
+        "hip",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/interview_attention.json"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/interview_attention.log",
+      "log_sha256": "34bbefbb993c673f1cd7c38887f49445e3f5779b03c89bdc66ca0aaaf0756a9e",
+      "passed": true,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/interview_attention.json",
+      "report_sha256": "e51483a67f6a79801c39314fc31e0318a6c0425e4c8fbfc437698457284eb548",
+      "counts": {
+        "checks": 2442,
+        "unavailable": 0,
+        "pipeline": 66,
+        "boundaries": 54,
+        "layout": 9,
+        "performance": 0,
+        "memory": 7
+      }
+    },
+    {
+      "name": "supplemental_fixtures",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.supplemental_check",
+        "fixtures",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/supplemental_fixtures.pt"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/supplemental_fixtures.log",
+      "log_sha256": "5b08d9ca01cc1aff549db2ed3e0ad8d84da41b3f4bb1df73c82b47b27d92ce93",
+      "passed": true
+    },
+    {
+      "name": "supplemental",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.supplemental_check",
+        "run",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/supplemental_fixtures.pt",
+        "--backend",
+        "hip",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/supplemental.json"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/supplemental.log",
+      "log_sha256": "e212bfcabf3b41f8ff5ce2ecaf708b2dc664f1cf164e7d0bb51df37caac769a4",
+      "passed": true,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/supplemental.json",
+      "report_sha256": "4fc15e31522cd8e8dbaca25edd1cfd30a04587de4fc915b44cac8b0a2c1a54e4",
+      "counts": {
+        "checks": 198,
+        "boundaries": 56,
+        "performance": 0
+      }
+    },
+    {
+      "name": "cute_dsl_fixtures",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.cute_dsl_check",
+        "fixtures",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cute_dsl_fixtures.pt"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cute_dsl_fixtures.log",
+      "log_sha256": "2b8408209b31c41223f3582808f7c764bcda14049ac66f8b0296a92c3fc76acd",
+      "passed": true
+    },
+    {
+      "name": "cute_dsl",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.cute_dsl_check",
+        "run",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cute_dsl_fixtures.pt",
+        "--backend",
+        "hip",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cute_dsl.json"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cute_dsl.log",
+      "log_sha256": "b71fdccc3fe54de86eb434a256dd2af04f236de74fa621e1c9f77d3aa7277dff",
+      "passed": true,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cute_dsl.json",
+      "report_sha256": "faa9c571be2d3f7aa38e81861192702c8c7f23a3204a1c76eebe794c6653a58a",
+      "counts": {
+        "checks": 105,
+        "boundaries": 41,
+        "pipeline": 12,
+        "performance": 0
+      }
+    },
+    {
+      "name": "swizzle_fixtures",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.swizzle_examples_check",
+        "fixtures",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/swizzle_fixtures.pt"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/swizzle_fixtures.log",
+      "log_sha256": "f36bf1e42c038ed3234ee3a5e3acb76cdaef93658f69d6f6fc164a5a2a67b669",
+      "passed": true
+    },
+    {
+      "name": "swizzle",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.swizzle_examples_check",
+        "run",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/swizzle_fixtures.pt",
+        "--backend",
+        "hip",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/swizzle.json"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/swizzle.log",
+      "log_sha256": "3cdf345370e3bdfe3eaf1da4f1b7fa67c20d574fb46ea6dedcf69b0e2d95b13b",
+      "passed": true,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/swizzle.json",
+      "report_sha256": "8a700db564b0a2c7ddc628edb5e74f891ce79fe34b2fb66fa7e58234f7c341bd",
+      "counts": {
+        "checks": 330,
+        "precision_controls": 11,
+        "boundaries": 71,
+        "layout": 2,
+        "performance": 0
+      }
+    },
+    {
+      "name": "tiling_fixtures",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.flash_tiled_check",
+        "fixtures",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/tiling_fixtures.pt"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/tiling_fixtures.log",
+      "log_sha256": "a5569785453edcf832a69ad03be052a21a187f7bda6531f39424fc6ffb12a62e",
+      "passed": true
+    },
+    {
+      "name": "unbound_attention",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.unbound_attention_check",
+        "run",
+        "--backend",
+        "hip",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/tiling_fixtures.pt",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/unbound_attention.json"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/unbound_attention.log",
+      "log_sha256": "4c51e1ed69532a360d9ef15f5de84c6a138d6122e50b3590fb10d90588a83484",
+      "passed": true,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/unbound_attention.json",
+      "report_sha256": "b6fa2cf338f6734029f2ceaf561d13b807c6bea3a7ef5adb238eef37e1a3f60a",
+      "counts": {
+        "checks": 248,
+        "storage": 14,
+        "boundaries": 291,
+        "performance": 0
+      }
+    },
+    {
+      "name": "unbound_gemm",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.unbound_gemm_check",
+        "run",
+        "--backend",
+        "hip",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/standalone_fixtures.bin",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/unbound_gemm.json"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/unbound_gemm.log",
+      "log_sha256": "c93905d89c7f4a4aab3d0a16af1cb779e6392751fec1248d46b0d54aae5d07bf",
+      "passed": true,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/unbound_gemm.json",
+      "report_sha256": "25063a41a39671b4e711e47bee90fb9683d35aa3aa9caa1287ca79ef977a2a4f",
+      "counts": {
+        "checks": 560,
+        "boundaries": 36,
+        "pipeline": 4,
+        "state_controls": 16,
+        "performance": 0
+      }
+    },
+    {
+      "name": "standalone_cpp",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.build_all_bench",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp"
+      ],
+      "returncode": 0,
+      "log": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/standalone_cpp.log",
+      "log_sha256": "bbb350ccc7e4da844f53673b441960077a120c39df8cceca6eebd2234d961a01",
+      "passed": true,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/manifest.json",
+      "report_sha256": "e1d4d0d8a774b38d578de79bb0cf65f29a6e8275e1c9f39ed23045838cb0bf6f",
+      "counts": null
+    }
+  ],
+  "passed": true,
+  "scope": "AMD functional regression; performance and CUDA source comparisons are separately qualified"
+}

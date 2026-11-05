@@ -52,7 +52,7 @@ __host__ __device__ __forceinline__ int lds_index(int row, int col) {
 }
 
 template <int Rows, int Cols, int Threads, bool Transpose = false,
-          bool Swizzle = false>
+          bool Swizzle = false, int Pad = 0>
 __device__ __forceinline__ void publish(_Float16 *dst, U4 *r) {
   constexpr int Count = (Rows * Cols + Threads * 8 - 1) / (Threads * 8);
 #pragma unroll
@@ -68,7 +68,7 @@ __device__ __forceinline__ void publish(_Float16 *dst, U4 *r) {
       } else {
 #pragma unroll
         for (int j = 0; j < 8; ++j)
-          dst[Transpose ? lds_index<Rows, Swizzle>(x % Cols + j, x / Cols)
+          dst[Transpose ? lds_index<Rows + Pad, Swizzle>(x % Cols + j, x / Cols)
                         : lds_index<Cols, Swizzle>(x / Cols, x % Cols + j)] =
               h[j];
       }
@@ -76,28 +76,41 @@ __device__ __forceinline__ void publish(_Float16 *dst, U4 *r) {
   }
 }
 
-template <int D, int Stage, bool TileV> struct Config {
-  static constexpr int BR = D < 128 ? 64 : 128, BC = BR;
+template <int D, int Stage, bool TileV, int Mask = 0> struct Config {
+  static constexpr int BR = D < 128 ? 64 : 128;
+  static constexpr int BC = D < 128 ? 64 : 128;
   static constexpr int OD = D < 128 ? D : 128;
   static constexpr int Threads = BR * 2;
-  static constexpr int QK = (BR + BC) * 16;
-  static constexpr int V = TileV ? BC * 16 : 16 * OD;
+  static constexpr int KC = 16;
+  // Q/QK keep V linear (no XOR) but pad each transposed row by eight halves
+  // to reduce bank conflicts. QKV retains its independently qualified XOR.
+  // QK storage is dead after its final CTA barrier: P may reuse that region
+  // above the V slots. The slots and P remain disjoint throughout PV.
+  static constexpr int VPad = (Mask == 1 || Mask == 3) ? 8 : 0;
+  static constexpr int QK = (BR + BC) * KC;
+  static constexpr int V = TileV ? (BC + VPad) * 16 : 16 * OD;
   static constexpr int Data = Stage * (QK > V ? QK : V);
-  static constexpr int HalfElements = Data + BR * BC;
-  static constexpr int QLoads = (BR * 16 + Threads * 8 - 1) / (Threads * 8);
-  static constexpr int KLoads = (BC * 16 + Threads * 8 - 1) / (Threads * 8);
-  static constexpr int VLoads = (V + Threads * 8 - 1) / (Threads * 8);
+  static constexpr int POffset = (Mask == 1 || Mask == 3) ? Stage * V : Data;
+  static constexpr int HalfElements =
+      (Data > POffset + BR * BC) ? Data : POffset + BR * BC;
+  static constexpr int QLoads = (BR * KC + Threads * 8 - 1) / (Threads * 8);
+  static constexpr int KLoads = (BC * KC + Threads * 8 - 1) / (Threads * 8);
+  static constexpr int VLogical = TileV ? BC * 16 : 16 * OD;
+  static constexpr int VLoads = (VLogical + Threads * 8 - 1) / (Threads * 8);
 };
 
-template <int D, int Stage, bool TileV, int Mask = 0>
-__global__ void __launch_bounds__((D < 128 ? 64 : 128) * 2)
+template <int D, int Stage, bool TileV, int Mask = 0,
+          int QueryRows = Config<D, Stage, TileV, Mask>::BR,
+          int Depth = Config<D, Stage, TileV, Mask>::KC,
+          int VPadding = Config<D, Stage, TileV, Mask>::VPad>
+__global__ void __launch_bounds__(QueryRows * 2)
     attention_tiled(const _Float16 *q, const _Float16 *k, const _Float16 *v,
                     _Float16 *o, int n) {
-  using C = Config<D, Stage, TileV>;
+  using C = Config<D, Stage, TileV, Mask>;
   constexpr int BR = C::BR, BC = C::BC, OD = C::OD, Threads = C::Threads;
   using State = std::conditional_t<(D >= 256), H8, F8>;
   extern __shared__ __align__(16) _Float16 smem[];
-  _Float16 *p = smem + C::Data;
+  _Float16 *p = smem + C::POffset;
   int base = blockIdx.y * n * D;
   q += base;
   k += base;
@@ -116,56 +129,64 @@ __global__ void __launch_bounds__((D < 128 ? 64 : 128) * 2)
     {
       U4 qr[C::QLoads], kr[C::KLoads];
       if constexpr (Stage == 2) {
-        issue<BR, 16, D, Threads>(q, q0, 0, n, qr);
-        issue<BC, 16, D, Threads>(k, key0, 0, n, kr);
-        publish<BR, 16, Threads, false, (Mask & 1) != 0>(smem, qr);
-        publish<BC, 16, Threads, false, (Mask & 2) != 0>(smem + BR * 16, kr);
+        issue<BR, C::KC, D, Threads>(q, q0, 0, n, qr);
+        issue<BC, C::KC, D, Threads>(k, key0, 0, n, kr);
+        publish<BR, C::KC, Threads, false, (Mask & 1) != 0>(smem, qr);
+        publish<BC, C::KC, Threads, false, (Mask & 2) != 0>(smem + BR * C::KC,
+                                                            kr);
         __syncthreads();
       }
 #pragma unroll 1
-      for (int tile = 0; tile < D / 16; ++tile) {
+      for (int tile = 0; tile < D / C::KC; ++tile) {
         int future = tile + Stage - 1;
-        if (future < D / 16) {
-          issue<BR, 16, D, Threads>(q, q0, future * 16, n, qr);
-          issue<BC, 16, D, Threads>(k, key0, future * 16, n, kr);
+        if (future < D / C::KC) {
+          issue<BR, C::KC, D, Threads>(q, q0, future * C::KC, n, qr);
+          issue<BC, C::KC, D, Threads>(k, key0, future * C::KC, n, kr);
         }
         if constexpr (Stage == 1) {
-          publish<BR, 16, Threads, false, (Mask & 1) != 0>(smem, qr);
-          publish<BC, 16, Threads, false, (Mask & 2) != 0>(smem + BR * 16, kr);
+          publish<BR, C::KC, Threads, false, (Mask & 1) != 0>(smem, qr);
+          publish<BC, C::KC, Threads, false, (Mask & 2) != 0>(smem + BR * C::KC,
+                                                              kr);
           __syncthreads();
         }
         const _Float16 *curr = smem + (tile % Stage) * C::QK;
-        H8 a;
-        if constexpr ((Mask & 1) != 0) {
-          a = *reinterpret_cast<const H8 *>(
-              curr + lds_index<16, true>(wave * 16 + lane % 16, lane / 16 * 8));
-        } else {
 #pragma unroll
-          for (int x = 0; x < 8; ++x)
-            a[x] = curr[(wave * 16 + lane % 16) * 16 + lane / 16 * 8 + x];
-        }
-#pragma unroll
-        for (int j = 0; j < BC / 16; ++j) {
-          H8 b;
-          if constexpr ((Mask & 2) != 0) {
-            b = *reinterpret_cast<const H8 *>(
-                curr + BR * 16 +
-                lds_index<16, true>(j * 16 + lane % 16, lane / 16 * 8));
+        for (int ki = 0; ki < C::KC / 16; ++ki) {
+          H8 a;
+          if constexpr ((Mask & 1) != 0) {
+            a = *reinterpret_cast<const H8 *>(
+                curr + lds_index<C::KC, true>(wave * 16 + lane % 16,
+                                              ki * 16 + lane / 16 * 8));
           } else {
 #pragma unroll
             for (int x = 0; x < 8; ++x)
-              b[x] =
-                  curr[BR * 16 + (j * 16 + lane % 16) * 16 + lane / 16 * 8 + x];
+              a[x] = curr[(wave * 16 + lane % 16) * C::KC + ki * 16 +
+                          lane / 16 * 8 + x];
           }
-          score[j] =
-              __builtin_amdgcn_wmma_f32_16x16x16_f16_w32_gfx12(a, b, score[j]);
+#pragma unroll
+          for (int j = 0; j < BC / 16; ++j) {
+            H8 b;
+            if constexpr ((Mask & 2) != 0) {
+              b = *reinterpret_cast<const H8 *>(
+                  curr + BR * C::KC +
+                  lds_index<C::KC, true>(j * 16 + lane % 16,
+                                         ki * 16 + lane / 16 * 8));
+            } else {
+#pragma unroll
+              for (int x = 0; x < 8; ++x)
+                b[x] = curr[BR * C::KC + (j * 16 + lane % 16) * C::KC +
+                            ki * 16 + lane / 16 * 8 + x];
+            }
+            score[j] = __builtin_amdgcn_wmma_f32_16x16x16_f16_w32_gfx12(
+                a, b, score[j]);
+          }
         }
         if constexpr (Stage == 2) {
-          if (future < D / 16) {
+          if (future < D / C::KC) {
             _Float16 *next = smem + (future % Stage) * C::QK;
-            publish<BR, 16, Threads, false, (Mask & 1) != 0>(next, qr);
-            publish<BC, 16, Threads, false, (Mask & 2) != 0>(next + BR * 16,
-                                                             kr);
+            publish<BR, C::KC, Threads, false, (Mask & 1) != 0>(next, qr);
+            publish<BC, C::KC, Threads, false, (Mask & 2) != 0>(
+                next + BR * C::KC, kr);
           }
         }
         __syncthreads();
@@ -249,7 +270,7 @@ __global__ void __launch_bounds__((D < 128 ? 64 : 128) * 2)
       // accumulator tile is live at a time; the QK LDS region is reused.
       if constexpr (Stage == 2) {
         issue<BC, 16, D, Threads>(v, key0, od0, n, vr);
-        publish<BC, 16, Threads, true, (Mask & 4) != 0>(smem, vr);
+        publish<BC, 16, Threads, true, (Mask & 4) != 0, C::VPad>(smem, vr);
         __syncthreads();
       }
 #pragma unroll
@@ -258,7 +279,7 @@ __global__ void __launch_bounds__((D < 128 ? 64 : 128) * 2)
         if (future < OD / 16)
           issue<BC, 16, D, Threads>(v, key0, od0 + future * 16, n, vr);
         if constexpr (Stage == 1) {
-          publish<BC, 16, Threads, true, (Mask & 4) != 0>(smem, vr);
+          publish<BC, 16, Threads, true, (Mask & 4) != 0, C::VPad>(smem, vr);
           __syncthreads();
         }
         const _Float16 *curr = smem + (d % Stage) * C::V;
@@ -269,9 +290,12 @@ __global__ void __launch_bounds__((D < 128 ? 64 : 128) * 2)
 #pragma unroll
           for (int x = 0; x < 8; ++x) {
             a[x] = p[(wave * 16 + lane % 16) * BC + j * 16 + lane / 16 * 8 + x];
-            if constexpr ((Mask & 4) == 0)
+            if constexpr (Mask == 0)
               b[x] = curr[(lane % 16) * BC + j * 16 + lane / 16 * 8 + x];
           }
+          if constexpr (Mask == 1 || Mask == 3)
+            b = *reinterpret_cast<const H8 *>(
+                curr + (lane % 16) * (BC + C::VPad) + j * 16 + lane / 16 * 8);
           if constexpr ((Mask & 4) != 0)
             b = *reinterpret_cast<const H8 *>(
                 curr + lds_index<BC, true>(lane % 16, j * 16 + lane / 16 * 8));
@@ -282,7 +306,7 @@ __global__ void __launch_bounds__((D < 128 ? 64 : 128) * 2)
           output[d][x] = fmaf(alpha[x], float(output[d][x]), pv[x]);
         if constexpr (Stage == 2) {
           if (future < OD / 16)
-            publish<BC, 16, Threads, true, (Mask & 4) != 0>(
+            publish<BC, 16, Threads, true, (Mask & 4) != 0, C::VPad>(
                 smem + (future % Stage) * C::V, vr);
         }
         __syncthreads();
@@ -322,7 +346,7 @@ void check(torch::Tensor q, torch::Tensor k, torch::Tensor v, torch::Tensor o) {
 template <int D, int Stage, bool TileV, int Mask = 0>
 void launch(torch::Tensor q, torch::Tensor k, torch::Tensor v,
             torch::Tensor o) {
-  using C = Config<D, Stage, TileV>;
+  using C = Config<D, Stage, TileV, Mask>;
   static_assert(C::HalfElements * 2 <= 65536);
   dim3 grid((q.size(2) + C::BR - 1) / C::BR, q.size(0) * q.size(1), D / C::OD);
   attention_tiled<D, Stage, TileV, Mask>

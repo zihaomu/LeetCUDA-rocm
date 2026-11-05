@@ -77,8 +77,8 @@
         "flash_attn_3_cute_tma_copy_smoke",
         "flash_attn_cute_persist_d_sm120"
       ],
-      "status": "pending",
-      "report": null
+      "status": "functional_cross_passed_with_explicit_cuda_fixes",
+      "report": "interview_attention_20261106.md"
     },
     {
       "source": "kernels/interview/ffpa_attn.cuh",
@@ -118,5 +118,83 @@
       "status": "functional_cross_passed",
       "report": "fp4_cross_20261106.md"
     }
-  ]
+  ],
+  "other_gpu_examples": [
+    {
+      "group": "cute_vector",
+      "original_kernel_definitions": 1,
+      "kernels": [
+        "vector_add_local_tile_multi_elem_per_thread_half"
+      ],
+      "status": "functional_cross_passed",
+      "report": "supplemental_examples_20261106.md"
+    },
+    {
+      "group": "profile",
+      "original_kernel_definitions": 12,
+      "kernels": [
+        "elementwise_add_f32_kernel",
+        "elementwise_add_f32x4_kernel",
+        "elementwise_add_f16_kernel",
+        "elementwise_add_f16x2_kernel",
+        "elementwise_add_f16x8_kernel",
+        "elementwise_add_f16x8_pack_kernel",
+        "relu_f32_kernel",
+        "relu_f32x4_kernel",
+        "relu_f16_kernel",
+        "relu_f16x2_kernel",
+        "relu_f16x8_kernel",
+        "relu_f16x8_pack_kernel"
+      ],
+      "status": "functional_cross_passed",
+      "report": "supplemental_examples_20261106.md"
+    },
+    {
+      "group": "transpose",
+      "original_kernel_definitions": 3,
+      "kernels": [
+        "mat_trans_smem_naive_kernel",
+        "mat_trans_smem_padding_kernel",
+        "mat_trans_smem_swizzle_kernel"
+      ],
+      "status": "functional_cross_passed",
+      "report": "supplemental_examples_20261106.md"
+    },
+    {
+      "group": "cute_dsl",
+      "original_kernel_definitions": 3,
+      "kernels": [
+        "sgemm.py::matmul_kernel",
+        "mma_atom.py::sgemm_kernel",
+        "pipelining.py::sgemm_kernel"
+      ],
+      "status": "functional_cross_passed",
+      "report": "supplemental_examples_20261106.md"
+    },
+    {
+      "group": "swizzle_gemm",
+      "original_kernel_definitions": 5,
+      "kernels": [
+        "hgemm_mma_m16n8k16_naive_kernel",
+        "hgemm_mma_m16n8k16_mma2x4_warp4x4_kernel",
+        "hgemm_mma_m16n8k16_naive_smem_swizzle_kernel",
+        "hgemm_mma_m16n8k16_mma2x4_warp4x4_smem_swizzle_kernel",
+        "mma_simple_swizzle_kernel"
+      ],
+      "status": "functional_cross_passed",
+      "report": "supplemental_examples_20261106.md"
+    }
+  ],
+  "summary": {
+    "interview_functional": 53,
+    "interview_total": 53,
+    "interview_percent": 100.0,
+    "interview_cuda_source_reference": 52,
+    "interview_cuda_math_reference": 1,
+    "other_gpu_examples_functional": 24,
+    "other_gpu_examples_total": 24,
+    "unbound_functional": 4,
+    "unbound_total": 4,
+    "note": "Separate source-definition scopes; not a deduplicated sum with original229. Performance remains independent."
+  }
 }

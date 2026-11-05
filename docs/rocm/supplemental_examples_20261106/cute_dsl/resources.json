@@ -1,0 +1,92 @@
+{
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "visible_device_pci_bus_ids": [
+      "0000:03:00.0",
+      "0000:83:00.0"
+    ],
+    "selected_device_pci_bus_id": "0000:03:00.0",
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "2,6",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/92616a206b53479e9e362b453af852d5.json"
+  },
+  "harness_sha256": "807376e6039ea48f76d702efdeadba99d5dbfbc1003ff65b246e3c4914a376d4",
+  "modules": [
+    {
+      "name": "cute_dsl",
+      "build": {
+        "source_sha256": {
+          "kernels/rocm/cute_dsl_gemm_hip.cuh": "21c9890177d5e32d80ede58fb7c0443f73895fac14a2d336a1c549fbbcfa0b25",
+          "leetcuda_rocm/native/cute_dsl_bindings.cpp": "3fba37ded8e9b1e915e1ae8e793d2c9107f5ce3e0257bda72f9a204cea604c60"
+        }
+      },
+      "isa": {
+        "binary": "artifacts/rocm/continuation_all/cute_dsl/formatted/binaries/433ed9176574c5cd16a24859f049882b193dee0125354202caf81d2c7877b586.so",
+        "binary_sha256": "433ed9176574c5cd16a24859f049882b193dee0125354202caf81d2c7877b586",
+        "build_cache_binary": ".cache/rocm10/59fd7d638c6f8c646bbe/torch/cute_dsl_800f70475579047e/leetcuda_rocm_cute_dsl_800f70475579047e.so",
+        "objects": [
+          {
+            "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+            "bundle_offset": 0,
+            "object_offset": 4096,
+            "hsaco": "artifacts/rocm/continuation_all/cute_dsl/formatted/cute_dsl_isa/object0.hsaco",
+            "hsaco_sha256": "4a24a4d474e94e72e3467ffd26116d514f34e5e8a325036ffb124f2aa3364dd8",
+            "assembly": "artifacts/rocm/continuation_all/cute_dsl/formatted/cute_dsl_isa/object0.amdgcn",
+            "assembly_sha256": "c5b89aaf0725cac0cba173cd300af54708c1885e53d58164c494e96ba7c330d4"
+          }
+        ],
+        "assembly": "artifacts/rocm/continuation_all/cute_dsl/formatted/cute_dsl_isa/kernel.amdgcn",
+        "assembly_sha256": "c5b89aaf0725cac0cba173cd300af54708c1885e53d58164c494e96ba7c330d4",
+        "instructions": []
+      },
+      "kernels": [
+        {
+          "symbol": "_ZN17leetcuda_cute_dsl5naiveEPKfS1_Pfiii",
+          "vgpr": 11,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 0,
+          "wmma": 0,
+          "fma32": 1,
+          "packed_fma16": 0,
+          "load128": 0,
+          "store128": 0
+        },
+        {
+          "symbol": "_ZN17leetcuda_cute_dsl5tiledILb0EEEvPKfS2_PfiiiPj",
+          "vgpr": 222,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 8448,
+          "wmma": 0,
+          "fma32": 512,
+          "packed_fma16": 0,
+          "load128": 0,
+          "store128": 0
+        },
+        {
+          "symbol": "_ZN17leetcuda_cute_dsl5tiledILb1EEEvPKfS2_PfiiiPj",
+          "vgpr": 225,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 24576,
+          "wmma": 0,
+          "fma32": 512,
+          "packed_fma16": 0,
+          "load128": 0,
+          "store128": 0
+        }
+      ]
+    }
+  ]
+}

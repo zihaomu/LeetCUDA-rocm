@@ -1,0 +1,187 @@
+{
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "visible_device_pci_bus_ids": [
+      "0000:03:00.0",
+      "0000:43:00.0"
+    ],
+    "selected_device_pci_bus_id": "0000:03:00.0",
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "2,1",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/49dada5b729e48808e7efd74db584838.json"
+  },
+  "logical_device": 0,
+  "suites": [
+    {
+      "name": "base",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.standalone_check",
+        "run",
+        "--backend",
+        "hip",
+        "--suite",
+        "base",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/fixtures.bin",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/base.json"
+      ],
+      "returncode": 0,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/base.json",
+      "report_sha256": "3c265f267ad3126f39decc6697f75ff27bdde1143b850e8b89b3ab88da3dbb18",
+      "log_sha256": "5c6d1e95007b2befa58800ecab9eedc3b4a8ce5006a5df485c051126b683a7d9",
+      "passed": true,
+      "checks": 370
+    },
+    {
+      "name": "sgemm",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.standalone_check",
+        "run",
+        "--backend",
+        "hip",
+        "--suite",
+        "sgemm",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/fixtures.bin",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/sgemm.json"
+      ],
+      "returncode": 0,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/sgemm.json",
+      "report_sha256": "41dd2612d0a31e2bffb75a83036caba1cc569f976024584dfa345853fd0e8c5a",
+      "log_sha256": "88babf423c20d8ba0eee193b8f6f3aaaadc56f2bc8b5e0db697a97120be09d8d",
+      "passed": true,
+      "checks": 234
+    },
+    {
+      "name": "hgemm",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.interview_hgemm_check",
+        "run",
+        "--backend",
+        "hip",
+        "--fixtures",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/fixtures.bin",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/hgemm.json"
+      ],
+      "returncode": 0,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/hgemm.json",
+      "report_sha256": "10c5decd11260bc9aa03ffec48975893dcafee7d1fcd027a9bb4eb4c45fb4f35",
+      "log_sha256": "650c6e9866b5b439209d10dbb15a8965b802ececf66db015561b247eac0979df",
+      "passed": true,
+      "checks": 477
+    },
+    {
+      "name": "fp8_e4m3",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.build_bench",
+        "fp8",
+        "--run",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/fp8_e4m3.json"
+      ],
+      "returncode": 0,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/fp8_e4m3.json",
+      "report_sha256": "de0c12f4cc5e4d5c3e054ab6bc6aa4c6d26b6e93bea9a3a10f9d342a427879b7",
+      "log_sha256": "f6ae960db9d9f24f674bef436ed6e4b11d3532c6d41d3570c3bd900bed2c1232",
+      "passed": true,
+      "checks": 93
+    },
+    {
+      "name": "fp8_e5m2",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.build_bench",
+        "fp8",
+        "--run",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/fp8_e5m2.json",
+        "--fp8-format",
+        "e5m2"
+      ],
+      "returncode": 0,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/fp8_e5m2.json",
+      "report_sha256": "3f82d245ee7e77ce58e59259ca589f593ddaa88a625784f46aae26a7bb8b1ff5",
+      "log_sha256": "6d3bf44d4e6657bad601a2c334cbe94d7c2958a7f9d3e660728197ae6c76ff17",
+      "passed": true,
+      "checks": 93
+    },
+    {
+      "name": "fp4",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.build_bench",
+        "fp4",
+        "--run",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/fp4.json"
+      ],
+      "returncode": 0,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/fp4.json",
+      "report_sha256": "1a978880cff07e6f758f748bfa86a54d42885fc7dc506ea4a9e1867788394b47",
+      "log_sha256": "2696a992f9f0965ea1573a3a1d5e6791e2d2366e5fbadf0cfbf1d22b5c616c12",
+      "passed": true,
+      "checks": 165
+    },
+    {
+      "name": "ffpa",
+      "command": [
+        "/opt/venv/bin/python",
+        "-m",
+        "leetcuda_rocm.build_bench",
+        "ffpa",
+        "--run",
+        "--output",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/ffpa.json"
+      ],
+      "returncode": 0,
+      "report": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/ffpa.json",
+      "report_sha256": "2c00131d1270c5ee70ff445e909586fb3b65c1c8f213ab70a04594c4bba87fe5",
+      "log_sha256": "c0ef601d67968c1051c159033337ca009c1da39eddb49bc8d618f946c3962c20",
+      "passed": true,
+      "checks": 729
+    },
+    {
+      "name": "interview_attention",
+      "checks": 646,
+      "returncode": 0,
+      "binary": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/cpp/interview_attention_79dec21761979051/bench",
+      "binary_sha256": "f556025d4c3e06ca8a703d5a1d20fe230524160a8277e81f60195575ca65fe5c",
+      "fixture_sha256": "7970960bd32f69b674fe4114a367ad01566c7181139271cb06fd0af1e67b0d86",
+      "linked_libraries": "\tlinux-vdso.so.1 (0x0000724bb213e000)\n\tlibamdhip64.so.7 => /opt/rocm/core-10.1/lib/libamdhip64.so.7 (0x0000724bb0427000)\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000724bb01a6000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x0000724bb00bd000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000724bb008f000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x0000724bafe7c000)\n\tlibdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x0000724bafe75000)\n\tlibrocm_kpack.so.0 => /opt/rocm/core-10.1/lib/librocm_kpack.so.0 (0x0000724bafe31000)\n\tlibrocprofiler-register.so.0 => /opt/rocm/core-10.1/lib/librocprofiler-register.so.0 (0x0000724bafd52000)\n\tlibrt.so.1 => /lib/x86_64-linux-gnu/librt.so.1 (0x0000724bafd4d000)\n\tlibamd_comgr.so.3 => /opt/rocm/core-10.1/lib/libamd_comgr.so.3 (0x0000724baf00a000)\n\tlibhsa-runtime64.so.1 => /opt/rocm/core-10.1/lib/libhsa-runtime64.so.1 (0x0000724baebe0000)\n\tlibpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x0000724baebdb000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000724bb2140000)\n\tlibrocm_sysdeps_zstd.so.1 => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_zstd.so.1 (0x0000724baeb0c000)\n\tlibclang-cpp.so.24.0git => /opt/rocm/core-10.1/lib/llvm/lib/libclang-cpp.so.24.0git (0x0000724baa313000)\n\tlibrocm_sysdeps_z.so.1 => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_z.so.1 (0x0000724baa2f5000)\n\tlibLLVM.so.24.0git => /opt/rocm/core-10.1/lib/llvm/lib/libLLVM.so.24.0git (0x0000724ba3535000)\n\tlibrocm_sysdeps_elf.so.1 => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_elf.so.1 (0x0000724ba3519000)\n\tlibrocm_sysdeps_drm.so.2 => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_drm.so.2 (0x0000724ba3504000)\n\tlibrocm_sysdeps_drm_amdgpu.so.1 => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_drm_amdgpu.so.1 (0x0000724ba34ef000)\n\tlibrocm_sysdeps_numa.so.1 => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_numa.so.1 (0x0000724ba34e0000)\n\tlibrocm_sysdeps_liblzma.so.5 => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_liblzma.so.5 (0x0000724ba34ad000)\n\tlibrocm_sysdeps_bz2.so => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_bz2.so (0x0000724ba3494000)\n",
+      "passed": true
+    },
+    {
+      "name": "supplemental",
+      "checks": 100,
+      "returncode": 0,
+      "binary": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/full_acceptance_frozen/cpp/supplemental",
+      "binary_sha256": "a7c1956a648a4510e7ba0b14b79758a59b36026818d3475ec5a2846ab699c0d8",
+      "fixture_sha256": "7970960bd32f69b674fe4114a367ad01566c7181139271cb06fd0af1e67b0d86",
+      "linked_libraries": "\tlinux-vdso.so.1 (0x0000720984518000)\n\tlibamdhip64.so.7 => /opt/rocm/core-10.1/lib/libamdhip64.so.7 (0x0000720982953000)\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007209826d2000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007209825e9000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007209825bb000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007209823a8000)\n\tlibdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007209823a1000)\n\tlibrocm_kpack.so.0 => /opt/rocm/core-10.1/lib/librocm_kpack.so.0 (0x000072098235d000)\n\tlibrocprofiler-register.so.0 => /opt/rocm/core-10.1/lib/librocprofiler-register.so.0 (0x000072098227e000)\n\tlibrt.so.1 => /lib/x86_64-linux-gnu/librt.so.1 (0x0000720982279000)\n\tlibamd_comgr.so.3 => /opt/rocm/core-10.1/lib/libamd_comgr.so.3 (0x0000720981536000)\n\tlibhsa-runtime64.so.1 => /opt/rocm/core-10.1/lib/libhsa-runtime64.so.1 (0x000072098110c000)\n\tlibpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x0000720981107000)\n\t/lib64/ld-linux-x86-64.so.2 (0x000072098451a000)\n\tlibrocm_sysdeps_zstd.so.1 => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_zstd.so.1 (0x0000720981038000)\n\tlibclang-cpp.so.24.0git => /opt/rocm/core-10.1/lib/llvm/lib/libclang-cpp.so.24.0git (0x000072097c83f000)\n\tlibrocm_sysdeps_z.so.1 => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_z.so.1 (0x000072097c821000)\n\tlibLLVM.so.24.0git => /opt/rocm/core-10.1/lib/llvm/lib/libLLVM.so.24.0git (0x0000720975a61000)\n\tlibrocm_sysdeps_elf.so.1 => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_elf.so.1 (0x0000720975a45000)\n\tlibrocm_sysdeps_drm.so.2 => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_drm.so.2 (0x0000720975a30000)\n\tlibrocm_sysdeps_drm_amdgpu.so.1 => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_drm_amdgpu.so.1 (0x0000720975a1b000)\n\tlibrocm_sysdeps_numa.so.1 => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_numa.so.1 (0x0000720975a0c000)\n\tlibrocm_sysdeps_liblzma.so.5 => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_liblzma.so.5 (0x00007209759d9000)\n\tlibrocm_sysdeps_bz2.so => /opt/rocm/core-10.1/lib/rocm_sysdeps/lib/librocm_sysdeps_bz2.so (0x00007209759c0000)\n",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "harness_sha256": "0cbdd50bdbbc355993a904b5c046e9867685205ecf01d324e70947eb22961611",
+  "total_checks": 2907
+}

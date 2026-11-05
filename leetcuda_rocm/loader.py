@@ -9,6 +9,7 @@ import hashlib
 import os
 import re
 from functools import lru_cache
+from pathlib import Path
 
 from .environment import ROOT, cache_key, verify
 
@@ -157,7 +158,11 @@ def load(name, *, verbose=False):
 
 @lru_cache(maxsize=None)
 def _load(name, sources, environment_key, architecture, verbose):
-    from torch.utils.cpp_extension import load as torch_load
+    import importlib.util
+    import json
+    import subprocess
+    import sys
+    import tempfile
 
     digest = hashlib.sha256("\0".join(sources).encode()).hexdigest()[:16]
     cache = ROOT / ".cache/rocm10" / environment_key / "torch"
@@ -174,7 +179,7 @@ def _load(name, sources, environment_key, architecture, verbose):
         if not staged.exists() or staged.read_text() != source:
             staged.write_text(source)
         staged_sources.append(str(staged))
-    return torch_load(
+    options = dict(
         name=f"leetcuda_rocm_{name}_{digest}",
         sources=staged_sources,
         build_directory=str(build),
@@ -189,3 +194,48 @@ def _load(name, sources, environment_key, architecture, verbose):
             "-U__HIP_NO_HALF_CONVERSIONS__",
         ],
     )
+
+    # Pybind can reuse the first module of a given name, even when subsequently
+    # imported from another file. Build in a separate process, then make the
+    # immutable path the parent's first and only import of this native module.
+    worker = ROOT / "leetcuda_rocm/build_extension.py"
+    recipe = dict(
+        build={k: v for k, v in options.items() if k != "verbose"},
+        compiler_worker_sha256=hashlib.sha256(worker.read_bytes()).hexdigest(),
+    )
+    recipe_hash = hashlib.sha256(
+        json.dumps(recipe, sort_keys=True).encode()
+    ).hexdigest()
+    receipt_path = build / ("immutable-" + recipe_hash + ".json")
+    if not receipt_path.exists():
+        request = dict(
+            build=options,
+            frozen_root=str(cache / "frozen"),
+            recipe_sha256=recipe_hash,
+            receipt=str(receipt_path),
+        )
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".json", dir=build, delete=False
+        ) as stream:
+            json.dump(request, stream)
+            request_path = Path(stream.name)
+        try:
+            subprocess.run(
+                [sys.executable, str(worker), str(request_path)], check=True
+            )
+        finally:
+            request_path.unlink(missing_ok=True)
+    receipt = json.loads(receipt_path.read_text())
+    frozen = Path(receipt["binary"])
+    if (
+        receipt["recipe_sha256"] != recipe_hash
+        or hashlib.sha256(frozen.read_bytes()).hexdigest()
+        != receipt["binary_sha256"]
+    ):
+        raise RuntimeError("Immutable native extension receipt/hash mismatch")
+    spec = importlib.util.spec_from_file_location(
+        receipt["module_name"], frozen
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module

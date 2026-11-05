@@ -1,0 +1,198 @@
+{
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "visible_device_pci_bus_ids": [
+      "0000:03:00.0",
+      "0000:83:00.0"
+    ],
+    "selected_device_pci_bus_id": "0000:03:00.0",
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "2,6",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/92616a206b53479e9e362b453af852d5.json"
+  },
+  "harness_sha256": "807376e6039ea48f76d702efdeadba99d5dbfbc1003ff65b246e3c4914a376d4",
+  "modules": [
+    {
+      "name": "swizzle",
+      "build": {
+        "source_sha256": {
+          "kernels/rocm/swizzle_examples_hip.cuh": "84e0a75ed35ad461b997b537e99ac1fd943d036e8481d2d53c4b655d686eba19",
+          "leetcuda_rocm/native/swizzle_examples_bindings.cpp": "8b670d3497f54d7e5dc4115338d2023ebee5645dc375df744685b95895523939"
+        }
+      },
+      "isa": {
+        "binary": "artifacts/rocm/continuation_all/swizzle/formatted/binaries/85d50000727f5cc789ea15adf3d92eb70a161b3606032debd3fc205c0e412d27.so",
+        "binary_sha256": "85d50000727f5cc789ea15adf3d92eb70a161b3606032debd3fc205c0e412d27",
+        "build_cache_binary": ".cache/rocm10/59fd7d638c6f8c646bbe/torch/swizzle_examples_049e8e89a2d16b3f/leetcuda_rocm_swizzle_examples_049e8e89a2d16b3f.so",
+        "objects": [
+          {
+            "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+            "bundle_offset": 0,
+            "object_offset": 4096,
+            "hsaco": "artifacts/rocm/continuation_all/swizzle/formatted/swizzle_isa/object0.hsaco",
+            "hsaco_sha256": "59743227d0861335695d8cfb0d15fcc000542d0a26215c2bd58136a00ba5ff70",
+            "assembly": "artifacts/rocm/continuation_all/swizzle/formatted/swizzle_isa/object0.amdgcn",
+            "assembly_sha256": "4f87b838f5bbd0b43667b06f388e21a4597da3d1509c1337b6dea521c4ffe8a7"
+          }
+        ],
+        "assembly": "artifacts/rocm/continuation_all/swizzle/formatted/swizzle_isa/kernel.amdgcn",
+        "assembly_sha256": "4f87b838f5bbd0b43667b06f388e21a4597da3d1509c1337b6dea521c4ffe8a7",
+        "instructions": [
+          "v_wmma_f32_16x16x16_f16"
+        ]
+      },
+      "kernels": [
+        {
+          "symbol": "_ZN25leetcuda_swizzle_examples4gemmILi0ELi0ELi0EEEvPKDF16_S2_PDF16_iii",
+          "vgpr": 30,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 1024,
+          "wmma": 1,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 2,
+          "store128": 1
+        },
+        {
+          "symbol": "_ZN25leetcuda_swizzle_examples4gemmILi1ELi8ELi8EEEvPKDF16_S2_PDF16_iii",
+          "vgpr": 107,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 10496,
+          "wmma": 8,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 2,
+          "store128": 0
+        },
+        {
+          "symbol": "_ZN25leetcuda_swizzle_examples4gemmILi1ELi8ELi0EEEvPKDF16_S2_PDF16_iii",
+          "vgpr": 107,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 10240,
+          "wmma": 8,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 2,
+          "store128": 0
+        },
+        {
+          "symbol": "_ZN25leetcuda_swizzle_examples4gemmILi1ELi0ELi8EEEvPKDF16_S2_PDF16_iii",
+          "vgpr": 107,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 8448,
+          "wmma": 8,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 2,
+          "store128": 0
+        },
+        {
+          "symbol": "_ZN25leetcuda_swizzle_examples4gemmILi1ELi0ELi0EEEvPKDF16_S2_PDF16_iii",
+          "vgpr": 107,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 8192,
+          "wmma": 8,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 2,
+          "store128": 0
+        },
+        {
+          "symbol": "_ZN25leetcuda_swizzle_examples4gemmILi2ELi0ELi0EEEvPKDF16_S2_PDF16_iii",
+          "vgpr": 30,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 1024,
+          "wmma": 1,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 2,
+          "store128": 1
+        },
+        {
+          "symbol": "_ZN25leetcuda_swizzle_examples4gemmILi3ELi8ELi8EEEvPKDF16_S2_PDF16_iii",
+          "vgpr": 107,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 10496,
+          "wmma": 8,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 2,
+          "store128": 0
+        },
+        {
+          "symbol": "_ZN25leetcuda_swizzle_examples4gemmILi3ELi8ELi0EEEvPKDF16_S2_PDF16_iii",
+          "vgpr": 107,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 10240,
+          "wmma": 8,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 2,
+          "store128": 0
+        },
+        {
+          "symbol": "_ZN25leetcuda_swizzle_examples4gemmILi3ELi0ELi8EEEvPKDF16_S2_PDF16_iii",
+          "vgpr": 107,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 8448,
+          "wmma": 8,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 2,
+          "store128": 0
+        },
+        {
+          "symbol": "_ZN25leetcuda_swizzle_examples4gemmILi3ELi0ELi0EEEvPKDF16_S2_PDF16_iii",
+          "vgpr": 107,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 8192,
+          "wmma": 8,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 2,
+          "store128": 0
+        },
+        {
+          "symbol": "_ZN25leetcuda_swizzle_examples4gemmILi4ELi0ELi0EEEvPKDF16_S2_PDF16_iii",
+          "vgpr": 30,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 768,
+          "wmma": 1,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 2,
+          "store128": 0
+        }
+      ]
+    }
+  ]
+}

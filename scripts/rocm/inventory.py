@@ -331,6 +331,19 @@ swizzle_path = root / "docs/rocm/flash_swizzle_20261105/hip.json"
 swizzle_performance_path = (
     root / "docs/rocm/flash_swizzle_20261105/acceptance.json"
 )
+# Final performance evidence is additive; never overwrite the original failures.
+final_swizzle_path = root / "docs/rocm/flash_swizzle_final_20261106/hip.json"
+final_swizzle_acceptance = (
+    root / "docs/rocm/flash_swizzle_final_20261106/acceptance.json"
+)
+if final_swizzle_path.exists() and final_swizzle_acceptance.exists():
+    final_acceptance = json.loads(final_swizzle_acceptance.read_text())
+    if (
+        final_acceptance["correctness_passed"]
+        and final_acceptance["performance_passed"]
+    ):
+        swizzle_path = final_swizzle_path
+        swizzle_performance_path = final_swizzle_acceptance
 if swizzle_keys:
     swizzle_report = json.loads(swizzle_path.read_text())
     assert swizzle_report["passed"]
@@ -723,6 +736,14 @@ for source in sorted((root / "kernels").rglob("*")):
                 "precision_changed": False,
                 "lds_mapping": "row*Cols + (col XOR (((row >> 2) & 1)<<3)); V mapping applied after transposition",
                 "swizzled_operands": name.rsplit("_", 1)[1].upper(),
+                "v_linear_row_padding": (
+                    8
+                    if swizzle_path == final_swizzle_path
+                    and name.rsplit("_", 1)[1] in ("q", "qk")
+                    else 0
+                ),
+                "lds_phase_reuse": swizzle_path == final_swizzle_path
+                and name.rsplit("_", 1)[1] in ("q", "qk"),
                 "explicit_lds_vector_bits": 128,
                 "head_dimensions": "32,64,96,128,256,512,1024 at stages 1/2",
                 "architecture_adaptation": "128-column output partitions above D=128 repeat QK; at most 48 KiB LDS; original state rounding frequency preserved",
@@ -1186,6 +1207,19 @@ snapshot = {
             and json.loads(
                 (root / "docs/rocm/ffpa_20261106/source_audit.json").read_text()
             )["passed"]
+            else []
+        ),
+        *(
+            ["leetcuda_rocm.interview_flash_attention"]
+            if all(
+                (root / path).exists()
+                and json.loads((root / path).read_text())["passed"]
+                for path in (
+                    "docs/rocm/interview_attention_20261106/public_api.json",
+                    "docs/rocm/interview_attention_20261106/cross_matched.json",
+                    "docs/rocm/supplemental_examples_20261106/source_audit.json",
+                )
+            )
             else []
         ),
     ],

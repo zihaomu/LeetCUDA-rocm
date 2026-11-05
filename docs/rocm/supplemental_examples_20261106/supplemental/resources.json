@@ -1,0 +1,371 @@
+{
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "visible_device_pci_bus_ids": [
+      "0000:03:00.0",
+      "0000:83:00.0"
+    ],
+    "selected_device_pci_bus_id": "0000:03:00.0",
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "2,6",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/92616a206b53479e9e362b453af852d5.json"
+  },
+  "harness_sha256": "807376e6039ea48f76d702efdeadba99d5dbfbc1003ff65b246e3c4914a376d4",
+  "modules": [
+    {
+      "name": "profile",
+      "build": {
+        "source_sha256": {
+          "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/nvidia-nsight/elementwise.cu": "251dd5574d15f8755a9f351d4a7355afa71e250be91144c02d6d82954d772567",
+          "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/nvidia-nsight/relu.cu": "bb14a20fbe4e52c335bb3309602293ce20499a6aae6fd5cf45a75f78d57ddba9"
+        },
+        "adapter_sha256": "d46bbb9cd079fd93c6ae6dfd18e5a09827f490cb71334888e00023d55dce05d4",
+        "original_kernel_names": [
+          "elementwise_add_f32_kernel",
+          "elementwise_add_f32x4_kernel",
+          "elementwise_add_f16_kernel",
+          "elementwise_add_f16x2_kernel",
+          "elementwise_add_f16x8_kernel",
+          "elementwise_add_f16x8_pack_kernel",
+          "relu_f32_kernel",
+          "relu_f32x4_kernel",
+          "relu_f16_kernel",
+          "relu_f16x2_kernel",
+          "relu_f16x8_kernel",
+          "relu_f16x8_pack_kernel"
+        ],
+        "source_kind": "original_compute_body",
+        "upstream_commit": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+        "binary": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/torch/supplemental_profile_ee6f4da858967ce5/leetcuda_rocm_supplemental_profile_ee6f4da858967ce5.so",
+        "binary_sha256": "7ad9147cab9f85f816c4268cb2a7f435c8bd66b08a54820c83a3bce2c378871c"
+      },
+      "isa": {
+        "binary": "artifacts/rocm/continuation_all/supplemental/formatted/binaries/7ad9147cab9f85f816c4268cb2a7f435c8bd66b08a54820c83a3bce2c378871c.so",
+        "binary_sha256": "7ad9147cab9f85f816c4268cb2a7f435c8bd66b08a54820c83a3bce2c378871c",
+        "build_cache_binary": ".cache/rocm10/59fd7d638c6f8c646bbe/torch/supplemental_profile_ee6f4da858967ce5/leetcuda_rocm_supplemental_profile_ee6f4da858967ce5.so",
+        "objects": [
+          {
+            "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+            "bundle_offset": 0,
+            "object_offset": 4096,
+            "hsaco": "artifacts/rocm/continuation_all/supplemental/formatted/profile_isa/object0.hsaco",
+            "hsaco_sha256": "2f195cc427f4dd18eda397e67ad562f53df5b6f375d7f3cdc9883c92327f9a0b",
+            "assembly": "artifacts/rocm/continuation_all/supplemental/formatted/profile_isa/object0.amdgcn",
+            "assembly_sha256": "2d0946464b721c1583cc603125ff7ff52e9d33c76152bb7e285e4f97530fb3a2"
+          }
+        ],
+        "assembly": "artifacts/rocm/continuation_all/supplemental/formatted/profile_isa/kernel.amdgcn",
+        "assembly_sha256": "2d0946464b721c1583cc603125ff7ff52e9d33c76152bb7e285e4f97530fb3a2",
+        "instructions": []
+      },
+      "kernels": [
+        {
+          "symbol": "_Z26elementwise_add_f32_kernelPfS_S_i",
+          "vgpr": 6,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 0,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 0,
+          "store128": 0
+        },
+        {
+          "symbol": "_Z28elementwise_add_f32x4_kernelPfS_S_i",
+          "vgpr": 10,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 0,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 2,
+          "store128": 1
+        },
+        {
+          "symbol": "_Z26elementwise_add_f16_kernelP6__halfS0_S0_i",
+          "vgpr": 7,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 0,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 0,
+          "store128": 0
+        },
+        {
+          "symbol": "_Z28elementwise_add_f16x2_kernelP6__halfS0_S0_i",
+          "vgpr": 6,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 0,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 0,
+          "store128": 0
+        },
+        {
+          "symbol": "_Z28elementwise_add_f16x8_kernelP6__halfS0_S0_i",
+          "vgpr": 14,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 0,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 0,
+          "store128": 0
+        },
+        {
+          "symbol": "_Z33elementwise_add_f16x8_pack_kernelP6__halfS0_S0_i",
+          "vgpr": 10,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 0,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 2,
+          "store128": 1
+        },
+        {
+          "symbol": "_Z15relu_f32_kernelPfS_i",
+          "vgpr": 4,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 0,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 0,
+          "store128": 0
+        },
+        {
+          "symbol": "_Z17relu_f32x4_kernelPfS_i",
+          "vgpr": 6,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 0,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 1,
+          "store128": 1
+        },
+        {
+          "symbol": "_Z15relu_f16_kernelP6__halfS0_i",
+          "vgpr": 5,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 0,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 0,
+          "store128": 0
+        },
+        {
+          "symbol": "_Z17relu_f16x2_kernelP6__halfS0_i",
+          "vgpr": 6,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 0,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 0,
+          "store128": 0
+        },
+        {
+          "symbol": "_Z17relu_f16x8_kernelP6__halfS0_i",
+          "vgpr": 10,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 0,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 0,
+          "store128": 0
+        },
+        {
+          "symbol": "_Z22relu_f16x8_pack_kernelP6__halfS0_i",
+          "vgpr": 19,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 0,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 1,
+          "store128": 1
+        }
+      ]
+    },
+    {
+      "name": "vector",
+      "build": {
+        "source_sha256": {
+          "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/cutlass/cute/vector_add.cu": "8184b56bf8d061a5b9b66a92ffa8ebf3755a9878692298162476eb90445bb0f4",
+          "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/rocm/cute_vector_hip.cuh": "479c3afdc9b34abf493cb9e0332ef3b619247ec9e6920ded1797fa3b05af5b6d"
+        },
+        "adapter_sha256": "d46bbb9cd079fd93c6ae6dfd18e5a09827f490cb71334888e00023d55dce05d4",
+        "original_kernel_names": [
+          "vector_add_local_tile_multi_elem_per_thread_half"
+        ],
+        "source_kind": "native_layout",
+        "upstream_commit": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+        "binary": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/torch/supplemental_vector_77d529dcc5fa4e8b/leetcuda_rocm_supplemental_vector_77d529dcc5fa4e8b.so",
+        "binary_sha256": "a0ea5a45c709885d628bf2914d1a0df1ac87901d1f7fc911372fbbd2dedd86ad"
+      },
+      "isa": {
+        "binary": "artifacts/rocm/continuation_all/supplemental/formatted/binaries/a0ea5a45c709885d628bf2914d1a0df1ac87901d1f7fc911372fbbd2dedd86ad.so",
+        "binary_sha256": "a0ea5a45c709885d628bf2914d1a0df1ac87901d1f7fc911372fbbd2dedd86ad",
+        "build_cache_binary": ".cache/rocm10/59fd7d638c6f8c646bbe/torch/supplemental_vector_77d529dcc5fa4e8b/leetcuda_rocm_supplemental_vector_77d529dcc5fa4e8b.so",
+        "objects": [
+          {
+            "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+            "bundle_offset": 0,
+            "object_offset": 4096,
+            "hsaco": "artifacts/rocm/continuation_all/supplemental/formatted/vector_isa/object0.hsaco",
+            "hsaco_sha256": "816a2528debe26018fffcb5c70a1d896aec3aa13cb73873c410f19452d4dbb1d",
+            "assembly": "artifacts/rocm/continuation_all/supplemental/formatted/vector_isa/object0.amdgcn",
+            "assembly_sha256": "243c8771b2e204b798d4f6e4ac3d30731995af630cc3f3a118f8fd5bbe918e07"
+          }
+        ],
+        "assembly": "artifacts/rocm/continuation_all/supplemental/formatted/vector_isa/kernel.amdgcn",
+        "assembly_sha256": "243c8771b2e204b798d4f6e4ac3d30731995af630cc3f3a118f8fd5bbe918e07",
+        "instructions": []
+      },
+      "kernels": [
+        {
+          "symbol": "_Z48vector_add_local_tile_multi_elem_per_thread_halfILi8EEvP6__halfiPKS0_S3_S0_S0_S0_",
+          "vgpr": 19,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 0,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 8,
+          "load128": 2,
+          "store128": 1
+        },
+        {
+          "symbol": "_Z48vector_add_local_tile_multi_elem_per_thread_halfILi16EEvP6__halfiPKS0_S3_S0_S0_S0_",
+          "vgpr": 21,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 0,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 16,
+          "load128": 4,
+          "store128": 2
+        }
+      ]
+    },
+    {
+      "name": "transpose",
+      "build": {
+        "source_sha256": {
+          "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/swizzle/mat_trans_swizzle.cu": "331418caeb1dc0271c4592ebd4d2625e38f5fad8008118272e55f38b9953b9ca",
+          "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/rocm/transpose_examples_hip.cuh": "9860a6470c6be81d632a719a64a92652acb599c391199187fe1707adb255d5a3"
+        },
+        "adapter_sha256": "d46bbb9cd079fd93c6ae6dfd18e5a09827f490cb71334888e00023d55dce05d4",
+        "original_kernel_names": [
+          "mat_trans_smem_naive_kernel",
+          "mat_trans_smem_padding_kernel",
+          "mat_trans_smem_swizzle_kernel"
+        ],
+        "source_kind": "native_layout",
+        "upstream_commit": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+        "binary": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/torch/supplemental_transpose_c28d9130afcdbc3a/leetcuda_rocm_supplemental_transpose_c28d9130afcdbc3a.so",
+        "binary_sha256": "08330cf6224f99339659223b4b5bca172b2b11960d8a8c09ac6b47e8015c8cec"
+      },
+      "isa": {
+        "binary": "artifacts/rocm/continuation_all/supplemental/formatted/binaries/08330cf6224f99339659223b4b5bca172b2b11960d8a8c09ac6b47e8015c8cec.so",
+        "binary_sha256": "08330cf6224f99339659223b4b5bca172b2b11960d8a8c09ac6b47e8015c8cec",
+        "build_cache_binary": ".cache/rocm10/59fd7d638c6f8c646bbe/torch/supplemental_transpose_c28d9130afcdbc3a/leetcuda_rocm_supplemental_transpose_c28d9130afcdbc3a.so",
+        "objects": [
+          {
+            "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+            "bundle_offset": 0,
+            "object_offset": 4096,
+            "hsaco": "artifacts/rocm/continuation_all/supplemental/formatted/transpose_isa/object0.hsaco",
+            "hsaco_sha256": "dbe4b30827084bfc6936cd6a68065c2015e15fc44401ed6c4c1c4576bd9e0522",
+            "assembly": "artifacts/rocm/continuation_all/supplemental/formatted/transpose_isa/object0.amdgcn",
+            "assembly_sha256": "7a48a73459b24dfe9d5821135f468bf0f8645014c7d00e0081dd18747046e72a"
+          }
+        ],
+        "assembly": "artifacts/rocm/continuation_all/supplemental/formatted/transpose_isa/kernel.amdgcn",
+        "assembly_sha256": "7a48a73459b24dfe9d5821135f468bf0f8645014c7d00e0081dd18747046e72a",
+        "instructions": []
+      },
+      "kernels": [
+        {
+          "symbol": "_ZN27leetcuda_transpose_examples9transposeILi0EEEvPKiPiii",
+          "vgpr": 7,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 4096,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 0,
+          "store128": 0
+        },
+        {
+          "symbol": "_ZN27leetcuda_transpose_examples9transposeILi1EEEvPKiPiii",
+          "vgpr": 7,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 4224,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 0,
+          "store128": 0
+        },
+        {
+          "symbol": "_ZN27leetcuda_transpose_examples9transposeILi2EEEvPKiPiii",
+          "vgpr": 8,
+          "vgpr_spill": 0,
+          "sgpr_spill": 0,
+          "scratch": 0,
+          "lds": 4096,
+          "wmma": 0,
+          "fma32": 0,
+          "packed_fma16": 0,
+          "load128": 0,
+          "store128": 0
+        }
+      ]
+    }
+  ]
+}

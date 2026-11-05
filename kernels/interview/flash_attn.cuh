@@ -1,4 +1,7 @@
 #pragma once
+#if defined(LEETCUDA_ROCM)
+#include "../rocm/interview_flash_attention_hip.cuh"
+#else
 #include "base.cuh"
 // flash_attn.cuh: Phase 8 FlashAttention 2/3 (MMA/TMA_WS/FA3/CuTe)
 
@@ -4177,3 +4180,5 @@ inline void flash_attn_cute_persist_d_sm120_fwd(
 #endif // NOTES_V2_ENABLE_CUTE
 
 
+
+#endif // LEETCUDA_ROCM

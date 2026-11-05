@@ -1,0 +1,45 @@
+{
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "visible_device_pci_bus_ids": [
+      "0000:03:00.0",
+      "0000:83:00.0"
+    ],
+    "selected_device_pci_bus_id": "0000:03:00.0",
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "2,6",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/8dfffa216f2a477f973c5719638612b3.json"
+  },
+  "sources": {
+    "kernels/nvidia-nsight/elementwise.cu": "251dd5574d15f8755a9f351d4a7355afa71e250be91144c02d6d82954d772567",
+    "kernels/nvidia-nsight/relu.cu": "bb14a20fbe4e52c335bb3309602293ce20499a6aae6fd5cf45a75f78d57ddba9",
+    "kernels/rocm/supplemental_bench.cpp": "cd90cd7dbf9389f23c84efc9baa1318c2aabcd8aee4bb792e159ada4eab68422",
+    "scripts/rocm/build_supplemental.py": "b4b6b034634f48f3e09ce55457729bec4529961b47847e4d085922ce178632f7",
+    "kernels/rocm/bench_runtime.hpp": "8ac451512fd1e5295ec018005a2e4d9d4188f6efe4b9097111c72561c9f4d938",
+    "kernels/rocm/cute_vector_hip.cuh": "479c3afdc9b34abf493cb9e0332ef3b619247ec9e6920ded1797fa3b05af5b6d",
+    "kernels/rocm/transpose_examples_hip.cuh": "9860a6470c6be81d632a719a64a92652acb599c391199187fe1707adb255d5a3",
+    "kernels/rocm/cute_dsl_gemm_hip.cuh": "21c9890177d5e32d80ede58fb7c0443f73895fac14a2d336a1c549fbbcfa0b25",
+    "kernels/rocm/swizzle_examples_hip.cuh": "84e0a75ed35ad461b997b537e99ac1fd943d036e8481d2d53c4b655d686eba19"
+  },
+  "generated_profile_sha256": "4f78891e3a39f2911a0f050feb3c79111e77393079526d59b2986c762a938a1a",
+  "command": [
+    "/opt/rocm/bin/hipcc",
+    "-O3",
+    "-std=c++20",
+    "--offload-arch=gfx1201",
+    "-DLEETCUDA_ROCM=1",
+    "-I/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/unified_cpp_formatted",
+    "-I/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/rocm",
+    "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/rocm/supplemental_bench.cpp",
+    "-o",
+    "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/unified_cpp_formatted/supplemental"
+  ],
+  "binary_sha256": "2c2c91e7c41662d4055d84cc537367d6309b6ab717d446aafa5cc4d20ac5bc72"
+}

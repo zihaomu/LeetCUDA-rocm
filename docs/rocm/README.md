@@ -3,9 +3,11 @@
 此入口将原仓库的基础 CUDA C++ 算子编译为 HIP 扩展；执行的仍是原始
 LeetCUDA 算法，不会把自定义 kernel 替换成 PyTorch 实现。PyTorch 仅作为
 测试参考。当前目标是 **ROCm 10.1.0 / Radeon AI PRO R9700 / gfx1201**。
-尚未完成整个仓库的 NVIDIA 专用 kernel 迁移。
+计划内算子、统一构建与必须验收项已完成。原229接口全部支持，最终15组15163项与462组跨平台对照通过，B1三个入口性能目标全部达标。见[最终验收总表](leetcuda_rocm10_final_acceptance.md)、[统一15163项验收](unified_acceptance_20261106.md)和[B1最终性能](flash_swizzle_final_20261106.md)。
 
-2026-11-06 M5：新增独立`attention`，GQA/mask/显式dropout/一阶反向功能完成；两卡各377项、5090 373项、336份输出对照及双端性能/线性空间通过。独立计算API为7个，原接口仍229/229；见[训练Attention报告](attention_training_20261106.md)。
+2026-11-06 最新补充：原229/229；interview53/53；未绑定4/4；其他GPU示例24/24；Triton示例4/4，分别统计。新增公开`interview_flash_attention`，独立计算API共9个。独立C++9组2907项通过；[FA报告](interview_attention_20261106.md)、[24定义报告](supplemental_examples_20261106.md)、[实时进度](leetcuda_rocm10_live_progress.md)。统一入口：`HIP_VISIBLE_DEVICES=2,1 scripts/rocm/qualify_all.sh`（先核对PCI与占用）。下文较早批次的数字和待办保留历史语境，以本文顶部最终结果为准。
+
+2026-11-06 M5历史：新增独立`attention`，GQA/mask/显式dropout/一阶反向功能完成；两卡各377项、5090 373项、336份输出对照及双端性能/线性空间通过。独立计算API为7个，原接口仍229/229；见[训练Attention报告](attention_training_20261106.md)。
 
 2026-11-06 补充范围：FP8 **E5M2完整链路功能完成**，默认E4M3兼容回归通过，两端800项检查及480输出对照通过；性能仍待优化。见[E5M2报告](fp8_e5m2_20261106.md)。
 
