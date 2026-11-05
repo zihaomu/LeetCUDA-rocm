@@ -8,6 +8,9 @@ WGMMA/TMA is replaced by WMMA, vector loads and acquire/release ring slots.
 """
 
 from functools import lru_cache
+import hashlib
+import re
+from types import ModuleType
 
 from .environment import ROOT, cache_key, verify
 from .loader import _load, _prepare
@@ -17,6 +20,34 @@ GEMM_ENTRIES = {
     "hgemm_wgmma_m64n128k16_f16acc_stages_tma_ws_tn": 3,
     "hgemm_mma_m16n8k16_mma2x4_warp4x4_stages_dsmem_tn_swizzle": 5,
 }
+ATTENTION_ENTRY = "flash_attn_mma_stages_split_q_tiling_qk_acc_f32_rr"
+ATTENTION_TARGET = "flash_attn_mma_stages_split_q_tiling_qkv_acc_f32"
+ATTENTION_SOURCES = (
+    "kernels/flash-attn/mma/others/flash_attn_mma_tiling_qk_F32F16F16F32_rr.cu",
+    "kernels/flash-attn/mma/basic/flash_attn_mma_tiling_qkv_F32F16F16F32.cu",
+)
+
+
+def attention_equivalence():
+    """Check complete upstream files after name/comment/whitespace normalization."""
+    originals = [(ROOT / p).read_text() for p in ATTENTION_SOURCES]
+    normalized = []
+    for source in originals:
+        source = source.replace(ATTENTION_ENTRY, ATTENTION_TARGET)
+        source = re.sub(r"/\*.*?\*/|//[^\n]*", "", source, flags=re.S)
+        normalized.append(re.sub(r"\s+", "", source))
+    return dict(
+        equal=normalized[0] == normalized[1],
+        source_sha256={
+            p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest()
+            for p in ATTENTION_SOURCES
+        },
+        normalized_sha256=[
+            hashlib.sha256(s.encode()).hexdigest() for s in normalized
+        ],
+        entry=ATTENTION_ENTRY,
+        target=ATTENTION_TARGET,
+    )
 
 
 def source_paths():
@@ -40,8 +71,22 @@ def load_unbound(name="hgemm"):
     and 2-byte input alignment; original CUDA full-tile contracts are narrower.
     Build before graph capture. gfx1201 only; no backward.
     """
+    if name == "flash_attn":
+        # This is a proven source-equivalent entry, not an unrelated fallback.
+        # Keep the original FP16 running output state at D >= 256.
+        from .loader import load
+
+        if not attention_equivalence()["equal"]:
+            raise RuntimeError(
+                "Upstream attention sources changed; requalify equivalence"
+            )
+        native = load("flash_attn")
+        module = ModuleType("leetcuda_rocm_unbound_flash_attn")
+        module.__file__ = native.__file__
+        setattr(module, ATTENTION_ENTRY, getattr(native, ATTENTION_TARGET))
+        return module
     if name != "hgemm":
-        raise ValueError("Currently qualified unbound module: hgemm")
+        raise ValueError("Qualified unbound modules: hgemm, flash_attn")
     identity = verify()
     common, header, binding = (p.read_text() for p in source_paths())
     source = (

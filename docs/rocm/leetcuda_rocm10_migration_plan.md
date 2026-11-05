@@ -131,3 +131,5 @@ NVFP4补充证据：[原CUDA完整链共同输入验收](fp4_cross_20261106.md)�
 独立HGEMM补充：[五路径验收](interview_hgemm_20261106.md)。双卡各477项、明确FP32参考及跨平台各336项通过；interview功能45/53，44条CUDA源码参考加1条WGMMA数学参考。剩8条独立FlashAttention及其他补充范围继续执行。
 
 未绑定计算入口补充3/4：[WGMMA两种原精度及TN swizzle验收](unbound_gemm_20261106.md)。新增load_unbound(hgemm)，不计入原229；剩余Attention与其他补充范围继续执行。
+
+未绑定计算入口已4/4闭合：[tiling-QK RR等价入口](unbound_attention_20261106.md)，双卡各553项、原CUDA262项、跨平台248项通过。原229分母保持不变，继续独立FlashAttention及其他范围。
