@@ -1,0 +1,67 @@
+torch.float16/16/17/0 checked
+torch.float16/16/17/1 checked
+torch.float16/16/17/2 checked
+torch.float16/16/93/0 checked
+torch.float16/16/93/1 checked
+torch.float16/16/93/2 checked
+torch.float16/32/17/0 checked
+torch.float16/32/17/1 checked
+torch.float16/32/17/2 checked
+torch.float16/32/93/0 checked
+torch.float16/32/93/1 checked
+torch.float16/32/93/2 checked
+torch.float16/64/17/0 checked
+torch.float16/64/17/1 checked
+torch.float16/64/17/2 checked
+torch.float16/64/93/0 checked
+torch.float16/64/93/1 checked
+torch.float16/64/93/2 checked
+torch.float16/128/17/0 checked
+torch.float16/128/17/1 checked
+torch.float16/128/17/2 checked
+torch.float16/128/93/0 checked
+torch.float16/128/93/1 checked
+torch.float16/128/93/2 checked
+torch.float16/256/17/0 checked
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/work/leetcuda_rocm/attention_training_check.py", line 588, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/work/leetcuda_rocm/attention_training_check.py", line 584, in main
+    return globals()[args.command](args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/leetcuda_rocm/attention_training_check.py", line 548, in run
+    evaluate(case, device, report["checks"], outputs)
+  File "/work/leetcuda_rocm/attention_training_check.py", line 240, in evaluate
+    grads = torch.autograd.grad(out, (q, k, v), case["dy"].to(device))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/autograd/__init__.py", line 503, in grad
+    result = _engine_run_backward(
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/autograd/graph.py", line 841, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py", line 315, in apply
+    return user_fn(self, *args)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py", line 608, in wrapper
+    outputs = fn(ctx, *args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/leetcuda_rocm/attention_training.py", line 445, in backward
+    _backward_kv[
+  File "/work/leetcuda_rocm/attention_training_check.py", line 263, in launch
+    compiled = self.kernel[grid](*args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/triton/runtime/jit.py", line 390, in <lambda>
+    return lambda *args, **kwargs: self.run(grid=grid, warmup=False, *args, **kwargs)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/triton/runtime/jit.py", line 617, in run
+    kernel.run(grid_0, grid_1, grid_2, stream, kernel.function, kernel.packed_metadata, launch_metadata,
+    ^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/triton/compiler/compiler.py", line 498, in __getattribute__
+    self._init_handles()
+  File "/usr/local/lib/python3.12/dist-packages/triton/compiler/compiler.py", line 483, in _init_handles
+    raise OutOfResources(self.metadata.shared, max_shared, "shared memory")
+triton.runtime.errors.OutOfResources: out of resource: shared memory, Required: 102400, Hardware limit: 101376. Reducing block sizes or `num_stages` may help.

@@ -5,6 +5,7 @@ __all__ = [
     "load",
     "gemm",
     "flash_attention",
+    "attention",
     "fp8_gemm",
     "fp8_gemm_prepacked",
     "quantize_fp8_weight",
@@ -25,6 +26,10 @@ def __getattr__(name):
         from . import matrix_attention
 
         return getattr(matrix_attention, name)
+    if name == "attention":
+        from .attention_training import attention
+
+        return attention
     if name in (
         "fp8_gemm",
         "fp8_gemm_prepacked",

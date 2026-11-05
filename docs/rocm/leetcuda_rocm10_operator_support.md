@@ -32,7 +32,7 @@ B4的19个MMA Attention只把QK累加升级FP32，PV和原输出状态类型保�
 所有25个模块的原公开接口均通过当前测试；
 **25/25 = 100%** 的模块覆盖率，不能代替 **229/229 = 100.00%** 的接口适配比例。
 
-另有 **6 个独立 AMD 计算接口**：`gemm`、`flash_attention`、`fp8_gemm`、
+另有 **7 个独立 AMD 计算接口**：`gemm`、`flash_attention`、`attention`、`fp8_gemm`、
 `fp8_gemm_prepacked`、`fp4_gemm`、`fp4_gemm_prepacked`，以及 2 个权重量化辅助接口
 `quantize_fp8_weight`、`quantize_fp4_weight`。
 这些接口单独统计：前两者没有逐一实现原版 HGEMM／FlashAttention 的同名变体约定；
@@ -289,7 +289,7 @@ FP16 FMA 累加结果**；另 **55/55 项**分块边界检查通过。但这些�
 | 原因分类 | 数量 | 分布 | 当前结论 |
 | --- | ---: | --- | --- |
 | 原公开接口尚未功能验收 | **0** | 无 | 229个均通过当前测试；60个显式累加升级、3个输入精度升级 |
-| 不在229分母内的补充范围 | 单独统计 | FFPA、Attention扩展、独立构建/非绑定源码（E5M2功能已完成） | 仍需继续实现与验收，详见第4节 |
+| 不在229分母内的补充范围 | 单独统计 | FFPA、独立构建/非绑定源码（E5M2与训练Attention功能已完成） | 仍需继续实现与验收，详见第4节 |
 
 当前实测证明通过当前资格门限的是 229 个原始接口，另加 6 个独立 AMD 计算接口。
 **目前没有证据证明某个算子的数学功能永久无法在 ROCm 上实现。**
@@ -358,6 +358,7 @@ FP16 FMA 累加结果**；另 **55/55 项**分块边界检查通过。但这些�
 | --- | --- | --- | --- |
 | FP16/BF16 GEMM | `leetcuda_rocm.gemm` | FP32 累加、AMD WMMA、转置及 strided 输入、M/N/K 尾部、可选预分配输出 | 二维矩阵乘、正尺寸、前向计算；不提供 backward |
 | FlashAttention 前向 | `leetcuda_rocm.flash_attention` | FP16/BF16、FP32 累加、AMD WMMA、在线 softmax、因果/非因果、strided 输入；非因果模式支持 NQ≠NK | D 仅支持 16/32/64/128；因果模式要求 NQ=NK；无 GQA、dropout、任意 mask、backward |
+| GQA/训练Attention | `leetcuda_rocm.attention` | FP16/BF16 D16/32/64/128/256、GQA、布尔/加性mask、显式Philox dropout、Q/K/V一阶梯度；左上因果支持NQ≠NK | 连续输入；mask无梯度；不支持二阶导数；D256有性能差距，见[专项报告](attention_training_20261106.md) |
 | FP8 GEMM 完整链路 | `leetcuda_rocm.fp8_gemm` | BF16 → E4M3/E5M2 动态量化 → FP8/BF8 WMMA/FP32 累加 → BF16；四种 scale 模式；普通／producer-consumer 调度 | 连续 BF16；M>0、N%8=0、K%16=0；FP32 scale/inverse 必须处于正常有限范围；性能尚未收敛 |
 | FP8 GEMM 离线权重 | `leetcuda_rocm.fp8_gemm_prepacked` | 复用 `quantize_fp8_weight` 输出的 B8T/scales，仅在线量化 A | 同上；B 的离线量化时间须单独统计；无反向 |
 | NVFP4 GEMM 完整链路 | `leetcuda_rocm.fp4_gemm` | BF16 → E2M1 数据／E4M3 分组 scale → 精确 FP16 展开 → FP16 WMMA/FP32 累加 → BF16；四种 scale 模式、两种 tile／调度 | 连续 BF16；M>0、N%8=0、K%64=0；level-1 scale/inverse 正常有限 FP32，缩放累加不溢出；性能仍落后库基线 |
@@ -391,7 +392,7 @@ BN/stages 保持原约定；此差异及量化损失在报告中明确列出。
 | Matrix Transpose 的 CuTe 变体 | 已支持 | 11 个接口已用显式 HIP 布局实现；CUDA CuTe 源码保留 |
 | Reduce Sum 的 BF16 自身累加变体 | 3/3已支持，精度升级 | 原BF16失败保留；使用补偿FP32、确定性两级归约 |
 | FP8/FP4 GEMM、FFPA 扩展 | FP8/FP4 功能通过，整体未完成 | E4M3/E5M2 与 NVFP4 完整链路、离线 B、Python 和专用 C++ benchmark 已接入；性能仍落后库基线；FFPA待迁移 |
-| 新增 Attention 的扩展功能 | 部分支持 | backward、GQA、dropout、任意 attention mask、其他 head dimension、NQ≠NK 的因果模式 |
+| 新增 Attention 的扩展功能 | 计划范围功能完成 | 独立`attention`支持GQA、bool/加性mask、显式Philox dropout、Q/K/V一阶梯度及D≤256；NQ≠NK左上因果。双卡、5090、性能和空间通过；二阶导数/mask梯度明确不支持 |
 | `kernels/cutlass`、CuTe DSL 示例 | 未移植 | NVIDIA 库、指令及对应编译入口 |
 | `kernels/swizzle` 示例 | 未移植 | 独立布局、矩阵乘和转置示例 |
 | `kernels/openai-triton` 原有示例 | 四个已验证，性能待优化 | vector-add、fused-softmax、layer-norm（含梯度）、merge-attn-states 两张 AMD 卡与 5090 各 195 项通过；不计入 229 个扩展接口 |
@@ -435,7 +436,7 @@ E5M2随后已完成独立的完整链路验收，见[2026-11-06报告](fp8_e5m2_
 | --- | --- | --- |
 | NVFP4 完整链路，Python／C++ | GPU1 1,540 项、GPU0 1,541 项、大尺寸 40 项、C++ 263 项通过；Python/C++ 各 96 组性能比较，仍落后 BF16 库基线 | [FP4 迁移报告](fp4_pipeline_20261103.md) |
 | FP8 E4M3/E5M2完整链路，Python／C++ | 每种格式两卡各756项、C++143项；每种Python/C++各48性能；480输出跨平台通过，性能仍落后库基线 | [FP8完整格式报告](fp8_e5m2_20261106.md) |
-| 本轮基础算子，PCI 0000:83:00.0，2026-11-06 | 25模块、229接口、1262项；全接口同精度CUDA参考/AMD对照462/462，原FP16树460/462 | [当前基础报告](hgemm_simt_20261106/qualification229.json) |
+| 本轮基础算子，PCI 0000:83:00.0，2026-11-06 | 25模块、229接口、1262项；全接口同精度CUDA参考/AMD对照462/462，原FP16树460/462 | [当前基础报告](attention_training_20261106/qualification229.json) |
 | 本轮 swizzle 专项，PCI 03 / 43 | 两卡各 1329 项；42 个 WMMA 特化；372/372 CUDA/AMD 对照通过；性能 1/3 达标 | [本轮报告](flash_swizzle_20261105.md) |
 | 上轮基础算子，PCI 0000:c3:00.0，2026-11-05 | 24 模块、170 接口、931 项检查通过 | [历史基础报告](qualification_20261105_flash_tiled.json) |
 | 上轮 tiling FlashAttention 专项 | 854 项、28 个 WMMA 特化；与 CUDA 248/248 对照通过 | [本轮专项报告](flash_tiled_20261105.md) |

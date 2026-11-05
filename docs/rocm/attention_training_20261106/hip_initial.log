@@ -1,0 +1,81 @@
+{"profile": "rocm10-foundation-r9700-v1", "passed": true, "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03", "output": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/fda70b7c6546440db9f5d5a2a435bade.json"}
+torch.float16/16/17/0 checked
+torch.float16/16/17/1 checked
+torch.float16/16/17/2 checked
+torch.float16/16/93/0 checked
+torch.float16/16/93/1 checked
+torch.float16/16/93/2 checked
+torch.float16/32/17/0 checked
+torch.float16/32/17/1 checked
+torch.float16/32/17/2 checked
+torch.float16/32/93/0 checked
+torch.float16/32/93/1 checked
+torch.float16/32/93/2 checked
+torch.float16/64/17/0 checked
+torch.float16/64/17/1 checked
+torch.float16/64/17/2 checked
+torch.float16/64/93/0 checked
+torch.float16/64/93/1 checked
+torch.float16/64/93/2 checked
+torch.float16/128/17/0 checked
+torch.float16/128/17/1 checked
+torch.float16/128/17/2 checked
+torch.float16/128/93/0 checked
+torch.float16/128/93/1 checked
+torch.float16/128/93/2 checked
+torch.float16/256/17/0 checked
+torch.float16/256/17/1 checked
+torch.float16/256/17/2 checked
+torch.float16/256/93/0 checked
+torch.float16/256/93/1 checked
+torch.float16/256/93/2 checked
+torch.float16/boundary/1,1 checked
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/attention_training_check.py", line 562, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/attention_training_check.py", line 558, in main
+    return globals()[args.command](args)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/attention_training_check.py", line 522, in run
+    evaluate(case, device, report["checks"], outputs)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/attention_training_check.py", line 240, in evaluate
+    grads = torch.autograd.grad(out, (q, k, v), case["dy"].to(device))
+  File "/opt/venv/lib/python3.13/site-packages/torch/autograd/__init__.py", line 594, in grad
+    result = _engine_run_backward(
+        outputs,
+    ...<5 lines>...
+        accumulate_grad=False,
+    )
+  File "/opt/venv/lib/python3.13/site-packages/torch/autograd/graph.py", line 1072, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        t_outputs, *args, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )  # Calls into the C++ engine to run the backward pass
+    ^
+  File "/opt/venv/lib/python3.13/site-packages/torch/autograd/function.py", line 366, in apply
+    return user_fn(self, *args)
+  File "/opt/venv/lib/python3.13/site-packages/torch/autograd/function.py", line 684, in wrapper
+    outputs = fn(ctx, *args, **kwargs)
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/attention_training.py", line 445, in backward
+    _backward_kv[
+    ~~~~~~~~~~~~~
+        (triton.cdiv(k.shape[2], 32), k.shape[0] * k.shape[1])
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ](
+    ~^
+        q,
+        ^^
+    ...<12 lines>...
+        **ctx.options
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/attention_training_check.py", line 274, in launch
+    assert instructions, (
+           ^^^^^^^^^^^^
+AssertionError: ('_backward_kv', 'missing matrix instructions')

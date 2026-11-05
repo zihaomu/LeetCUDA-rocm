@@ -1167,6 +1167,19 @@ snapshot = {
         "leetcuda_rocm.fp8_gemm_prepacked",
         "leetcuda_rocm.fp4_gemm",
         "leetcuda_rocm.fp4_gemm_prepacked",
+        *(
+            ["leetcuda_rocm.attention"]
+            if (
+                root / "docs/rocm/attention_training_20261106/source_audit.json"
+            ).exists()
+            and json.loads(
+                (
+                    root
+                    / "docs/rocm/attention_training_20261106/source_audit.json"
+                ).read_text()
+            )["passed"]
+            else []
+        ),
     ],
     "additional_qualified_helpers": [
         "leetcuda_rocm.quantize_fp8_weight",

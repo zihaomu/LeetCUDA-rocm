@@ -1,0 +1,32 @@
+{"profile": "rocm10-foundation-r9700-v1", "passed": true, "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03", "output": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/bc02cdd1387a4f088eb95012fda87bcd.json"}
+{"dtype": "torch.float16", "shape_b_hq_hk_n_d": [1, 4, 1, 256, 64], "causal": false, "path": "forward", "passed": true, "graph_replay_verified": true, "ours_ms": 0.007947414041423111, "baseline_ms": 0.007753072513474358, "baseline_over_ours": 0.9755465706284062, "samples_ms": {"ours": [0.008242377274327998, 0.008023985855870967, 0.007947414041423111, 0.007931290770606171, 0.007940632833851328], "baseline": [0.0077409206165207755, 0.007785989178551568, 0.007753072513474358, 0.007778333293067085, 0.007752196656333076]}, "calls_per_graph": 8, "replays_per_sample": {"ours": 556, "baseline": 576}}
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/attention_training_performance.py", line 256, in <module>
+    main()
+    ~~~~^^
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/attention_training_performance.py", line 166, in main
+    captured = ofn()
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/attention_training_performance.py", line 118, in call
+    return (out, *torch.autograd.grad(out, (q, k, v), dout))
+                  ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.13/site-packages/torch/autograd/__init__.py", line 594, in grad
+    result = _engine_run_backward(
+        outputs,
+    ...<5 lines>...
+        accumulate_grad=False,
+    )
+  File "/opt/venv/lib/python3.13/site-packages/torch/autograd/graph.py", line 1072, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        t_outputs, *args, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )  # Calls into the C++ engine to run the backward pass
+    ^
+RuntimeError: During CUDA graph capture, autograd node 'torch::autograd::AccumulateGrad' has a stale reference to the default stream (stream 0) from warmup. This will invalidate the capture because hipStreamWaitEvent on the default stream pulls a non-capturing stream into the graph.
+
+To fix, either:
+  (a) Run warmup on the same stream that capture will use, or
+  (b) Delete references to the loss / autograd graph (e.g. `del loss`) before capture, or
+  (c) Call torch.autograd.graph.set_override_stale_capture_stream(True) to automatically redirect stale nodes to the capturing stream.

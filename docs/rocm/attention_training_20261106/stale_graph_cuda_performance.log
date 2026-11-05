@@ -1,0 +1,40 @@
+{"dtype": "torch.float16", "shape_b_hq_hk_n_d": [1, 4, 1, 256, 64], "causal": false, "path": "forward", "passed": true, "graph_replay_verified": true, "ours_ms": 0.005890987429044757, "baseline_ms": 0.008708452141803245, "baseline_over_ours": 1.4782669708082112, "samples_ms": {"ours": [0.005890987429044757, 0.005890987429044757, 0.005890987429044757, 0.005891331876525129, 0.005890987429044757], "baseline": [0.008708452141803245, 0.008708452141803245, 0.008708452141803245, 0.008708452141803245, 0.008708452141803245]}, "calls_per_graph": 8, "replays_per_sample": {"ours": 814, "baseline": 575}}
+Traceback (most recent call last):
+  File "/work/leetcuda_rocm/attention_training_performance.py", line 166, in main
+    captured = ofn()
+               ^^^^^
+  File "/work/leetcuda_rocm/attention_training_performance.py", line 118, in call
+    return (out, *torch.autograd.grad(out, (q, k, v), dout))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/autograd/__init__.py", line 503, in grad
+    result = _engine_run_backward(
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/autograd/graph.py", line 841, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: operation would make the legacy stream depend on a capturing blocking stream
+Search for `cudaErrorStreamCaptureImplicit' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/work/leetcuda_rocm/attention_training_performance.py", line 256, in <module>
+    main()
+  File "/work/leetcuda_rocm/attention_training_performance.py", line 165, in main
+    with torch.cuda.graph(graph, stream=stream):
+  File "/usr/local/lib/python3.12/dist-packages/torch/cuda/graphs.py", line 265, in __exit__
+    self.cuda_graph.capture_end()
+  File "/usr/local/lib/python3.12/dist-packages/torch/cuda/graphs.py", line 128, in capture_end
+    super().capture_end()
+torch.AcceleratorError: CUDA error: operation failed due to a previous error during capture
+Search for `cudaErrorStreamCaptureInvalidated' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
