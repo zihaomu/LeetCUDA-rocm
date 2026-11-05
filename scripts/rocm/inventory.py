@@ -78,6 +78,31 @@ if wmma_keys:
     assert wmma_keys == {("hgemm", n) for n in wmma_report["variants"]}
     assert wmma_report["original_accumulator"] == "FP16"
     assert wmma_report["rocm_accumulator"] == "FP32"
+mma_path = root / "docs/rocm/mma_hgemm_20261105/hip.json"
+mma_keys = {
+    key
+    for key in qualified
+    if key[0] == "hgemm" and key[1].startswith("hgemm_mma_")
+}
+if mma_keys:
+    mma_report = json.loads(mma_path.read_text())
+    assert mma_report["passed"] and all(
+        c["passed"] for c in mma_report["checks"] + mma_report["boundaries"]
+    )
+    assert mma_keys == {("hgemm", n) for n in mma_report["variants"]}
+    assert (
+        mma_report["original_accumulator"] == "FP16"
+        and mma_report["rocm_accumulator"] == "FP32"
+    )
+    assert len(mma_report["isa"]["kernels"]) == 36
+    assert all(
+        k["wmma"] and k["lds_bytes"] <= 65536
+        for k in mma_report["isa"]["kernels"]
+    )
+    assert all(
+        p["accuracy_passed"] and p["graph_replay_verified"]
+        for p in mma_report["performance"]
+    )
 fp8_report_path = root / "docs/rocm/fp8_pipeline_20261103.json"
 flash_keys = {
     key
@@ -330,6 +355,21 @@ for source in sorted((root / "kernels").rglob("*")):
                     wmma_path.read_bytes()
                 ).hexdigest(),
             }
+        if (module, name) in mma_keys:
+            entries[-1]["implementation"] = {
+                "mechanism": "Native AMD WMMA with variant-specific K16/K32 staging, static/dynamic LDS, paired register fragments, wide LDS reads, rr lifetimes, XOR layouts and packed TN",
+                "original_accumulator": "FP16",
+                "rocm_accumulator": "FP32",
+                "precision_changed": True,
+                "numeric_semantics": "FP16 I/O with explicitly upgraded FP32 state; no claim of FP16 MMA bitwise equivalence",
+                "variant_mode": mma_report["variants"][name],
+                "architecture_adaptation": "K32 stage5 uses64x128; CuTe stage2 uses128x256, stage3/4 uses128x128; full requested stage depth retained within64KiB",
+                "evidence": str(mma_path.relative_to(root)),
+                "evidence_sha256": hashlib.sha256(
+                    mma_path.read_bytes()
+                ).hexdigest(),
+                "performance_status": "measured_pending_optimization",
+            }
         if (module, name) in flash_keys:
             entries[-1]["implementation"] = {
                 "mechanism": "Native gfx1201 split-Q WMMA attention; distinct shared-KV or shared-QKV LDS lifetime",
@@ -498,6 +538,10 @@ if wmma_keys:
         qualified_cuda_path = (
             root / "docs/rocm/flash_rr_20261105/qualified175_cuda.json"
         )
+    if mma_keys:
+        qualified_cuda_path = (
+            root / "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json"
+        )
     qualified_cuda = json.loads(qualified_cuda_path.read_text())
     assert qualified_cuda["passed"]
     by_function = collections.defaultdict(list)
@@ -533,6 +577,28 @@ if wmma_keys:
             "evidence": str(wmma_cuda_path.relative_to(root)),
             "evidence_sha256": hashlib.sha256(
                 wmma_cuda_path.read_bytes()
+            ).hexdigest(),
+        }
+if mma_keys:
+    mma_cuda_path = root / "docs/rocm/mma_hgemm_20261105/cuda_original.json"
+    mma_cuda = json.loads(mma_cuda_path.read_text())
+    for key in mma_keys:
+        checks = [
+            c for c in mma_cuda["checks"] if c["id"].startswith(key[1] + "/")
+        ]
+        assert checks
+        cuda_coverage[key] = {
+            "source_kind": "upstream_original_with_current_stream_launches",
+            "cases": len(checks),
+            "accuracy_passed_cases": sum(c["passed"] for c in checks),
+            "resource_rejected_cases": sum(
+                not c.get("executed", True) for c in checks
+            ),
+            "all_cases_passed": all(c["passed"] for c in checks),
+            "scope": "Expanded K4096 and stage5 reveal original FP16 numerical limitations and oversized LDS allocations; AMD explicitly upgrades precision and adapts geometry",
+            "evidence": str(mma_cuda_path.relative_to(root)),
+            "evidence_sha256": hashlib.sha256(
+                mma_cuda_path.read_bytes()
             ).hexdigest(),
         }
 for keys, flash_cuda_path in (

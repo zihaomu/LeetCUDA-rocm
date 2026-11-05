@@ -1,23 +1,23 @@
 # LeetCUDA ROCm 10 持续迁移进度
 
-最近更新（UTC）：2026-11-05T14:57:23+00:00。任务状态：**执行中**。
+最近更新（UTC）：2026-11-05T15:17:07+00:00。任务状态：**执行中**。
 
 用户要求：完成后续计划中的所有算子任务，完成前持续推进；每次关键实验结束即时追加本文件。仓库镜像与工作区 `doc` 同步。
 
 ## 最近正式验收的状态
 
 - 基线提交：`5b7926c7d339356eee6a1531ec9af8e844dc81e7`。
-- 原接口：**175/229（76.42%）**；待迁移 **38**，精度未验收 **16**。
+- 原接口：**186/229（81.22%）**；待迁移 **27**，精度未验收 **16**。
 - 已完成 B1：三个 swizzle 功能支持；性能 1/3 达标。
-- 当前执行：B2验收完成：175/229；继续B3的11个MMA/CuTe。AMD候选已通过初步数值与边界，正在ISA、性能及原CUDA长K对照。
+- 当前执行：B3验收完成，186/229；推进B4的20个Attention。低精度QK失败已复现，QK FP32/PV FP16研究通过992项，原CUDA审计运行中。
 
 ## 固定工作队列
 
 | 工作包 | 数量 | 状态 | 验收重点 |
 | --- | ---: | --- | --- |
 | B2 shared rr | 2 | 功能完成，性能待优化 | 真实寄存器生命周期变化、VGPR/scratch、FP32 输出状态、双卡和原 CUDA 对照 |
-| B3 HGEMM MMA/CuTe | 11 | 进行中，11项候选已编译运行 | 原算术模型、tile/TN/stage/swizzle、长 K 与奇数 tile |
-| B4 其余 Attention | 20 | 待执行 | 低精度模型、布局/分工，split-KV、Os2g、CuTe 的独立机制 |
+| B3 HGEMM MMA/CuTe | 11 | 功能完成，显式FP32升级／性能待优化 | 原算术模型、tile/TN/stage/swizzle、长 K 与奇数 tile |
+| B4 其余 Attention | 20 | 进行中，低精度模型与QK升级实验 | 低精度模型、布局/分工，split-KV、Os2g、CuTe 的独立机制 |
 | B5 异步 HGEMM | 3 | 待执行 | 真实异步流水线；区分原精度失败与搬运错误 |
 | B6 TF32 SGEMM | 3 | 待执行 | TF32 输入舍入、实际矩阵路径、数学模式 |
 | B7 WS-HGEMM | 1 | 待执行 | producer/consumer 分工和同步 |
@@ -63,17 +63,6 @@
 | hgemm | `hgemm_t_8x8_sliced_k16_f16x8_pack_dbuf_async` | pending |
 | hgemm | `hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf_async` | pending |
 | hgemm | `hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf_async` | pending |
-| hgemm | `hgemm_mma_m16n8k16_naive` | pending |
-| hgemm | `hgemm_mma_m16n8k16_mma2x4_warp4x4` | pending |
-| hgemm | `hgemm_mma_m16n8k16_mma2x4_warp4x4_stages` | pending |
-| hgemm | `hgemm_mma_m16n8k16_mma2x4_warp4x4_stages_dsmem` | pending |
-| hgemm | `hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem` | pending |
-| hgemm | `hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem_x4` | pending |
-| hgemm | `hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem_rr` | pending |
-| hgemm | `hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem_swizzle` | pending |
-| hgemm | `hgemm_mma_m16n8k16_mma2x4_warp4x4_stages_dsmem_tn` | pending |
-| hgemm | `hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem_tn_swizzle_x4` | pending |
-| hgemm | `hgemm_mma_stages_block_swizzle_tn_cute` | pending |
 | hgemv | `hgemv_f16_cute` | numerical_rejected |
 | hgemv | `hgemv_f16x8_cute` | numerical_rejected |
 | reduce | `block_all_reduce_sum_bf16_bf16` | numerical_rejected |
@@ -111,3 +100,17 @@
 - **2026-11-05T14:53:17+00:00**：B3 独立编译和首轮探测11/11入口通过，包含非方阵65×129×97、长K4097及所有有效stage；尚未加入正式库存。B2旧入口394项与冻结二进制逐位一致；174条计时中1条（KV D32/stage2，第二轮）出现11.07%退化，其余通过。保留该完整失败测量，检查三轮稳定性并重新测量，不挑选单个最好样本。
 
 - **2026-11-05T14:57:23+00:00**：B2正式入账：175/229=76.42%，剩38待迁移+16精度未验收。双卡各660、原CUDA共享191、完整回归971、全接口354组均通过。旧路径完整重测394项逐位一致、174条计时全部在10%以内；首轮1条异常及全部样本保留。库存和doc镜像已同步。B3首次扩展运行在ISA导出时遇到报告路径错误，数值检查已完成；修正路径后重新运行，不把未落盘试跑算正式结果。
+
+- **2026-11-05T14:58:45+00:00**：B2提交0c9b786已生成，正在推送fork/rocm10。B3扩大候选运行通过360共享输入、2587边界/状态/设备检查、108性能记录；明确采用FP32累加，原FP16 CUDA长K审计仍在编译执行。继续集成B3，不停止在B2交付。
+
+- **2026-11-05T15:02:13+00:00**：B3原CUDA扩大测试发现新问题：带padding的三个x2实现stage5实际申请104960字节，而原封装仅设置98304字节，5090实测报invalid argument；这是CUDA原版资源错误。保留原失败日志，正式报告将30项对应共享用例明确记为无法执行，不伪造数值通过。AMD按64KiB重设tile的stage5已通过。其余CUDA配置继续测量，原FP16长K失败与资源错误分开记录。
+
+- **2026-11-05T15:05:07+00:00**：B3继续审计确认第四个CUDA资源失败：TN swizzle x4的stage5需要102400字节，也超过98304设置与5090的101376上限。原版两次失败日志均保留；总计40项共享用例明确记录资源拒绝。AMD全部stage5有效，资源改写范围已在代码中落实。
+
+- **2026-11-05T15:08:09+00:00**：B3原版CUDA审计完整落盘：360项中256通过、64项因K4096的原FP16累加精度失败、40项因stage5资源超限拒绝；每项失败均保留。AMD最终候选360/360及2587边界通过，36个特化全部真实WMMA、LDS≤64KiB、无scratch。rr对比x2在stage2/3/4的VGPR分别163→136、155→128、164→137，生命周期优化有效。
+
+- **2026-11-05T15:08:56+00:00**：B3双卡各2947项专项通过（360共享+2587边界/状态/设备），CUDA/AMD原始对照256组在门限内；其余64精度失败+40资源失败与预期原版问题一致。全库集成首次揭示旧gemm_checks把所有B都按NN参考计算，3个TN入口15项错误；已按原TN存储契约修复独立参考并将MMA的K tile显式设为16/32，保留首轮失败报告后重跑全库。
+
+- **2026-11-05T15:15:49+00:00**：B3验收闭环完成：全库24模块186接口1048项、全接口376组原输入对照通过。准备正式更新到186/229。B4首个研究结论：8个低精度tiling入口，原FP16 QK/PV模型在大logits出现32/992失败，最大误差0.524；仅把QK累加升级FP32、保留FP16 PV与原输出状态后992/992通过。两版源码/结果均保存，下一步原CUDA验证该精度限制并实现其余布局/分工。
+
+- **2026-11-05T15:17:07+00:00**：正式库存更新到186/229=81.22%，剩27待迁移+16精度未验收；21个接口明确记录累加精度升级。B3源码、最终harness、全库adapter hash审计通过，文档镜像已更新，准备提交。实时MD脚本现在从正式库存刷新比例和待验收清单，避免进度文字落后于证据。

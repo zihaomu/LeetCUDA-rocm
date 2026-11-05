@@ -133,6 +133,18 @@ def cuda_build(module, names, original, cutlass):
             ("hgemm/wmma/hgemm_wmma.cu", "hgemm/wmma/hgemm_wmma_stage.cu")
             if any(n.startswith("hgemm_wmma_") for n in names)
             else ()
+        )
+        + (
+            (
+                "hgemm/mma/basic/hgemm_mma.cu",
+                "hgemm/mma/basic/hgemm_mma_stage.cu",
+                "hgemm/mma/basic/hgemm_mma_stage_tn.cu",
+                "hgemm/mma/swizzle/hgemm_mma_stage_swizzle.cu",
+                "hgemm/mma/swizzle/hgemm_mma_stage_tn_swizzle_x4.cu",
+                "hgemm/cutlass/hgemm_mma_stage_tn_cute.cu",
+            )
+            if any(n.startswith("hgemm_mma_") for n in names)
+            else ()
         ),
     }
     paths = [KERNELS[module], *extras.get(module, ())]
@@ -167,12 +179,25 @@ def cuda_build(module, names, original, cutlass):
         "-U__CUDA_NO_HALF2_OPERATORS__",
         "-U__CUDA_NO_BFLOAT16_CONVERSIONS__",
         "-DNO_CUBLAS_HGEMM_BIN",
-        *(["-DBUILD_FLASH_ATTN_MMA_OTHERS=1"] if module == "flash_attn" else []),
+        *(
+            ["-DNO_MMA_HGEMM_BIN", "-DNO_CUTE_HGEMM_BIN"]
+            if module == "hgemm"
+            else []
+        ),
+        *(
+            ["-DBUILD_FLASH_ATTN_MMA_OTHERS=1"]
+            if module == "flash_attn"
+            else []
+        ),
     ]
     headers = (
         sorted((original / "kernels/flash-attn").rglob("*.h"))
         if module == "flash_attn"
-        else []
+        else (
+            sorted((original / "kernels/hgemm").rglob("*.h"))
+            if module == "hgemm"
+            else []
+        )
     )
     header_hashes = {str(p.relative_to(original)): sha(p) for p in headers}
     digest = hashlib.sha256(

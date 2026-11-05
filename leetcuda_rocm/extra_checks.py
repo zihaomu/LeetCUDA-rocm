@@ -22,6 +22,8 @@ def gemm_checks(module, lib):
                 if "_k32_" in name or name == "hgemm_sliced_k_f16"
                 else 16 if "_k16_" in name else 8
             )
+            if name.startswith("hgemm_mma_"):
+                bk = 32 if "warp4x4x2" in name or name.endswith("_cute") else 16
             for tiles in (1, 2, 3, 5, 8):
                 m, n, k = 128, 256, bk * tiles
                 a = torch.randn(m, k, device="cuda", dtype=dtype) * 0.25
@@ -31,7 +33,8 @@ def gemm_checks(module, lib):
                 )
                 options = (3, True, 256) if "_stages" in name else ()
                 getattr(lib, name)(a, b, out, *options)
-                expected = a.double() @ b.double()
+                logical_b = b.view(n, k).T if "_tn" in name else b
+                expected = a.double() @ logical_b.double()
                 failure = None
                 try:
                     torch.testing.assert_close(

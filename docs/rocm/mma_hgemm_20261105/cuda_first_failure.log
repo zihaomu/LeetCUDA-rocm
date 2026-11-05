@@ -1,0 +1,24 @@
+hgemm_mma_stages_block_swizzle_tn_cute shared cases done
+hgemm_mma_m16n8k16_naive shared cases done
+hgemm_mma_m16n8k16_mma2x4_warp4x4 shared cases done
+hgemm_mma_m16n8k16_mma2x4_warp4x4_stages shared cases done
+hgemm_mma_m16n8k16_mma2x4_warp4x4_stages_dsmem shared cases done
+Traceback (most recent call last):
+  File "/work/artifacts/rocm/continuation_all/b3/mma_check.py", line 493, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/work/artifacts/rocm/continuation_all/b3/mma_check.py", line 489, in main
+    return run(args)
+           ^^^^^^^^^
+  File "/work/artifacts/rocm/continuation_all/b3/mma_check.py", line 364, in run
+    actual = numerical(
+             ^^^^^^^^^^
+  File "/work/artifacts/rocm/continuation_all/b3/mma_check.py", line 93, in numerical
+    canary = bool((storage[:32] == 42).all() and (storage[-32:] == 42).all())
+                   ^^^^^^^^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: invalid argument
+Search for `cudaErrorInvalidValue' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+

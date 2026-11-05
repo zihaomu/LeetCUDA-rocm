@@ -1,14 +1,14 @@
 # LeetCUDA ROCm 10 下一批支持顺序与验收计划
 
 更新日期：2026-11-05。基线提交：`66bb7fb852536d26cbb79bf1c122bb6c8c3b16e4`。
-状态：**B1、B2功能验收完成；175/229（76.42%），继续B3。性能按入口单独记录。**。
+状态：**B1–B3功能验收完成；186/229（81.22%），继续B4。性能按入口单独记录。**。
 
 执行结果：173/229（75.55%），FlashAttention 7/29；两卡各 1329 项专项、
 全库 937 项、全接口 350 组 CUDA/AMD 对照通过。QKV 三轮几何平均加速
 1.1171× / 1.1178× / 1.1158×；Q/QK 未过原定性能门槛。
 详细结果及失败候选见[第五轮报告](flash_swizzle_20261105.md)。
 B2现已通过双卡各660项、全库971项、全接口354组对照，新增2个rr入口。
-详见[B2报告](flash_rr_20261105.md)。下文保留B1原始门槛和结果，当前执行 **B3的11个MMA/CuTe HGEMM**。
+详见[B2报告](flash_rr_20261105.md)。下文保留B1原始门槛和结果，B3也已完成功能验收：双卡各2947项、全库1048项、376组全接口对照。详见[B3报告](mma_hgemm_20261105.md)，当前执行 **B4剩余20个Attention**。
 
 本计划的 B1 固定为 **3 个 FP32 tiling FlashAttention swizzle 入口**，按 **Q → QK → QKV**
 的顺序支持。先完成一个入口的实现、正确性、5090 对照和性能测量，再推进下一个。
@@ -198,19 +198,19 @@ AMD 新增尾部能力不强行在原 CUDA 上执行。非法输入应明确拒�
 
 ## 6. 下一批之后的支持顺序
 
-下表互斥地覆盖计划制定时的 43 个待迁移接口，按顺序推进；每组先做最小可行实验再扩大覆盖。B1 的三个已完成功能验收，B2完成后当前剩余待迁移集合为38个。
+下表互斥地覆盖计划制定时的 43 个待迁移接口，按顺序推进；每组先做最小可行实验再扩大覆盖。B1 的三个已完成功能验收，B3完成后当前剩余待迁移集合为27个。
 失败项保留原因，可以继续不依赖该项的工作，不用修改容差来清空待办。
 
 | 批次 | 对象 | 当前待迁移数 | 验收重点与前置条件 |
 | --- | --- | ---: | --- |
 | B1，功能完成、性能 1/3 达标 | FP32 tiling-QKV 的 Q／QK／QKV swizzle | **3** | 本文 F、P 门槛；目标 173/229 |
 | B2，功能完成／性能待优化 | `flash_attn_mma_stages_split_q_shared_kv_acc_f32_rr`、`flash_attn_mma_stages_split_q_shared_qkv_acc_f32_rr` | **2** | 真实减少寄存器生命周期，验证实际 VGPR/scratch；保持 FP32 输出状态，不能直接套用 tiling 的大 D FP16 状态；逐项核对 D/stage 范围。两项通过后目标 175/229（76.42%） |
-| B3 | HGEMM MMA 10 项、CuTe 1 项 | **11** | 先 `hgemm_mma_m16n8k16_naive`、`hgemm_mma_m16n8k16_mma2x4_warp4x4`，再 stages/dynamic LDS/rr/swizzle/TN，最后 CuTe；先处理原 FP16 MMA 的算术契约，长 K、奇数 tile 和 TN 布局必须独立验证 |
+| B3，功能完成／性能待优化 | HGEMM MMA 10 项、CuTe 1 项 | **11** | 先 `hgemm_mma_m16n8k16_naive`、`hgemm_mma_m16n8k16_mma2x4_warp4x4`，再 stages/dynamic LDS/rr/swizzle/TN，最后 CuTe；先处理原 FP16 MMA 的算术契约，长 K、奇数 tile 和 TN 布局必须独立验证 |
 | B4 | 其余 FlashAttention | **20** | 先 5 个基础 split-Q/shared/tiling 低精度入口，再对应 12 个 swizzle，最后 split-KV、Os2g、CuTe 各 1 项；先验证低精度累加模型，再扩展变体 |
 | B5 | 3 个异步 HGEMM | **3** | 复用 SGEMM 预取经验，保留三种分块与真实流水线；原 CUDA 已有长 K 精度失败，须分别报告调度正确和精度门槛 |
 | B6 | TF32 SGEMM：2 个 WMMA、1 个 cuBLAS 入口 | **3** | 先验证 TF32 输入舍入与累加模型、目标指令／替代后端；禁止用普通 FP32 函数别名冒充 TF32 |
 | B7 | `ws_hgemm_naive_cute` | **1** | producer/consumer 分工、同步和独立调度验收；仅包装普通 GEMM 不算 warp specialization 支持 |
-| 合计 | 计划基线 pending 集合；当前剩余 40 | **43** | B1/B2共5个已完成，当前剩38个；不得把候选计为成功 |
+| 合计 | 计划基线 pending 集合；当前剩余27 | **43** | B1–B3共16个已完成，当前剩27个；不得把候选计为成功 |
 
 两个需要提前区分的问题：
 

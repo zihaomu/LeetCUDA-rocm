@@ -184,7 +184,7 @@ def case(module, name, rows):
         a, b = random((m, k), dtype), random((k, n), dtype)
         out = torch.full((m, n), float("nan"), device="cuda", dtype=dtype)
         tol = 0.01 if module == "hgemm" else 2e-4
-        reference_b = b.view(n, k).T if name.endswith("_tn") else b
+        reference_b = b.view(n, k).T if "_tn" in name else b
         return (
             (
                 (a, b, out, 2 if rows == 8 else 3, rows == 16, 256)

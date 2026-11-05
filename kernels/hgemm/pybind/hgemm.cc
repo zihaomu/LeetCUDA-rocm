@@ -166,7 +166,7 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   TORCH_BINDING_COMMON_EXTENSION(
       hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem)
 #endif
-#ifndef LEETCUDA_ROCM
+#if !defined(LEETCUDA_ROCM) || defined(LEETCUDA_ROCM_BLAS_ONLY)
   // MMA API Tensor Cores
   TORCH_BINDING_COMMON_EXTENSION(hgemm_mma_m16n8k16_naive)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_mma_m16n8k16_mma2x4_warp4x4)
