@@ -5,14 +5,24 @@ LeetCUDA 算法，不会把自定义 kernel 替换成 PyTorch 实现。PyTorch �
 测试参考。当前目标是 **ROCm 10.1.0 / Radeon AI PRO R9700 / gfx1201**。
 尚未完成整个仓库的 NVIDIA 专用 kernel 迁移。
 
-2026-11-05 第四轮实测：**24 个模块、170 个原始接口、931 项检查通过**，
+2026-11-05 第五轮：**24 个模块、173 个原始接口、937 项检查通过**，
+覆盖 **173/229=75.55%**。按计划新增 Q/QK/QKV 三个 FP32 swizzle FlashAttention，
+原 FlashAttention 达到 7/29；两张 AMD 卡各 1329 项专项、372 组原 CUDA/AMD 对照通过。
+全接口 350/350 组共享输入通过两端参考及容差检查。42 个特化全部使用 WMMA、
+LDS≤48 KiB、无 scratch spill；性能 **1/3 达标**，QKV 相对冻结父实现约 1.117×，
+Q/QK 功能支持但性能待优化。当前 **40 待迁移、16 精度未验收**。
+见[本轮实现与验收](flash_swizzle_20261105.md)、
+[最新资格报告](qualification_20261105_flash_swizzle.json)及[下一批安排](leetcuda_rocm10_next_batch_plan.md)。
+主卡为 PCI `0000:03:00.0`（物理 GPU0 / HIP mask 2），复验卡为 `0000:43:00.0`（物理 GPU2 / HIP mask 1）。
+
+2026-11-05 第四轮历史实测：**24 个模块、170 个原始接口、931 项检查通过**，
 覆盖 **170/229=74.24%**。新增 tiling-QK / tiling-QKV 两个原 FlashAttention 入口，
 支持 D 到 1024，保留大 D 的 FP16 输出累加状态。专项 **854 项**通过，
 原 CUDA 与 AMD 的 **248 组**共享输入全部通过独立参考及跨平台容差检查。
 全接口 344/344 组共享输入在 CUDA/AMD 两端通过参考及跨平台容差检查。
 28 个特化使用 WMMA、无 scratch spill，性能多数仍落后同机 SDPA。
 见 [本轮实现与限制](flash_tiled_20261105.md)及
-[最新资格报告](qualification_20261105_flash_tiled.json)。当前剩余 **43 待迁移、16 精度未验收**。
+[历史资格报告](qualification_20261105_flash_tiled.json)。该批剩余 **43 待迁移、16 精度未验收**。
 最终使用 PCI `0000:c3:00.0`（物理 GPU6 / HIP mask 5），重新测量前核对为空闲且未预约。
 
 2026-11-05 第三轮历史实测：**24 个模块、168 个原始接口、927 项检查通过**，
@@ -122,12 +132,12 @@ export HIP_VISIBLE_DEVICES=5
 | sgemv, hgemv | k16 / k32 / k128；新增 `hgemv_tensor_core_cute`，明确采用 FP32 WMMA 累加 |
 | sgemm | 10 个同步 FP32 kernel、3 个 AMD VGPR 预取变体，以及 hipBLAS FP32 GEMM |
 | hgemm | hipBLAS FP16 NN/TN（COMPUTE_16F），以及 9 个 AMD WMMA 变体（FP32 累加）；共 11/36 个接口 |
-| flash_attn | 原 shared-KV/QKV 和 tiling-QK/QKV；FP16 I/O，共 4/29。tiling 在 D>=256 保留 FP16 输出状态 |
+| flash_attn | shared 2、tiling 2、FP32 Q/QK/QKV swizzle 3，共 7/29；FP16 I/O，tiling/swizzle 在 D>=256 保留 FP16 输出状态；swizzle 性能 1/3 达标 |
 | mat_transpose | 25 个接口：14 个原实现及 11 个显式 HIP 布局变体 |
 | nms | IoU ballot + 单 block 顺序消除 |
 | merge_attn_states | FP32/FP16/BF16 状态合并、可选 LSE、空状态和输入契约检查 |
 
-最新通过情况以 [`qualification_20261105_flash_tiled.json`](qualification_20261105_flash_tiled.json) 为准，
+最新通过情况以 [`qualification_20261105_flash_swizzle.json`](qualification_20261105_flash_swizzle.json) 为准，
 [`qualification.json`](qualification.json) 保留 2026-11-02 的历史结果。两种规模、
 非默认 stream、独立数值参考用于基础资格检查；这不是所有 shape 的支持承诺。
 低精度累加变体使用报告中单独记录的容差，不等同于 FP32 累加精度。

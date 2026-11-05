@@ -43,7 +43,16 @@ __device__ __forceinline__ void issue(const _Float16 *src, int row0, int col0,
     }
   }
 }
-template <int Rows, int Cols, int Threads, bool Transpose = false>
+// XOR within 16-half panels. For V, apply after transposition, on its
+// reduction coordinate. This is an involution, preserves eight-half vectors and
+// changes LDS addresses without changing any matrix/softmax arithmetic.
+template <int Cols, bool Swizzle>
+__host__ __device__ __forceinline__ int lds_index(int row, int col) {
+  return row * Cols + (Swizzle ? (col ^ (((row >> 2) & 1) << 3)) : col);
+}
+
+template <int Rows, int Cols, int Threads, bool Transpose = false,
+          bool Swizzle = false>
 __device__ __forceinline__ void publish(_Float16 *dst, U4 *r) {
   constexpr int Count = (Rows * Cols + Threads * 8 - 1) / (Threads * 8);
 #pragma unroll
@@ -51,9 +60,18 @@ __device__ __forceinline__ void publish(_Float16 *dst, U4 *r) {
     H8 h = finish8(r[i]);
     int x = (threadIdx.x + i * Threads) * 8;
     if (x < Rows * Cols) {
+      if constexpr (Swizzle && !Transpose) {
+        // The permutation preserves each aligned eight-half vector. Express
+        // that guarantee explicitly; per-element XOR inhibits LLVM combining.
+        *reinterpret_cast<H8 *>(dst +
+                                lds_index<Cols, true>(x / Cols, x % Cols)) = h;
+      } else {
 #pragma unroll
-      for (int j = 0; j < 8; ++j)
-        dst[Transpose ? (x % Cols + j) * Rows + x / Cols : x + j] = h[j];
+        for (int j = 0; j < 8; ++j)
+          dst[Transpose ? lds_index<Rows, Swizzle>(x % Cols + j, x / Cols)
+                        : lds_index<Cols, Swizzle>(x / Cols, x % Cols + j)] =
+              h[j];
+      }
     }
   }
 }
@@ -71,14 +89,14 @@ template <int D, int Stage, bool TileV> struct Config {
   static constexpr int VLoads = (V + Threads * 8 - 1) / (Threads * 8);
 };
 
-template <int D, int Stage, bool TileV>
+template <int D, int Stage, bool TileV, int Mask = 0>
 __global__ void __launch_bounds__((D < 128 ? 64 : 128) * 2)
     attention_tiled(const _Float16 *q, const _Float16 *k, const _Float16 *v,
                     _Float16 *o, int n) {
   using C = Config<D, Stage, TileV>;
   constexpr int BR = C::BR, BC = C::BC, OD = C::OD, Threads = C::Threads;
   using State = std::conditional_t<(D >= 256), H8, F8>;
-  extern __shared__ _Float16 smem[];
+  extern __shared__ __align__(16) _Float16 smem[];
   _Float16 *p = smem + C::Data;
   int base = blockIdx.y * n * D;
   q += base;
@@ -100,8 +118,8 @@ __global__ void __launch_bounds__((D < 128 ? 64 : 128) * 2)
       if constexpr (Stage == 2) {
         issue<BR, 16, D, Threads>(q, q0, 0, n, qr);
         issue<BC, 16, D, Threads>(k, key0, 0, n, kr);
-        publish<BR, 16, Threads>(smem, qr);
-        publish<BC, 16, Threads>(smem + BR * 16, kr);
+        publish<BR, 16, Threads, false, (Mask & 1) != 0>(smem, qr);
+        publish<BC, 16, Threads, false, (Mask & 2) != 0>(smem + BR * 16, kr);
         __syncthreads();
       }
 #pragma unroll 1
@@ -112,30 +130,42 @@ __global__ void __launch_bounds__((D < 128 ? 64 : 128) * 2)
           issue<BC, 16, D, Threads>(k, key0, future * 16, n, kr);
         }
         if constexpr (Stage == 1) {
-          publish<BR, 16, Threads>(smem, qr);
-          publish<BC, 16, Threads>(smem + BR * 16, kr);
+          publish<BR, 16, Threads, false, (Mask & 1) != 0>(smem, qr);
+          publish<BC, 16, Threads, false, (Mask & 2) != 0>(smem + BR * 16, kr);
           __syncthreads();
         }
         const _Float16 *curr = smem + (tile % Stage) * C::QK;
         H8 a;
+        if constexpr ((Mask & 1) != 0) {
+          a = *reinterpret_cast<const H8 *>(
+              curr + lds_index<16, true>(wave * 16 + lane % 16, lane / 16 * 8));
+        } else {
 #pragma unroll
-        for (int x = 0; x < 8; ++x)
-          a[x] = curr[(wave * 16 + lane % 16) * 16 + lane / 16 * 8 + x];
+          for (int x = 0; x < 8; ++x)
+            a[x] = curr[(wave * 16 + lane % 16) * 16 + lane / 16 * 8 + x];
+        }
 #pragma unroll
         for (int j = 0; j < BC / 16; ++j) {
           H8 b;
+          if constexpr ((Mask & 2) != 0) {
+            b = *reinterpret_cast<const H8 *>(
+                curr + BR * 16 +
+                lds_index<16, true>(j * 16 + lane % 16, lane / 16 * 8));
+          } else {
 #pragma unroll
-          for (int x = 0; x < 8; ++x)
-            b[x] =
-                curr[BR * 16 + (j * 16 + lane % 16) * 16 + lane / 16 * 8 + x];
+            for (int x = 0; x < 8; ++x)
+              b[x] =
+                  curr[BR * 16 + (j * 16 + lane % 16) * 16 + lane / 16 * 8 + x];
+          }
           score[j] =
               __builtin_amdgcn_wmma_f32_16x16x16_f16_w32_gfx12(a, b, score[j]);
         }
         if constexpr (Stage == 2) {
           if (future < D / 16) {
             _Float16 *next = smem + (future % Stage) * C::QK;
-            publish<BR, 16, Threads>(next, qr);
-            publish<BC, 16, Threads>(next + BR * 16, kr);
+            publish<BR, 16, Threads, false, (Mask & 1) != 0>(next, qr);
+            publish<BC, 16, Threads, false, (Mask & 2) != 0>(next + BR * 16,
+                                                             kr);
           }
         }
         __syncthreads();
@@ -219,7 +249,7 @@ __global__ void __launch_bounds__((D < 128 ? 64 : 128) * 2)
       // accumulator tile is live at a time; the QK LDS region is reused.
       if constexpr (Stage == 2) {
         issue<BC, 16, D, Threads>(v, key0, od0, n, vr);
-        publish<BC, 16, Threads, true>(smem, vr);
+        publish<BC, 16, Threads, true, (Mask & 4) != 0>(smem, vr);
         __syncthreads();
       }
 #pragma unroll
@@ -228,7 +258,7 @@ __global__ void __launch_bounds__((D < 128 ? 64 : 128) * 2)
         if (future < OD / 16)
           issue<BC, 16, D, Threads>(v, key0, od0 + future * 16, n, vr);
         if constexpr (Stage == 1) {
-          publish<BC, 16, Threads, true>(smem, vr);
+          publish<BC, 16, Threads, true, (Mask & 4) != 0>(smem, vr);
           __syncthreads();
         }
         const _Float16 *curr = smem + (d % Stage) * C::V;
@@ -239,8 +269,12 @@ __global__ void __launch_bounds__((D < 128 ? 64 : 128) * 2)
 #pragma unroll
           for (int x = 0; x < 8; ++x) {
             a[x] = p[(wave * 16 + lane % 16) * BC + j * 16 + lane / 16 * 8 + x];
-            b[x] = curr[(lane % 16) * BC + j * 16 + lane / 16 * 8 + x];
+            if constexpr ((Mask & 4) == 0)
+              b[x] = curr[(lane % 16) * BC + j * 16 + lane / 16 * 8 + x];
           }
+          if constexpr ((Mask & 4) != 0)
+            b = *reinterpret_cast<const H8 *>(
+                curr + lds_index<BC, true>(lane % 16, j * 16 + lane / 16 * 8));
           pv = __builtin_amdgcn_wmma_f32_16x16x16_f16_w32_gfx12(a, b, pv);
         }
 #pragma unroll
@@ -248,7 +282,8 @@ __global__ void __launch_bounds__((D < 128 ? 64 : 128) * 2)
           output[d][x] = fmaf(alpha[x], float(output[d][x]), pv[x]);
         if constexpr (Stage == 2) {
           if (future < OD / 16)
-            publish<BC, 16, Threads, true>(smem + (future % Stage) * C::V, vr);
+            publish<BC, 16, Threads, true, (Mask & 4) != 0>(
+                smem + (future % Stage) * C::V, vr);
         }
         __syncthreads();
       }
@@ -284,20 +319,21 @@ void check(torch::Tensor q, torch::Tensor k, torch::Tensor v, torch::Tensor o) {
                   q.size(0) * q.size(1) <= 65535,
               "index or grid range exceeded");
 }
-template <int D, int Stage, bool TileV>
+template <int D, int Stage, bool TileV, int Mask = 0>
 void launch(torch::Tensor q, torch::Tensor k, torch::Tensor v,
             torch::Tensor o) {
   using C = Config<D, Stage, TileV>;
   static_assert(C::HalfElements * 2 <= 65536);
   dim3 grid((q.size(2) + C::BR - 1) / C::BR, q.size(0) * q.size(1), D / C::OD);
-  attention_tiled<D, Stage, TileV><<<grid, C::Threads, C::HalfElements * 2>>>(
-      reinterpret_cast<const _Float16 *>(q.data_ptr()),
-      reinterpret_cast<const _Float16 *>(k.data_ptr()),
-      reinterpret_cast<const _Float16 *>(v.data_ptr()),
-      reinterpret_cast<_Float16 *>(o.data_ptr()), q.size(2));
+  attention_tiled<D, Stage, TileV, Mask>
+      <<<grid, C::Threads, C::HalfElements * 2>>>(
+          reinterpret_cast<const _Float16 *>(q.data_ptr()),
+          reinterpret_cast<const _Float16 *>(k.data_ptr()),
+          reinterpret_cast<const _Float16 *>(v.data_ptr()),
+          reinterpret_cast<_Float16 *>(o.data_ptr()), q.size(2));
   C10_CUDA_KERNEL_LAUNCH_CHECK();
 }
-template <bool TileV>
+template <bool TileV, int Mask = 0>
 void dispatch(torch::Tensor q, torch::Tensor k, torch::Tensor v,
               torch::Tensor o, int stages) {
   check(q, k, v, o);
@@ -311,9 +347,9 @@ void dispatch(torch::Tensor q, torch::Tensor k, torch::Tensor v,
 #define HEAD(D)                                                                \
   case D:                                                                      \
     if (stages > 1)                                                            \
-      launch<D, 2, TileV>(q, k, v, o);                                         \
+      launch<D, 2, TileV, Mask>(q, k, v, o);                                   \
     else                                                                       \
-      launch<D, 1, TileV>(q, k, v, o);                                         \
+      launch<D, 1, TileV, Mask>(q, k, v, o);                                   \
     break;
   switch (d) {
     HEAD(32) HEAD(64) HEAD(96) HEAD(128) HEAD(256) HEAD(512) HEAD(1024)
@@ -335,4 +371,24 @@ void flash_attn_mma_stages_split_q_tiling_qkv_acc_f32(torch::Tensor q,
                                                       torch::Tensor o,
                                                       int stages) {
   dispatch<true>(q, k, v, o, stages);
+}
+
+void flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_q(torch::Tensor q,
+                                                                torch::Tensor k,
+                                                                torch::Tensor v,
+                                                                torch::Tensor o,
+                                                                int stages) {
+  dispatch<true, 1>(q, k, v, o, stages);
+}
+
+void flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_qk(
+    torch::Tensor q, torch::Tensor k, torch::Tensor v, torch::Tensor o,
+    int stages) {
+  dispatch<true, 3>(q, k, v, o, stages);
+}
+
+void flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_qkv(
+    torch::Tensor q, torch::Tensor k, torch::Tensor v, torch::Tensor o,
+    int stages) {
+  dispatch<true, 7>(q, k, v, o, stages);
 }

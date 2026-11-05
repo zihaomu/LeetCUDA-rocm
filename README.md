@@ -48,10 +48,12 @@ apt install -y cublas-cuda-13 cudnn9-cuda-13 && apt install -y ccache
 
 An initial ROCm 10.1.0 port of the basic kernels is available for Radeon AI PRO
 R9700 (`gfx1201`). See the [ROCm setup, support scope and validation](docs/rocm/README.md).
-Current numerical qualification covers **170/229 original interfaces (74.24%)**.
-The latest batch adds tiling-QK and tiling-QKV FlashAttention through head dimension
-1024, preserving the original FP16 running output state for D>=256. See the
-[implementation, RTX 5090 comparison and performance gaps](docs/rocm/flash_tiled_20261105.md).
+Current numerical qualification covers **173/229 original interfaces (75.55%)**.
+The latest batch adds three Q/QK/QKV swizzle FlashAttention interfaces, validated on
+two AMD GPUs and against RTX 5090. The QKV variant meets the planned performance gate
+with about 1.117x geometric-mean speedup over its frozen AMD parent; Q and QK remain
+performance work in progress. All preserve the original FP16 running output state
+for D>=256. See the [results and limitations](docs/rocm/flash_swizzle_20261105.md).
 The earlier shared-KV/QKV ports remain available; see their
 [validation and limitations](docs/rocm/flash_shared_20261105.md).
 The previous batch added nine WMMA HGEMM interfaces with explicit FP32 accumulation,

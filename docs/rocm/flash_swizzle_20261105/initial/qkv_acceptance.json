@@ -1,0 +1,287 @@
+{
+  "correctness_passed": true,
+  "performance": [
+    {
+      "function": "flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_qkv",
+      "configurations": 18,
+      "rounds": [
+        {
+          "round": 0,
+          "geometric_mean_speedup": 0.6749347442022413,
+          "worst_slowdown": 2.4945988059220974,
+          "passed": false
+        },
+        {
+          "round": 1,
+          "geometric_mean_speedup": 0.6765387799730193,
+          "worst_slowdown": 2.4641121878062098,
+          "passed": false
+        },
+        {
+          "round": 2,
+          "geometric_mean_speedup": 0.6789347684802756,
+          "worst_slowdown": 2.418735030099717,
+          "passed": false
+        }
+      ],
+      "stability": [
+        {
+          "shape": [
+            1,
+            4,
+            128,
+            32
+          ],
+          "stage": 1,
+          "relative_range": {
+            "ours_ms": 0.041854990675322175,
+            "parent_ms": 0.03817887397812864
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            128,
+            32
+          ],
+          "stage": 2,
+          "relative_range": {
+            "ours_ms": 0.02844949173966442,
+            "parent_ms": 0.027175701631178956
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            256,
+            64
+          ],
+          "stage": 1,
+          "relative_range": {
+            "ours_ms": 0.027056006729742028,
+            "parent_ms": 0.025544624869907565
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            256,
+            64
+          ],
+          "stage": 2,
+          "relative_range": {
+            "ours_ms": 0.014901549078695172,
+            "parent_ms": 0.015195538191971952
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            512,
+            64
+          ],
+          "stage": 1,
+          "relative_range": {
+            "ours_ms": 0.015214819532059113,
+            "parent_ms": 0.016062981199879634
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            512,
+            64
+          ],
+          "stage": 2,
+          "relative_range": {
+            "ours_ms": 0.006799792580777814,
+            "parent_ms": 0.00423158146613458
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            1024,
+            64
+          ],
+          "stage": 1,
+          "relative_range": {
+            "ours_ms": 0.007416542689986069,
+            "parent_ms": 0.006350179631624558
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            1024,
+            64
+          ],
+          "stage": 2,
+          "relative_range": {
+            "ours_ms": 0.006708991948809489,
+            "parent_ms": 0.00573462655731628
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            1024,
+            128
+          ],
+          "stage": 1,
+          "relative_range": {
+            "ours_ms": 0.026907696469342036,
+            "parent_ms": 0.02422002963648997
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            1024,
+            128
+          ],
+          "stage": 2,
+          "relative_range": {
+            "ours_ms": 0.037180078140574425,
+            "parent_ms": 0.03599781525918397
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            256,
+            256
+          ],
+          "stage": 1,
+          "relative_range": {
+            "ours_ms": 0.029461303112846202,
+            "parent_ms": 0.025903190864481722
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            256,
+            256
+          ],
+          "stage": 2,
+          "relative_range": {
+            "ours_ms": 0.024235481189556346,
+            "parent_ms": 0.02348871245882221
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            512,
+            256
+          ],
+          "stage": 1,
+          "relative_range": {
+            "ours_ms": 0.022722834104085807,
+            "parent_ms": 0.01867960135990859
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            512,
+            256
+          ],
+          "stage": 2,
+          "relative_range": {
+            "ours_ms": 0.023166892263061418,
+            "parent_ms": 0.020630092954485056
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            512,
+            512
+          ],
+          "stage": 1,
+          "relative_range": {
+            "ours_ms": 0.018660526221176456,
+            "parent_ms": 0.0071493462554730386
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            512,
+            512
+          ],
+          "stage": 2,
+          "relative_range": {
+            "ours_ms": 0.015676248655000193,
+            "parent_ms": 0.009459265506991086
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            512,
+            1024
+          ],
+          "stage": 1,
+          "relative_range": {
+            "ours_ms": 0.0323648566242703,
+            "parent_ms": 0.0015642414223845408
+          },
+          "stable": true
+        },
+        {
+          "shape": [
+            1,
+            4,
+            512,
+            1024
+          ],
+          "stage": 2,
+          "relative_range": {
+            "ours_ms": 0.0229235575376632,
+            "parent_ms": 0.02379038259554182
+          },
+          "stable": true
+        }
+      ],
+      "stable": true,
+      "resources_passed": false,
+      "passed": false
+    }
+  ],
+  "performance_passed": false
+}

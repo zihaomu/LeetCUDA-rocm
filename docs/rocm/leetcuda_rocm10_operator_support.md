@@ -5,32 +5,32 @@
 
 设备标签更正：本轮发现 HIP 序号与物理 GPU 序号不一致。历史报告未记录 PCI 时，
 其“物理 GPUx”标签视为未核实推定；数值结果保留，但不证明物理卡身份或独占性。
-最新回归使用 PCI `0000:c3:00.0`（物理 GPU6 / HIP mask 5）；项目保留禁用物理 GPU3 的 PCI 校验。
+最新回归使用 PCI `0000:03:00.0`（物理 GPU0 / HIP mask 2），第二张卡为 `0000:43:00.0`（物理 GPU2 / HIP mask 1）；项目保留禁用物理 GPU3 的 PCI 校验。
 
 ## 1. 总量、适配比例与可行性
 
 ### 1.1 当前比例
 
-**按原有 PyTorch 扩展公开计算接口统计：共 229 个，已验证支持 170 个，
-适配比例为 74.24%；目前未验收 59 个，占 25.76%。**
+**按原有 PyTorch 扩展公开计算接口统计：共 229 个，已验证支持 173 个，
+适配比例为 75.55%；目前未验收 56 个，占 24.45%。**
 
 新增接口 `hgemv_tensor_core_cute` 明确把累加状态从 FP16 提升为 FP32，仍使用
 AMD WMMA，保持 FP16 输入/输出。它属于数值精度改善后的迁移，不代表逐位复现
-NVIDIA FP16 MMA。上一批另增加 9 个明确采用 FP32 累加的原 WMMA HGEMM 接口；170 个中共有 10 个记录了累加精度变化。
-本轮两个 tiling FlashAttention 保留原精度：QK/PV 为 FP32，D>=256 的输出状态逐块舍入到 FP16。
+NVIDIA FP16 MMA。上一批另增加 9 个明确采用 FP32 累加的原 WMMA HGEMM 接口；173 个中共有 10 个记录了累加精度变化。
+本轮三个 swizzle FlashAttention 保留原精度：QK/PV 为 FP32，D>=256 的输出状态逐块舍入到 FP16。
 
 | 状态 | 数量 | 占 229 个原始接口的比例 | 含义 |
 | --- | ---: | ---: | --- |
-| 已适配并通过验证 | **170** | **74.24%** | 当前 24 个模块单卡 931 项检查通过；本轮 tiling FlashAttention 专项 854 项通过 |
-| 尚未适配／尚未验证 | **43** | **18.78%** | 需要架构相关重写或库后端迁移 |
+| 已适配并通过验证 | **173** | **75.55%** | 24 个模块单卡 937 项通过；本轮 swizzle 专项两卡各 1329 项通过；性能独立判定 |
+| 尚未适配／尚未验证 | **40** | **17.47%** | 需要架构相关重写或库后端迁移 |
 | 已运行，但精度门限未通过 | **16** | **6.99%** | 11 个 HGEMM、2 个 HGEMV、3 个 BF16 Reduce |
-| **合计** | **229** | **100.00%** | **170 + 43 + 16 = 229** |
+| **合计** | **229** | **100.00%** | **173 + 40 + 16 = 229** |
 
 按扩展模块统计，共 **25 个**：原始公开接口全部通过当前测试的 **19 个（76%）**，
 部分通过的 **5 个（20%）**，尚无原始接口验收通过的 **1 个（4%）**。
 部分通过的是 HGEMV、SGEMM、HGEMM、Reduce、FlashAttention；尚无验收通过的是
 WS-HGEMM。至少有一个接口通过的模块覆盖率为
-**24/25 = 96%**，不能代替 **170/229 = 74.24%** 的接口适配比例。
+**24/25 = 96%**，不能代替 **173/229 = 75.55%** 的接口适配比例。
 
 另有 **6 个独立 AMD 计算接口**：`gemm`、`flash_attention`、`fp8_gemm`、
 `fp8_gemm_prepacked`、`fp4_gemm`、`fp4_gemm_prepacked`，以及 2 个权重量化辅助接口
@@ -47,7 +47,21 @@ FP8/FP4 原实现属于独立 C++ 范围，原本没有计入 229 个 Python 接
 FP16 WMMA/FP32 累加；支持普通／producer-consumer 调度、默认／宽 tile 与离线 B。
 这是 NVFP4 数据格式的 AMD 实现，未声称使用原生 FP4 矩阵指令；性能仍待优化。
 
-### 1.2 第四轮：tiling-QK / tiling-QKV FlashAttention
+### 1.2 第五轮：三个 swizzle FlashAttention 入口
+
+按预定 Q→QK→QKV 顺序，新增三个 `tiling_qkv_acc_f32_swizzle_*` 入口，
+原 FlashAttention 模块达到 **7/29（24.14%）**，本批没有更改累加精度。
+
+- 两张 AMD 卡各 **1329 项**通过：372 项共享输入、879 项边界、42 项状态精度、28 项设备／stream、8 项实际 LDS 布局。
+- 原 CUDA 与 AMD 的 372/372 项独立参考及跨平台容差检查通过；36 项逐位一致。AMD 与冻结父实现 372 项均逐位一致。
+- 全库 **24 模块、173 接口、937 项**通过；350/350 组全接口共同输入对照通过。
+- 42 个特化使用真实 WMMA，LDS≤48 KiB，全部无 scratch spill；保留 Q、QK、QKV 实际布局差异。
+- 性能 **1/3 达标**：QKV 相对冻结父实现三轮几何平均约 **1.117×**；Q/QK 功能支持，性能待优化，最坏退化约 21%。
+- 旧四个 Attention 入口 394 项数值逐位一致、174 条性能记录均在 10% 退化门槛内；旧 shared/tiling 专项另有 538/858 项通过。
+
+详见[本批实现与验收](flash_swizzle_20261105.md)和[计划执行结果](leetcuda_rocm10_next_batch_plan.md)。下一批为两个 shared `rr` 入口。
+
+#### 第四轮：tiling-QK / tiling-QKV FlashAttention
 
 新增 `flash_attn_mma_stages_split_q_tiling_qk_acc_f32` 和
 `flash_attn_mma_stages_split_q_tiling_qkv_acc_f32`；原 FlashAttention 模块达到 **4/29**。
@@ -59,7 +73,7 @@ D>=256 的 FP16 输出状态舍入经过专门验证，没有静默提升精度�
 - 全库 **24 模块、170 接口、931 项**通过；344/344 组全接口共享输入通过两端参考及跨平台容差检查。
 - 28 个特化均使用 WMMA、未发现 scratch spill，最大 LDS 48 KiB。
 - 两端各 36 组性能测量及 graph replay 检查；多数形状仍慢于同机 SDPA。
-- D>128 按 128 列输出分片并重复计算 QK，这是控制资源占用的代价；下一批推进 swizzle。
+- D>128 按 128 列输出分片并重复计算 QK，这是控制资源占用的代价；其后的三个 FP32 swizzle 入口已在第五轮完成。
 
 接口、数据和限制见 [本轮 tiling FlashAttention 报告](flash_tiled_20261105.md)。
 
@@ -74,7 +88,7 @@ D>=256 的 FP16 输出状态舍入经过专门验证，没有静默提升精度�
 - 全部 168 接口的 340 组基础共享输入再次通过两端独立参考及跨平台容差检查。
 - 18 个 GPU 特化使用 WMMA；两个较大 shared-QKV 配置出现 scratch spill，性能未达标。
 - 两端各完成 22 组性能与 graph replay 检查；AMD 使用有模型驻留的共享卡，计时不作为独占性能验收。
-- 该批提出的 tiling-QK / tiling-QKV 已在第四轮完成；后续推进 swizzle 与 split-KV。
+- 该批提出的 tiling-QK / tiling-QKV 已在第四轮完成；后续 swizzle 批次已完成，继续按计划推进 shared `rr` 等剩余项。
 
 接口契约、限制、性能和设备标签更正见 [本轮 FlashAttention 报告](flash_shared_20261105.md)。
 
@@ -114,7 +128,7 @@ D>=256 的 FP16 输出状态舍入经过专门验证，没有静默提升精度�
   梯度对照全部通过。独立 C++ 的 10 个 CUDA 运行分组已跑完，但没有整体 AMD 验收通过。
 
 详见 [5090 对照验收报告](cross_5090_20261105.md)。
-其中保留第一轮剩余 72 个接口的原因；后续完成 9 个 WMMA HGEMM、4 个 FlashAttention，现剩 59 个。
+其中保留第一轮剩余 72 个接口的原因；后续完成 9 个 WMMA HGEMM、7 个 FlashAttention，现剩 56 个。
 
 #### 上一批：新增 3 个异步 SGEMM 接口（2026-11-03）
 
@@ -184,15 +198,15 @@ FP16 FMA 累加结果**；另 **55/55 项**分块边界检查通过。但这些�
 
 | 原因分类 | 数量 | 分布 | 需要做什么 |
 | --- | ---: | --- | --- |
-| NVIDIA 矩阵指令或 CuTe 实现需改写 | **39** | HGEMM 11、FlashAttention 25、SGEMM 2、WS-HGEMM 1 | 更换为 AMD 矩阵指令、HIP/Triton 或相应后端，重新设计布局与调度 |
+| NVIDIA 矩阵指令或 CuTe 实现需改写 | **36** | HGEMM 11、FlashAttention 22、SGEMM 2、WS-HGEMM 1 | 更换为 AMD 矩阵指令、HIP/Triton 或相应后端，重新设计布局与调度 |
 | `cp.async` 异步搬运流水线需改写 | **3** | HGEMM 3 | 重做搬运、同步和流水线；SGEMM 的 3 个接口已有通过验证的 AMD VGPR 预取实现 |
 | cuBLAS TF32 模式尚未替换 | **1** | SGEMM TF32 1 | 当前 hipBLAS/rocBLAS 返回不支持；需单独实现并验证数学模式 |
 | FP16 自身累加精度未验收 | **11** | 同步 HGEMM 11 | 算术语义已验证；需要单独评估累加精度契约，或使用已支持的 FP32 累加接口 |
 | FP16 HGEMV 精度未验收 | **2** | 标量和 packed CuTe GEMV | 与 CUDA 逐位一致，但长 K 精度不足；FP32 累加矩阵版已独立验收 |
 | BF16 自身累加精度未达标 | **3** | Reduce 3 | 重新评估算法或精度契约；改成 FP32 累加不等于原变体通过 |
-| **合计** | **59** | **39 + 3 + 1 + 11 + 2 + 3** | **43 个待迁移、16 个精度未验收** |
+| **合计** | **56** | **36 + 3 + 1 + 11 + 2 + 3** | **40 个待迁移、16 个精度未验收** |
 
-当前实测证明通过当前资格门限的是 170 个原始接口，另加 6 个独立 AMD 计算接口。
+当前实测证明通过当前资格门限的是 173 个原始接口，另加 6 个独立 AMD 计算接口。
 **目前没有证据证明某个算子的数学功能永久无法在 ROCm 上实现。**
 “原 NVIDIA 实现不能原样运行”“尚未适配”“已运行但精度未验收”是不同状态；
 也不能承诺全部变体能保持原有精度语义及性能通过同一门限。
@@ -213,7 +227,7 @@ FP16 FMA 累加结果**；另 **55/55 项**分块边界检查通过。但这些�
 - 不展开模板参数、stage、tile、dtype、shape，也不把测试用例计为新接口。
 - 不计 `init_cublas_handle`、`destroy_cublas_handle`。
 - **229 不包括没有 Python 绑定的 CUDA kernel、独立 C++ benchmark、原有 Triton／
-  CuTe DSL 示例及第三方依赖。74.24% 不能写成整个仓库所有 GPU 实现的完成率。**
+  CuTe DSL 示例及第三方依赖。75.55% 不能写成整个仓库所有 GPU 实现的完成率。**
 - 每个接口的名称、状态、原因、绑定位置与源码 hash，见
   [逐接口清点数据](leetcuda_rocm10_operator_inventory.json)。
 - “通过”以测试覆盖的输入和当前 R9700/gfx1201 平台为限，不代表任意 shape、
@@ -246,9 +260,9 @@ FP16 FMA 累加结果**；另 **55/55 项**分块边界检查通过。但这些�
 | NMS（`nms`） | 1 | 1 | 0 | 0 | 100.00% | IoU ballot 与单 block 顺序消除 |
 | 原版 HGEMM（`hgemm`） | 36 | 11 | 14 | 11 | 30.56% | 2 个 BLAS、9 个 WMMA 已通过；11 个同步变体精度未验收；14 个其他变体待迁移 |
 | WS-HGEMM（`ws-hgemm`） | 1 | 0 | 1 | 0 | 0.00% | 原 CuTe 实现尚未迁移 |
-| 原版 FlashAttention（`flash-attn`） | 29 | 4 | 25 | 0 | 13.79% | shared-KV / shared-QKV、tiling-QK / tiling-QKV 原入口通过；大 D 的 tiling 输出状态保留 FP16 |
+| 原版 FlashAttention（`flash-attn`） | 29 | 7 | 22 | 0 | 24.14% | shared 2、tiling 2、FP32 swizzle 3；大 D 的 tiling/swizzle 输出状态保留 FP16，swizzle 性能 1/3 达标 |
 | Merge Attention States | 1 | 1 | 0 | 0 | 100.00% | FP32/FP16/BF16，含空状态、可选 LSE 和设备／stream 检查 |
-| **合计：25 个扩展模块** | **229** | **170** | **43** | **16** | **74.24%** | 其中 10 个明确提高累加精度；6 个独立 AMD 计算接口另列 |
+| **合计：25 个扩展模块** | **229** | **173** | **40** | **16** | **75.55%** | 其中 10 个明确提高累加精度；6 个独立 AMD 计算接口另列 |
 
 “全部接口通过”也仅表示通过现有测试集，仍须遵守原实现的 dtype、形状、连续性、
 对齐和 tile/pack 限制。已支持的基础模块调用入口为 `leetcuda_rocm.load("模块名")`。
@@ -286,7 +300,7 @@ BN/stages 保持原约定；此差异及量化损失在报告中明确列出。
 | --- | --- | --- |
 | 原版 `kernels/hgemm` | 2 个 BLAS、9 个 WMMA 原接口通过 | 11 个同步 FP16 累加变体精度未验收；14 个其他绑定待迁移，WGMMA 等未绑定实现也未覆盖；独立 AMD GEMM 已可用 |
 | 原版 `kernels/ws-hgemm` | 未移植 | Warp specialization HGEMM 实现 |
-| 原版 `kernels/flash-attn` | 4 个 shared/tiling 原接口通过 | 其余 25 个变体待迁移，包括其他 tiling、FP16 累加、split-KV、swizzle 和 CuTe；已有独立 AMD FlashAttention 前向 API |
+| 原版 `kernels/flash-attn` | 7 个 shared/tiling/swizzle 原接口通过 | 其余 22 个变体待迁移，包括 shared rr、FP16 累加、split-KV、其他 swizzle 和 CuTe；已有独立 AMD FlashAttention 前向 API |
 | SGEMM 其他变体 | 14/17 原接口支持 | 3 个异步接口已用 AMD VGPR 预取流水线实现；TF32 WMMA 与 cuBLAS TF32 数学模式仍待迁移 |
 | HGEMV 的 CuTe 变体 | 矩阵版已支持，另外 2 个精度未验收 | 矩阵版明确使用 FP32 WMMA 状态；标量/packed 与 CUDA 逐位一致但长 K 精度不足 |
 | Matrix Transpose 的 CuTe 变体 | 已支持 | 11 个接口已用显式 HIP 布局实现；CUDA CuTe 源码保留 |
@@ -306,7 +320,7 @@ BF16 自身累加的 3 个排除项：
 - `block_all_reduce_sum_bf16x2_bf16`
 - `block_all_reduce_sum_bf16x8_pack_bf16`
 
-它们未通过当前数值误差门限，未计入已通过的 170 个原始接口。BF16 输入可使用
+它们未通过当前数值误差门限，未计入已通过的 173 个原始接口。BF16 输入可使用
 名称以 `_f32` 结尾、以 FP32 累加的对应版本。
 
 不在 229 个 Python 扩展入口分母内的内容仍需要独立迁移。其中主要源码范围如下，
@@ -336,8 +350,10 @@ FP8 硬件能力先导实验：E4M3/E5M2 两种格式 × 3 个形状，**6/6 项
 | --- | --- | --- |
 | NVFP4 完整链路，Python／C++ | GPU1 1,540 项、GPU0 1,541 项、大尺寸 40 项、C++ 263 项通过；Python/C++ 各 96 组性能比较，仍落后 BF16 库基线 | [FP4 迁移报告](fp4_pipeline_20261103.md) |
 | FP8 完整链路，Python／C++ | GPU0/GPU1 各 753 项通过；独立 C++ 143 项通过；Python/C++ 各 48 组性能比较，性能仍落后库基线 | [FP8 迁移报告](fp8_pipeline_20261103.md) |
-| 本轮基础算子，PCI 0000:c3:00.0，2026-11-05 | 24 模块、170 接口、931 项检查通过 | [当前基础报告](qualification_20261105_flash_tiled.json) |
-| 本轮 tiling FlashAttention 专项 | 854 项、28 个 WMMA 特化；与 CUDA 248/248 对照通过 | [本轮专项报告](flash_tiled_20261105.md) |
+| 本轮基础算子，PCI 0000:03:00.0，2026-11-05 | 24 模块、173 接口、937 项通过；全接口 CUDA/AMD 对照 350/350 通过 | [当前基础报告](qualification_20261105_flash_swizzle.json) |
+| 本轮 swizzle 专项，PCI 03 / 43 | 两卡各 1329 项；42 个 WMMA 特化；372/372 CUDA/AMD 对照通过；性能 1/3 达标 | [本轮报告](flash_swizzle_20261105.md) |
+| 上轮基础算子，PCI 0000:c3:00.0，2026-11-05 | 24 模块、170 接口、931 项检查通过 | [历史基础报告](qualification_20261105_flash_tiled.json) |
+| 上轮 tiling FlashAttention 专项 | 854 项、28 个 WMMA 特化；与 CUDA 248/248 对照通过 | [本轮专项报告](flash_tiled_20261105.md) |
 | 上轮基础算子，PCI 0000:e3:00.0，2026-11-05 | 24 模块、168 接口、927 项检查通过 | [历史基础报告](qualification_20261105_flash_shared.json) |
 | 上轮 shared FlashAttention 专项 | 534 项、18 个 WMMA 特化；与 CUDA 146/146 对照通过 | [专项报告](flash_shared_20261105.md) |
 | 上轮 WMMA 批次，HIP mask 6，未记录 PCI | 23 模块、166 接口、923 项检查通过 | [历史基础报告](qualification_20261105_wmma.json) |
@@ -359,15 +375,15 @@ FP8 硬件能力先导实验：E4M3/E5M2 两种格式 × 3 个形状，**6/6 项
 | 新增 GEMM 与 Attention，物理 GPU2／逻辑 GPU1 | 68 项检查通过 | [第二张卡报告](matrix_attention_device1.json) |
 
 以上数字分属不同时间与测试集；第二张卡上的重复验证不计为新增算子。
-2026-11-02 的 21 模块报告保留为历史，当前基础资格以 2026-11-05 第四轮的 24 模块、170 接口、931 项报告为准。
+2026-11-02 的 21 模块报告保留为历史，当前基础资格以 2026-11-05 第五轮的 24 模块、173 接口、937 项报告为准。
 
 在项目根目录使用锁定的 ROCm 10 启动器运行：
 
 ```bash
 cd /home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA
 
-# 先核对实际 PCI、占用和预约；5 仅是本轮实际使用的 HIP 序号
-export HIP_VISIBLE_DEVICES=5
+# 先核对实际 PCI、占用和预约；2 仅是本轮主卡实际使用的 HIP 序号
+export HIP_VISIBLE_DEVICES=2
 
 # 原有基础算子
 ./scripts/rocm/run.sh python -m leetcuda_rocm.smoke

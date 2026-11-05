@@ -83,8 +83,49 @@ flash_keys = {
     key for key in qualified if key[0] == "flash_attn" and "_shared_" in key[1]
 }
 tiled_keys = {
-    key for key in qualified if key[0] == "flash_attn" and "_tiling_" in key[1]
+    key
+    for key in qualified
+    if key[0] == "flash_attn"
+    and "_tiling_" in key[1]
+    and "_swizzle_" not in key[1]
 }
+swizzle_keys = {
+    key
+    for key in qualified
+    if key[0] == "flash_attn" and "_acc_f32_swizzle_" in key[1]
+}
+swizzle_path = root / "docs/rocm/flash_swizzle_20261105/hip.json"
+swizzle_performance_path = (
+    root / "docs/rocm/flash_swizzle_20261105/acceptance.json"
+)
+if swizzle_keys:
+    swizzle_report = json.loads(swizzle_path.read_text())
+    assert swizzle_report["passed"]
+    assert swizzle_keys == {
+        ("flash_attn", c["function"]) for c in swizzle_report["checks"]
+    }
+    assert len(swizzle_report["checks"]) == 372
+    assert len(swizzle_report["storage_checks"]) == 42
+    assert len(swizzle_report["isa"]["kernels"]) == 42
+    for field in (
+        "checks",
+        "boundaries",
+        "storage_checks",
+        "device_checks",
+        "layout_checks",
+    ):
+        assert swizzle_report[field] and all(
+            c["passed"] for c in swizzle_report[field]
+        )
+    assert all(k["wmma"] > 0 for k in swizzle_report["isa"]["kernels"])
+    swizzle_performance = json.loads(swizzle_performance_path.read_text())
+    assert (
+        swizzle_performance["input_report_sha256"]
+        == hashlib.sha256(swizzle_path.read_bytes()).hexdigest()
+    )
+    swizzle_performance_by_name = {
+        row["function"]: row for row in swizzle_performance["performance"]
+    }
 flash_path = root / "docs/rocm/flash_shared_20261105/hip.json"
 if flash_keys:
     flash_report = json.loads(flash_path.read_text())
@@ -291,6 +332,33 @@ for source in sorted((root / "kernels").rglob("*")):
                     tiled_path.read_bytes()
                 ).hexdigest(),
             }
+        if (module, name) in swizzle_keys:
+            entries[-1]["implementation"] = {
+                "mechanism": "Native gfx1201 tiled WMMA attention with distinct Q, QK or QKV XOR LDS permutations",
+                "original_accumulator": "FP32 QK/PV; output state FP32 at D<256, FP16 at D>=256",
+                "rocm_accumulator": "FP32 QK/PV; output state FP32 at D<256, FP16 at D>=256",
+                "precision_changed": False,
+                "lds_mapping": "row*Cols + (col XOR (((row >> 2) & 1)<<3)); V mapping applied after transposition",
+                "swizzled_operands": name.rsplit("_", 1)[1].upper(),
+                "explicit_lds_vector_bits": 128,
+                "head_dimensions": "32,64,96,128,256,512,1024 at stages 1/2",
+                "architecture_adaptation": "128-column output partitions above D=128 repeat QK; at most 48 KiB LDS; original state rounding frequency preserved",
+                "evidence": str(swizzle_path.relative_to(root)),
+                "evidence_sha256": hashlib.sha256(
+                    swizzle_path.read_bytes()
+                ).hexdigest(),
+                "performance_status": (
+                    "qualified"
+                    if swizzle_performance_by_name[name]["passed"]
+                    else "pending_optimization"
+                ),
+                "performance_evidence": str(
+                    swizzle_performance_path.relative_to(root)
+                ),
+                "performance_evidence_sha256": hashlib.sha256(
+                    swizzle_performance_path.read_bytes()
+                ).hexdigest(),
+            }
     current = [entry for entry in entries if entry["source"] == rel]
     counts = collections.Counter(entry["status"] for entry in current)
     modules.append(
@@ -379,6 +447,10 @@ if wmma_keys:
             else "docs/rocm/wmma_hgemm_20261105/qualified166_cuda.json"
         )
     )
+    if swizzle_keys:
+        qualified_cuda_path = (
+            root / "docs/rocm/flash_swizzle_20261105/qualified173_cuda.json"
+        )
     qualified_cuda = json.loads(qualified_cuda_path.read_text())
     assert qualified_cuda["passed"]
     by_function = collections.defaultdict(list)
@@ -419,6 +491,7 @@ if wmma_keys:
 for keys, flash_cuda_path in (
     (flash_keys, root / "docs/rocm/flash_shared_20261105/cuda.json"),
     (tiled_keys, root / "docs/rocm/flash_tiled_20261105/cuda.json"),
+    (swizzle_keys, root / "docs/rocm/flash_swizzle_20261105/cuda.json"),
 ):
     if not keys:
         continue

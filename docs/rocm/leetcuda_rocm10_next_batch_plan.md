@@ -1,30 +1,36 @@
 # LeetCUDA ROCm 10 下一批支持顺序与验收计划
 
 更新日期：2026-11-05。基线提交：`66bb7fb852536d26cbb79bf1c122bb6c8c3b16e4`。
-状态：**计划已制定，以下新增接口尚未实施或验收**。
+状态：**B1 功能验收完成，新增 3/3；性能 1/3 达标，Q/QK 继续优化**。
 
-下一批固定为 **3 个 FP32 tiling FlashAttention swizzle 入口**，按 **Q → QK → QKV**
+执行结果：173/229（75.55%），FlashAttention 7/29；两卡各 1329 项专项、
+全库 937 项、全接口 350 组 CUDA/AMD 对照通过。QKV 三轮几何平均加速
+1.1171× / 1.1178× / 1.1158×；Q/QK 未过原定性能门槛。
+详细结果及失败候选见[第五轮报告](flash_swizzle_20261105.md)。
+下文保留计划制定时的基线、门槛和批次范围；下一批实际工作为 **B2 两个 shared rr 入口**。
+
+本计划的 B1 固定为 **3 个 FP32 tiling FlashAttention swizzle 入口**，按 **Q → QK → QKV**
 的顺序支持。先完成一个入口的实现、正确性、5090 对照和性能测量，再推进下一个。
 随后处理两个 shared Attention `rr` 入口。本计划不把候选数量计为已支持数量。
 
 ## 1. 基线与批次目标
 
-| 项目 | 当前已验证 | 下一批全部通过后的目标 |
+| 项目 | 计划制定时的基线 | 本批验收结果 |
 | --- | ---: | ---: |
 | 原 Python 计算接口 | 170/229，74.24% | **173/229，75.55%** |
 | FlashAttention 原接口 | 4/29，13.79% | **7/29，24.14%** |
 | 待迁移／待验证 | 43 | **40** |
 | 精度门限未通过 | 16 | **16，保留原结论** |
-| 完整 AMD 基础回归 | 24 模块、931 项 | 保留原检查，按现有规则预计至少 **937 项** |
-| 全接口 CUDA/AMD 共同输入回归 | 344 组 | 保留原覆盖，按现有规则预计至少 **350 组** |
+| 完整 AMD 基础回归 | 24 模块、931 项 | 保留原检查，**24 模块、937 项通过** |
+| 全接口 CUDA/AMD 共同输入回归 | 344 组 | 保留原覆盖，**350 组通过** |
 
 计数以最终报告为准。新增 shape、stage、测试次数及独立 AMD 辅助接口不增加 229 的分母。
 若只完成 1/2 个新入口，分别记录为 171/229（74.67%）、172/229（75.11%），
 不得提前发布 173。基础回归的数量不是专项测试充分性的替代品。
 
-依据：[支持清单](../../../doc/leetcuda_rocm10_operator_support.md)、
-[逐接口清单](../../../doc/leetcuda_rocm10_operator_inventory.json)、
-[上一批 tiling 验证](../../../doc/flash_tiled_20261105.md)。
+依据：[支持清单](leetcuda_rocm10_operator_support.md)、
+[逐接口清单](leetcuda_rocm10_operator_inventory.json)、
+[上一批 tiling 验证](flash_tiled_20261105.md)。
 
 ## 2. 下一批的固定执行顺序
 
@@ -186,24 +192,24 @@ AMD 新增尾部能力不强行在原 CUDA 上执行。非法输入应明确拒�
 - 已支持入口的受影响公共路径，所有合法性能配置须当场重测；相对冻结基线退化超过 10%
   时保留旧实现路径，继续优化候选，不覆盖原性能路径后宣称无回归。
 
-这些数值是**本计划预先设定的工程验收目标，不是已经获得的测量结果**。
+这些数值是**本计划预先设定的工程验收目标**；执行后逐项判定，未因结果调整门槛。
 若功能通过而 P 未通过，发布状态写成“功能支持／性能待优化”，保留详细耗时与原因。
 
 ## 6. 下一批之后的支持顺序
 
-下表互斥地覆盖当前 43 个待迁移接口，按顺序推进；每组先做最小可行实验再扩大覆盖。
+下表互斥地覆盖计划制定时的 43 个待迁移接口，按顺序推进；每组先做最小可行实验再扩大覆盖。B1 的三个已完成功能验收，当前剩余待迁移集合为 40 个。
 失败项保留原因，可以继续不依赖该项的工作，不用修改容差来清空待办。
 
 | 批次 | 对象 | 当前待迁移数 | 验收重点与前置条件 |
 | --- | --- | ---: | --- |
-| B1，本计划 | FP32 tiling-QKV 的 Q／QK／QKV swizzle | **3** | 本文 F、P 门槛；目标 173/229 |
+| B1，功能完成、性能 1/3 达标 | FP32 tiling-QKV 的 Q／QK／QKV swizzle | **3** | 本文 F、P 门槛；目标 173/229 |
 | B2 | `flash_attn_mma_stages_split_q_shared_kv_acc_f32_rr`、`flash_attn_mma_stages_split_q_shared_qkv_acc_f32_rr` | **2** | 真实减少寄存器生命周期，验证实际 VGPR/scratch；保持 FP32 输出状态，不能直接套用 tiling 的大 D FP16 状态；逐项核对 D/stage 范围。两项通过后目标 175/229（76.42%） |
 | B3 | HGEMM MMA 10 项、CuTe 1 项 | **11** | 先 `hgemm_mma_m16n8k16_naive`、`hgemm_mma_m16n8k16_mma2x4_warp4x4`，再 stages/dynamic LDS/rr/swizzle/TN，最后 CuTe；先处理原 FP16 MMA 的算术契约，长 K、奇数 tile 和 TN 布局必须独立验证 |
 | B4 | 其余 FlashAttention | **20** | 先 5 个基础 split-Q/shared/tiling 低精度入口，再对应 12 个 swizzle，最后 split-KV、Os2g、CuTe 各 1 项；先验证低精度累加模型，再扩展变体 |
 | B5 | 3 个异步 HGEMM | **3** | 复用 SGEMM 预取经验，保留三种分块与真实流水线；原 CUDA 已有长 K 精度失败，须分别报告调度正确和精度门槛 |
 | B6 | TF32 SGEMM：2 个 WMMA、1 个 cuBLAS 入口 | **3** | 先验证 TF32 输入舍入与累加模型、目标指令／替代后端；禁止用普通 FP32 函数别名冒充 TF32 |
 | B7 | `ws_hgemm_naive_cute` | **1** | producer/consumer 分工、同步和独立调度验收；仅包装普通 GEMM 不算 warp specialization 支持 |
-| 合计 | 现有 pending 集合 | **43** | 这是研究和实施顺序，不是保证全部成功的数量承诺 |
+| 合计 | 计划基线 pending 集合；当前剩余 40 | **43** | 这是研究和实施顺序，不是保证全部成功的数量承诺 |
 
 两个需要提前区分的问题：
 
@@ -214,7 +220,7 @@ AMD 新增尾部能力不强行在原 CUDA 上执行。非法输入应明确拒�
   若采用升级精度方案，须明确更新契约与库存标记、重新通过数值及跨平台门槛，不能静默改名或放宽门限。
 
 FP8/FP4 性能、FFPA、独立 C++ 构建与其他非绑定源码继续按
-[整体迁移计划](../../../doc/leetcuda_rocm10_migration_plan.md)跟踪，不混入 229 个接口的支持率。
+[整体迁移计划](leetcuda_rocm10_migration_plan.md)跟踪，不混入 229 个接口的支持率。
 
 ## 7. 交付物与完成检查
 
@@ -222,14 +228,14 @@ FP8/FP4 性能、FFPA、独立 C++ 构建与其他非绑定源码继续按
 边界/设备/stream 检查、ISA/资源记录、性能原始样本，以及明确的功能／性能判定。
 大 fixture、tensor 输出和二进制保留在两端专用 artifacts 目录；源码、JSON 证据与报告进 Git。
 
-- [ ] P0：冻结基线，补现有 Attention 双设备检查，记录同机父实现和 SDPA 派发。
-- [ ] P1：`swizzle_q` 功能通过、性能已测，独立发布验收结果。
-- [ ] P2：`swizzle_qk` 功能通过、性能已测，独立发布验收结果。
-- [ ] P3：`swizzle_qkv` 功能通过、性能已测，独立发布验收结果。
-- [ ] F0～F6：所有必要项通过，无漏测被记为通过。
-- [ ] P：逐入口记录“达标／待优化／测量不稳定”，保留全部 54 个配置。
-- [ ] 全库回归及 5090 共同输入对照通过，所有报告对应最终源码 hash。
-- [ ] `doc`、仓库文档镜像、库存、比例和待迁移原因一致，提交并推送 `rocm10`。
+- [x] P0：冻结基线，补现有 Attention 双设备检查，记录同机父实现和 SDPA 派发。
+- [x] P1：`swizzle_q` 功能通过、性能已测，独立发布验收结果。
+- [x] P2：`swizzle_qk` 功能通过、性能已测，独立发布验收结果。
+- [x] P3：`swizzle_qkv` 功能通过、性能已测，独立发布验收结果。
+- [x] F0～F6：所有必要项通过，无漏测被记为通过。
+- [x] P：完成独立判定及全部 54 配置×3 轮记录。QKV 达标；Q/QK 待优化。**整批性能门槛没有全部通过**。
+- [x] 全库回归及 5090 共同输入对照通过，所有报告对应最终源码 hash。
+- [x] `doc`、仓库文档镜像、库存、比例和待迁移原因一致，提交并推送 `rocm10`。
 
 本批完成时的推荐汇报格式：
 “新增 X/3 个接口；累计 Y/229；AMD/CUDA 正确性与对照结果；双设备结果；
@@ -237,10 +243,11 @@ FP8/FP4 性能、FFPA、独立 C++ 构建与其他非绑定源码继续按
 
 ## 8. 本地依据
 
-- [当前库存](../../../doc/leetcuda_rocm10_operator_inventory.json)：支持数量、待迁移集合和历史 CUDA 小样本。
+- [当前库存](leetcuda_rocm10_operator_inventory.json)：支持数量、待迁移集合和历史 CUDA 小样本。
 - [FP32 swizzle-Q 原源码](../../kernels/flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_q_F32F16F16F32.cu)。
 - [FP32 swizzle-QK 原源码](../../kernels/flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_qk_F32F16F16F32.cu)。
 - [FP32 swizzle-QKV 原源码](../../kernels/flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_qkv_F32F16F16F32.cu)。
 - [现有 AMD tiling 实现](../../kernels/rocm/flash_attention_tiled.cu)与[专项验证程序](../../leetcuda_rocm/flash_tiled_check.py)。
-- [当前完整资格报告](qualification_20261105_flash_tiled.json)。
+- [计划基线完整资格报告](qualification_20261105_flash_tiled.json)。
+- [本批最终资格报告](qualification_20261105_flash_swizzle.json)及[完整执行结果](flash_swizzle_20261105.md)。
 - [原 split-KV 实现](../../kernels/flash-attn/mma/basic/flash_attn_mma_split_kv.cu)。

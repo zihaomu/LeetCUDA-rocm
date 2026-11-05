@@ -115,6 +115,9 @@ def cuda_build(module, names, original, cutlass):
             "flash-attn/mma/basic/flash_attn_mma_share_qkv_F32F16F16F32.cu",
             "flash-attn/mma/basic/flash_attn_mma_tiling_qk_F32F16F16F32.cu",
             "flash-attn/mma/basic/flash_attn_mma_tiling_qkv_F32F16F16F32.cu",
+            "flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_q_F32F16F16F32.cu",
+            "flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_qk_F32F16F16F32.cu",
+            "flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_qkv_F32F16F16F32.cu",
         ),
         "hgemv": (
             ("hgemv/hgemv_cute.cu",)
