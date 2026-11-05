@@ -79,7 +79,12 @@ if wmma_keys:
     assert wmma_report["original_accumulator"] == "FP16"
     assert wmma_report["rocm_accumulator"] == "FP32"
 fp8_report_path = root / "docs/rocm/fp8_pipeline_20261103.json"
-flash_keys = {key for key in qualified if key[0] == "flash_attn"}
+flash_keys = {
+    key for key in qualified if key[0] == "flash_attn" and "_shared_" in key[1]
+}
+tiled_keys = {
+    key for key in qualified if key[0] == "flash_attn" and "_tiling_" in key[1]
+}
 flash_path = root / "docs/rocm/flash_shared_20261105/hip.json"
 if flash_keys:
     flash_report = json.loads(flash_path.read_text())
@@ -92,6 +97,30 @@ if flash_keys:
     }
     assert len(flash_report["isa"]["kernels"]) == 18
     assert all(k["wmma"] > 0 for k in flash_report["isa"]["kernels"])
+tiled_path = root / "docs/rocm/flash_tiled_20261105/hip.json"
+if tiled_keys:
+    tiled_report = json.loads(tiled_path.read_text())
+    assert tiled_report["passed"]
+    assert all(
+        c["passed"]
+        for c in tiled_report["checks"]
+        + tiled_report["boundaries"]
+        + tiled_report["storage_checks"]
+    )
+    assert tiled_keys == {
+        ("flash_attn", c["function"]) for c in tiled_report["checks"]
+    }
+    assert len(tiled_report["storage_checks"]) == 28
+    assert all(
+        c["distinguishes_fp16_state"]
+        for c in tiled_report["storage_checks"]
+        if c["output_state"] == "FP16"
+    )
+    assert len(tiled_report["isa"]["kernels"]) == 28
+    assert all(
+        k["wmma"] > 0 and k["scratch"] == 0
+        for k in tiled_report["isa"]["kernels"]
+    )
 fp8_report = json.loads(fp8_report_path.read_text())
 assert fp8_report["passed"] and all(c["passed"] for c in fp8_report["checks"])
 fp4_report_path = root / "docs/rocm/fp4_pipeline_20261103.json"
@@ -247,6 +276,21 @@ for source in sorted((root / "kernels").rglob("*")):
                     flash_path.read_bytes()
                 ).hexdigest(),
             }
+        if (module, name) in tiled_keys:
+            entries[-1]["implementation"] = {
+                "mechanism": "Native gfx1201 split-Q WMMA attention; distinct reduction-striped V (tiling-QK) or output-striped V (tiling-QKV)",
+                "original_accumulator": "FP32 QK/PV; output state FP32 at D<256, FP16 at D>=256",
+                "rocm_accumulator": "FP32 QK/PV; output state FP32 at D<256, FP16 at D>=256",
+                "precision_changed": False,
+                "numeric_semantics": "FP16 Q/K/V/P/O; FP32 online max/sum; running output rounded to FP16 after every key block at D>=256; no bitwise guarantee",
+                "stages": "Same upstream dispatch: <=1 maps to 1, >1 maps to 2; stage 2 uses VGPR prefetch and two LDS slots",
+                "head_dimensions": "32,64,96,128,256,512,1024 at stages 1/2",
+                "architecture_adaptation": "Preserve original query/key tiles (64 below D=128, otherwise 128); partition output into up to 128 columns per CTA, recomputing QK for each output partition; at most 48 KiB LDS",
+                "evidence": str(tiled_path.relative_to(root)),
+                "evidence_sha256": hashlib.sha256(
+                    tiled_path.read_bytes()
+                ).hexdigest(),
+            }
     current = [entry for entry in entries if entry["source"] == rel]
     counts = collections.Counter(entry["status"] for entry in current)
     modules.append(
@@ -327,9 +371,13 @@ for group in pending_cuda["groups"]:
         }
 if wmma_keys:
     qualified_cuda_path = root / (
-        "docs/rocm/flash_shared_20261105/qualified168_cuda.json"
-        if flash_keys
-        else "docs/rocm/wmma_hgemm_20261105/qualified166_cuda.json"
+        "docs/rocm/flash_tiled_20261105/qualified170_cuda.json"
+        if tiled_keys
+        else (
+            "docs/rocm/flash_shared_20261105/qualified168_cuda.json"
+            if flash_keys
+            else "docs/rocm/wmma_hgemm_20261105/qualified166_cuda.json"
+        )
     )
     qualified_cuda = json.loads(qualified_cuda_path.read_text())
     assert qualified_cuda["passed"]
@@ -368,10 +416,15 @@ if wmma_keys:
                 wmma_cuda_path.read_bytes()
             ).hexdigest(),
         }
-if flash_keys:
-    flash_cuda_path = root / "docs/rocm/flash_shared_20261105/cuda.json"
+for keys, flash_cuda_path in (
+    (flash_keys, root / "docs/rocm/flash_shared_20261105/cuda.json"),
+    (tiled_keys, root / "docs/rocm/flash_tiled_20261105/cuda.json"),
+):
+    if not keys:
+        continue
     flash_cuda = json.loads(flash_cuda_path.read_text())
-    for key in flash_keys:
+    assert flash_cuda["passed"]
+    for key in keys:
         checks = [c for c in flash_cuda["checks"] if c["function"] == key[1]]
         assert checks
         cuda_coverage[key] = {

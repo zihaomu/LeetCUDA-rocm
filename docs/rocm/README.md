@@ -5,16 +5,26 @@ LeetCUDA 算法，不会把自定义 kernel 替换成 PyTorch 实现。PyTorch �
 测试参考。当前目标是 **ROCm 10.1.0 / Radeon AI PRO R9700 / gfx1201**。
 尚未完成整个仓库的 NVIDIA 专用 kernel 迁移。
 
-2026-11-05 第三轮实测：**24 个模块、168 个原始接口、927 项检查通过**，
+2026-11-05 第四轮实测：**24 个模块、170 个原始接口、931 项检查通过**，
+覆盖 **170/229=74.24%**。新增 tiling-QK / tiling-QKV 两个原 FlashAttention 入口，
+支持 D 到 1024，保留大 D 的 FP16 输出累加状态。专项 **854 项**通过，
+原 CUDA 与 AMD 的 **248 组**共享输入全部通过独立参考及跨平台容差检查。
+全接口 344/344 组共享输入在 CUDA/AMD 两端通过参考及跨平台容差检查。
+28 个特化使用 WMMA、无 scratch spill，性能多数仍落后同机 SDPA。
+见 [本轮实现与限制](flash_tiled_20261105.md)及
+[最新资格报告](qualification_20261105_flash_tiled.json)。当前剩余 **43 待迁移、16 精度未验收**。
+最终使用 PCI `0000:c3:00.0`（物理 GPU6 / HIP mask 5），重新测量前核对为空闲且未预约。
+
+2026-11-05 第三轮历史实测：**24 个模块、168 个原始接口、927 项检查通过**，
 覆盖 **168/229=73.36%**。新增两个原 FlashAttention FP32 累加入口，分别实现
 shared-KV 和 shared-QKV 的 LDS 复用及 stage 1/2 调度。专项 534 项通过，
 原 CUDA 与 AMD 的 146 组共享输入全部通过参考和跨平台容差检查。
 见 [本轮实现、性能限制与后续计划](flash_shared_20261105.md)和
-[最新资格报告](qualification_20261105_flash_shared.json)。剩余 45 个待迁移、16 个精度未验收。
+[历史资格报告](qualification_20261105_flash_shared.json)。该批剩余 45 个待迁移、16 个精度未验收。
 
-本轮按 PCI 确认使用物理 GPU7 / HIP mask 4，并补充物理 GPU3 的 PCI 拒绝校验。
+第三轮按 PCI 确认使用物理 GPU7 / HIP mask 4，并补充物理 GPU3 的 PCI 拒绝校验。
 HIP 序号与物理 GPU 序号不相同；历史报告若未记录 PCI，其物理卡标签视为未核实推定。
-本轮该卡驻留其他模型，性能数据属于共享环境观察，尚未达到成熟库水平。
+该轮该卡驻留其他模型，性能数据属于共享环境观察，尚未达到成熟库水平。
 
 2026-11-05 第二轮历史实测：**23 个模块、166 个原始接口、923 项检查通过**，
 覆盖 **166/229=72.49%**。本轮新增 9 个 WMMA HGEMM 接口，包括不同分块、
@@ -64,8 +74,8 @@ histogram、reduce、dot product 的设备分配与非默认 stream。3 个 BF16
 从仓库根目录运行：
 
 ```bash
-# 先核对实际 PCI、占用和预约；4 仅为本轮选择的 HIP 序号，不保证长期空闲
-export HIP_VISIBLE_DEVICES=4
+# 先核对实际 PCI、占用和预约；5 仅为本轮选择的 HIP 序号，不保证长期空闲
+export HIP_VISIBLE_DEVICES=5
 # 首先验证共享环境，再验证项目环境并运行数值测试
 ./scripts/rocm/run.sh
 
@@ -112,12 +122,12 @@ export HIP_VISIBLE_DEVICES=4
 | sgemv, hgemv | k16 / k32 / k128；新增 `hgemv_tensor_core_cute`，明确采用 FP32 WMMA 累加 |
 | sgemm | 10 个同步 FP32 kernel、3 个 AMD VGPR 预取变体，以及 hipBLAS FP32 GEMM |
 | hgemm | hipBLAS FP16 NN/TN（COMPUTE_16F），以及 9 个 AMD WMMA 变体（FP32 累加）；共 11/36 个接口 |
-| flash_attn | 原 shared-KV / shared-QKV FP32 累加入口，FP16 I/O；共 2/29 个接口 |
+| flash_attn | 原 shared-KV/QKV 和 tiling-QK/QKV；FP16 I/O，共 4/29。tiling 在 D>=256 保留 FP16 输出状态 |
 | mat_transpose | 25 个接口：14 个原实现及 11 个显式 HIP 布局变体 |
 | nms | IoU ballot + 单 block 顺序消除 |
 | merge_attn_states | FP32/FP16/BF16 状态合并、可选 LSE、空状态和输入契约检查 |
 
-最新通过情况以 [`qualification_20261105_flash_shared.json`](qualification_20261105_flash_shared.json) 为准，
+最新通过情况以 [`qualification_20261105_flash_tiled.json`](qualification_20261105_flash_tiled.json) 为准，
 [`qualification.json`](qualification.json) 保留 2026-11-02 的历史结果。两种规模、
 非默认 stream、独立数值参考用于基础资格检查；这不是所有 shape 的支持承诺。
 低精度累加变体使用报告中单独记录的容差，不等同于 FP32 累加精度。
@@ -132,7 +142,7 @@ BF16 自身累加在随机输入测试中超过精度门限，因此保守地排
 - `kernels/interview/build.sh` 的整套 C++ benchmark；FP8/FP4 头文件已有 AMD 分支和
   `scripts/rocm/build_bench.sh {fp8,fp4} --run --performance` 专用入口（选择其中一个名称）。
 - `kernels/hgemm` 中剩余的 MMA/PTX、CuTe、标量异步路径，`ws-hgemm` 与
-  `flash-attn` 剩余 27 个绑定变体，以及未绑定 WGMMA/TMA 和 FFPA；9 个 WMMA HGEMM 已迁移。
+  `flash-attn` 剩余 25 个绑定变体，以及未绑定 WGMMA/TMA 和 FFPA；9 个 WMMA HGEMM 已迁移。
   FP8 E4M3 与 NVFP4 完整链路已单独接入。
 - 原目录下的 Python 大规模性能脚本、TensorRT、Nsight 示例。
 

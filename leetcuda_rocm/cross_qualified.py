@@ -113,6 +113,8 @@ def cuda_build(module, names, original, cutlass):
         "flash_attn": (
             "flash-attn/mma/basic/flash_attn_mma_share_kv_F32F16F16F32.cu",
             "flash-attn/mma/basic/flash_attn_mma_share_qkv_F32F16F16F32.cu",
+            "flash-attn/mma/basic/flash_attn_mma_tiling_qk_F32F16F16F32.cu",
+            "flash-attn/mma/basic/flash_attn_mma_tiling_qkv_F32F16F16F32.cu",
         ),
         "hgemv": (
             ("hgemv/hgemv_cute.cu",)

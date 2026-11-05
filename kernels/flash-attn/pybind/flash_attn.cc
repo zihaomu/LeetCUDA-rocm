@@ -179,11 +179,11 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
       flash_attn_mma_stages_split_q_shared_kv_acc_f32)
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_shared_qkv_acc_f32)
-#ifndef LEETCUDA_ROCM
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_tiling_qk_acc_f32)
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_tiling_qkv_acc_f32)
+#ifndef LEETCUDA_ROCM
   // Swizzle
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_shared_kv_swizzle_q)

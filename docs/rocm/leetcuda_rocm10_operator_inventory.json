@@ -9,11 +9,11 @@
     "Additional AMD compute interfaces and their quantization helpers are recorded separately, outside the original-export denominator.",
     "Pending portability categories are source-review estimates, not successful compilation or execution results."
   ],
-  "git_revision": "b96d369ac13c886b446933eac690b0970682741a",
+  "git_revision": "08b63f4dfe2af25e323c960c1a13303089c47bd0",
   "worktree_has_changes": true,
-  "evidence": "docs/rocm/qualification_20261105_flash_shared.json",
-  "evidence_timestamp_utc": "2026-11-05T09:36:12.749069+00:00",
-  "evidence_sha256": "b4f5fd88d667298701fdf86696c4f2954a87b585359cfcd11a8e30aab7c635eb",
+  "evidence": "docs/rocm/qualification_20261105_flash_tiled.json",
+  "evidence_timestamp_utc": "2026-11-05T09:58:15.944248+00:00",
+  "evidence_sha256": "4d25c824f519d87dcb54999fcc987dc118f97e65c344dafddf1fe609681442eb",
   "research_evidence": "docs/rocm/hgemm_research_20261103.json",
   "research_evidence_sha256": "5983853d5b4ed033e2f4527e94b0780da696dcbfd932f7820163f0619f0dba6a",
   "gemv_research_evidence": "docs/rocm/hgemv_research_20261103.json",
@@ -29,7 +29,7 @@
     "kernels/elementwise/elementwise.cu": "d9908c2e4f4546c9a80c57bc9ebd88a0c5a53e70ffdf0b84f7b2dcf0bb1f9b87",
     "kernels/elu/elu.cu": "888350fe60666479af92f94866e7146f6df5ef6edc15e0be72b0adf101cf1611",
     "kernels/embedding/embedding.cu": "4a14c703c5bdfca7b3df248709803b3efcb850cb08b7e4f18b0ca03ffc4d2570",
-    "kernels/flash-attn/pybind/flash_attn.cc": "4f8dc77063aae373c988b7a48fdb3c3758aa57a9e334bb4a0d87d3cf3424be4a",
+    "kernels/flash-attn/pybind/flash_attn.cc": "379d2da2b88b22968b5fa96166cc0ef091dbded8b6a287ffac18a9ef5ad72e0b",
     "kernels/gelu/gelu.cu": "64f8619cedb58aad8a05d208a6de8221ebf3f4d6e162d03b0a58ba3f9f17931b",
     "kernels/hardshrink/hardshrink.cu": "ebc8f0678d0d14015b42219905da35a17122e5b9453c729e7724b75e03766620",
     "kernels/hardswish/hardswish.cu": "12a3c10a584cccde9c845d6971754e4385576b8897b8d53cc709294cb2cecb4d",
@@ -54,17 +54,17 @@
   "summary": {
     "total_modules": 25,
     "total_original_compute_entrypoints": 229,
-    "qualified": 168,
-    "pending": 45,
+    "qualified": 170,
+    "pending": 43,
     "numerical_rejected": 16,
-    "qualified_percent": 73.36,
+    "qualified_percent": 74.24,
     "qualified_with_explicit_accumulator_upgrade": 10,
     "fully_qualified_modules": 19,
     "partially_qualified_modules": 5,
     "no_qualified_exports_modules": 1,
     "reason_counts": {
-      "validated": 168,
-      "matrix_isa_or_cute_rewrite": 41,
+      "validated": 170,
+      "matrix_isa_or_cute_rewrite": 39,
       "fp16_accumulation_error": 11,
       "async_copy_rewrite": 3,
       "fp16_gemv_accuracy": 2,
@@ -140,10 +140,10 @@
       "module": "flash_attn",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
       "total": 29,
-      "qualified": 2,
-      "pending": 27,
+      "qualified": 4,
+      "pending": 25,
       "numerical_rejected": 0,
-      "qualified_percent": 6.9
+      "qualified_percent": 13.79
     },
     {
       "module": "gelu",
@@ -339,8 +339,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -355,8 +355,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -371,8 +371,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -387,8 +387,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -403,8 +403,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -419,8 +419,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -435,8 +435,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -451,8 +451,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -467,8 +467,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -483,8 +483,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -499,8 +499,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -515,8 +515,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -531,8 +531,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -547,8 +547,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -563,8 +563,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -579,8 +579,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -595,8 +595,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -611,8 +611,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -627,8 +627,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -643,8 +643,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -659,8 +659,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -675,8 +675,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -691,8 +691,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -851,32 +851,56 @@
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_tiling_qk_acc_f32",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 183,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 182,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 split-Q WMMA attention; distinct reduction-striped V (tiling-QK) or output-striped V (tiling-QKV)",
+        "original_accumulator": "FP32 QK/PV; output state FP32 at D<256, FP16 at D>=256",
+        "rocm_accumulator": "FP32 QK/PV; output state FP32 at D<256, FP16 at D>=256",
+        "precision_changed": false,
+        "numeric_semantics": "FP16 Q/K/V/P/O; FP32 online max/sum; running output rounded to FP16 after every key block at D>=256; no bitwise guarantee",
+        "stages": "Same upstream dispatch: <=1 maps to 1, >1 maps to 2; stage 2 uses VGPR prefetch and two LDS slots",
+        "head_dimensions": "32,64,96,128,256,512,1024 at stages 1/2",
+        "architecture_adaptation": "Preserve original query/key tiles (64 below D=128, otherwise 128); partition output into up to 128 columns per CTA, recomputing QK for each output partition; at most 48 KiB LDS",
+        "evidence": "docs/rocm/flash_tiled_20261105/hip.json",
+        "evidence_sha256": "31051f14d784f90f2ca500a09d279d90880a4d69f3075f3cbc2597c44c8e11bc"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 124,
+        "accuracy_passed_cases": 124,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "evidence": "docs/rocm/flash_tiled_20261105/cuda.json",
+        "evidence_sha256": "83607664a96175a6cfaccd8882e7de9109b1c882c3c194b7cc86a1612fbfde18"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_tiling_qkv_acc_f32",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 185,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 184,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 split-Q WMMA attention; distinct reduction-striped V (tiling-QK) or output-striped V (tiling-QKV)",
+        "original_accumulator": "FP32 QK/PV; output state FP32 at D<256, FP16 at D>=256",
+        "rocm_accumulator": "FP32 QK/PV; output state FP32 at D<256, FP16 at D>=256",
+        "precision_changed": false,
+        "numeric_semantics": "FP16 Q/K/V/P/O; FP32 online max/sum; running output rounded to FP16 after every key block at D>=256; no bitwise guarantee",
+        "stages": "Same upstream dispatch: <=1 maps to 1, >1 maps to 2; stage 2 uses VGPR prefetch and two LDS slots",
+        "head_dimensions": "32,64,96,128,256,512,1024 at stages 1/2",
+        "architecture_adaptation": "Preserve original query/key tiles (64 below D=128, otherwise 128); partition output into up to 128 columns per CTA, recomputing QK for each output partition; at most 48 KiB LDS",
+        "evidence": "docs/rocm/flash_tiled_20261105/hip.json",
+        "evidence_sha256": "31051f14d784f90f2ca500a09d279d90880a4d69f3075f3cbc2597c44c8e11bc"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 124,
+        "accuracy_passed_cases": 124,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "evidence": "docs/rocm/flash_tiled_20261105/cuda.json",
+        "evidence_sha256": "83607664a96175a6cfaccd8882e7de9109b1c882c3c194b7cc86a1612fbfde18"
       }
     },
     {
@@ -1195,8 +1219,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1211,8 +1235,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1227,8 +1251,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1243,8 +1267,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1259,8 +1283,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1275,8 +1299,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1291,8 +1315,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1307,8 +1331,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1323,8 +1347,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1339,8 +1363,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1355,8 +1379,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1371,8 +1395,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1387,8 +1411,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1403,8 +1427,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1419,8 +1443,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1435,8 +1459,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1451,8 +1475,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1467,8 +1491,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1659,8 +1683,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -1675,8 +1699,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2239,8 +2263,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2255,8 +2279,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2271,8 +2295,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2329,8 +2353,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2345,8 +2369,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2361,8 +2385,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2377,8 +2401,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2393,8 +2417,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2409,8 +2433,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2425,8 +2449,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2441,8 +2465,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2457,8 +2481,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2473,8 +2497,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2489,8 +2513,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2505,8 +2529,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2521,8 +2545,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2537,8 +2561,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2553,8 +2577,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2569,8 +2593,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2585,8 +2609,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2601,8 +2625,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2617,8 +2641,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2633,8 +2657,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2649,8 +2673,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2665,8 +2689,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2681,8 +2705,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2697,8 +2721,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2713,8 +2737,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2729,8 +2753,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2745,8 +2769,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2761,8 +2785,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2777,8 +2801,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2793,8 +2817,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2809,8 +2833,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2825,8 +2849,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2841,8 +2865,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2857,8 +2881,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2873,8 +2897,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2889,8 +2913,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2905,8 +2929,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2921,8 +2945,8 @@
         "cases": 6,
         "accuracy_passed_cases": 6,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2937,8 +2961,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2953,8 +2977,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2969,8 +2993,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -2985,8 +3009,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3001,8 +3025,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3017,8 +3041,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3033,8 +3057,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3049,8 +3073,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3113,8 +3137,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3129,8 +3153,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3145,8 +3169,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3161,8 +3185,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3177,8 +3201,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3193,8 +3217,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3209,8 +3233,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3225,8 +3249,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3241,8 +3265,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3257,8 +3281,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3273,8 +3297,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3289,8 +3313,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3305,8 +3329,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3321,8 +3345,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3337,8 +3361,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3353,8 +3377,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3369,8 +3393,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3385,8 +3409,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3401,8 +3425,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3417,8 +3441,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3433,8 +3457,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3449,8 +3473,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3465,8 +3489,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3481,8 +3505,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3497,8 +3521,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3513,8 +3537,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3529,8 +3553,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3545,8 +3569,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3561,8 +3585,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3577,8 +3601,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3593,8 +3617,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3609,8 +3633,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3625,8 +3649,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3641,8 +3665,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3657,8 +3681,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3673,8 +3697,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3689,8 +3713,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3705,8 +3729,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3727,8 +3751,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3749,8 +3773,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3771,8 +3795,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3835,8 +3859,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3851,8 +3875,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3867,8 +3891,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3883,8 +3907,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3899,8 +3923,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3915,8 +3939,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3931,8 +3955,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3947,8 +3971,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3963,8 +3987,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3979,8 +4003,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -3995,8 +4019,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -4011,8 +4035,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -4027,8 +4051,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -4043,8 +4067,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -4059,8 +4083,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -4075,8 +4099,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -4091,8 +4115,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -4107,8 +4131,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -4123,8 +4147,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -4139,8 +4163,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -4155,8 +4179,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -4171,8 +4195,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -4187,8 +4211,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
@@ -4203,8 +4227,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/flash_shared_20261105/qualified168_cuda.json",
-        "evidence_sha256": "e38249c8c6464a434faebb36654ebff1b03c676b47817e35ec4ec7af164c975d"
+        "evidence": "docs/rocm/flash_tiled_20261105/qualified170_cuda.json",
+        "evidence_sha256": "cb136f6e581f133e4740d765e6b67ca54336d08d4e2663088480933219f1d6c3"
       }
     },
     {
