@@ -1180,6 +1180,14 @@ snapshot = {
             )["passed"]
             else []
         ),
+        *(
+            ["leetcuda_rocm.ffpa_attention"]
+            if (root / "docs/rocm/ffpa_20261106/source_audit.json").exists()
+            and json.loads(
+                (root / "docs/rocm/ffpa_20261106/source_audit.json").read_text()
+            )["passed"]
+            else []
+        ),
     ],
     "additional_qualified_helpers": [
         "leetcuda_rocm.quantize_fp8_weight",

@@ -16,7 +16,7 @@ from .isa import hip_isa
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("module", choices=("fp8", "fp4"))
+    parser.add_argument("module", choices=("fp8", "fp4", "ffpa"))
     parser.add_argument(
         "--fp8-format", choices=("e4m3", "e5m2"), default="e4m3"
     )
@@ -34,7 +34,7 @@ def main():
     output_dir = (
         ROOT
         / "artifacts/rocm"
-        / ("fp8_native" if args.module == "fp8" else "fp4")
+        / ("fp8_native" if args.module == "fp8" else args.module)
     )
     if args.module == "fp8" and args.fp8_format == "e5m2":
         output_dir = output_dir / "e5m2"
@@ -48,8 +48,8 @@ def main():
         ROOT / s
         for s in (
             f"kernels/rocm/{args.module}_bench.cpp",
-            f"kernels/rocm/{args.module}_gemm_hip.cuh",
-            f"kernels/interview/{args.module}_gemm.cuh",
+            f"kernels/rocm/{args.module}_{'attention' if args.module == 'ffpa' else 'gemm'}_hip.cuh",
+            f"kernels/interview/{args.module}_{'attn' if args.module == 'ffpa' else 'gemm'}.cuh",
             "leetcuda_rocm/build_bench.py",
         )
     ]
@@ -121,6 +121,10 @@ def main():
             + ", five alternating samples; hipBLAS BF16 FP32-accumulation baseline; allocations and offline B quantization excluded"
         ),
     }
+    if args.module == "ffpa":
+        report["benchmark_method"] = (
+            "C++ HIP events, 10 warmup and 100 timed calls, non-default stream; no baseline; paired SDPA comparison is in ffpa_performance.py"
+        )
     if args.run:
         proc = subprocess.run(
             [str(binary), str(args.device)]

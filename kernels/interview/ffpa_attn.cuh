@@ -1,4 +1,7 @@
 #pragma once
+#if defined(LEETCUDA_ROCM)
+#include "../rocm/ffpa_attention_hip.cuh"
+#else
 #include "flash_attn.cuh"
 // ffpa_attn.cuh: FFPA Attention kernel for large head-dim (Split-D)
 //
@@ -250,6 +253,12 @@ ffpa_split_d_cute(
         qk_write = (qk_write + 1) % kStagesQK;
       }
 
+      // Drain outstanding copies when the QK producer reaches its tail.
+      // A fixed wait_group<stages-2> can otherwise leave the current tile pending.
+      if (d_next >= kDChunks) {
+        cp_async_wait<0>();
+        __syncthreads();
+      }
       // QK GEMM: S += Q[d_chunk] @ K[d_chunk]^T
       auto sQ_stg = make_tensor(
           make_smem_ptr(q_base + qk_read * kQChunkElements), SmemLayoutQ{});
@@ -321,6 +330,11 @@ ffpa_split_d_cute(
         v_write_pv = (v_write_pv + 1) % kStagesV;
       }
 
+      // The V ring needs the same tail drain before its final consumers.
+      if (v_next >= kDChunks) {
+        cp_async_wait<0>();
+        __syncthreads();
+      }
       // Rescale O accumulator（与 TMA WS kernel 完全一致）
       auto tCrO = make_tensor(make_rmem_ptr(&o_acc_storage[v_chunk][0]),
                               OFragLayout{});
@@ -1305,3 +1319,5 @@ void ffpa_attn_tma_split_d_cute_fwd(
 }
 #endif // NOTES_V2_ENABLE_CUTE && NOTES_V2_ENABLE_TMA_MMA_WS
 
+
+#endif // LEETCUDA_ROCM

@@ -271,3 +271,17 @@ AMD 的 [ROCm 10.1 HIP 迁移指南](https://rocm.docs.amd.com/projects/HIP/en/d
 仍遵守原 tile/pack 限制。
 
 BLAS 接口的形状、精度与 TN 打包约定见 [BLAS 文档](blas_20261103.md)。
+
+## Split-D FFPA
+
+```python
+from leetcuda_rocm import ffpa_attention
+out, lse = ffpa_attention(q, k, v, variant="non_ws",
+                          stages_qk=2, stages_v=3, return_lse=True)
+```
+
+FP16前向，Q为[B,H,NQ,D]、K/V为[B,H,NK,D]，D为64至512的64整数倍或1024。
+`async`、`ws`、`non_ws`分别保留协作预取、独立producer/consumer、FA4条件rescale与LDS写出；Sk/Sv独立选择1～3。
+三条路径均使用真实AMD WMMA，FP32累加和状态；没有全局NQ×NK概率矩阵。
+仅gfx1201已验证，不支持mask/GQA/dropout/autograd；训练扩展使用`attention`。
+独立C++：`scripts/rocm/build_bench.sh ffpa --run`。契约、双卡与CUDA对照、原版修复和性能限制见[FFPA验收](ffpa_20261106.md)。

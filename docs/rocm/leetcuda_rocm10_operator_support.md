@@ -32,7 +32,7 @@ B4的19个MMA Attention只把QK累加升级FP32，PV和原输出状态类型保�
 所有25个模块的原公开接口均通过当前测试；
 **25/25 = 100%** 的模块覆盖率，不能代替 **229/229 = 100.00%** 的接口适配比例。
 
-另有 **7 个独立 AMD 计算接口**：`gemm`、`flash_attention`、`attention`、`fp8_gemm`、
+另有 **8 个独立 AMD 计算接口**：`gemm`、`flash_attention`、`attention`、`ffpa_attention`、`fp8_gemm`、
 `fp8_gemm_prepacked`、`fp4_gemm`、`fp4_gemm_prepacked`，以及 2 个权重量化辅助接口
 `quantize_fp8_weight`、`quantize_fp4_weight`。
 这些接口单独统计：前两者没有逐一实现原版 HGEMM／FlashAttention 的同名变体约定；
@@ -494,3 +494,5 @@ export HIP_VISIBLE_DEVICES=2
 环境身份、源码 hash、数值容差和逐项结果以各报告为准。
 更多接口约束见 [ROCm 使用说明](README.md)，
 运行环境见 [环境锁](../../scripts/rocm/environment.lock.json)。
+
+FFPA补充范围已功能验收：三个Split-D路径，双卡各2755项、5090修复参考1220项、跨平台1700份输出/LSE、C++729项通过；27特化零scratch。原CUDA18项stage3尾部故障保留并提供显式修复。两端各135性能配置完成，性能差距仍开放。见[FFPA报告](ffpa_20261106.md)。

@@ -1,0 +1,6475 @@
+{
+  "timestamp_utc": "2026-11-05T19:28:33.041049+00:00",
+  "backend": "cuda",
+  "fixture_sha256": "8f15f029ebf00c1139c44d8de0c81fe4ffbbcb12fe0c1afa186c7bc02f5eb270",
+  "harness_sha256": "0fa51131f760240b15e4ee0e6bc80055d9b4dbba53b84ea9dcdb9bc3d78e0228",
+  "reference_harness_sha256": "2f296cdbb77d1ddde3758a54c1ebe0d00dbc8b1d6e66688c1a394061c20da61e",
+  "method": "8 calls per graph, five alternating samples targeting 40ms each; same-GPU Torch SDPA; allocation excluded from GPU replay",
+  "builds": {
+    "64": {
+      "source_kind": "explicit_async_tail_drain_fix",
+      "reference_header_sha256": "216640f4056a34ffaf28ae16015b7fcf85d485bbdf6242b3acc593c204ac3de2",
+      "upstream_commit": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+      "cutlass_commit": "e05f953a5b3d38adc240df2ff928e0421c2abba3",
+      "headers_sha256": {
+        "kernels/interview/base.cuh": "cda419930ad0a0670f0695372a8599f398ac7b48479e5fcb317262b5dc232ac0",
+        "kernels/interview/common.cuh": "f707fede6a55d258962fbd9c314e65c8f741f32bf161749e10b59e75e4d384d9",
+        "kernels/interview/ffpa_attn.cuh": "f5d6db34b8c7176bc8d74088692ecc82aec69d10a6946dcfc0d5fad1852b1b2b",
+        "kernels/interview/flash_attn.cuh": "d01c02e57b1ab0293b87c462ecb5b2d52c7092fd41c11c4f06b3ec9d916a20a4",
+        "kernels/interview/fp4_gemm.cuh": "fcdeb7263a2a3fe7fc81c029afcc643485b705f09141a29f20728907f0705c9e",
+        "kernels/interview/fp8_gemm.cuh": "60ef4408cfac016fa4b6cf3db8cec1d29b54665a294967290e07d4ce54ce7ce2",
+        "kernels/interview/hgemm.cuh": "40e330514d004bfd7e2330dea941a9d75922efca75d93db443373714ae503324",
+        "kernels/interview/sgemm.cuh": "50b9d7b42d6be8ed0b05fe8c1bc4921c0e1ea90bc62681fc130e89aef37fa5e1",
+        "kernels/interview/sgemv.cuh": "5c539154353996e0bd51650bf03dde239e3133349ada31ba345ab14f05b25c2a"
+      },
+      "binding_sha256": "512701e4164489090446de05171a31e09856546be90ea19ee2001cda5e88767f",
+      "binary_sha256": "d13fab23111408bd678e3353152f9c3b3ee0014647c2f7b5daac41eb21840f44",
+      "compiler_flags": [
+        "-O3",
+        "-std=c++20",
+        "--expt-relaxed-constexpr",
+        "--expt-extended-lambda",
+        "-gencode=arch=compute_120a,code=sm_120a",
+        "-DNOTES_V2_ENABLE_CUTE=1",
+        "-DNOTES_V2_ENABLE_TMA_MMA_WS=1",
+        "-DFFPA_HEAD_DIM=64",
+        "-U__CUDA_NO_HALF_OPERATORS__",
+        "-U__CUDA_NO_HALF_CONVERSIONS__",
+        "-U__CUDA_NO_HALF2_OPERATORS__",
+        "-U__CUDA_NO_BFLOAT16_CONVERSIONS__"
+      ]
+    },
+    "128": {
+      "source_kind": "explicit_async_tail_drain_fix",
+      "reference_header_sha256": "216640f4056a34ffaf28ae16015b7fcf85d485bbdf6242b3acc593c204ac3de2",
+      "upstream_commit": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+      "cutlass_commit": "e05f953a5b3d38adc240df2ff928e0421c2abba3",
+      "headers_sha256": {
+        "kernels/interview/base.cuh": "cda419930ad0a0670f0695372a8599f398ac7b48479e5fcb317262b5dc232ac0",
+        "kernels/interview/common.cuh": "f707fede6a55d258962fbd9c314e65c8f741f32bf161749e10b59e75e4d384d9",
+        "kernels/interview/ffpa_attn.cuh": "f5d6db34b8c7176bc8d74088692ecc82aec69d10a6946dcfc0d5fad1852b1b2b",
+        "kernels/interview/flash_attn.cuh": "d01c02e57b1ab0293b87c462ecb5b2d52c7092fd41c11c4f06b3ec9d916a20a4",
+        "kernels/interview/fp4_gemm.cuh": "fcdeb7263a2a3fe7fc81c029afcc643485b705f09141a29f20728907f0705c9e",
+        "kernels/interview/fp8_gemm.cuh": "60ef4408cfac016fa4b6cf3db8cec1d29b54665a294967290e07d4ce54ce7ce2",
+        "kernels/interview/hgemm.cuh": "40e330514d004bfd7e2330dea941a9d75922efca75d93db443373714ae503324",
+        "kernels/interview/sgemm.cuh": "50b9d7b42d6be8ed0b05fe8c1bc4921c0e1ea90bc62681fc130e89aef37fa5e1",
+        "kernels/interview/sgemv.cuh": "5c539154353996e0bd51650bf03dde239e3133349ada31ba345ab14f05b25c2a"
+      },
+      "binding_sha256": "512701e4164489090446de05171a31e09856546be90ea19ee2001cda5e88767f",
+      "binary_sha256": "7776bea94693d716b58e340d65e82e2e9d179438e9786a4f81e6ff28ebce6899",
+      "compiler_flags": [
+        "-O3",
+        "-std=c++20",
+        "--expt-relaxed-constexpr",
+        "--expt-extended-lambda",
+        "-gencode=arch=compute_120a,code=sm_120a",
+        "-DNOTES_V2_ENABLE_CUTE=1",
+        "-DNOTES_V2_ENABLE_TMA_MMA_WS=1",
+        "-DFFPA_HEAD_DIM=128",
+        "-U__CUDA_NO_HALF_OPERATORS__",
+        "-U__CUDA_NO_HALF_CONVERSIONS__",
+        "-U__CUDA_NO_HALF2_OPERATORS__",
+        "-U__CUDA_NO_BFLOAT16_CONVERSIONS__"
+      ]
+    },
+    "192": {
+      "source_kind": "explicit_async_tail_drain_fix",
+      "reference_header_sha256": "216640f4056a34ffaf28ae16015b7fcf85d485bbdf6242b3acc593c204ac3de2",
+      "upstream_commit": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+      "cutlass_commit": "e05f953a5b3d38adc240df2ff928e0421c2abba3",
+      "headers_sha256": {
+        "kernels/interview/base.cuh": "cda419930ad0a0670f0695372a8599f398ac7b48479e5fcb317262b5dc232ac0",
+        "kernels/interview/common.cuh": "f707fede6a55d258962fbd9c314e65c8f741f32bf161749e10b59e75e4d384d9",
+        "kernels/interview/ffpa_attn.cuh": "f5d6db34b8c7176bc8d74088692ecc82aec69d10a6946dcfc0d5fad1852b1b2b",
+        "kernels/interview/flash_attn.cuh": "d01c02e57b1ab0293b87c462ecb5b2d52c7092fd41c11c4f06b3ec9d916a20a4",
+        "kernels/interview/fp4_gemm.cuh": "fcdeb7263a2a3fe7fc81c029afcc643485b705f09141a29f20728907f0705c9e",
+        "kernels/interview/fp8_gemm.cuh": "60ef4408cfac016fa4b6cf3db8cec1d29b54665a294967290e07d4ce54ce7ce2",
+        "kernels/interview/hgemm.cuh": "40e330514d004bfd7e2330dea941a9d75922efca75d93db443373714ae503324",
+        "kernels/interview/sgemm.cuh": "50b9d7b42d6be8ed0b05fe8c1bc4921c0e1ea90bc62681fc130e89aef37fa5e1",
+        "kernels/interview/sgemv.cuh": "5c539154353996e0bd51650bf03dde239e3133349ada31ba345ab14f05b25c2a"
+      },
+      "binding_sha256": "512701e4164489090446de05171a31e09856546be90ea19ee2001cda5e88767f",
+      "binary_sha256": "603e0ac6d9971ae59341d8b6e68c63393ccb5582ddaaf4944d4b3d7b5f293e98",
+      "compiler_flags": [
+        "-O3",
+        "-std=c++20",
+        "--expt-relaxed-constexpr",
+        "--expt-extended-lambda",
+        "-gencode=arch=compute_120a,code=sm_120a",
+        "-DNOTES_V2_ENABLE_CUTE=1",
+        "-DNOTES_V2_ENABLE_TMA_MMA_WS=1",
+        "-DFFPA_HEAD_DIM=192",
+        "-U__CUDA_NO_HALF_OPERATORS__",
+        "-U__CUDA_NO_HALF_CONVERSIONS__",
+        "-U__CUDA_NO_HALF2_OPERATORS__",
+        "-U__CUDA_NO_BFLOAT16_CONVERSIONS__"
+      ]
+    },
+    "256": {
+      "source_kind": "explicit_async_tail_drain_fix",
+      "reference_header_sha256": "216640f4056a34ffaf28ae16015b7fcf85d485bbdf6242b3acc593c204ac3de2",
+      "upstream_commit": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+      "cutlass_commit": "e05f953a5b3d38adc240df2ff928e0421c2abba3",
+      "headers_sha256": {
+        "kernels/interview/base.cuh": "cda419930ad0a0670f0695372a8599f398ac7b48479e5fcb317262b5dc232ac0",
+        "kernels/interview/common.cuh": "f707fede6a55d258962fbd9c314e65c8f741f32bf161749e10b59e75e4d384d9",
+        "kernels/interview/ffpa_attn.cuh": "f5d6db34b8c7176bc8d74088692ecc82aec69d10a6946dcfc0d5fad1852b1b2b",
+        "kernels/interview/flash_attn.cuh": "d01c02e57b1ab0293b87c462ecb5b2d52c7092fd41c11c4f06b3ec9d916a20a4",
+        "kernels/interview/fp4_gemm.cuh": "fcdeb7263a2a3fe7fc81c029afcc643485b705f09141a29f20728907f0705c9e",
+        "kernels/interview/fp8_gemm.cuh": "60ef4408cfac016fa4b6cf3db8cec1d29b54665a294967290e07d4ce54ce7ce2",
+        "kernels/interview/hgemm.cuh": "40e330514d004bfd7e2330dea941a9d75922efca75d93db443373714ae503324",
+        "kernels/interview/sgemm.cuh": "50b9d7b42d6be8ed0b05fe8c1bc4921c0e1ea90bc62681fc130e89aef37fa5e1",
+        "kernels/interview/sgemv.cuh": "5c539154353996e0bd51650bf03dde239e3133349ada31ba345ab14f05b25c2a"
+      },
+      "binding_sha256": "512701e4164489090446de05171a31e09856546be90ea19ee2001cda5e88767f",
+      "binary_sha256": "de421e08e4893f8ed145353ad10b21b6c2f2ff97691da9389ff263d75fc1c7c6",
+      "compiler_flags": [
+        "-O3",
+        "-std=c++20",
+        "--expt-relaxed-constexpr",
+        "--expt-extended-lambda",
+        "-gencode=arch=compute_120a,code=sm_120a",
+        "-DNOTES_V2_ENABLE_CUTE=1",
+        "-DNOTES_V2_ENABLE_TMA_MMA_WS=1",
+        "-DFFPA_HEAD_DIM=256",
+        "-U__CUDA_NO_HALF_OPERATORS__",
+        "-U__CUDA_NO_HALF_CONVERSIONS__",
+        "-U__CUDA_NO_HALF2_OPERATORS__",
+        "-U__CUDA_NO_BFLOAT16_CONVERSIONS__"
+      ]
+    },
+    "320": {
+      "source_kind": "explicit_async_tail_drain_fix",
+      "reference_header_sha256": "216640f4056a34ffaf28ae16015b7fcf85d485bbdf6242b3acc593c204ac3de2",
+      "upstream_commit": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+      "cutlass_commit": "e05f953a5b3d38adc240df2ff928e0421c2abba3",
+      "headers_sha256": {
+        "kernels/interview/base.cuh": "cda419930ad0a0670f0695372a8599f398ac7b48479e5fcb317262b5dc232ac0",
+        "kernels/interview/common.cuh": "f707fede6a55d258962fbd9c314e65c8f741f32bf161749e10b59e75e4d384d9",
+        "kernels/interview/ffpa_attn.cuh": "f5d6db34b8c7176bc8d74088692ecc82aec69d10a6946dcfc0d5fad1852b1b2b",
+        "kernels/interview/flash_attn.cuh": "d01c02e57b1ab0293b87c462ecb5b2d52c7092fd41c11c4f06b3ec9d916a20a4",
+        "kernels/interview/fp4_gemm.cuh": "fcdeb7263a2a3fe7fc81c029afcc643485b705f09141a29f20728907f0705c9e",
+        "kernels/interview/fp8_gemm.cuh": "60ef4408cfac016fa4b6cf3db8cec1d29b54665a294967290e07d4ce54ce7ce2",
+        "kernels/interview/hgemm.cuh": "40e330514d004bfd7e2330dea941a9d75922efca75d93db443373714ae503324",
+        "kernels/interview/sgemm.cuh": "50b9d7b42d6be8ed0b05fe8c1bc4921c0e1ea90bc62681fc130e89aef37fa5e1",
+        "kernels/interview/sgemv.cuh": "5c539154353996e0bd51650bf03dde239e3133349ada31ba345ab14f05b25c2a"
+      },
+      "binding_sha256": "512701e4164489090446de05171a31e09856546be90ea19ee2001cda5e88767f",
+      "binary_sha256": "e602513f4bab1c2a2cce01affd47f6764888913f974046fd7aeeb883a90255f3",
+      "compiler_flags": [
+        "-O3",
+        "-std=c++20",
+        "--expt-relaxed-constexpr",
+        "--expt-extended-lambda",
+        "-gencode=arch=compute_120a,code=sm_120a",
+        "-DNOTES_V2_ENABLE_CUTE=1",
+        "-DNOTES_V2_ENABLE_TMA_MMA_WS=1",
+        "-DFFPA_HEAD_DIM=320",
+        "-U__CUDA_NO_HALF_OPERATORS__",
+        "-U__CUDA_NO_HALF_CONVERSIONS__",
+        "-U__CUDA_NO_HALF2_OPERATORS__",
+        "-U__CUDA_NO_BFLOAT16_CONVERSIONS__"
+      ]
+    },
+    "384": {
+      "source_kind": "explicit_async_tail_drain_fix",
+      "reference_header_sha256": "216640f4056a34ffaf28ae16015b7fcf85d485bbdf6242b3acc593c204ac3de2",
+      "upstream_commit": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+      "cutlass_commit": "e05f953a5b3d38adc240df2ff928e0421c2abba3",
+      "headers_sha256": {
+        "kernels/interview/base.cuh": "cda419930ad0a0670f0695372a8599f398ac7b48479e5fcb317262b5dc232ac0",
+        "kernels/interview/common.cuh": "f707fede6a55d258962fbd9c314e65c8f741f32bf161749e10b59e75e4d384d9",
+        "kernels/interview/ffpa_attn.cuh": "f5d6db34b8c7176bc8d74088692ecc82aec69d10a6946dcfc0d5fad1852b1b2b",
+        "kernels/interview/flash_attn.cuh": "d01c02e57b1ab0293b87c462ecb5b2d52c7092fd41c11c4f06b3ec9d916a20a4",
+        "kernels/interview/fp4_gemm.cuh": "fcdeb7263a2a3fe7fc81c029afcc643485b705f09141a29f20728907f0705c9e",
+        "kernels/interview/fp8_gemm.cuh": "60ef4408cfac016fa4b6cf3db8cec1d29b54665a294967290e07d4ce54ce7ce2",
+        "kernels/interview/hgemm.cuh": "40e330514d004bfd7e2330dea941a9d75922efca75d93db443373714ae503324",
+        "kernels/interview/sgemm.cuh": "50b9d7b42d6be8ed0b05fe8c1bc4921c0e1ea90bc62681fc130e89aef37fa5e1",
+        "kernels/interview/sgemv.cuh": "5c539154353996e0bd51650bf03dde239e3133349ada31ba345ab14f05b25c2a"
+      },
+      "binding_sha256": "512701e4164489090446de05171a31e09856546be90ea19ee2001cda5e88767f",
+      "binary_sha256": "4095dce0aaa4739d41b22e6145a1ef316c7f97eb1eac89dc53a7237fe42f152c",
+      "compiler_flags": [
+        "-O3",
+        "-std=c++20",
+        "--expt-relaxed-constexpr",
+        "--expt-extended-lambda",
+        "-gencode=arch=compute_120a,code=sm_120a",
+        "-DNOTES_V2_ENABLE_CUTE=1",
+        "-DNOTES_V2_ENABLE_TMA_MMA_WS=1",
+        "-DFFPA_HEAD_DIM=384",
+        "-U__CUDA_NO_HALF_OPERATORS__",
+        "-U__CUDA_NO_HALF_CONVERSIONS__",
+        "-U__CUDA_NO_HALF2_OPERATORS__",
+        "-U__CUDA_NO_BFLOAT16_CONVERSIONS__"
+      ]
+    },
+    "448": {
+      "source_kind": "explicit_async_tail_drain_fix",
+      "reference_header_sha256": "216640f4056a34ffaf28ae16015b7fcf85d485bbdf6242b3acc593c204ac3de2",
+      "upstream_commit": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+      "cutlass_commit": "e05f953a5b3d38adc240df2ff928e0421c2abba3",
+      "headers_sha256": {
+        "kernels/interview/base.cuh": "cda419930ad0a0670f0695372a8599f398ac7b48479e5fcb317262b5dc232ac0",
+        "kernels/interview/common.cuh": "f707fede6a55d258962fbd9c314e65c8f741f32bf161749e10b59e75e4d384d9",
+        "kernels/interview/ffpa_attn.cuh": "f5d6db34b8c7176bc8d74088692ecc82aec69d10a6946dcfc0d5fad1852b1b2b",
+        "kernels/interview/flash_attn.cuh": "d01c02e57b1ab0293b87c462ecb5b2d52c7092fd41c11c4f06b3ec9d916a20a4",
+        "kernels/interview/fp4_gemm.cuh": "fcdeb7263a2a3fe7fc81c029afcc643485b705f09141a29f20728907f0705c9e",
+        "kernels/interview/fp8_gemm.cuh": "60ef4408cfac016fa4b6cf3db8cec1d29b54665a294967290e07d4ce54ce7ce2",
+        "kernels/interview/hgemm.cuh": "40e330514d004bfd7e2330dea941a9d75922efca75d93db443373714ae503324",
+        "kernels/interview/sgemm.cuh": "50b9d7b42d6be8ed0b05fe8c1bc4921c0e1ea90bc62681fc130e89aef37fa5e1",
+        "kernels/interview/sgemv.cuh": "5c539154353996e0bd51650bf03dde239e3133349ada31ba345ab14f05b25c2a"
+      },
+      "binding_sha256": "512701e4164489090446de05171a31e09856546be90ea19ee2001cda5e88767f",
+      "binary_sha256": "b1f2656f23864915ab516d992b66c78aa1231ff639982b9b2ee81c4349181007",
+      "compiler_flags": [
+        "-O3",
+        "-std=c++20",
+        "--expt-relaxed-constexpr",
+        "--expt-extended-lambda",
+        "-gencode=arch=compute_120a,code=sm_120a",
+        "-DNOTES_V2_ENABLE_CUTE=1",
+        "-DNOTES_V2_ENABLE_TMA_MMA_WS=1",
+        "-DFFPA_HEAD_DIM=448",
+        "-U__CUDA_NO_HALF_OPERATORS__",
+        "-U__CUDA_NO_HALF_CONVERSIONS__",
+        "-U__CUDA_NO_HALF2_OPERATORS__",
+        "-U__CUDA_NO_BFLOAT16_CONVERSIONS__"
+      ]
+    },
+    "512": {
+      "source_kind": "explicit_async_tail_drain_fix",
+      "reference_header_sha256": "216640f4056a34ffaf28ae16015b7fcf85d485bbdf6242b3acc593c204ac3de2",
+      "upstream_commit": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+      "cutlass_commit": "e05f953a5b3d38adc240df2ff928e0421c2abba3",
+      "headers_sha256": {
+        "kernels/interview/base.cuh": "cda419930ad0a0670f0695372a8599f398ac7b48479e5fcb317262b5dc232ac0",
+        "kernels/interview/common.cuh": "f707fede6a55d258962fbd9c314e65c8f741f32bf161749e10b59e75e4d384d9",
+        "kernels/interview/ffpa_attn.cuh": "f5d6db34b8c7176bc8d74088692ecc82aec69d10a6946dcfc0d5fad1852b1b2b",
+        "kernels/interview/flash_attn.cuh": "d01c02e57b1ab0293b87c462ecb5b2d52c7092fd41c11c4f06b3ec9d916a20a4",
+        "kernels/interview/fp4_gemm.cuh": "fcdeb7263a2a3fe7fc81c029afcc643485b705f09141a29f20728907f0705c9e",
+        "kernels/interview/fp8_gemm.cuh": "60ef4408cfac016fa4b6cf3db8cec1d29b54665a294967290e07d4ce54ce7ce2",
+        "kernels/interview/hgemm.cuh": "40e330514d004bfd7e2330dea941a9d75922efca75d93db443373714ae503324",
+        "kernels/interview/sgemm.cuh": "50b9d7b42d6be8ed0b05fe8c1bc4921c0e1ea90bc62681fc130e89aef37fa5e1",
+        "kernels/interview/sgemv.cuh": "5c539154353996e0bd51650bf03dde239e3133349ada31ba345ab14f05b25c2a"
+      },
+      "binding_sha256": "512701e4164489090446de05171a31e09856546be90ea19ee2001cda5e88767f",
+      "binary_sha256": "bd56a8cb765930848f9c8a4269f9e286609d5806599c0a10f294399fa4cab763",
+      "compiler_flags": [
+        "-O3",
+        "-std=c++20",
+        "--expt-relaxed-constexpr",
+        "--expt-extended-lambda",
+        "-gencode=arch=compute_120a,code=sm_120a",
+        "-DNOTES_V2_ENABLE_CUTE=1",
+        "-DNOTES_V2_ENABLE_TMA_MMA_WS=1",
+        "-DFFPA_HEAD_DIM=512",
+        "-U__CUDA_NO_HALF_OPERATORS__",
+        "-U__CUDA_NO_HALF_CONVERSIONS__",
+        "-U__CUDA_NO_HALF2_OPERATORS__",
+        "-U__CUDA_NO_BFLOAT16_CONVERSIONS__"
+      ]
+    },
+    "1024": {
+      "source_kind": "explicit_async_tail_drain_fix",
+      "reference_header_sha256": "216640f4056a34ffaf28ae16015b7fcf85d485bbdf6242b3acc593c204ac3de2",
+      "upstream_commit": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+      "cutlass_commit": "e05f953a5b3d38adc240df2ff928e0421c2abba3",
+      "headers_sha256": {
+        "kernels/interview/base.cuh": "cda419930ad0a0670f0695372a8599f398ac7b48479e5fcb317262b5dc232ac0",
+        "kernels/interview/common.cuh": "f707fede6a55d258962fbd9c314e65c8f741f32bf161749e10b59e75e4d384d9",
+        "kernels/interview/ffpa_attn.cuh": "f5d6db34b8c7176bc8d74088692ecc82aec69d10a6946dcfc0d5fad1852b1b2b",
+        "kernels/interview/flash_attn.cuh": "d01c02e57b1ab0293b87c462ecb5b2d52c7092fd41c11c4f06b3ec9d916a20a4",
+        "kernels/interview/fp4_gemm.cuh": "fcdeb7263a2a3fe7fc81c029afcc643485b705f09141a29f20728907f0705c9e",
+        "kernels/interview/fp8_gemm.cuh": "60ef4408cfac016fa4b6cf3db8cec1d29b54665a294967290e07d4ce54ce7ce2",
+        "kernels/interview/hgemm.cuh": "40e330514d004bfd7e2330dea941a9d75922efca75d93db443373714ae503324",
+        "kernels/interview/sgemm.cuh": "50b9d7b42d6be8ed0b05fe8c1bc4921c0e1ea90bc62681fc130e89aef37fa5e1",
+        "kernels/interview/sgemv.cuh": "5c539154353996e0bd51650bf03dde239e3133349ada31ba345ab14f05b25c2a"
+      },
+      "binding_sha256": "512701e4164489090446de05171a31e09856546be90ea19ee2001cda5e88767f",
+      "binary_sha256": "fb0eaf7eefa8a43996c2ea46f4594aada84f53cf2c2704d91419b974a1d79f8b",
+      "compiler_flags": [
+        "-O3",
+        "-std=c++20",
+        "--expt-relaxed-constexpr",
+        "--expt-extended-lambda",
+        "-gencode=arch=compute_120a,code=sm_120a",
+        "-DNOTES_V2_ENABLE_CUTE=1",
+        "-DNOTES_V2_ENABLE_TMA_MMA_WS=1",
+        "-DFFPA_HEAD_DIM=1024",
+        "-U__CUDA_NO_HALF_OPERATORS__",
+        "-U__CUDA_NO_HALF_CONVERSIONS__",
+        "-U__CUDA_NO_HALF2_OPERATORS__",
+        "-U__CUDA_NO_BFLOAT16_CONVERSIONS__"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "id": "baseline/64",
+      "passed": true,
+      "max_abs": 0.00014931122938671715,
+      "operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ]
+    },
+    {
+      "id": "baseline/128",
+      "passed": true,
+      "max_abs": 0.00016267257847790706,
+      "operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ]
+    },
+    {
+      "id": "baseline/192",
+      "passed": true,
+      "max_abs": 0.0002541277060528202,
+      "operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ]
+    },
+    {
+      "id": "baseline/256",
+      "passed": true,
+      "max_abs": 0.00020054768600930029,
+      "operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ]
+    },
+    {
+      "id": "baseline/320",
+      "passed": true,
+      "max_abs": 0.00015832675658727924,
+      "operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ]
+    },
+    {
+      "id": "baseline/384",
+      "passed": true,
+      "max_abs": 0.00015638802035833343,
+      "operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ]
+    },
+    {
+      "id": "baseline/448",
+      "passed": true,
+      "max_abs": 0.0001698440825408376,
+      "operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ]
+    },
+    {
+      "id": "baseline/512",
+      "passed": true,
+      "max_abs": 0.00015227984242299764,
+      "operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ]
+    },
+    {
+      "id": "baseline/1024",
+      "passed": true,
+      "max_abs": 0.00017565890720194766,
+      "operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ]
+    }
+  ],
+  "performance": [
+    {
+      "d": 64,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015710321241541036
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.009220606449878576,
+      "baseline_ms": 0.008188228950562922,
+      "baseline_over_ours": 0.888035835286165,
+      "samples_ms": {
+        "ours": [
+          0.009220606449878576,
+          0.009220606449878576,
+          0.009220848480860392,
+          0.009220606449878576,
+          0.009220606449878576
+        ],
+        "baseline": [
+          0.008188228950562922,
+          0.008188228950562922,
+          0.008188228950562922,
+          0.008188019797766852,
+          0.008188228950562922
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 528,
+        "baseline": 611
+      }
+    },
+    {
+      "d": 64,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015710321241541036
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.009732854580450914,
+      "baseline_ms": 0.008188228950562922,
+      "baseline_over_ours": 0.8412977798938376,
+      "samples_ms": {
+        "ours": [
+          0.009732854580450914,
+          0.009732854580450914,
+          0.009732854580450914,
+          0.009732854580450914,
+          0.009732854580450914
+        ],
+        "baseline": [
+          0.008188228950562922,
+          0.008188228950562922,
+          0.008188228950562922,
+          0.008188228950562922,
+          0.008188228950562922
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 501,
+        "baseline": 611
+      }
+    },
+    {
+      "d": 64,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015710321241541036
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.008987576572000446,
+      "baseline_ms": 0.00844410786757598,
+      "baseline_over_ours": 0.9395311183086255,
+      "samples_ms": {
+        "ours": [
+          0.008993551161815706,
+          0.008990793724676437,
+          0.008987576572000446,
+          0.0089763156815534,
+          0.008974247389678681
+        ],
+        "baseline": [
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 557,
+        "baseline": 592
+      }
+    },
+    {
+      "d": 64,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015710321241541036
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.009732980208638112,
+      "baseline_ms": 0.00844410786757598,
+      "baseline_over_ours": 0.867576804490135,
+      "samples_ms": {
+        "ours": [
+          0.009732980208638112,
+          0.009732980208638112,
+          0.009732980208638112,
+          0.009732980208638112,
+          0.009732980208638112
+        ],
+        "baseline": [
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 514,
+        "baseline": 592
+      }
+    },
+    {
+      "d": 64,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015710321241541036
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.008955878733735606,
+      "baseline_ms": 0.00844410786757598,
+      "baseline_over_ours": 0.9428564319175234,
+      "samples_ms": {
+        "ours": [
+          0.008955878733735606,
+          0.008955878733735606,
+          0.008955878733735606,
+          0.008955878733735606,
+          0.008955878733735606
+        ],
+        "baseline": [
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 559,
+        "baseline": 592
+      }
+    },
+    {
+      "d": 64,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015710321241541036
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.007940057340401289,
+      "baseline_ms": 0.00844410786757598,
+      "baseline_over_ours": 1.063481975704374,
+      "samples_ms": {
+        "ours": [
+          0.007940057340401289,
+          0.007940057340401289,
+          0.007940057340401289,
+          0.007940259863948671,
+          0.007940057340401289
+        ],
+        "baseline": [
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 631,
+        "baseline": 592
+      }
+    },
+    {
+      "d": 64,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015710321241541036
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.008196210390643069,
+      "baseline_ms": 0.00844410786757598,
+      "baseline_over_ours": 1.0302453774510127,
+      "samples_ms": {
+        "ours": [
+          0.008196210390643069,
+          0.008196210390643069,
+          0.008196210390643069,
+          0.008196210390643069,
+          0.008196210390643069
+        ],
+        "baseline": [
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.008443892002105713,
+          0.00844410786757598
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 608,
+        "baseline": 592
+      }
+    },
+    {
+      "d": 64,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015710321241541036
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.008298947622901514,
+      "baseline_ms": 0.00844410786757598,
+      "baseline_over_ours": 1.0174914038828111,
+      "samples_ms": {
+        "ours": [
+          0.008196210390643069,
+          0.008252210522952833,
+          0.008298947622901514,
+          0.008310315640349137,
+          0.008302316069602966
+        ],
+        "baseline": [
+          0.00844410786757598,
+          0.00844410786757598,
+          0.008443892002105713,
+          0.00844410786757598,
+          0.008443892002105713
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 608,
+        "baseline": 592
+      }
+    },
+    {
+      "d": 64,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015710321241541036
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.008214675827531626,
+      "baseline_ms": 0.00844410786757598,
+      "baseline_over_ours": 1.027929530618288,
+      "samples_ms": {
+        "ours": [
+          0.008203231735734751,
+          0.008241377129460013,
+          0.008214675827531626,
+          0.00823205275251376,
+          0.008188397679107869
+        ],
+        "baseline": [
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.008188324200140464
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 604,
+        "baseline": 592
+      }
+    },
+    {
+      "d": 64,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015710321241541036
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.008188228950562922,
+      "baseline_ms": 0.008188228950562922,
+      "baseline_over_ours": 1.0,
+      "samples_ms": {
+        "ours": [
+          0.008188228950562922,
+          0.008188228950562922,
+          0.008188228950562922,
+          0.008188228950562922,
+          0.008188228950562922
+        ],
+        "baseline": [
+          0.008188228950562922,
+          0.008188228950562922,
+          0.008188228950562922,
+          0.008188228950562922,
+          0.008188228950562922
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 611,
+        "baseline": 611
+      }
+    },
+    {
+      "d": 64,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001860050497813348
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 8.718495854154185e-07
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.013784507089409946,
+      "baseline_ms": 0.00844410786757598,
+      "baseline_over_ours": 0.6125796020710259,
+      "samples_ms": {
+        "ours": [
+          0.013788386153123925,
+          0.013774634064393268,
+          0.013784507089409946,
+          0.013786621986998671,
+          0.013780980070760427
+        ],
+        "baseline": [
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844589842332376,
+          0.00844410786757598,
+          0.00844410786757598
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 363,
+        "baseline": 592
+      }
+    },
+    {
+      "d": 64,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001860050497813348
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 8.718495854154185e-07
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.012511680126190186,
+      "baseline_ms": 0.00844410786757598,
+      "baseline_over_ours": 0.6748979979035971,
+      "samples_ms": {
+        "ours": [
+          0.012511680126190186,
+          0.012515840530395507,
+          0.012505600452423096,
+          0.012518399953842163,
+          0.012505600452423096
+        ],
+        "baseline": [
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 400,
+        "baseline": 592
+      }
+    },
+    {
+      "d": 64,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001860050497813348
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 8.718495854154185e-07
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.012480955218794334,
+      "baseline_ms": 0.00844410786757598,
+      "baseline_over_ours": 0.676559423501536,
+      "samples_ms": {
+        "ours": [
+          0.012475860652638905,
+          0.012490507382065502,
+          0.012480955218794334,
+          0.012471403055523165,
+          0.01248796069206883
+        ],
+        "baseline": [
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.008444757074923129,
+          0.00844410786757598
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 402,
+        "baseline": 592
+      }
+    },
+    {
+      "d": 64,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001860050497813348
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 8.718495854154185e-07
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.01212893180476809,
+      "baseline_ms": 0.00844410786757598,
+      "baseline_over_ours": 0.6961955103298098,
+      "samples_ms": {
+        "ours": [
+          0.01212893180476809,
+          0.012135145733657392,
+          0.012117748121613437,
+          0.012135767242283498,
+          0.012120232998746113
+        ],
+        "baseline": [
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 412,
+        "baseline": 592
+      }
+    },
+    {
+      "d": 64,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001860050497813348
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 8.718495854154185e-07
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.012212705378438913,
+      "baseline_ms": 0.00844410786757598,
+      "baseline_over_ours": 0.6914199275193968,
+      "samples_ms": {
+        "ours": [
+          0.012208313334221933,
+          0.012212705378438913,
+          0.01221835262635175,
+          0.012205176493700813,
+          0.01221772502450382
+        ],
+        "baseline": [
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598,
+          0.00844410786757598
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 408,
+        "baseline": 592
+      }
+    },
+    {
+      "d": 128,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015997135988571332
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.01888024132206755,
+      "baseline_ms": 0.008952215020686442,
+      "baseline_over_ours": 0.47415787054707503,
+      "samples_ms": {
+        "ours": [
+          0.018891834762861145,
+          0.01887686027670806,
+          0.018892799233490565,
+          0.018877342512022773,
+          0.01888024132206755
+        ],
+        "baseline": [
+          0.008953130309185103,
+          0.008953130309185103,
+          0.008952215020686442,
+          0.008944887594588113,
+          0.008950154128782651
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 265,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 128,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015997135988571332
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.01935221697833087,
+      "baseline_ms": 0.008949466596135939,
+      "baseline_over_ours": 0.4624517493864846,
+      "samples_ms": {
+        "ours": [
+          0.01935221697833087,
+          0.019348757607596263,
+          0.019357158410503138,
+          0.019351228323682395,
+          0.019353203791909235
+        ],
+        "baseline": [
+          0.008943741991182986,
+          0.008950154128782651,
+          0.008951756949928025,
+          0.008947177095362026,
+          0.008949466596135939
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 259,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 128,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015997135988571332
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.019963886843148964,
+      "baseline_ms": 0.008951298879169607,
+      "baseline_over_ours": 0.4483745549900989,
+      "samples_ms": {
+        "ours": [
+          0.019982393486911512,
+          0.019961832038848753,
+          0.019960803679194318,
+          0.019963886843148964,
+          0.019964915202803402
+        ],
+        "baseline": [
+          0.008954504521460354,
+          0.008951298879169607,
+          0.008952672238426686,
+          0.00894671902460361,
+          0.00894671902460361
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 249,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 128,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015997135988571332
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.01664595271265784,
+      "baseline_ms": 0.008944887594588113,
+      "baseline_over_ours": 0.5373611080720109,
+      "samples_ms": {
+        "ours": [
+          0.01664595271265784,
+          0.016646378856164674,
+          0.0166468034154949,
+          0.016644252891160324,
+          0.016643402188323265
+        ],
+        "baseline": [
+          0.008949008525377522,
+          0.008938018239248204,
+          0.008944887594588113,
+          0.008936644026972954,
+          0.008945345665346532
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 301,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 128,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015997135988571332
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.016089436335441392,
+      "baseline_ms": 0.00894671902460361,
+      "baseline_over_ours": 0.5560616815951476,
+      "samples_ms": {
+        "ours": [
+          0.016087794915223733,
+          0.016089436335441392,
+          0.01609271764755249,
+          0.016087794915223733,
+          0.01609107622733483
+        ],
+        "baseline": [
+          0.008944429523829697,
+          0.008942826702684323,
+          0.008951298879169607,
+          0.00894671902460361,
+          0.008954504521460354
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 312,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 128,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015997135988571332
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.015323091869705294,
+      "baseline_ms": 0.008945802883086777,
+      "baseline_over_ours": 0.5838118676801244,
+      "samples_ms": {
+        "ours": [
+          0.015323091869705294,
+          0.015321520939926428,
+          0.01532230640481586,
+          0.015329767589920138,
+          0.015330945055908951
+        ],
+        "baseline": [
+          0.008945802883086777,
+          0.008944429523829697,
+          0.008951756949928025,
+          0.008942139170037612,
+          0.00895358837994352
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 326,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 128,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015997135988571332
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.013334365301234748,
+      "baseline_ms": 0.008948321845748983,
+      "baseline_over_ours": 0.6710721990585018,
+      "samples_ms": {
+        "ours": [
+          0.013329548220480643,
+          0.01334124739452075,
+          0.01332885988297001,
+          0.013334365301234748,
+          0.013351569893539594
+        ],
+        "baseline": [
+          0.008954046450701938,
+          0.008953130309185103,
+          0.008948321845748983,
+          0.008940307740022116,
+          0.00894671902460361
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 372,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 128,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015997135988571332
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.013671934767055251,
+      "baseline_ms": 0.008952672238426686,
+      "baseline_over_ours": 0.6548211640096181,
+      "samples_ms": {
+        "ours": [
+          0.013676817475612547,
+          0.013674026613989058,
+          0.013666004835747243,
+          0.013667749773903828,
+          0.013671934767055251
+        ],
+        "baseline": [
+          0.008955191201088893,
+          0.008954046450701938,
+          0.008951756949928025,
+          0.008951756949928025,
+          0.008952672238426686
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 367,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 128,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015997135988571332
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.013616262237882353,
+      "baseline_ms": 0.008942597240796029,
+      "baseline_over_ours": 0.6567585938464425,
+      "samples_ms": {
+        "ours": [
+          0.013624655093000235,
+          0.013616262237882353,
+          0.013607869382764473,
+          0.013614862994418117,
+          0.013635846435046587
+        ],
+        "baseline": [
+          0.008945345665346532,
+          0.008942597240796029,
+          0.008941681952297368,
+          0.0089398496692637,
+          0.008951756949928025
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 366,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 128,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015997135988571332
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.013828674059235649,
+      "baseline_ms": 0.00870010720595904,
+      "baseline_over_ours": 0.6291353146868457,
+      "samples_ms": {
+        "ours": [
+          0.014045483610603246,
+          0.013827954785207684,
+          0.013828674059235649,
+          0.013830112607291575,
+          0.013826516237151757
+        ],
+        "baseline": [
+          0.00895358837994352,
+          0.008853066159488903,
+          0.00870010720595904,
+          0.00870010720595904,
+          0.00870010720595904
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 356,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 128,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001566837846687097
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 9.308293762444464e-07
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.02585863821285287,
+      "baseline_ms": 0.008699992635975713,
+      "baseline_over_ours": 0.33644434654147554,
+      "samples_ms": {
+        "ours": [
+          0.02585863821285287,
+          0.02585600086094178,
+          0.02585863821285287,
+          0.02585863821285287,
+          0.02585600086094178
+        ],
+        "baseline": [
+          0.008699992635975713,
+          0.008699992635975713,
+          0.008699992635975713,
+          0.008699992635975713,
+          0.008699992635975713
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 194,
+        "baseline": 575
+      }
+    },
+    {
+      "d": 128,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001566837846687097
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 9.308293762444464e-07
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.020930944626301403,
+      "baseline_ms": 0.008935269814697703,
+      "baseline_over_ours": 0.4268928122560614,
+      "samples_ms": {
+        "ours": [
+          0.02091755727344976,
+          0.020933087400811488,
+          0.02093040993024116,
+          0.020930944626301403,
+          0.020937372949831657
+        ],
+        "baseline": [
+          0.008938933527746867,
+          0.008935269814697703,
+          0.008930690813149877,
+          0.0089219891747763,
+          0.008935269814697703
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 239,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 128,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001566837846687097
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 9.308293762444464e-07
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.020869332551956176,
+      "baseline_ms": 0.00893536279367846,
+      "baseline_over_ours": 0.42815757386744546,
+      "samples_ms": {
+        "ours": [
+          0.020878932873407998,
+          0.020866133769353232,
+          0.020869332551956176,
+          0.0208512008190155,
+          0.020882133642832437
+        ],
+        "baseline": [
+          0.008942826702684323,
+          0.00893536279367846,
+          0.008942597240796029,
+          0.008931835563536833,
+          0.008933896455440623
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 240,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 128,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001566837846687097
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 9.308293762444464e-07
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.020733884543426766,
+      "baseline_ms": 0.008936185956214536,
+      "baseline_over_ours": 0.4309942952319353,
+      "samples_ms": {
+        "ours": [
+          0.02073282643783191,
+          0.020733884543426766,
+          0.020733884543426766,
+          0.02073494264902162,
+          0.020733884543426766
+        ],
+        "baseline": [
+          0.008936185956214536,
+          0.008925882349713758,
+          0.008945802883086777,
+          0.008933438384682206,
+          0.008940765810780535
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 242,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 128,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001566837846687097
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 9.308293762444464e-07
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.021000568836802718,
+      "baseline_ms": 0.008943513382312864,
+      "baseline_over_ours": 0.42587005389300164,
+      "samples_ms": {
+        "ours": [
+          0.021000568836802718,
+          0.02098878756726636,
+          0.02100431769462809,
+          0.020998426062292633,
+          0.021006995165198418
+        ],
+        "baseline": [
+          0.008944429523829697,
+          0.008943513382312864,
+          0.008937560168489787,
+          0.008933438384682206,
+          0.008945345665346532
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 239,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 192,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00024618080097726924
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.02704812900440113,
+      "baseline_ms": 0.009219300461517952,
+      "baseline_over_ours": 0.3408479921113152,
+      "samples_ms": {
+        "ours": [
+          0.02707511283255912,
+          0.027036367880331504,
+          0.027043285885372678,
+          0.027050206467912005,
+          0.02704812900440113
+        ],
+        "baseline": [
+          0.00921977202975728,
+          0.009219300461517952,
+          0.009219300461517952,
+          0.009218357325039296,
+          0.009218828893278625
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 185,
+        "baseline": 543
+      }
+    },
+    {
+      "d": 192,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00024618080097726924
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.027400394606459988,
+      "baseline_ms": 0.009217414188560641,
+      "baseline_over_ours": 0.3363971329955781,
+      "samples_ms": {
+        "ours": [
+          0.027401791244256693,
+          0.027397596119531516,
+          0.027400394606459988,
+          0.027400394606459988,
+          0.027398995362995754
+        ],
+        "baseline": [
+          0.009217414188560641,
+          0.009216471052081985,
+          0.009217414188560641,
+          0.009216471052081985,
+          0.009218357325039296
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 183,
+        "baseline": 543
+      }
+    },
+    {
+      "d": 192,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00024618080097726924
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.02605866640806198,
+      "baseline_ms": 0.009216471052081985,
+      "baseline_over_ours": 0.3536816085580884,
+      "samples_ms": {
+        "ours": [
+          0.02606666584809621,
+          0.026074667771657307,
+          0.02605866640806198,
+          0.026057332754135132,
+          0.026058000822861988
+        ],
+        "baseline": [
+          0.009216471052081985,
+          0.009215057225517147,
+          0.009217414188560641,
+          0.009216471052081985,
+          0.009216000361995802
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 192,
+        "baseline": 543
+      }
+    },
+    {
+      "d": 192,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00024618080097726924
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.024328076723709846,
+      "baseline_ms": 0.009216471052081985,
+      "baseline_over_ours": 0.37884092346271353,
+      "samples_ms": {
+        "ours": [
+          0.024327456372455487,
+          0.024328699389707695,
+          0.024328699389707695,
+          0.024328076723709846,
+          0.024328076723709846
+        ],
+        "baseline": [
+          0.009215520890378161,
+          0.009216471052081985,
+          0.009216942620321312,
+          0.009216471052081985,
+          0.009216700250053054
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 206,
+        "baseline": 543
+      }
+    },
+    {
+      "d": 192,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00024618080097726924
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.023051798068982665,
+      "baseline_ms": 0.009219300461517952,
+      "baseline_over_ours": 0.39993845312756654,
+      "samples_ms": {
+        "ours": [
+          0.023051798068982665,
+          0.02306359374578098,
+          0.02305061806182158,
+          0.02305297587873749,
+          0.02305061806182158
+        ],
+        "baseline": [
+          0.009219300461517952,
+          0.009218820989900312,
+          0.009220242719843463,
+          0.00921977202975728,
+          0.009218828893278625
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 217,
+        "baseline": 543
+      }
+    },
+    {
+      "d": 192,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00024618080097726924
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.023820799872988747,
+      "baseline_ms": 0.009216935595096145,
+      "baseline_over_ours": 0.38692804793459334,
+      "samples_ms": {
+        "ours": [
+          0.023820191337948753,
+          0.023822627748761857,
+          0.023820191337948753,
+          0.0238250664302281,
+          0.023820799872988747
+        ],
+        "baseline": [
+          0.009216942620321312,
+          0.00921411408903849,
+          0.009216935595096145,
+          0.009217885756799968,
+          0.009216471052081985
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 210,
+        "baseline": 543
+      }
+    },
+    {
+      "d": 192,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00024618080097726924
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.01971099132627953,
+      "baseline_ms": 0.009219300461517952,
+      "baseline_over_ours": 0.467723835341878,
+      "samples_ms": {
+        "ours": [
+          0.01971199944263368,
+          0.01970998508723702,
+          0.01971099132627953,
+          0.01970998508723702,
+          0.019713007558987836
+        ],
+        "baseline": [
+          0.00921977202975728,
+          0.009218828893278625,
+          0.009219300461517952,
+          0.009217885756799968,
+          0.009219300461517952
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 254,
+        "baseline": 543
+      }
+    },
+    {
+      "d": 192,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00024618080097726924
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.019849613250008686,
+      "baseline_ms": 0.009217414188560641,
+      "baseline_over_ours": 0.4643624070890453,
+      "samples_ms": {
+        "ours": [
+          0.01985062535101246,
+          0.019843540643986034,
+          0.019853659769291935,
+          0.01984860114900491,
+          0.019849613250008686
+        ],
+        "baseline": [
+          0.009217414188560641,
+          0.009217414188560641,
+          0.009218357325039296,
+          0.009216471052081985,
+          0.009217885756799968
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 253,
+        "baseline": 543
+      }
+    },
+    {
+      "d": 192,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00024618080097726924
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.019629678539201324,
+      "baseline_ms": 0.009218828893278625,
+      "baseline_over_ours": 0.46963728289631546,
+      "samples_ms": {
+        "ours": [
+          0.01962265126845416,
+          0.019636204663444966,
+          0.019629678539201324,
+          0.01964373308069566,
+          0.019626666050331264
+        ],
+        "baseline": [
+          0.00922071428808279,
+          0.009218828893278625,
+          0.009219300461517952,
+          0.009218828893278625,
+          0.009218357325039296
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 255,
+        "baseline": 543
+      }
+    },
+    {
+      "d": 192,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00024618080097726924
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.019755339059304065,
+      "baseline_ms": 0.00922071428808279,
+      "baseline_over_ours": 0.46674543324226875,
+      "samples_ms": {
+        "ours": [
+          0.0197523147102416,
+          0.019761385880117343,
+          0.019755339059304065,
+          0.019759874644241934,
+          0.019749292238490788
+        ],
+        "baseline": [
+          0.009220242719843463,
+          0.00922071428808279,
+          0.009220950511279026,
+          0.009220478943039699,
+          0.00922071428808279
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 254,
+        "baseline": 543
+      }
+    },
+    {
+      "d": 192,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00024210044902273076
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 9.624382313333513e-07
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.038800867953041725,
+      "baseline_ms": 0.008964478859804831,
+      "baseline_over_ours": 0.23103810127788849,
+      "samples_ms": {
+        "ours": [
+          0.03897351996843205,
+          0.038792931756307915,
+          0.038800867953041725,
+          0.03879590736803158,
+          0.0388028529263282
+        ],
+        "baseline": [
+          0.008964478859804831,
+          0.008964478859804831,
+          0.008964478859804831,
+          0.008964478859804831,
+          0.008964478859804831
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 129,
+        "baseline": 543
+      }
+    },
+    {
+      "d": 192,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00024210044902273076
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 9.624382313333513e-07
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.03053892821800418,
+      "baseline_ms": 0.00896457951909101,
+      "baseline_over_ours": 0.2935459769608403,
+      "samples_ms": {
+        "ours": [
+          0.03053892821800418,
+          0.03055765861418189,
+          0.030526440318037824,
+          0.03052956011237168,
+          0.03053892821800418
+        ],
+        "baseline": [
+          0.00896457951909101,
+          0.00896457951909101,
+          0.00896457951909101,
+          0.00896457951909101,
+          0.00896457951909101
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 164,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 192,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00024210044902273076
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 9.624382313333513e-07
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.030117011932005364,
+      "baseline_ms": 0.00896457951909101,
+      "baseline_over_ours": 0.2976583314217951,
+      "samples_ms": {
+        "ours": [
+          0.03011084464659174,
+          0.030117011932005364,
+          0.030118554471487022,
+          0.030109302107110082,
+          0.030118554471487022
+        ],
+        "baseline": [
+          0.00896457951909101,
+          0.008964801303815757,
+          0.008964808980979306,
+          0.00896457951909101,
+          0.00896457951909101
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 166,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 192,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00024210044902273076
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 9.624382313333513e-07
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.030130586224401783,
+      "baseline_ms": 0.00896457951909101,
+      "baseline_over_ours": 0.2975242317665525,
+      "samples_ms": {
+        "ours": [
+          0.030137484658977944,
+          0.030130586224401783,
+          0.030139017961696237,
+          0.03011295752610989,
+          0.030125221092543918
+        ],
+        "baseline": [
+          0.00896457951909101,
+          0.00896457951909101,
+          0.00896457951909101,
+          0.00896457951909101,
+          0.00896457951909101
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 167,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 192,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00024210044902273076
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 9.624382313333513e-07
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.029961197676059016,
+      "baseline_ms": 0.00896457951909101,
+      "baseline_over_ours": 0.29920631398037545,
+      "samples_ms": {
+        "ours": [
+          0.029961197676059016,
+          0.029956597767904134,
+          0.02996656280791688,
+          0.029955064465185838,
+          0.029965797584213895
+        ],
+        "baseline": [
+          0.00896457951909101,
+          0.008964572694945635,
+          0.00896457951909101,
+          0.00896457951909101,
+          0.008964808980979306
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 167,
+        "baseline": 559
+      }
+    },
+    {
+      "d": 256,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00020054768600930029
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.03431101367898183,
+      "baseline_ms": 0.010514324589779503,
+      "baseline_over_ours": 0.306441677536923,
+      "samples_ms": {
+        "ours": [
+          0.03431802579801377,
+          0.03431101367898183,
+          0.034305752140201935,
+          0.034309259832721865,
+          0.03431452137150177
+        ],
+        "baseline": [
+          0.010519174274645354,
+          0.010503545058401008,
+          0.010514324589779503,
+          0.01050839574713456,
+          0.01051863620155736
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 146,
+        "baseline": 475
+      }
+    },
+    {
+      "d": 256,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00020054768600930029
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.035975313186645506,
+      "baseline_ms": 0.010510012978001644,
+      "baseline_over_ours": 0.2921451419609349,
+      "samples_ms": {
+        "ours": [
+          0.035975313186645506,
+          0.03597165857042585,
+          0.035978971208844863,
+          0.035962513514927456,
+          0.03599542890276228
+        ],
+        "baseline": [
+          0.01051755804764597,
+          0.010504084135356702,
+          0.010513785512823807,
+          0.010506778516267475,
+          0.010510012978001644
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 140,
+        "baseline": 475
+      }
+    },
+    {
+      "d": 256,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00020054768600930029
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.03276465297524446,
+      "baseline_ms": 0.010524050732876392,
+      "baseline_over_ours": 0.32120134893013835,
+      "samples_ms": {
+        "ours": [
+          0.03276297937031665,
+          0.03278807721106835,
+          0.03276465297524446,
+          0.03277803869808421,
+          0.03276130576538884
+        ],
+        "baseline": [
+          0.010524050732876392,
+          0.010519148441071206,
+          0.010529497836498505,
+          0.01051043449564183,
+          0.010527591502412836
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 153,
+        "baseline": 470
+      }
+    },
+    {
+      "d": 256,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00020054768600930029
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.03131999969482422,
+      "baseline_ms": 0.010518974728054471,
+      "baseline_over_ours": 0.3358548796471662,
+      "samples_ms": {
+        "ours": [
+          0.03131999969482422,
+          0.03128800094127655,
+          0.031302401423454286,
+          0.03144479990005493,
+          0.03131999969482422
+        ],
+        "baseline": [
+          0.010520342068794446,
+          0.010514324546879174,
+          0.010516513107169388,
+          0.010543315838544797,
+          0.010518974728054471
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 160,
+        "baseline": 468
+      }
+    },
+    {
+      "d": 256,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00020054768600930029
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.028344090065259613,
+      "baseline_ms": 0.010522947813335218,
+      "baseline_over_ours": 0.37125721055455,
+      "samples_ms": {
+        "ours": [
+          0.02826930431837446,
+          0.028403057141250437,
+          0.028281527958559188,
+          0.028403057141250437,
+          0.028344090065259613
+        ],
+        "baseline": [
+          0.010522947813335218,
+          0.010604867433246814,
+          0.010520252428556743,
+          0.010618341345536082,
+          0.010512707358912418
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 178,
+        "baseline": 475
+      }
+    },
+    {
+      "d": 256,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00020054768600930029
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.029955064465185838,
+      "baseline_ms": 0.010557029820695708,
+      "baseline_over_ours": 0.3524288800301273,
+      "samples_ms": {
+        "ours": [
+          0.029953534017779868,
+          0.029956597767904134,
+          0.029955064465185838,
+          0.029950467412343282,
+          0.029956597767904134
+        ],
+        "baseline": [
+          0.010560000496071602,
+          0.01054082741717246,
+          0.010557029820695708,
+          0.010542447053933446,
+          0.010584573705488116
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 167,
+        "baseline": 474
+      }
+    },
+    {
+      "d": 256,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00020054768600930029
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.023796529140112536,
+      "baseline_ms": 0.010534563635149572,
+      "baseline_over_ours": 0.4426932840971342,
+      "samples_ms": {
+        "ours": [
+          0.023754868867262354,
+          0.02381041589772926,
+          0.023771774094059783,
+          0.02380800022269195,
+          0.023796529140112536
+        ],
+        "baseline": [
+          0.010530187533451961,
+          0.010672683389777811,
+          0.010534563635149572,
+          0.010688547395233415,
+          0.010533470373887282
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 212,
+        "baseline": 468
+      }
+    },
+    {
+      "d": 256,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00020054768600930029
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.025378908773865363,
+      "baseline_ms": 0.010582464153756571,
+      "baseline_over_ours": 0.41697869077232186,
+      "samples_ms": {
+        "ours": [
+          0.025342707682137536,
+          0.025378908773865363,
+          0.0253905455271403,
+          0.025377615533693873,
+          0.025380202014036853
+        ],
+        "baseline": [
+          0.01058133342598058,
+          0.010737957330695687,
+          0.010582464153756571,
+          0.010726075635177676,
+          0.010553249326939322
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 198,
+        "baseline": 474
+      }
+    },
+    {
+      "d": 256,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00020054768600930029
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.024823172339077652,
+      "baseline_ms": 0.010611227363537831,
+      "baseline_over_ours": 0.42747265412298663,
+      "samples_ms": {
+        "ours": [
+          0.024741200977945563,
+          0.024823172339077652,
+          0.02478786289985544,
+          0.024828217886938838,
+          0.024825695113008247
+        ],
+        "baseline": [
+          0.010607957333769262,
+          0.01074167320429646,
+          0.010611227363537831,
+          0.010745477777630913,
+          0.010560950908944359
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 203,
+        "baseline": 471
+      }
+    },
+    {
+      "d": 256,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00020054768600930029
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.02536210146817294,
+      "baseline_ms": 0.010591863050992908,
+      "baseline_over_ours": 0.417625608204616,
+      "samples_ms": {
+        "ours": [
+          0.025372444981276387,
+          0.02536210146817294,
+          0.025357576331706964,
+          0.02536274688412445,
+          0.02535628309153547
+        ],
+        "baseline": [
+          0.010591863050992908,
+          0.010708601178017809,
+          0.010567141193177055,
+          0.010729476617641204,
+          0.0105913135626797
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 198,
+        "baseline": 466
+      }
+    },
+    {
+      "d": 256,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00022890740840564305
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.0896767470569557e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.04982621598951888,
+      "baseline_ms": 0.010638261505061605,
+      "baseline_over_ours": 0.21350731324448563,
+      "samples_ms": {
+        "ours": [
+          0.04982368544776841,
+          0.05012657618758702,
+          0.049818614921947516,
+          0.04991746656965501,
+          0.04982621598951888
+        ],
+        "baseline": [
+          0.010638261505061605,
+          0.010713627302672163,
+          0.010599332396938152,
+          0.010703759734584636,
+          0.010557669898937805
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 101,
+        "baseline": 467
+      }
+    },
+    {
+      "d": 256,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00022890740840564305
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.0896767470569557e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.03968304679507301,
+      "baseline_ms": 0.010574283517993058,
+      "baseline_over_ours": 0.26646853938911635,
+      "samples_ms": {
+        "ours": [
+          0.03968304679507301,
+          0.03969625442747086,
+          0.039665778477986656,
+          0.03970133312164791,
+          0.039665778477986656
+        ],
+        "baseline": [
+          0.010574283517993058,
+          0.010673716344546863,
+          0.01055752770583517,
+          0.010577029936303396,
+          0.0105347295687434
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 126,
+        "baseline": 466
+      }
+    },
+    {
+      "d": 256,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00022890740840564305
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.0896767470569557e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.03964976438387172,
+      "baseline_ms": 0.010562571108215202,
+      "baseline_over_ours": 0.2663968190568044,
+      "samples_ms": {
+        "ours": [
+          0.0396437156857468,
+          0.0397142688120444,
+          0.03962557334599533,
+          0.0397142688120444,
+          0.03964976438387172
+        ],
+        "baseline": [
+          0.010536592052048406,
+          0.01061452821243641,
+          0.010562571108215202,
+          0.01064997848446223,
+          0.010532262209353941
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 127,
+        "baseline": 473
+      }
+    },
+    {
+      "d": 256,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00022890740840564305
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.0896767470569557e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.03996647728814019,
+      "baseline_ms": 0.01059287899896408,
+      "baseline_over_ours": 0.2650440998988783,
+      "samples_ms": {
+        "ours": [
+          0.039956316115364196,
+          0.04009041332063221,
+          0.039954283880808995,
+          0.040088381086077006,
+          0.03996647728814019
+        ],
+        "baseline": [
+          0.01059287899896408,
+          0.010665944968419145,
+          0.010582054896284108,
+          0.010652414083984891,
+          0.010570148080902422
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 126,
+        "baseline": 473
+      }
+    },
+    {
+      "d": 256,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00022890740840564305
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.0896767470569557e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ],
+      "ours_ms": 0.03934599831700325,
+      "baseline_ms": 0.010569296385112562,
+      "baseline_over_ours": 0.26862443036666,
+      "samples_ms": {
+        "ours": [
+          0.039253998547792435,
+          0.03938800096511841,
+          0.03926299884915352,
+          0.039400000125169754,
+          0.03934599831700325
+        ],
+        "baseline": [
+          0.010569296385112562,
+          0.01073044224789268,
+          0.01051863620155736,
+          0.010703494423314145,
+          0.010513246435868113
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 128,
+        "baseline": 475
+      }
+    },
+    {
+      "d": 320,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00016114273646661292
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.042929229573306874,
+      "baseline_ms": 0.0344828481543554,
+      "baseline_over_ours": 0.803248707165167,
+      "samples_ms": {
+        "ours": [
+          0.04294783029800806,
+          0.04291610228709686,
+          0.042929229573306874,
+          0.04292485652825771,
+          0.04293141813359709
+        ],
+        "baseline": [
+          0.034477589881583434,
+          0.0344881096931353,
+          0.03448635584687534,
+          0.0344828481543554,
+          0.034470574496543574
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 117,
+        "baseline": 146
+      }
+    },
+    {
+      "d": 320,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00016114273646661292
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.044401274318188695,
+      "baseline_ms": 0.03450262135472791,
+      "baseline_over_ours": 0.7770637641495378,
+      "samples_ms": {
+        "ours": [
+          0.0443944762238359,
+          0.044405806381090554,
+          0.044392214412182836,
+          0.044401274318188695,
+          0.044401274318188695
+        ],
+        "baseline": [
+          0.03450262135472791,
+          0.03449820814461543,
+          0.03449997079783473,
+          0.034508800506591795,
+          0.03451056644834321
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 113,
+        "baseline": 145
+      }
+    },
+    {
+      "d": 320,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00016114273646661292
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.04059664664729949,
+      "baseline_ms": 0.03449512181216723,
+      "baseline_over_ours": 0.849703723360655,
+      "samples_ms": {
+        "ours": [
+          0.04059664664729949,
+          0.040600772826902325,
+          0.040600772826902325,
+          0.04058632158464001,
+          0.0405904516097038
+        ],
+        "baseline": [
+          0.03449512181216723,
+          0.03448898498326132,
+          0.0344968756584272,
+          0.03448986353939527,
+          0.034507398735986995
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 124,
+        "baseline": 146
+      }
+    },
+    {
+      "d": 320,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00016114273646661292
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.038398047439924636,
+      "baseline_ms": 0.0345021371972071,
+      "baseline_over_ours": 0.8985388450073444,
+      "samples_ms": {
+        "ours": [
+          0.03839609277157383,
+          0.03839609277157383,
+          0.03841172647840194,
+          0.03840195313664793,
+          0.038398047439924636
+        ],
+        "baseline": [
+          0.03449862950468716,
+          0.0344968756584272,
+          0.03450914931623903,
+          0.0345021371972071,
+          0.034503891043467065
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 131,
+        "baseline": 146
+      }
+    },
+    {
+      "d": 320,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00016114273646661292
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.034305752140201935,
+      "baseline_ms": 0.03440219082244455,
+      "baseline_over_ours": 1.0028111519563392,
+      "samples_ms": {
+        "ours": [
+          0.034305752140201935,
+          0.0343075059864619,
+          0.0343040015599499,
+          0.034309259832721865,
+          0.0343040015599499
+        ],
+        "baseline": [
+          0.034400436976184584,
+          0.03440219082244455,
+          0.034403069378578496,
+          0.0344065738050905,
+          0.034389917164632716
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 146,
+        "baseline": 146
+      }
+    },
+    {
+      "d": 320,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00016114273646661292
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.0399705379728287,
+      "baseline_ms": 0.03444953487343984,
+      "baseline_over_ours": 0.8618731851159485,
+      "samples_ms": {
+        "ours": [
+          0.0399705379728287,
+          0.039926858175368535,
+          0.039923807931324794,
+          0.040055872902037604,
+          0.04011987126062787
+        ],
+        "baseline": [
+          0.03447583603532347,
+          0.03447583603532347,
+          0.034328548875573565,
+          0.03431977964427373,
+          0.03444953487343984
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 126,
+        "baseline": 146
+      }
+    },
+    {
+      "d": 320,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00016114273646661292
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.031048692302939333,
+      "baseline_ms": 0.034484602000615365,
+      "baseline_over_ours": 1.110661977778393,
+      "samples_ms": {
+        "ours": [
+          0.031028147096987122,
+          0.031047111676063065,
+          0.031048692302939333,
+          0.03105896196247619,
+          0.031048692302939333
+        ],
+        "baseline": [
+          0.034474082189063504,
+          0.03447583603532347,
+          0.03449249267578125,
+          0.03449862950468716,
+          0.034484602000615365
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 162,
+        "baseline": 146
+      }
+    },
+    {
+      "d": 320,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00016114273646661292
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.031307199597358705,
+      "baseline_ms": 0.0344881096931353,
+      "baseline_over_ours": 1.1016031499682573,
+      "samples_ms": {
+        "ours": [
+          0.0312936007976532,
+          0.031307199597358705,
+          0.03131200075149536,
+          0.031307199597358705,
+          0.03132160007953644
+        ],
+        "baseline": [
+          0.0344933712319152,
+          0.0344828481543554,
+          0.0344828481543554,
+          0.0344881096931353,
+          0.03449512181216723
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 160,
+        "baseline": 146
+      }
+    },
+    {
+      "d": 320,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00016114273646661292
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.03063726715925263,
+      "baseline_ms": 0.034447005699420795,
+      "baseline_over_ours": 1.1243498162014625,
+      "samples_ms": {
+        "ours": [
+          0.03063726715925263,
+          0.030641951212068884,
+          0.03063726715925263,
+          0.03063726715925263,
+          0.030631024663041278
+        ],
+        "baseline": [
+          0.03444877164117221,
+          0.034447005699420795,
+          0.03436226351507779,
+          0.03434902059620824,
+          0.03445230352467504
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 164,
+        "baseline": 145
+      }
+    },
+    {
+      "d": 320,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00016114273646661292
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.03120496998662534,
+      "baseline_ms": 0.034514410855018926,
+      "baseline_over_ours": 1.1060549287441082,
+      "samples_ms": {
+        "ours": [
+          0.03122245895196192,
+          0.03120496998662534,
+          0.03120178909775633,
+          0.03120496998662534,
+          0.031193839837305296
+        ],
+        "baseline": [
+          0.034514410855018926,
+          0.03451967239379883,
+          0.0345161647012789,
+          0.03450564488972703,
+          0.03448635584687534
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 161,
+        "baseline": 146
+      }
+    },
+    {
+      "d": 320,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001603725721271987
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.2281682622017343e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.0649741284258954,
+      "baseline_ms": 0.0344793437278434,
+      "baseline_over_ours": 0.5306626585559812,
+      "samples_ms": {
+        "ours": [
+          0.0649741284258954,
+          0.0649641581944057,
+          0.06498077937534877,
+          0.0649741284258954,
+          0.0649741284258954
+        ],
+        "baseline": [
+          0.03447583603532347,
+          0.03446531622377161,
+          0.03450914931623903,
+          0.03449161738565523,
+          0.0344793437278434
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 77,
+        "baseline": 146
+      }
+    },
+    {
+      "d": 320,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001603725721271987
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.2281682622017343e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.05118171536192602,
+      "baseline_ms": 0.034477589881583434,
+      "baseline_over_ours": 0.6736309957135834,
+      "samples_ms": {
+        "ours": [
+          0.05118171536192602,
+          0.05118301936558315,
+          0.05118171536192602,
+          0.05138677480269452,
+          0.05118171536192602
+        ],
+        "baseline": [
+          0.03448898498326132,
+          0.0344968756584272,
+          0.034477589881583434,
+          0.034477589881583434,
+          0.03440219082244455
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 98,
+        "baseline": 146
+      }
+    },
+    {
+      "d": 320,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001603725721271987
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.2281682622017343e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.05178061711419489,
+      "baseline_ms": 0.03434082253338539,
+      "baseline_over_ours": 0.6631984021675817,
+      "samples_ms": {
+        "ours": [
+          0.05178853654369865,
+          0.05177006279070353,
+          0.05178061711419489,
+          0.05180701029669378,
+          0.05178061711419489
+        ],
+        "baseline": [
+          0.03432328733679366,
+          0.0343215334905337,
+          0.034463562377511636,
+          0.034460054684991706,
+          0.03434082253338539
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 97,
+        "baseline": 146
+      }
+    },
+    {
+      "d": 320,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001603725721271987
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.2281682622017343e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.05088969914600103,
+      "baseline_ms": 0.03443199967684811,
+      "baseline_over_ours": 0.6766005744711465,
+      "samples_ms": {
+        "ours": [
+          0.05087676674428612,
+          0.05089486729015003,
+          0.05089486729015003,
+          0.05088969914600103,
+          0.05086383915910817
+        ],
+        "baseline": [
+          0.03444778102717987,
+          0.03444427333465994,
+          0.03443199967684811,
+          0.03442498755781618,
+          0.034392549567026635
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 99,
+        "baseline": 146
+      }
+    },
+    {
+      "d": 320,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001603725721271987
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.2281682622017343e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.051582680535070674,
+      "baseline_ms": 0.0344793437278434,
+      "baseline_over_ours": 0.6684286929292315,
+      "samples_ms": {
+        "ours": [
+          0.05157872327824229,
+          0.051582680535070674,
+          0.051582680535070674,
+          0.051582680535070674,
+          0.05158532034490526
+        ],
+        "baseline": [
+          0.0344793437278434,
+          0.034490738829521285,
+          0.03439868639593255,
+          0.03437588966056092,
+          0.03449161738565523
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 97,
+        "baseline": 146
+      }
+    },
+    {
+      "d": 384,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015638802035833343
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.05407931215019636,
+      "baseline_ms": 0.03789963505484841,
+      "baseline_over_ours": 0.7008157749785803,
+      "samples_ms": {
+        "ours": [
+          0.05406141793856057,
+          0.05406555052726499,
+          0.05408068626157699,
+          0.05409858047321279,
+          0.05407931215019636
+        ],
+        "baseline": [
+          0.037901574915105644,
+          0.03789963505484841,
+          0.03789769519459118,
+          0.03789769519459118,
+          0.03789963505484841
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 93,
+        "baseline": 132
+      }
+    },
+    {
+      "d": 384,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015638802035833343
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.05652422315618965,
+      "baseline_ms": 0.03789769519459118,
+      "baseline_over_ours": 0.670468218375527,
+      "samples_ms": {
+        "ours": [
+          0.05649546291051286,
+          0.0565271002523015,
+          0.05651847432168682,
+          0.05652422315618965,
+          0.05654723456736361
+        ],
+        "baseline": [
+          0.03789963505484841,
+          0.037895758946736656,
+          0.03789963505484841,
+          0.03789769519459118,
+          0.03789769519459118
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 89,
+        "baseline": 132
+      }
+    },
+    {
+      "d": 384,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015638802035833343
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.04993267342595771,
+      "baseline_ms": 0.03803539276123047,
+      "baseline_over_ours": 0.7617335534343253,
+      "samples_ms": {
+        "ours": [
+          0.04992506763722637,
+          0.04993520868886815,
+          0.04992506763722637,
+          0.04993267342595771,
+          0.049945345019349954
+        ],
+        "baseline": [
+          0.03803442463730321,
+          0.03804315220225941,
+          0.03803539276123047,
+          0.03803636449756044,
+          0.03803151665311871
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 101,
+        "baseline": 132
+      }
+    },
+    {
+      "d": 384,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015638802035833343
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.04780617214384533,
+      "baseline_ms": 0.038033452900973236,
+      "baseline_over_ours": 0.7955762027240607,
+      "samples_ms": {
+        "ours": [
+          0.047840304601760135,
+          0.04783542723882766,
+          0.04780617214384533,
+          0.047803733462379094,
+          0.047803733462379094
+        ],
+        "baseline": [
+          0.038041212342002174,
+          0.03804509206251665,
+          0.038033452900973236,
+          0.03802957679286147,
+          0.03803151665311871
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 105,
+        "baseline": 132
+      }
+    },
+    {
+      "d": 384,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015638802035833343
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.04155239783042718,
+      "baseline_ms": 0.038032484777045975,
+      "baseline_over_ours": 0.9152897729814351,
+      "samples_ms": {
+        "ours": [
+          0.04154393298566834,
+          0.0415545140416169,
+          0.04155239783042718,
+          0.04154181677447863,
+          0.04155239783042718
+        ],
+        "baseline": [
+          0.038032484777045975,
+          0.038033452900973236,
+          0.03803151665311871,
+          0.03802763693260424,
+          0.03804315220225941
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 121,
+        "baseline": 132
+      }
+    },
+    {
+      "d": 384,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015638802035833343
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.05261066555976868,
+      "baseline_ms": 0.03803151665311871,
+      "baseline_over_ours": 0.7228860583394972,
+      "samples_ms": {
+        "ours": [
+          0.05262133479118347,
+          0.05261066555976868,
+          0.05261066555976868,
+          0.05260666708151499,
+          0.05259466667970022
+        ],
+        "baseline": [
+          0.03803151665311871,
+          0.0380198774915753,
+          0.038033452900973236,
+          0.03803151665311871,
+          0.03802763693260424
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 96,
+        "baseline": 132
+      }
+    },
+    {
+      "d": 384,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015638802035833343
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.039938033573211185,
+      "baseline_ms": 0.03800541296937412,
+      "baseline_over_ours": 0.9516095202760961,
+      "samples_ms": {
+        "ours": [
+          0.039963427044096445,
+          0.039938033573211185,
+          0.03993396910410079,
+          0.039938033573211185,
+          0.03994006202334449
+        ],
+        "baseline": [
+          0.03800348769453235,
+          0.03802273685770823,
+          0.0380188863080247,
+          0.03800541296937412,
+          0.03789377571048593
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 126,
+        "baseline": 133
+      }
+    },
+    {
+      "d": 384,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015638802035833343
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.038812774096348486,
+      "baseline_ms": 0.03788024367708148,
+      "baseline_over_ours": 0.975973621031259,
+      "samples_ms": {
+        "ours": [
+          0.03881078912306202,
+          0.038812774096348486,
+          0.038806822872901145,
+          0.03882269896278086,
+          0.03881674404292144
+        ],
+        "baseline": [
+          0.03790642275954738,
+          0.037903514775362884,
+          0.03788024367708148,
+          0.03787830381682425,
+          0.037874424096309776
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 129,
+        "baseline": 132
+      }
+    },
+    {
+      "d": 384,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015638802035833343
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.04175359805425008,
+      "baseline_ms": 0.03790545463562012,
+      "baseline_over_ours": 0.9078368428601027,
+      "samples_ms": {
+        "ours": [
+          0.041740798950195314,
+          0.04174506664276123,
+          0.04175359805425008,
+          0.04175999959309896,
+          0.041757865746815996
+        ],
+        "baseline": [
+          0.037901574915105644,
+          0.03790545463562012,
+          0.038041212342002174,
+          0.03803927248174494,
+          0.037901574915105644
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 120,
+        "baseline": 132
+      }
+    },
+    {
+      "d": 384,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00015638802035833343
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.04107750830103139,
+      "baseline_ms": 0.0379558801651001,
+      "baseline_over_ours": 0.9240063902353854,
+      "samples_ms": {
+        "ours": [
+          0.04107331057063869,
+          0.04108275350977163,
+          0.04107750830103139,
+          0.04105862242276551,
+          0.04109219644890457
+        ],
+        "baseline": [
+          0.03799854625355114,
+          0.03800436222192013,
+          0.03794909246040113,
+          0.0379558801651001,
+          0.03784630154118394
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 122,
+        "baseline": 132
+      }
+    },
+    {
+      "d": 384,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00021322677957708036
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.2141298837420322e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.087758599666127,
+      "baseline_ms": 0.03790254665143562,
+      "baseline_over_ours": 0.4318955269983099,
+      "samples_ms": {
+        "ours": [
+          0.087758599666127,
+          0.08778554514834755,
+          0.08778105284038343,
+          0.08775410735816286,
+          0.0877271618759423
+        ],
+        "baseline": [
+          0.037862788547169075,
+          0.03785890882665461,
+          0.03804509206251665,
+          0.038041212342002174,
+          0.03790254665143562
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 57,
+        "baseline": 132
+      }
+    },
+    {
+      "d": 384,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00021322677957708036
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.2141298837420322e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.06218271490968304,
+      "baseline_ms": 0.03789187922622218,
+      "baseline_over_ours": 0.6093635390680199,
+      "samples_ms": {
+        "ours": [
+          0.06218113722624602,
+          0.062189037417188106,
+          0.06217955365593051,
+          0.06218271490968304,
+          0.06220167654531973
+        ],
+        "baseline": [
+          0.03789187922622218,
+          0.037893819086479416,
+          0.037845333417256675,
+          0.037845333417256675,
+          0.03790254665143562
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 81,
+        "baseline": 132
+      }
+    },
+    {
+      "d": 384,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00021322677957708036
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.2141298837420322e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.0645907719930013,
+      "baseline_ms": 0.037895758946736656,
+      "baseline_over_ours": 0.5867054654625096,
+      "samples_ms": {
+        "ours": [
+          0.06460389724144569,
+          0.06458092347169533,
+          0.0645907719930013,
+          0.06486318050286709,
+          0.06458092347169533
+        ],
+        "baseline": [
+          0.03789963505484841,
+          0.03789963505484841,
+          0.03788121180100874,
+          0.03787151611212528,
+          0.037895758946736656
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 78,
+        "baseline": 132
+      }
+    },
+    {
+      "d": 384,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00021322677957708036
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.2141298837420322e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.0696035557323032,
+      "baseline_ms": 0.03788222406143533,
+      "baseline_over_ours": 0.5442570234074131,
+      "samples_ms": {
+        "ours": [
+          0.0696035557323032,
+          0.069614224963718,
+          0.06965333223342896,
+          0.06959822442796496,
+          0.0695893300904168
+        ],
+        "baseline": [
+          0.037878377096993585,
+          0.03788222406143533,
+          0.03788222406143533,
+          0.03788222406143533,
+          0.03790147322461121
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 72,
+        "baseline": 133
+      }
+    },
+    {
+      "d": 384,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00021322677957708036
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.2141298837420322e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.07214811188834054,
+      "baseline_ms": 0.03790147322461121,
+      "baseline_over_ours": 0.5253286916679002,
+      "samples_ms": {
+        "ours": [
+          0.07212982858930315,
+          0.0721261705671038,
+          0.07214994430541992,
+          0.0721700600215367,
+          0.07214811188834054
+        ],
+        "baseline": [
+          0.037897622674927675,
+          0.0378957009853277,
+          0.037955370164455327,
+          0.03794670822028827,
+          0.03790147322461121
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 70,
+        "baseline": 133
+      }
+    },
+    {
+      "d": 448,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017566012423686495
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.0683831330892202,
+      "baseline_ms": 0.04687551248853452,
+      "baseline_over_ours": 0.6854835450048119,
+      "samples_ms": {
+        "ours": [
+          0.0683831330892202,
+          0.0683831330892202,
+          0.06839351396302919,
+          0.06833124160766602,
+          0.06837448558291874
+        ],
+        "baseline": [
+          0.04687551248853452,
+          0.0468695319701578,
+          0.04687671126606308,
+          0.0468695319701578,
+          0.04687910436469818
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 74,
+        "baseline": 107
+      }
+    },
+    {
+      "d": 448,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017566012423686495
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.07154834611075266,
+      "baseline_ms": 0.046943700202157566,
+      "baseline_over_ours": 0.656111605004698,
+      "samples_ms": {
+        "ours": [
+          0.07154103006635393,
+          0.07157394545418876,
+          0.07154834611075266,
+          0.0715428556714739,
+          0.0715519973209926
+        ],
+        "baseline": [
+          0.04692455986949885,
+          0.04694848639942775,
+          0.046943700202157566,
+          0.04695446691780447,
+          0.046938914004887373
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 70,
+        "baseline": 107
+      }
+    },
+    {
+      "d": 448,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017566012423686495
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.06287040114402771,
+      "baseline_ms": 0.04687671126606308,
+      "baseline_over_ours": 0.7456085918503174,
+      "samples_ms": {
+        "ours": [
+          0.06287040114402771,
+          0.06288319826126099,
+          0.06287840008735657,
+          0.06286399960517883,
+          0.06286399960517883
+        ],
+        "baseline": [
+          0.04687551248853452,
+          0.04687671126606308,
+          0.04688388610554633,
+          0.0468719250687929,
+          0.0468826917844398
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 80,
+        "baseline": 107
+      }
+    },
+    {
+      "d": 448,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017566012423686495
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.06330328953417041,
+      "baseline_ms": 0.04687671126606308,
+      "baseline_over_ours": 0.7405098788864606,
+      "samples_ms": {
+        "ours": [
+          0.06332111358642578,
+          0.06331301339064972,
+          0.06330004824867731,
+          0.06330328953417041,
+          0.0632968129990976
+        ],
+        "baseline": [
+          0.04688388610554633,
+          0.0468719250687929,
+          0.04687671126606308,
+          0.04687671126606308,
+          0.046888672302816514
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 79,
+        "baseline": 107
+      }
+    },
+    {
+      "d": 448,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017566012423686495
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.05756616044318539,
+      "baseline_ms": 0.04686713887152271,
+      "baseline_over_ours": 0.8141439086905575,
+      "samples_ms": {
+        "ours": [
+          0.05756616044318539,
+          0.05755880509299793,
+          0.057573515793372845,
+          0.05756174832925029,
+          0.057573471946277835
+        ],
+        "baseline": [
+          0.04686713887152271,
+          0.0468719250687929,
+          0.04686713887152271,
+          0.04686713887152271,
+          0.04685278473613418
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 87,
+        "baseline": 107
+      }
+    },
+    {
+      "d": 448,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017566012423686495
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.059667808668954034,
+      "baseline_ms": 0.04689824469735689,
+      "baseline_over_ours": 0.785989057475789,
+      "samples_ms": {
+        "ours": [
+          0.05954742999303909,
+          0.05964799722035726,
+          0.059667808668954034,
+          0.05969675949641636,
+          0.059702856200081963
+        ],
+        "baseline": [
+          0.04689465282119323,
+          0.046900633339569946,
+          0.04689824469735689,
+          0.04687910436469818,
+          0.04690781263547523
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 84,
+        "baseline": 107
+      }
+    },
+    {
+      "d": 448,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017566012423686495
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.0531429039804559,
+      "baseline_ms": 0.046850391637499086,
+      "baseline_over_ours": 0.881592614034209,
+      "samples_ms": {
+        "ours": [
+          0.05316176665456671,
+          0.0531429039804559,
+          0.053153685519569796,
+          0.0531429039804559,
+          0.05311865053678814
+        ],
+        "baseline": [
+          0.04685517783476927,
+          0.046844411119122374,
+          0.046850391637499086,
+          0.04683364440347547,
+          0.04685517783476927
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 95,
+        "baseline": 107
+      }
+    },
+    {
+      "d": 448,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017566012423686495
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.053091706727680404,
+      "baseline_ms": 0.046850391637499086,
+      "baseline_over_ours": 0.8824427490682404,
+      "samples_ms": {
+        "ours": [
+          0.05308362057334498,
+          0.053105178632234275,
+          0.05308766114084344,
+          0.053091706727680404,
+          0.05309709247789885
+        ],
+        "baseline": [
+          0.046862357130674555,
+          0.046864745772887614,
+          0.046850391637499086,
+          0.046850391637499086,
+          0.04684082369938075
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 95,
+        "baseline": 107
+      }
+    },
+    {
+      "d": 448,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017566012423686495
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.05254133542378744,
+      "baseline_ms": 0.04692934606676904,
+      "baseline_over_ours": 0.893189061302815,
+      "samples_ms": {
+        "ours": [
+          0.05254133542378744,
+          0.05253733197848002,
+          0.0525466650724411,
+          0.0525439977645874,
+          0.05253999928633372
+        ],
+        "baseline": [
+          0.04694848639942775,
+          0.04692455986949885,
+          0.04694250588105104,
+          0.04692934606676904,
+          0.04686115835314599
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 96,
+        "baseline": 107
+      }
+    },
+    {
+      "d": 448,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017566012423686495
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.05230399966239929,
+      "baseline_ms": 0.04687671126606308,
+      "baseline_over_ours": 0.8962356907432106,
+      "samples_ms": {
+        "ours": [
+          0.05230399966239929,
+          0.052302668491999306,
+          0.052298665046691895,
+          0.05231200158596039,
+          0.05231600006421407
+        ],
+        "baseline": [
+          0.04687431816742799,
+          0.04687431816742799,
+          0.04690541953684014,
+          0.046900633339569946,
+          0.04687671126606308
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 96,
+        "baseline": 107
+      }
+    },
+    {
+      "d": 448,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00018047392816850083
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.197437896394149e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.10771608352661133,
+      "baseline_ms": 0.046864745772887614,
+      "baseline_over_ours": 0.43507658502371793,
+      "samples_ms": {
+        "ours": [
+          0.10779233689003802,
+          0.10771608352661133,
+          0.10772697976294984,
+          0.10768612394941614,
+          0.10767250872672872
+        ],
+        "baseline": [
+          0.046864745772887614,
+          0.04686713887152271,
+          0.04687073074768637,
+          0.046859964032039465,
+          0.04684082369938075
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 47,
+        "baseline": 107
+      }
+    },
+    {
+      "d": 448,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00018047392816850083
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.197437896394149e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.07827199995517731,
+      "baseline_ms": 0.04685278473613418,
+      "baseline_over_ours": 0.5985893392651851,
+      "samples_ms": {
+        "ours": [
+          0.07825200259685516,
+          0.07829199731349945,
+          0.07826799899339676,
+          0.07827199995517731,
+          0.07827199995517731
+        ],
+        "baseline": [
+          0.046853983513662746,
+          0.04685278473613418,
+          0.046859964032039465,
+          0.04685278473613418,
+          0.04684321679801584
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 64,
+        "baseline": 107
+      }
+    },
+    {
+      "d": 448,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00018047392816850083
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.197437896394149e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.07376564951503978,
+      "baseline_ms": 0.04687910436469818,
+      "baseline_over_ours": 0.6355140186915889,
+      "samples_ms": {
+        "ours": [
+          0.07376564951503978,
+          0.07375435268177706,
+          0.07377693933599136,
+          0.0737618839039522,
+          0.0737844705581665
+        ],
+        "baseline": [
+          0.04687910436469818,
+          0.04686713887152271,
+          0.04689106540145161,
+          0.04690781263547523,
+          0.04686594455041618
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 68,
+        "baseline": 107
+      }
+    },
+    {
+      "d": 448,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00018047392816850083
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.197437896394149e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.07479020730773014,
+      "baseline_ms": 0.0468719250687929,
+      "baseline_over_ours": 0.6267120623952104,
+      "samples_ms": {
+        "ours": [
+          0.07479785093620642,
+          0.07477492716775011,
+          0.07507104304299425,
+          0.07476346172503572,
+          0.07479020730773014
+        ],
+        "baseline": [
+          0.04691738503001561,
+          0.04690302643820504,
+          0.046862357130674555,
+          0.0468719250687929,
+          0.046838430600745655
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 67,
+        "baseline": 107
+      }
+    },
+    {
+      "d": 448,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00018047392816850083
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.197437896394149e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.07408564932206098,
+      "baseline_ms": 0.04689345850008671,
+      "baseline_over_ours": 0.6329627792858249,
+      "samples_ms": {
+        "ours": [
+          0.07404800022349638,
+          0.07407058687771068,
+          0.07410070475410013,
+          0.07408564932206098,
+          0.07410070475410013
+        ],
+        "baseline": [
+          0.046888672302816514,
+          0.04689106540145161,
+          0.04691140005521685,
+          0.046900633339569946,
+          0.04689345850008671
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 68,
+        "baseline": 107
+      }
+    },
+    {
+      "d": 512,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001523790026827232
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.10265600438020667,
+      "baseline_ms": 0.04994407974847472,
+      "baseline_over_ours": 0.4865188358929013,
+      "samples_ms": {
+        "ours": [
+          0.10263510139621033,
+          0.10266122039483518,
+          0.10265600438020667,
+          0.10265077863420759,
+          0.10265600438020667
+        ],
+        "baseline": [
+          0.049945345019349954,
+          0.04994027921468905,
+          0.04994280975643951,
+          0.04994407974847472,
+          0.04995548607099174
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 49,
+        "baseline": 101
+      }
+    },
+    {
+      "d": 512,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001523790026827232
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.1103916479193646,
+      "baseline_ms": 0.0499377439517786,
+      "baseline_over_ours": 0.4523688602624679,
+      "samples_ms": {
+        "ours": [
+          0.11039721447488536,
+          0.11036382550778596,
+          0.1103916479193646,
+          0.11041391414144765,
+          0.11036382550778596
+        ],
+        "baseline": [
+          0.0499377439517786,
+          0.0499377439517786,
+          0.049936473959743384,
+          0.0499377439517786,
+          0.04993520868886815
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 46,
+        "baseline": 101
+      }
+    },
+    {
+      "d": 512,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001523790026827232
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.09758030451261081,
+      "baseline_ms": 0.04993520868886815,
+      "baseline_over_ours": 0.5117345035792009,
+      "samples_ms": {
+        "ours": [
+          0.09758522877326378,
+          0.09762461368854229,
+          0.09756061663994423,
+          0.09758030451261081,
+          0.09756061663994423
+        ],
+        "baseline": [
+          0.04993520868886815,
+          0.04994027921468905,
+          0.0499377439517786,
+          0.04992887289217203,
+          0.04993013816304726
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 52,
+        "baseline": 101
+      }
+    },
+    {
+      "d": 512,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001523790026827232
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.09936314003140319,
+      "baseline_ms": 0.04992506763722637,
+      "baseline_over_ours": 0.5024505829973552,
+      "samples_ms": {
+        "ours": [
+          0.09941332947974112,
+          0.09936314003140319,
+          0.09934807758705289,
+          0.09936314003140319,
+          0.09935560413435393
+        ],
+        "baseline": [
+          0.049922532374315924,
+          0.04992506763722637,
+          0.04993267342595771,
+          0.049922532374315924,
+          0.0499377439517786
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 51,
+        "baseline": 101
+      }
+    },
+    {
+      "d": 512,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001523790026827232
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.09246720400723545,
+      "baseline_ms": 0.04993267342595771,
+      "baseline_over_ours": 0.540004144843079,
+      "samples_ms": {
+        "ours": [
+          0.09246720400723545,
+          0.09244392568414861,
+          0.09251839897849343,
+          0.09273250753229315,
+          0.0922298171303489
+        ],
+        "baseline": [
+          0.04993520868886815,
+          0.04993267342595771,
+          0.04993013816304726,
+          0.04993267342595771,
+          0.049904790255102784
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 55,
+        "baseline": 101
+      }
+    },
+    {
+      "d": 512,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001523790026827232
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.07635199662410852,
+      "baseline_ms": 0.04993267342595771,
+      "baseline_over_ours": 0.6539799302405043,
+      "samples_ms": {
+        "ours": [
+          0.07635199662410852,
+          0.076350060376254,
+          0.0764082417343602,
+          0.07649357391126228,
+          0.07633454871900154
+        ],
+        "baseline": [
+          0.04993140815508248,
+          0.04992633762926158,
+          0.04993267342595771,
+          0.04993520868886815,
+          0.0499377439517786
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 66,
+        "baseline": 101
+      }
+    },
+    {
+      "d": 512,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001523790026827232
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.05916611727546243,
+      "baseline_ms": 0.04993013816304726,
+      "baseline_over_ours": 0.8438974950914087,
+      "samples_ms": {
+        "ours": [
+          0.059244425156537224,
+          0.05915106044096105,
+          0.05922334334429573,
+          0.05916611727546243,
+          0.05916611727546243
+        ],
+        "baseline": [
+          0.04993013816304726,
+          0.04993520868886815,
+          0.04992506763722637,
+          0.049927602900136814,
+          0.04996055659681264
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 85,
+        "baseline": 101
+      }
+    },
+    {
+      "d": 512,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001523790026827232
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.059194727504954615,
+      "baseline_ms": 0.04995041554517085,
+      "baseline_over_ours": 0.8438321730763941,
+      "samples_ms": {
+        "ours": [
+          0.05917214225320255,
+          0.059194727504954615,
+          0.05919623655431411,
+          0.05920677746043486,
+          0.05919021157657399
+        ],
+        "baseline": [
+          0.04995421607895653,
+          0.0499377439517786,
+          0.049945345019349954,
+          0.04995041554517085,
+          0.04999604083523892
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 85,
+        "baseline": 101
+      }
+    },
+    {
+      "d": 512,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001523790026827232
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.06490929715045086,
+      "baseline_ms": 0.04993792057037354,
+      "baseline_over_ours": 0.7693492729496711,
+      "samples_ms": {
+        "ours": [
+          0.06490929715045086,
+          0.0649209332156491,
+          0.06489766108525263,
+          0.06493090963982917,
+          0.06490763750943271
+        ],
+        "baseline": [
+          0.04995584011077881,
+          0.04995071887969971,
+          0.04992767810821533,
+          0.04992000102996826,
+          0.04993792057037354
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 77,
+        "baseline": 100
+      }
+    },
+    {
+      "d": 512,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.0001523790026827232
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.06338106227826469,
+      "baseline_ms": 0.04996815766438399,
+      "baseline_over_ours": 0.788376777987825,
+      "samples_ms": {
+        "ours": [
+          0.06338106227826469,
+          0.06337782099277159,
+          0.0634005039553099,
+          0.06337782099277159,
+          0.06338106227826469
+        ],
+        "baseline": [
+          0.04995421607895653,
+          0.04996815766438399,
+          0.050054337718699236,
+          0.050051802455788795,
+          0.04990986078092367
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 79,
+        "baseline": 101
+      }
+    },
+    {
+      "d": 512,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00018061836490285144
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.3234632234571109e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.12536959648132323,
+      "baseline_ms": 0.04994027921468905,
+      "baseline_over_ours": 0.39834442014917737,
+      "samples_ms": {
+        "ours": [
+          0.12536319494247436,
+          0.12536959648132323,
+          0.12537599802017213,
+          0.12536959648132323,
+          0.12528640031814575
+        ],
+        "baseline": [
+          0.04993013816304726,
+          0.04992506763722637,
+          0.04994661501138517,
+          0.04995041554517085,
+          0.04994027921468905
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 40,
+        "baseline": 101
+      }
+    },
+    {
+      "d": 512,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00018061836490285144
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.3234632234571109e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.08397653102874755,
+      "baseline_ms": 0.04992506763722637,
+      "baseline_over_ours": 0.594512145543802,
+      "samples_ms": {
+        "ours": [
+          0.08398719628651936,
+          0.08396800359090169,
+          0.08396373589833578,
+          0.08397653102874755,
+          0.08397653102874755
+        ],
+        "baseline": [
+          0.04992506763722637,
+          0.049922532374315924,
+          0.049927602900136814,
+          0.04992506763722637,
+          0.04991239604383412
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 60,
+        "baseline": 101
+      }
+    },
+    {
+      "d": 512,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00018061836490285144
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.3234632234571109e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.08702234564156368,
+      "baseline_ms": 0.049980833978936226,
+      "baseline_over_ours": 0.5743448261530696,
+      "samples_ms": {
+        "ours": [
+          0.08703117535032075,
+          0.08700027959100132,
+          0.08702676049594221,
+          0.08701351593280661,
+          0.08702234564156368
+        ],
+        "baseline": [
+          0.04998843504650758,
+          0.049980833978936226,
+          0.04998336452068669,
+          0.04997322819020489,
+          0.04993140815508248
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 58,
+        "baseline": 101
+      }
+    },
+    {
+      "d": 512,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00018061836490285144
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.3234632234571109e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.08488135418649446,
+      "baseline_ms": 0.04993013816304726,
+      "baseline_over_ours": 0.5882344672935447,
+      "samples_ms": {
+        "ours": [
+          0.08488352824065645,
+          0.08488135418649446,
+          0.08487484818798001,
+          0.08488786826699467,
+          0.08487050816164178
+        ],
+        "baseline": [
+          0.04992506763722637,
+          0.049922532374315924,
+          0.04993520868886815,
+          0.04994027921468905,
+          0.04993013816304726
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 59,
+        "baseline": 101
+      }
+    },
+    {
+      "d": 512,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00018061836490285144
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 1.3234632234571109e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.08585545976283186,
+      "baseline_ms": 0.049927602900136814,
+      "baseline_over_ours": 0.581530901331813,
+      "samples_ms": {
+        "ours": [
+          0.0858684717598608,
+          0.08583809965747898,
+          0.0858424396838172,
+          0.08585545976283186,
+          0.08587715181253724
+        ],
+        "baseline": [
+          0.04992506763722637,
+          0.04992506763722637,
+          0.04998336452068669,
+          0.04997322819020489,
+          0.049927602900136814
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 59,
+        "baseline": 101
+      }
+    },
+    {
+      "d": 1024,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017565890720194766
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.2232041773588761,
+      "baseline_ms": 0.09553871514662257,
+      "baseline_over_ours": 0.42803282750847366,
+      "samples_ms": {
+        "ours": [
+          0.22329322151515796,
+          0.223315487737241,
+          0.22318191113679306,
+          0.22319304424783457,
+          0.2232041773588761
+        ],
+        "baseline": [
+          0.09553630397004902,
+          0.09553871514662257,
+          0.09554113532012364,
+          0.09554113532012364,
+          0.09552664126989976
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 23,
+        "baseline": 53
+      }
+    },
+    {
+      "d": 1024,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017565890720194766
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.23440872539173474,
+      "baseline_ms": 0.0956232412806097,
+      "baseline_over_ours": 0.4079337964950232,
+      "samples_ms": {
+        "ours": [
+          0.23439708623019131,
+          0.23440872539173474,
+          0.2343738079071045,
+          0.23452509533275256,
+          0.23449017784812234
+        ],
+        "baseline": [
+          0.09564014650740714,
+          0.09558459947694023,
+          0.09563773533083358,
+          0.09560875622731335,
+          0.0956232412806097
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 22,
+        "baseline": 53
+      }
+    },
+    {
+      "d": 1024,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017565890720194766
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.21938643248184866,
+      "baseline_ms": 0.09543486361233693,
+      "baseline_over_ours": 0.43500804736515736,
+      "samples_ms": {
+        "ours": [
+          0.21931965454764987,
+          0.21938643248184866,
+          0.21938643248184866,
+          0.21938643248184866,
+          0.2193307876586914
+        ],
+        "baseline": [
+          0.0954252099091152,
+          0.09543486361233693,
+          0.09545418901263543,
+          0.09544935766256081,
+          0.09543245243576337
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 23,
+        "baseline": 53
+      }
+    },
+    {
+      "d": 1024,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017565890720194766
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.21236799160639444,
+      "baseline_ms": 0.09543486361233693,
+      "baseline_over_ours": 0.44938440529784324,
+      "samples_ms": {
+        "ours": [
+          0.21236799160639444,
+          0.21239999930063883,
+          0.21226133902867636,
+          0.21237866083780924,
+          0.2122933268547058
+        ],
+        "baseline": [
+          0.09544452631248618,
+          0.09543486361233693,
+          0.09544935766256081,
+          0.09543004125918982,
+          0.09540105315874207
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 24,
+        "baseline": 53
+      }
+    },
+    {
+      "d": 1024,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "async",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017565890720194766
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.21147199471791586,
+      "baseline_ms": 0.09542037855904058,
+      "baseline_over_ours": 0.45121992955295365,
+      "samples_ms": {
+        "ours": [
+          0.2113920052846273,
+          0.21149333318074545,
+          0.21151467164357504,
+          0.21147199471791586,
+          0.2114293376604716
+        ],
+        "baseline": [
+          0.09543969496241156,
+          0.095437283785838,
+          0.09542037855904058,
+          0.09542037855904058,
+          0.09542037855904058
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 24,
+        "baseline": 53
+      }
+    },
+    {
+      "d": 1024,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017565890720194766
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.19693785447340745,
+      "baseline_ms": 0.09552664126989976,
+      "baseline_over_ours": 0.48505982521912133,
+      "samples_ms": {
+        "ours": [
+          0.19700677578265852,
+          0.19696738169743463,
+          0.19691815743079552,
+          0.1969280059521015,
+          0.19693785447340745
+        ],
+        "baseline": [
+          0.09543486361233693,
+          0.09543486361233693,
+          0.09553147261997438,
+          0.09554113532012364,
+          0.09552664126989976
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 26,
+        "baseline": 53
+      }
+    },
+    {
+      "d": 1024,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017565890720194766
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.14554331643240792,
+      "baseline_ms": 0.09557494577371849,
+      "baseline_over_ours": 0.6566769819217679,
+      "samples_ms": {
+        "ours": [
+          0.14554331643240792,
+          0.1456676619393485,
+          0.14562743050711496,
+          0.14547383444649833,
+          0.1454592023577009
+        ],
+        "baseline": [
+          0.09557011442364387,
+          0.09557494577371849,
+          0.09561841892746259,
+          0.09561358757738797,
+          0.09556528307356925
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 35,
+        "baseline": 53
+      }
+    },
+    {
+      "d": 1024,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017565890720194766
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.15267296993371213,
+      "baseline_ms": 0.0956232412806097,
+      "baseline_over_ours": 0.6263272491661596,
+      "samples_ms": {
+        "ours": [
+          0.15267296993371213,
+          0.15272339907559482,
+          0.15266133799697412,
+          0.152700120752508,
+          0.1526535785559452
+        ],
+        "baseline": [
+          0.09564497785748176,
+          0.09566188308427918,
+          0.0956232412806097,
+          0.09560875622731335,
+          0.09554596667019825
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 33,
+        "baseline": 53
+      }
+    },
+    {
+      "d": 1024,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017565890720194766
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.16118399798870087,
+      "baseline_ms": 0.09556831098070331,
+      "baseline_over_ours": 0.5929143846363876,
+      "samples_ms": {
+        "ours": [
+          0.16118399798870087,
+          0.1612520068883896,
+          0.16107599437236786,
+          0.161203995347023,
+          0.16116400063037872
+        ],
+        "baseline": [
+          0.09556831098070331,
+          0.09557584687775257,
+          0.09554572198905197,
+          0.09554572198905197,
+          0.09560344733443915
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 32,
+        "baseline": 51
+      }
+    },
+    {
+      "d": 1024,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00017565890720194766
+      },
+      "lse": null,
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.1575320065021515,
+      "baseline_ms": 0.0955990935271641,
+      "baseline_over_ours": 0.6068550490141726,
+      "samples_ms": {
+        "ours": [
+          0.1575320065021515,
+          0.15746399760246277,
+          0.1575399935245514,
+          0.15757599472999573,
+          0.15751199424266815
+        ],
+        "baseline": [
+          0.0955990935271641,
+          0.0955990935271641,
+          0.09555562037342,
+          0.09557011442364387,
+          0.09561358757738797
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 32,
+        "baseline": 53
+      }
+    },
+    {
+      "d": 1024,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 1,
+      "sv": 1,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00031262234279805234
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 2.2190392012788607e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.27869155671861434,
+      "baseline_ms": 0.09556045172349462,
+      "baseline_over_ours": 0.34288965495994145,
+      "samples_ms": {
+        "ours": [
+          0.279146671295166,
+          0.278876437081231,
+          0.278364446428087,
+          0.27869155671861434,
+          0.2786346541510688
+        ],
+        "baseline": [
+          0.0956232412806097,
+          0.09561599875396153,
+          0.09555078902334538,
+          0.09556045172349462,
+          0.09556045172349462
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 18,
+        "baseline": 53
+      }
+    },
+    {
+      "d": 1024,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00031262234279805234
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 2.2190392012788607e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.17454786958365603,
+      "baseline_ms": 0.09554596667019825,
+      "baseline_over_ours": 0.547391193591198,
+      "samples_ms": {
+        "ours": [
+          0.17453903987489897,
+          0.1745434465079472,
+          0.17464055686161437,
+          0.17454786958365603,
+          0.17460083139353785
+        ],
+        "baseline": [
+          0.09556045172349462,
+          0.09557011442364387,
+          0.09554596667019825,
+          0.09554596667019825,
+          0.09554596667019825
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 29,
+        "baseline": 53
+      }
+    },
+    {
+      "d": 1024,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 2,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00031262234279805234
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 2.2190392012788607e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.18259656429290771,
+      "baseline_ms": 0.09553630397004902,
+      "baseline_over_ours": 0.52320975665674,
+      "samples_ms": {
+        "ours": [
+          0.18252342087881906,
+          0.18261485440390451,
+          0.18271543298448836,
+          0.18259656429290771,
+          0.18256914615631104
+        ],
+        "baseline": [
+          0.09553630397004902,
+          0.09553630397004902,
+          0.09556045172349462,
+          0.09555562037342,
+          0.09552664126989976
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 28,
+        "baseline": 53
+      }
+    },
+    {
+      "d": 1024,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 2,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00031262234279805234
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 2.2190392012788607e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.17928229059491838,
+      "baseline_ms": 0.09554113532012364,
+      "baseline_over_ours": 0.5329089393218165,
+      "samples_ms": {
+        "ours": [
+          0.17920914718082973,
+          0.17929143565041677,
+          0.17934628895350865,
+          0.17928229059491838,
+          0.17919085706983293
+        ],
+        "baseline": [
+          0.09554113532012364,
+          0.09552664126989976,
+          0.09554113532012364,
+          0.09554113532012364,
+          0.09553147261997438
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 28,
+        "baseline": 53
+      }
+    },
+    {
+      "d": 1024,
+      "n": 384,
+      "b": 1,
+      "h": 2,
+      "variant": "non_ws",
+      "sq": 3,
+      "sv": 3,
+      "output": {
+        "passed": true,
+        "max_abs": 0.00031262234279805234
+      },
+      "lse": {
+        "passed": true,
+        "max_abs": 2.2190392012788607e-06
+      },
+      "graph_replay": true,
+      "passed": true,
+      "sdpa_operators": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ],
+      "ours_ms": 0.18548622837773077,
+      "baseline_ms": 0.09561841892746259,
+      "baseline_over_ours": 0.5155014459226689,
+      "samples_ms": {
+        "ours": [
+          0.18556208080715603,
+          0.18556208080715603,
+          0.18548622837773077,
+          0.1854388095714428,
+          0.1854008921870479
+        ],
+        "baseline": [
+          0.09561841892746259,
+          0.09561841892746259,
+          0.0956232412806097,
+          0.09560875622731335,
+          0.09553147261997438
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 27,
+        "baseline": 53
+      }
+    }
+  ],
+  "memory": [],
+  "passed": true,
+  "environment": {
+    "torch": "2.9.0a0+145a3a7bda.nv25.10",
+    "cuda": "13.0",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "image": "sha256:42263b2424fc237b34c4fc4a91c30d603c57eed36e37d31ff6d9a4f1f801edee"
+  }
+}

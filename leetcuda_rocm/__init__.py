@@ -6,6 +6,7 @@ __all__ = [
     "gemm",
     "flash_attention",
     "attention",
+    "ffpa_attention",
     "fp8_gemm",
     "fp8_gemm_prepacked",
     "quantize_fp8_weight",
@@ -30,6 +31,10 @@ def __getattr__(name):
         from .attention_training import attention
 
         return attention
+    if name == "ffpa_attention":
+        from .ffpa import ffpa_attention
+
+        return ffpa_attention
     if name in (
         "fp8_gemm",
         "fp8_gemm_prepacked",
