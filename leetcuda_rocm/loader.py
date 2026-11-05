@@ -42,9 +42,11 @@ KERNELS = {
     "merge_attn_states": "openai-triton/merge-attn-states/cuda_merge_attn_states.cu",
     "hgemm": "hgemm/pybind/hgemm.cc",
     "flash_attn": "flash-attn/pybind/flash_attn.cc",
+    "ws_hgemm": "ws-hgemm/naive_ws_hgemm_sm8x.cu",
 }
 
 EXTRA_SOURCES = {
+    "ws_hgemm": ("rocm/ws_hgemm.cu",),
     "hgemv": ("rocm/hgemv_matrix_precision.cu",),
     "sgemm": (
         "sgemm/sgemm_async.cu",
@@ -126,6 +128,15 @@ def load(name, *, verbose=False):
         )
     identity = verify()
     sources = tuple(_prepare(path.read_text()) for path in source_paths(name))
+    if name == "ws_hgemm":
+        # Native producer/consumer implementation replaces CUDA pipeline/CuTe.
+        # Keep the upstream path in source_paths for provenance and CUDA builds.
+        binding = (
+            "#include <torch/extension.h>\n"
+            "void ws_hgemm_naive_cute(torch::Tensor,torch::Tensor,torch::Tensor);\n"
+            'PYBIND11_MODULE(TORCH_EXTENSION_NAME,m){m.def("ws_hgemm_naive_cute",&ws_hgemm_naive_cute);}'
+        )
+        sources = (_prepare(binding), *sources[1:])
     if name == "hgemm":
         sources = tuple(
             "#define LEETCUDA_ROCM_BLAS_ONLY 1\n" + s for s in sources

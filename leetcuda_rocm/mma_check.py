@@ -139,7 +139,11 @@ def options(name, exhaustive=False):
 
 
 def packed(b, name):
-    return b.T.contiguous().reshape_as(b) if "_tn" in name else b
+    return (
+        b.T.contiguous().reshape_as(b)
+        if "_tn" in name or name.startswith("ws_hgemm")
+        else b
+    )
 
 
 def fixtures(path):

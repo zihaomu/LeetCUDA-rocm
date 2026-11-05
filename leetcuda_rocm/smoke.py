@@ -84,7 +84,11 @@ def case(module, name, rows):
         )
         return args, reference.half(), out, 0.003, 0.003
     """Return arguments, independently computed expected output and tolerance."""
-    dtype = torch.float16 if module in ("hgemm", "hgemv") else dtype_for(name)
+    dtype = (
+        torch.float16
+        if module in ("hgemm", "hgemv", "ws_hgemm")
+        else dtype_for(name)
+    )
     x = random((rows, 256), dtype)
     out = (
         torch.full_like(x, float("nan"))
@@ -178,20 +182,22 @@ def case(module, name, rows):
             (rows * 8, 1), float("nan"), device="cuda", dtype=dtype
         )
         return (a, b, out), (a.double() @ b.double()).to(dtype), out, atol, rtol
-    if module in ("sgemm", "hgemm"):
+    if module in ("sgemm", "hgemm", "ws_hgemm"):
         m, k, n = (128, 128, 256) if rows == 8 else (256, 256, 128)
         if name.startswith("hgemm_wmma_"):
             # Shared CUDA/HIP fixtures must respect the original 256-row tile.
             # AMD's extended masked-tail contract is exercised separately.
             m = 256 if rows == 8 else 512
-        if module == "hgemm" or "_sliced_k16_" in name:
+        if module in ("hgemm", "ws_hgemm") or "_sliced_k16_" in name:
             n = 256
         elif rows == 16 and "_dbuf" in name:
             k = 24  # Three BK=8 tiles: exercise odd final-buffer parity.
         a, b = random((m, k), dtype), random((k, n), dtype)
         out = torch.full((m, n), float("nan"), device="cuda", dtype=dtype)
-        tol = 0.01 if module == "hgemm" else 2e-4
-        reference_b = b.view(n, k).T if "_tn" in name else b
+        tol = 0.01 if module in ("hgemm", "ws_hgemm") else 2e-4
+        reference_b = (
+            b.view(n, k).T if "_tn" in name or module == "ws_hgemm" else b
+        )
         return (
             (
                 (a, b, out, 2 if rows == 8 else 3, rows == 16, 256)
@@ -342,7 +348,7 @@ def run_module(module, bench=False):
                 ]
             )
         torch.cuda.current_stream().synchronize()
-    if module in ("sgemm", "hgemm"):
+    if module in ("sgemm", "hgemm", "ws_hgemm"):
         results.extend(gemm_checks(module, lib))
         results.extend(blas_checks(module, lib))
     if module == "mat_transpose":

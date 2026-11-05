@@ -1,0 +1,2486 @@
+{
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "visible_device_pci_bus_ids": [
+      "0000:83:00.0",
+      "0000:c3:00.0"
+    ],
+    "selected_device_pci_bus_id": "0000:83:00.0",
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "6,5",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/a08da160d596434aa8e813c735cb6652.json"
+  },
+  "backend": "hip",
+  "variants": {
+    "ws_hgemm_naive_cute": {
+      "tile": [
+        64,
+        128,
+        32
+      ],
+      "stages": 3,
+      "producers": 32,
+      "consumers": 128
+    }
+  },
+  "fixture_sha256": "ece4a8693a98102821030cb7dd3ad8263af97f93a48292c923c7170b86ec2e9d",
+  "harness_sha256": "f948c7ac324e16330eea283c739180ddda741b2b13c2efe4a5a51efc571591d0",
+  "helper_sha256": {
+    "leetcuda_rocm/mma_check.py": "4b18eacfda9b5f01d8e7318a17da2b3177a4cdd35d2a9002d3f10ef74f0a433d",
+    "leetcuda_rocm/benchmark.py": "c009e4ce46324b7b634f23b730f4896bec527447fd393e8a1f4b80e274bccbee",
+    "leetcuda_rocm/loader.py": "5ed4abf4d6c2899365727ac0202939a97bc0fa17dd1292b7ab73b917e97e2310",
+    "leetcuda_rocm/cuda_pending_check.py": "0273ae961401ab14c2e119445387fd9059e913a7a2473a0888890dde59f39010"
+  },
+  "builds": {
+    "hip": {
+      "source_sha256": {
+        "kernels/ws-hgemm/naive_ws_hgemm_sm8x.cu": "f6cf5947c9cf6724ca08d36368b99cf946154398fd4bab3481c5e4baca0a65fa",
+        "kernels/rocm/ws_hgemm.cu": "a67035e3b557f18400a6c2898c8949ef4315d2e685a77c7fea2296431193719c"
+      },
+      "binary_sha256": "89a2b984fa502040c4f698659586d9b4549a7c7ce99090293c4b4560f08e34a4"
+    },
+    "control": {
+      "binary_sha256": "3a7b8800e60bfa4fb10672a1802d95530ee73d781d131dcf8c6371edd1d2946c"
+    }
+  },
+  "original_accumulator": "FP16",
+  "rocm_accumulator": "FP32",
+  "checks": [
+    {
+      "id": "ws_hgemm_naive_cute/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0009768182644620538,
+      "function": "ws_hgemm_naive_cute",
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.001955510477273492,
+      "function": "ws_hgemm_naive_cute",
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0009742024703882635,
+      "function": "ws_hgemm_naive_cute",
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s20261105_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.000976252049440518,
+      "function": "ws_hgemm_naive_cute",
+      "input_sha256": [
+        "a9ba428ff24899e3f20d598609776c4fb99c1731630924196da5c849f9c3a0df",
+        "689419ab4ad02cc9e688ca03319ede836ab96f5a3ce4c7b07c6c1abb28826b38"
+      ]
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.007455489132553339,
+      "function": "ws_hgemm_naive_cute",
+      "input_sha256": [
+        "4327d7097c6f1fbc8401216785b39221ad8dd11300beb5718d3f6e8990bf5a62",
+        "160710452aca223ca8f0aabf83b3190788c64ee0d99f696557822c6cb8a54bb3"
+      ]
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0019478554604575038,
+      "function": "ws_hgemm_naive_cute",
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0019512041108100675,
+      "function": "ws_hgemm_naive_cute",
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0009743302362039685,
+      "function": "ws_hgemm_naive_cute",
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0009770251635927707,
+      "function": "ws_hgemm_naive_cute",
+      "input_sha256": [
+        "453cdff55a7db1be5a93ff20883215633436d30f7dfd16091bdabe996b4a37d3",
+        "9e9e180d67f1b1195cf650dbcd3322960eaec7c05a1262081623b965dc1ff942"
+      ]
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.005117781383887632,
+      "function": "ws_hgemm_naive_cute",
+      "input_sha256": [
+        "1968f24ae12d96fb26e2880c44977879578308613e3c03b6dea6c9f50f1b47ab",
+        "ecc99da16c3b36ac285902898854be862aad955d1a2eb733fb118cd4ef3f1d9d"
+      ]
+    },
+    {
+      "id": "ws_hgemm_naive_cute/pipeline_k32",
+      "shape_mnk": [
+        128,
+        256,
+        32
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0004844651557505131,
+      "function": "ws_hgemm_naive_cute",
+      "input_sha256": [
+        "256a1af7abd55f4b2b5d310fd4b0abcc410f93db0e13f2c913abca602623a77b",
+        "e5ec42e5de667849486fe04cd7716fbc652cc829a4058169611326827118817d"
+      ]
+    },
+    {
+      "id": "ws_hgemm_naive_cute/pipeline_k64",
+      "shape_mnk": [
+        128,
+        256,
+        64
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0009026334737427533,
+      "function": "ws_hgemm_naive_cute",
+      "input_sha256": [
+        "a6e82d7175d019ea0bed3486bcd11ed5ab5e50bcbedab77beab00e831dab2855",
+        "3866a989d18e2378eca4949886e4b29c881db3fc32c106dc4bc7696b349c15c9"
+      ]
+    },
+    {
+      "id": "ws_hgemm_naive_cute/pipeline_k96",
+      "shape_mnk": [
+        128,
+        256,
+        96
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0009665737161412835,
+      "function": "ws_hgemm_naive_cute",
+      "input_sha256": [
+        "28ffff06c2393c26315f1318dc46cc4e2a215f3a5b957e87d360a24aa147b85c",
+        "794c864028bfceff2f8dc46c8092f8dccdca7ef8f1994d7252d6c9b3e026401e"
+      ]
+    },
+    {
+      "id": "ws_hgemm_naive_cute/pipeline_k544",
+      "shape_mnk": [
+        128,
+        256,
+        544
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0019474801133583242,
+      "function": "ws_hgemm_naive_cute",
+      "input_sha256": [
+        "b1f0965566f04ae8aecfb365b09ec4079ff9f99c607a97a21ec0a5d5487936a2",
+        "72bb8d7faa1c5b2956379345252b314e0771d605a91ac207132dcc0aa4c27a06"
+      ]
+    },
+    {
+      "id": "ws_hgemm_naive_cute/pipeline_k1024",
+      "shape_mnk": [
+        128,
+        256,
+        1024
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0033975504047703,
+      "function": "ws_hgemm_naive_cute",
+      "input_sha256": [
+        "29fe9f191d04772e92d276240f27e21ee89ed6c5f7e2519e1d526b7c28a64625",
+        "c1974a3defde14a305e749420bd48df2dadb76de9aad8be74c8883ca0fb2516e"
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "id": "ws_hgemm_naive_cute/()/17/0_17_8",
+      "shape_mnk": [
+        0,
+        17,
+        8
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/17/17_0_8",
+      "shape_mnk": [
+        17,
+        0,
+        8
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/17/3_5_0",
+      "shape_mnk": [
+        3,
+        5,
+        0
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/17/1_1_1",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 2.1755695343017578e-05
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/17/17_33_15",
+      "shape_mnk": [
+        17,
+        33,
+        15
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.00022394396364688873
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/17/65_129_17",
+      "shape_mnk": [
+        65,
+        129,
+        17
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0004739612340927124
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/17/129_257_65",
+      "shape_mnk": [
+        129,
+        257,
+        65
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0007366908539552242
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/17/257_263_257",
+      "shape_mnk": [
+        257,
+        263,
+        257
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0017912022085511126
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/17/17_19_8193",
+      "shape_mnk": [
+        17,
+        19,
+        8193
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.004313692993946461
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/93/0_17_8",
+      "shape_mnk": [
+        0,
+        17,
+        8
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/93/17_0_8",
+      "shape_mnk": [
+        17,
+        0,
+        8
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/93/3_5_0",
+      "shape_mnk": [
+        3,
+        5,
+        0
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/93/1_1_1",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 1.9371509552001953e-07
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/93/17_33_15",
+      "shape_mnk": [
+        17,
+        33,
+        15
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.00024111010134220123
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/93/65_129_17",
+      "shape_mnk": [
+        65,
+        129,
+        17
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.00028737960383296013
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/93/129_257_65",
+      "shape_mnk": [
+        129,
+        257,
+        65
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0009321797551820055
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/93/257_263_257",
+      "shape_mnk": [
+        257,
+        263,
+        257
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0017273384582949802
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/93/17_19_8193",
+      "shape_mnk": [
+        17,
+        19,
+        8193
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.003929761973267887
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/zero",
+      "shape_mnk": [
+        65,
+        129,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/cancellation",
+      "shape_mnk": [
+        65,
+        129,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/reciprocal-range",
+      "shape_mnk": [
+        65,
+        129,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0009744641138240695
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/unaligned-contiguous",
+      "shape_mnk": [
+        65,
+        129,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "canary_passed": true,
+      "max_abs_error_fp64": 0.0009732047219586093
+    },
+    {
+      "id": "ws_hgemm_naive_cute/reject-cpu",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/reject-type",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/reject-output-type",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/reject-rank",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/reject-shape",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/reject-strides",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/reject-alias-a",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/reject-alias-b",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/reject-gradient",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/reject-mixed-device",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/device-guard",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/()/FP32-accumulator",
+      "passed": true,
+      "expected": 16.125,
+      "fp16_accumulation": 16.0
+    },
+    {
+      "id": "ws_hgemm_naive_cute/concurrent-stream-0",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/concurrent-stream-1",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/concurrent-stream-2",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/concurrent-stream-3",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/concurrent-stream-4",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/concurrent-stream-5",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/concurrent-stream-6",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/concurrent-stream-7",
+      "passed": true
+    }
+  ],
+  "scheduling_controls": [
+    {
+      "id": "ws_hgemm_naive_cute/s20261105_256_256_256",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s20261105_256_512_512",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s20261105_512_512_128",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s20261105_256_1024_160",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s20261105_256_256_4096",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s17_256_256_256",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s17_256_512_512",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s17_512_512_128",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s17_256_1024_160",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/s17_256_256_4096",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/pipeline_k32",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/pipeline_k64",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/pipeline_k96",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/pipeline_k544",
+      "passed": true
+    },
+    {
+      "id": "ws_hgemm_naive_cute/pipeline_k1024",
+      "passed": true
+    }
+  ],
+  "pipeline_audits": [
+    {
+      "id": "pipeline/17/1_1_1/delay0",
+      "passed": true,
+      "tiles": 1,
+      "counts": [
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/17/1_1_1/delay1",
+      "passed": true,
+      "tiles": 1,
+      "counts": [
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/17/1_1_1/delay2",
+      "passed": true,
+      "tiles": 1,
+      "counts": [
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/17/65_129_97/delay0",
+      "passed": true,
+      "tiles": 4,
+      "counts": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/17/65_129_97/delay1",
+      "passed": true,
+      "tiles": 4,
+      "counts": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/17/65_129_97/delay2",
+      "passed": false,
+      "tiles": 4,
+      "counts": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": false
+    },
+    {
+      "id": "pipeline/17/128_256_128/delay0",
+      "passed": true,
+      "tiles": 4,
+      "counts": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/17/128_256_128/delay1",
+      "passed": true,
+      "tiles": 4,
+      "counts": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/17/128_256_128/delay2",
+      "passed": false,
+      "tiles": 4,
+      "counts": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": false
+    },
+    {
+      "id": "pipeline/17/256_256_4096/delay0",
+      "passed": true,
+      "tiles": 128,
+      "counts": [
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/17/256_256_4096/delay1",
+      "passed": true,
+      "tiles": 128,
+      "counts": [
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/17/256_256_4096/delay2",
+      "passed": false,
+      "tiles": 128,
+      "counts": [
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": false
+    },
+    {
+      "id": "pipeline/17/17_33_8193/delay0",
+      "passed": true,
+      "tiles": 257,
+      "counts": [
+        [
+          257,
+          257,
+          257,
+          257,
+          257,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/17/17_33_8193/delay1",
+      "passed": true,
+      "tiles": 257,
+      "counts": [
+        [
+          257,
+          257,
+          257,
+          257,
+          257,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/17/17_33_8193/delay2",
+      "passed": false,
+      "tiles": 257,
+      "counts": [
+        [
+          257,
+          257,
+          257,
+          257,
+          257,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": false
+    },
+    {
+      "id": "pipeline/17/3_2_0/delay0",
+      "passed": true,
+      "tiles": 0,
+      "counts": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/17/3_2_0/delay1",
+      "passed": true,
+      "tiles": 0,
+      "counts": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/17/3_2_0/delay2",
+      "passed": true,
+      "tiles": 0,
+      "counts": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/93/1_1_1/delay0",
+      "passed": true,
+      "tiles": 1,
+      "counts": [
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/93/1_1_1/delay1",
+      "passed": true,
+      "tiles": 1,
+      "counts": [
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/93/1_1_1/delay2",
+      "passed": true,
+      "tiles": 1,
+      "counts": [
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/93/65_129_97/delay0",
+      "passed": true,
+      "tiles": 4,
+      "counts": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/93/65_129_97/delay1",
+      "passed": true,
+      "tiles": 4,
+      "counts": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/93/65_129_97/delay2",
+      "passed": false,
+      "tiles": 4,
+      "counts": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": false
+    },
+    {
+      "id": "pipeline/93/128_256_128/delay0",
+      "passed": true,
+      "tiles": 4,
+      "counts": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/93/128_256_128/delay1",
+      "passed": true,
+      "tiles": 4,
+      "counts": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/93/128_256_128/delay2",
+      "passed": false,
+      "tiles": 4,
+      "counts": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": false
+    },
+    {
+      "id": "pipeline/93/256_256_4096/delay0",
+      "passed": true,
+      "tiles": 128,
+      "counts": [
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/93/256_256_4096/delay1",
+      "passed": true,
+      "tiles": 128,
+      "counts": [
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/93/256_256_4096/delay2",
+      "passed": false,
+      "tiles": 128,
+      "counts": [
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ],
+        [
+          128,
+          128,
+          128,
+          128,
+          128,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": false
+    },
+    {
+      "id": "pipeline/93/17_33_8193/delay0",
+      "passed": true,
+      "tiles": 257,
+      "counts": [
+        [
+          257,
+          257,
+          257,
+          257,
+          257,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/93/17_33_8193/delay1",
+      "passed": true,
+      "tiles": 257,
+      "counts": [
+        [
+          257,
+          257,
+          257,
+          257,
+          257,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/93/17_33_8193/delay2",
+      "passed": false,
+      "tiles": 257,
+      "counts": [
+        [
+          257,
+          257,
+          257,
+          257,
+          257,
+          1,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": false
+    },
+    {
+      "id": "pipeline/93/3_2_0/delay0",
+      "passed": true,
+      "tiles": 0,
+      "counts": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/93/3_2_0/delay1",
+      "passed": true,
+      "tiles": 0,
+      "counts": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    },
+    {
+      "id": "pipeline/93/3_2_0/delay2",
+      "passed": true,
+      "tiles": 0,
+      "counts": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "independent_progress": true
+    }
+  ],
+  "performance": [
+    {
+      "function": "ws_hgemm_naive_cute",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.0377944930125091,
+      "baseline_ms": 0.004915031875510185,
+      "baseline_over_ours": 0.13004624440612084,
+      "samples_ms": {
+        "ours": [
+          0.04253596370503054,
+          0.0377944930125091,
+          0.037754151780726546,
+          0.03778618473117634,
+          0.0378480482909639
+        ],
+        "baseline": [
+          0.005132814987483118,
+          0.004915031875510185,
+          0.004861904181849774,
+          0.004861291180032609,
+          0.004945610492965064
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 59,
+        "baseline": 457
+      },
+      "synchronous_bitwise_equal": true,
+      "synchronous_pair": {
+        "ours_ms": 0.03776556434053363,
+        "baseline_ms": 0.0390925295650959,
+        "baseline_over_ours": 1.0351369097148124,
+        "samples_ms": {
+          "ours": [
+            0.03776556434053363,
+            0.03777063615394361,
+            0.03773488781668923,
+            0.037760261333349976,
+            0.037774725393815475
+          ],
+          "baseline": [
+            0.039115890860557556,
+            0.039092451333999634,
+            0.0390922985970974,
+            0.03909815475344658,
+            0.0390925295650959
+          ]
+        },
+        "calls_per_graph": 8,
+        "replays_per_sample": {
+          "ours": 66,
+          "baseline": 64
+        }
+      }
+    },
+    {
+      "function": "ws_hgemm_naive_cute",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.27190706464979386,
+      "baseline_ms": 0.022998066781793985,
+      "baseline_over_ours": 0.08458061511353018,
+      "samples_ms": {
+        "ours": [
+          0.2718481752607558,
+          0.2722776201036241,
+          0.27192484007941353,
+          0.27189593844943577,
+          0.27190706464979386
+        ],
+        "baseline": [
+          0.022998066781793985,
+          0.022812829434292987,
+          0.023333299507215185,
+          0.022555795688073612,
+          0.023495625523687565
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 9,
+        "baseline": 103
+      },
+      "synchronous_bitwise_equal": true,
+      "synchronous_pair": {
+        "ours_ms": 0.2709080934524536,
+        "baseline_ms": 0.28060568703545463,
+        "baseline_over_ours": 1.0357966181793052,
+        "samples_ms": {
+          "ours": [
+            0.27194054126739503,
+            0.27147955894470216,
+            0.2709080934524536,
+            0.2705700874328613,
+            0.2705190896987915
+          ],
+          "baseline": [
+            0.28162288665771484,
+            0.28135455979241264,
+            0.28060568703545463,
+            0.2805506918165419,
+            0.27967405319213867
+          ]
+        },
+        "calls_per_graph": 8,
+        "replays_per_sample": {
+          "ours": 10,
+          "baseline": 9
+        }
+      }
+    },
+    {
+      "function": "ws_hgemm_naive_cute",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 1.8795075416564941,
+      "baseline_ms": 0.14173823908755653,
+      "baseline_over_ours": 0.07541243434577351,
+      "samples_ms": {
+        "ours": [
+          1.8641680479049683,
+          1.8852050304412842,
+          1.8714027404785156,
+          1.8904147148132324,
+          1.8795075416564941
+        ],
+        "baseline": [
+          0.1420142650604248,
+          0.1395146093870464,
+          0.14173823908755653,
+          0.13928512523048803,
+          0.142757679286756
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 2,
+        "baseline": 19
+      },
+      "synchronous_bitwise_equal": true,
+      "synchronous_pair": {
+        "ours_ms": 1.8557733297348022,
+        "baseline_ms": 1.9616302251815796,
+        "baseline_over_ours": 1.0570419316576258,
+        "samples_ms": {
+          "ours": [
+            1.8557733297348022,
+            1.8663355112075806,
+            1.882835030555725,
+            1.836936354637146,
+            1.8528635501861572
+          ],
+          "baseline": [
+            1.9616302251815796,
+            1.9420382976531982,
+            1.9954692125320435,
+            1.946340560913086,
+            1.9824520349502563
+          ]
+        },
+        "calls_per_graph": 8,
+        "replays_per_sample": {
+          "ours": 2,
+          "baseline": 2
+        }
+      }
+    }
+  ],
+  "passed": false,
+  "isa": {
+    "binary": "artifacts/rocm/continuation_all/b7/binaries/89a2b984fa502040c4f698659586d9b4549a7c7ce99090293c4b4560f08e34a4.so",
+    "binary_sha256": "89a2b984fa502040c4f698659586d9b4549a7c7ce99090293c4b4560f08e34a4",
+    "build_cache_binary": ".cache/rocm10/59fd7d638c6f8c646bbe/torch/ws_hgemm_e88857939140af57/leetcuda_rocm_ws_hgemm_e88857939140af57.so",
+    "objects": [
+      {
+        "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+        "bundle_offset": 0,
+        "object_offset": 4096,
+        "hsaco": "artifacts/rocm/continuation_all/b7/hip_independence_failure_isa/object0.hsaco",
+        "hsaco_sha256": "8e9df8e9517cb40f4224ad90fd47c0c9911e1a98473f7e7bcb3f12c156c81a37",
+        "assembly": "artifacts/rocm/continuation_all/b7/hip_independence_failure_isa/object0.amdgcn",
+        "assembly_sha256": "955cfc9b965dfaad9aba7c0e399f462c880ffd3e3e9ce098325f0574589abffb"
+      }
+    ],
+    "assembly": "artifacts/rocm/continuation_all/b7/hip_independence_failure_isa/kernel.amdgcn",
+    "assembly_sha256": "955cfc9b965dfaad9aba7c0e399f462c880ffd3e3e9ce098325f0574589abffb",
+    "instructions": [
+      "v_wmma_f32_16x16x16_f16"
+    ],
+    "kernels": [
+      {
+        "symbol": "_ZN12_GLOBAL__N_111ws_pipelineILb0ELb0ELi0EEEvPKDF16_S2_PDF16_iiiPj",
+        "wmma": 16,
+        "barrier_signals": 1,
+        "barrier_waits": 1,
+        "poll_sleeps": 5,
+        "global_load_b128": 2,
+        "vgpr_count": 144,
+        "vgpr_spill_count": 0,
+        "scratch_bytes": 0,
+        "lds_bytes": 36924
+      }
+    ],
+    "passed": true
+  },
+  "outputs_sha256": "13203554c290f1fec57848e9062b7c452e9644134f98fcde30f7b6e6d6bb75b0"
+}

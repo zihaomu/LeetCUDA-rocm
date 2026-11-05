@@ -132,6 +132,29 @@ if async_hgemm_keys:
         and p["synchronous_bitwise_equal"]
         for p in async_hgemm_report["performance"]
     )
+ws_path = root / "docs/rocm/ws_hgemm_20261106/hip.json"
+ws_keys = {key for key in qualified if key[0] == "ws_hgemm"}
+if ws_keys:
+    ws_report = json.loads(ws_path.read_text())
+    assert ws_report["passed"] and ws_report["isa"]["passed"]
+    assert ws_keys == {("ws_hgemm", "ws_hgemm_naive_cute")}
+    assert ws_report["original_accumulator"] == "FP16"
+    assert ws_report["rocm_accumulator"] == "FP32"
+    for field in (
+        "checks",
+        "boundaries",
+        "scheduling_controls",
+        "pipeline_audits",
+    ):
+        assert ws_report[field] and all(c["passed"] for c in ws_report[field])
+    assert len(ws_report["pipeline_audits"]) == 36
+    assert len(ws_report["performance"]) == 3
+    assert all(
+        p["accuracy_passed"]
+        and p["graph_replay_verified"]
+        and p["synchronous_bitwise_equal"]
+        for p in ws_report["performance"]
+    )
 flash_keys = {
     key
     for key in qualified
@@ -466,6 +489,22 @@ for source in sorted((root / "kernels").rglob("*")):
                     async_hgemm_path.read_bytes()
                 ).hexdigest(),
             }
+        if (module, name) in ws_keys:
+            entries[-1]["implementation"] = {
+                "mechanism": "Independent producer wave and four consumer waves; three LDS slots, acquire/release sequence counters and native FP16 WMMA",
+                "original_accumulator": "FP16",
+                "rocm_accumulator": "FP32",
+                "precision_changed": True,
+                "numeric_semantics": "FP16 I/O with explicit FP32 state; packed [N,K] B storage in logical [K,N] tensor",
+                "variant_geometry": ws_report["variants"][name],
+                "architecture_adaptation": "Original128x256x32 tile reduced to64x128x32; preserve32 producers+128 consumers and three slots within64KiB",
+                "independent_progress": "Controlled slow consumer gives producer lead3; all four consumers finish each sequence; one initial CTA barrier only",
+                "performance_status": "measured_pending_optimization",
+                "evidence": str(ws_path.relative_to(root)),
+                "evidence_sha256": hashlib.sha256(
+                    ws_path.read_bytes()
+                ).hexdigest(),
+            }
         if (module, name) in tf32_keys:
             entries[-1]["implementation"] = {
                 "mechanism": tf32_report["variants"][name],
@@ -694,6 +733,10 @@ if wmma_keys:
         qualified_cuda_path = (
             root / "docs/rocm/tf32_sgemm_20261106/qualified212_cuda.json"
         )
+    if ws_keys:
+        qualified_cuda_path = (
+            root / "docs/rocm/ws_hgemm_20261106/qualified213_cuda.json"
+        )
     qualified_cuda = json.loads(qualified_cuda_path.read_text())
     assert qualified_cuda["passed"]
     by_function = collections.defaultdict(list)
@@ -763,6 +806,22 @@ if tf32_keys:
             "evidence": str(tf32_cuda_path.relative_to(root)),
             "evidence_sha256": hashlib.sha256(
                 tf32_cuda_path.read_bytes()
+            ).hexdigest(),
+        }
+if ws_keys:
+    ws_cuda_path = root / "docs/rocm/ws_hgemm_20261106/cuda.json"
+    ws_cuda = json.loads(ws_cuda_path.read_text())
+    for key in ws_keys:
+        checks = [c for c in ws_cuda["checks"] if c["function"] == key[1]]
+        cuda_coverage[key] = {
+            "source_kind": "upstream_original_with_current_stream_launches",
+            "cases": len(checks),
+            "accuracy_passed_cases": sum(c["passed"] for c in checks),
+            "all_cases_passed": all(c["passed"] for c in checks),
+            "scope": "Preserve original FP16 accumulation failures at K4096; AMD explicitly uses FP32 state",
+            "evidence": str(ws_cuda_path.relative_to(root)),
+            "evidence_sha256": hashlib.sha256(
+                ws_cuda_path.read_bytes()
             ).hexdigest(),
         }
 if mma_keys:
@@ -838,6 +897,8 @@ for entry in entries:
         (entry["module"], entry["function"])
     ]
 counts = collections.Counter(entry["status"] for entry in entries)
+for status in ("qualified", "pending", "numerical_rejected"):
+    counts.setdefault(status, 0)
 reason_counts = collections.Counter(entry["reason"] for entry in entries)
 fully_qualified = sum(row["qualified"] == row["total"] for row in modules)
 partially_qualified = sum(
