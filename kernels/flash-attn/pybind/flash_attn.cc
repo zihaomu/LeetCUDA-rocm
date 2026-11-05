@@ -166,6 +166,7 @@ void flash_attn_mma_stages_split_q_shared_kv_acc_f32_rr(torch::Tensor Q,
 #endif
 
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
+#ifndef LEETCUDA_ROCM
   // Basic
   TORCH_BINDING_COMMON_EXTENSION(flash_attn_mma_stages_split_kv)
   TORCH_BINDING_COMMON_EXTENSION(flash_attn_mma_stages_split_q)
@@ -173,10 +174,12 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   TORCH_BINDING_COMMON_EXTENSION(flash_attn_mma_stages_split_q_shared_qkv)
   TORCH_BINDING_COMMON_EXTENSION(flash_attn_mma_stages_split_q_tiling_qk)
   TORCH_BINDING_COMMON_EXTENSION(flash_attn_mma_stages_split_q_tiling_qkv)
+#endif
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_shared_kv_acc_f32)
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_shared_qkv_acc_f32)
+#ifndef LEETCUDA_ROCM
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_tiling_qk_acc_f32)
   TORCH_BINDING_COMMON_EXTENSION(
@@ -220,5 +223,6 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
       flash_attn_mma_stages_split_q_shared_kv_acc_f32_rr)
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_shared_qkv_acc_f32_rr)
+#endif
 #endif
 }

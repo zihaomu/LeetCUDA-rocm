@@ -79,6 +79,19 @@ if wmma_keys:
     assert wmma_report["original_accumulator"] == "FP16"
     assert wmma_report["rocm_accumulator"] == "FP32"
 fp8_report_path = root / "docs/rocm/fp8_pipeline_20261103.json"
+flash_keys = {key for key in qualified if key[0] == "flash_attn"}
+flash_path = root / "docs/rocm/flash_shared_20261105/hip.json"
+if flash_keys:
+    flash_report = json.loads(flash_path.read_text())
+    assert flash_report["passed"]
+    assert all(
+        c["passed"] for c in flash_report["checks"] + flash_report["boundaries"]
+    )
+    assert flash_keys == {
+        ("flash_attn", c["function"]) for c in flash_report["checks"]
+    }
+    assert len(flash_report["isa"]["kernels"]) == 18
+    assert all(k["wmma"] > 0 for k in flash_report["isa"]["kernels"])
 fp8_report = json.loads(fp8_report_path.read_text())
 assert fp8_report["passed"] and all(c["passed"] for c in fp8_report["checks"])
 fp4_report_path = root / "docs/rocm/fp4_pipeline_20261103.json"
@@ -219,6 +232,21 @@ for source in sorted((root / "kernels").rglob("*")):
                     wmma_path.read_bytes()
                 ).hexdigest(),
             }
+        if (module, name) in flash_keys:
+            entries[-1]["implementation"] = {
+                "mechanism": "Native gfx1201 split-Q WMMA attention; distinct shared-KV or shared-QKV LDS lifetime",
+                "original_accumulator": "FP32",
+                "rocm_accumulator": "FP32",
+                "precision_changed": False,
+                "numeric_semantics": "FP16 Q/K/V/P/O; FP32 QK/PV, online max/sum and output state; no bitwise guarantee",
+                "stages": "Same upstream dispatch: <=1 maps to 1, >1 maps to 2; stage 2 prefetches V during QK",
+                "head_dimensions": "32,64,96,128 at stages 1/2; 256 only at stage 1",
+                "architecture_adaptation": "D=256 query tile reduced from 128 to 64 rows to fit 64 KiB LDS; FP16 P is exchanged through LDS",
+                "evidence": str(flash_path.relative_to(root)),
+                "evidence_sha256": hashlib.sha256(
+                    flash_path.read_bytes()
+                ).hexdigest(),
+            }
     current = [entry for entry in entries if entry["source"] == rel]
     counts = collections.Counter(entry["status"] for entry in current)
     modules.append(
@@ -298,15 +326,17 @@ for group in pending_cuda["groups"]:
             ).hexdigest(),
         }
 if wmma_keys:
-    qualified_cuda_path = (
-        root / "docs/rocm/wmma_hgemm_20261105/qualified166_cuda.json"
+    qualified_cuda_path = root / (
+        "docs/rocm/flash_shared_20261105/qualified168_cuda.json"
+        if flash_keys
+        else "docs/rocm/wmma_hgemm_20261105/qualified166_cuda.json"
     )
     qualified_cuda = json.loads(qualified_cuda_path.read_text())
     assert qualified_cuda["passed"]
     by_function = collections.defaultdict(list)
     for check in qualified_cuda["checks"]:
         by_function[(check["module"], check["function"])].append(check)
-    assert set(by_function) == qualified
+    assert set(by_function) <= qualified
     for key, checks in by_function.items():
         cuda_coverage[key] = {
             "source_kind": "ported_worktree",
@@ -336,6 +366,22 @@ if wmma_keys:
             "evidence": str(wmma_cuda_path.relative_to(root)),
             "evidence_sha256": hashlib.sha256(
                 wmma_cuda_path.read_bytes()
+            ).hexdigest(),
+        }
+if flash_keys:
+    flash_cuda_path = root / "docs/rocm/flash_shared_20261105/cuda.json"
+    flash_cuda = json.loads(flash_cuda_path.read_text())
+    for key in flash_keys:
+        checks = [c for c in flash_cuda["checks"] if c["function"] == key[1]]
+        assert checks
+        cuda_coverage[key] = {
+            "source_kind": "upstream_original_with_current_stream_launches",
+            "cases": len(checks),
+            "accuracy_passed_cases": sum(c["passed"] for c in checks),
+            "all_cases_passed": all(c["passed"] for c in checks),
+            "evidence": str(flash_cuda_path.relative_to(root)),
+            "evidence_sha256": hashlib.sha256(
+                flash_cuda_path.read_bytes()
             ).hexdigest(),
         }
 assert set(cuda_coverage) == {(e["module"], e["function"]) for e in entries}

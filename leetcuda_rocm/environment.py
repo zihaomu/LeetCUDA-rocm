@@ -1,6 +1,7 @@
 """Project qualification is separate from the shared foundation verifier."""
 
 import argparse
+import ctypes
 import hashlib
 import importlib.metadata
 import json
@@ -40,6 +41,22 @@ def verify():
             )
     if not torch.cuda.is_available():
         raise RuntimeError("ROCm GPU is unavailable")
+    # HIP ordinals are not rocm-smi physical indices on this host. Check the
+    # PCI identity before executing a kernel, rather than trusting the mask.
+    hip = ctypes.CDLL("/opt/rocm/lib/libamdhip64.so")
+    buses = []
+    for index in range(torch.cuda.device_count()):
+        bus = ctypes.create_string_buffer(64)
+        status = hip.hipDeviceGetPCIBusId(bus, len(bus), index)
+        if status:
+            raise RuntimeError(f"Cannot verify GPU PCI identity: HIP {status}")
+        buses.append(bus.value.decode().lower())
+    if "0000:63:00.0" in buses:
+        raise RuntimeError(
+            "Physical GPU3 (PCI 0000:63:00.0) is excluded from compute; select by verified HIP-to-PCI mapping"
+        )
+    actual["visible_device_pci_bus_ids"] = buses
+    actual["selected_device_pci_bus_id"] = buses[torch.cuda.current_device()]
     props = torch.cuda.get_device_properties(torch.cuda.current_device())
     actual["gpu_architecture"] = props.gcnArchName.split(":")[0]
     if actual["gpu_architecture"] != lock["gpu_architecture"]:
@@ -64,7 +81,13 @@ def cache_key(identity):
             {
                 k: v
                 for k, v in identity.items()
-                if k not in ("foundation_report", "visible_devices")
+                if k
+                not in (
+                    "foundation_report",
+                    "visible_devices",
+                    "visible_device_pci_bus_ids",
+                    "selected_device_pci_bus_id",
+                )
             },
             sort_keys=True,
         ).encode()

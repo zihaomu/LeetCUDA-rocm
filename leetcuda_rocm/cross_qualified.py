@@ -110,6 +110,10 @@ def cuda_build(module, names, original, cutlass):
     from torch.utils.cpp_extension import load
 
     extras = {
+        "flash_attn": (
+            "flash-attn/mma/basic/flash_attn_mma_share_kv_F32F16F16F32.cu",
+            "flash-attn/mma/basic/flash_attn_mma_share_qkv_F32F16F16F32.cu",
+        ),
         "hgemv": (
             ("hgemv/hgemv_cute.cu",)
             if "hgemv_tensor_core_cute" in names
@@ -157,8 +161,18 @@ def cuda_build(module, names, original, cutlass):
         "-U__CUDA_NO_BFLOAT16_CONVERSIONS__",
         "-DNO_CUBLAS_HGEMM_BIN",
     ]
+    headers = (
+        sorted((original / "kernels/flash-attn").rglob("*.h"))
+        if module == "flash_attn"
+        else []
+    )
+    header_hashes = {str(p.relative_to(original)): sha(p) for p in headers}
     digest = hashlib.sha256(
-        ("\0".join(sources + flags) + CUTLASS).encode()
+        (
+            "\0".join(sources + flags)
+            + CUTLASS
+            + (json.dumps(header_hashes, sort_keys=True) if headers else "")
+        ).encode()
     ).hexdigest()[:16]
     build = ROOT / ".cache/cuda_comparison" / f"qualified_{module}_{digest}"
     build.mkdir(parents=True, exist_ok=True)
@@ -176,12 +190,16 @@ def cuda_build(module, names, original, cutlass):
         build_directory=str(build),
         extra_cflags=["-O3", "-std=c++20"],
         extra_cuda_cflags=flags,
-        extra_include_paths=[str(cutlass / "include")],
+        extra_include_paths=[
+            str(cutlass / "include"),
+            *sorted({str(p.parent) for p in headers}),
+        ],
         extra_ldflags=["-lcublas"] if module in ("sgemm", "hgemm") else [],
     )
     return lib, {
         "source_sha256": {
-            "kernels/" + p: sha(original / "kernels" / p) for p in paths
+            **header_hashes,
+            **{"kernels/" + p: sha(original / "kernels" / p) for p in paths},
         },
         "staged_sha256": {Path(p).name: sha(p) for p in staged},
         "flags": flags,

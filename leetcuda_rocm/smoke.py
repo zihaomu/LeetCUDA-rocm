@@ -68,6 +68,14 @@ def nms_reference(boxes, scores, threshold):
 
 
 def case(module, name, rows):
+    if module == "flash_attn":
+        n, d, stage = (128, 64, 1) if rows == 8 else (256, 128, 2)
+        q, k, v = [random((1, 2, n, d), torch.float16) for _ in range(3)]
+        out = torch.full_like(q, float("nan"))
+        reference = (
+            q.double() @ k.double().transpose(-1, -2) / (d**0.5)
+        ).softmax(-1) @ v.double()
+        return (q, k, v, out, stage), reference.half(), out, 0.003, 0.003
     """Return arguments, independently computed expected output and tolerance."""
     dtype = torch.float16 if module in ("hgemm", "hgemv") else dtype_for(name)
     x = random((rows, 256), dtype)

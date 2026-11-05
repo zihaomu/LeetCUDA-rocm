@@ -4,6 +4,8 @@
 **166/229（72.49%）**，增加 3.93 个百分点。剩余 **47 个待迁移、16 个精度未验收**。
 HGEMM 模块由 2/36 增至 11/36；全部仓库仍未完成迁移。
 
+本文为第二轮历史结果；最新已达 168 个接口，见[第三轮 FlashAttention 报告](flash_shared_20261105.md)。
+
 这批接口采用 **FP16 输入/输出、FP32 WMMA 累加**。原 NVIDIA 实现使用 FP16
 累加，因此这是一项明确标注的精度提升，不能声称逐位复现原 FP16 累加。
 包括此前矩阵 HGEMV 在内，当前 166 个合格接口中有 **10 个**明确记录累加精度变化。
@@ -53,8 +55,9 @@ lib.hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem(
 
 ## 正确性、指令与并发证据
 
-本轮 ROCm 10.1 / gfx1201 使用物理 **GPU6**。GPU0～5、7 存在其他任务，预约记录
-占用 GPU5；检查后选择空闲 GPU6，未使用 GPU3，也未抢占其他任务。
+本轮记录 `HIP_VISIBLE_DEVICES=6`，但未采集 PCI 身份。第三轮发现 HIP 序号与物理
+序号不一致，因此撤回这里原先“物理 GPU6／独占空闲卡”的推定，保留原始数值报告。
+历史计时只能作为当时环境下的观察，不能证明独占设备性能。
 这批没有新增第二张 AMD 卡的设备切换验证，不能套用上一批其他算子的双卡结果。
 
 | 验证项 | 本轮结果 |
@@ -66,7 +69,7 @@ lib.hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem(
 | GPU kernel 特化指令检查 | 19/19 有 FP32 WMMA，均无 scratch spill |
 | 完整原始接口回归 | 23 模块、166 接口、923 项通过 |
 
-完整回归的检查数受可见设备数影响。本轮仅暴露 GPU6；此前 890 项报告暴露两卡，
+完整回归的检查数受可见设备数影响。本轮仅暴露一个 HIP 设备；此前 890 项报告暴露两卡，
 其中额外的设备切换和混卡拒绝检查不会在单卡环境中运行。所有报告保留实际设备身份。
 
 19 个特化中，16 个多缓冲特化在反汇编中存在 `global_load_b128 → WMMA → load wait`
@@ -158,4 +161,4 @@ HIP_VISIBLE_DEVICES=6 scripts/rocm/run.sh python -m leetcuda_rocm.wmma_compare \
   --hip artifacts/rocm/wmma/hip_final.json --output artifacts/rocm/wmma/comparison_fixed.json
 ```
 
-上述 GPU6 是本批实际选择；再次运行前应重新检查占用和预约，不把该设备写死为长期空闲。
+上述 HIP mask 6 是历史配置，不能视为物理 GPU6。再次运行前应重新核对 PCI、占用和预约。

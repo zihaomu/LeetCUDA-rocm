@@ -41,6 +41,7 @@ KERNELS = {
     "mat_transpose": "mat-transpose/mat_transpose.cu",
     "merge_attn_states": "openai-triton/merge-attn-states/cuda_merge_attn_states.cu",
     "hgemm": "hgemm/pybind/hgemm.cc",
+    "flash_attn": "flash-attn/pybind/flash_attn.cc",
 }
 
 EXTRA_SOURCES = {
@@ -48,6 +49,7 @@ EXTRA_SOURCES = {
     "sgemm": ("sgemm/sgemm_async.cu", "rocm/blas_backend.cu"),
     "mat_transpose": ("rocm/mat_transpose_layouts.cu",),
     "hgemm": ("rocm/blas_backend.cu", "rocm/hgemm_wmma.cu"),
+    "flash_attn": ("rocm/flash_attention_shared.cu",),
 }
 
 

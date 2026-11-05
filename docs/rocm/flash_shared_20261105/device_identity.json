@@ -1,0 +1,26 @@
+{
+  "observation_date": "2026-11-05",
+  "source_sha256": {
+    "leetcuda_rocm/environment.py": "7f2b84ea9d0034121d0b88709a2e77b1efb669b7729b8348372a30317a3eef14"
+  },
+  "read_only_hip_to_pci": {
+    "0": "0000:63:00.0",
+    "1": "0000:43:00.0",
+    "2": "0000:03:00.0",
+    "4": "0000:e3:00.0",
+    "5": "0000:c3:00.0",
+    "6": "0000:83:00.0",
+    "7": "0000:a3:00.0"
+  },
+  "unqueried_hip_indices": [
+    3
+  ],
+  "forbidden_physical_gpu": 3,
+  "forbidden_pci": "0000:63:00.0",
+  "forbidden_mask_zero_rejected_before_payload": true,
+  "guard_log": "{\"profile\": \"rocm10-foundation-r9700-v1\", \"passed\": true, \"image_id\": \"sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03\", \"output\": \"/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/575c2676bf6d4dea82bf153ca4b78b49.json\"}\nTraceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/environment.py\", line 101, in <module>\n    identity = verify()\n  File \"/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/environment.py\", line 55, in verify\n    raise RuntimeError(\n        \"Physical GPU3 (PCI 0000:63:00.0) is excluded from compute; select by verified HIP-to-PCI mapping\"\n    )\nRuntimeError: Physical GPU3 (PCI 0000:63:00.0) is excluded from compute; select by verified HIP-to-PCI mapping\n",
+  "selected_hip_mask": "4",
+  "selected_pci": "0000:e3:00.0",
+  "selected_rocm_smi_index": 7,
+  "note": "Physical indices are from rocm-smi PCI output. Historical reports lacking PCI identity cannot verify their inferred physical card labels. GPU7 had a resident model; performance observations are not an exclusive-device acceptance."
+}

@@ -19,7 +19,7 @@
 | C++ benchmark、全库集成与性能回归 | 5～10 人日 | 独立构建、依赖后端、规模覆盖、性能波动与回退 |
 
 这些工作包存在重叠，总体按约 20～40 人日规划，不将各项上界机械相加为精确工期。
-额外的性能优化预算约 10～20 人日。166/229=72.49% 是原 Python 扩展接口覆盖率，
+额外的性能优化预算约 10～20 人日。168/229=73.36% 是原 Python 扩展接口覆盖率，
 不代表已经完成同等比例的整体工程工作。
 
 ## 验收原则
@@ -45,7 +45,7 @@
 | M0 | 环境与清单 | 已有环境锁、229 个原始接口清单；继续补充非 Python 绑定范围的验收清单 |
 | M1 | 139 个现有原始接口、AMD WMMA GEMM/FA | 已验证；保持回归与历史记录 |
 | M2 | 布局转置、HGEMV、BLAS 后端 | 进行中；逐接口保留布局/精度契约，独立正确性与性能测量 |
-| M3 | 剩余 GEMM/Attention 原始变体与异步流水线 | 已完成 3 个 SGEMM 异步入口，两卡各 213 项检查；本轮新增 9 个 WMMA HGEMM，单卡专项 1465 项通过，保留 block/warp 分块、stage、swizzle，明确提升为 FP32 累加 |
+| M3 | 剩余 GEMM/Attention 原始变体与异步流水线 | 已完成 3 个异步 SGEMM、9 个 WMMA HGEMM；本轮再完成两个原 FlashAttention FP32 shared-KV/QKV，专项 534 项通过；下一步 tiling-QK/QKV |
 | M4 | FP8/FP4 GEMM、FFPA | FP8 E4M3 与 NVFP4 完整量化链路、离线 B 功能通过；FP4 用精确 FP16 展开及 FP16 WMMA；性能待优化，FFPA 待推进 |
 | M5 | GQA/mask/dropout/backward 与原 Triton 示例 | 四个 Triton 示例两张 AMD 卡与 5090 各 195 项通过，包括 LayerNorm 梯度；Attention GQA/mask/dropout/backward 仍待推进 |
 | M6 | 独立 C++ benchmark 与整体回归 | FP8/FP4 专用 C++ 入口已接入锁定环境；5090 原多模块 benchmark 已完成构建及 10 组运行审计；整体 AMD 入口与严格跨平台门限仍待推进 |
@@ -56,8 +56,10 @@ M2 中的 11 个布局转置、3 个 BLAS 入口已完成；M3 完成 3 个异�
 全套 890 项检查通过；另有两卡 66/63 项扩展检查。其余 2 个 HGEMV 的长 K 精度仍未验收。
 本轮进一步增加 9 个 WMMA HGEMM，达到 **166/229（72.49%）**；
 单卡完整回归 **923 项**、专项 **1465 项**通过，19 个 kernel 特化确认 WMMA 且无 spill。
-本轮仅使用空闲物理 GPU6，没有追加第二张 AMD 卡验证；检查数受可见设备数影响。
-TF32 替代仍待实现。原接口现为 **166 已通过、47 待迁移／验证、16 精度未验收**。
+该批使用 HIP mask 6，未记录 PCI，原“物理 GPU6”推定已撤回；检查数受可见设备数影响。
+第三轮再增加两个原 FlashAttention shared-KV/QKV FP32 累加入口，专项 534 项和
+146 组 CUDA/AMD 对照通过，完整回归 24 模块、168 接口、927 项通过。
+TF32 替代仍待实现。原接口现为 **168 已通过、45 待迁移／验证、16 精度未验收**。
 后续按验证发现调整执行顺序，不改变失败项目的验收口径。
 
 新增跨平台验收环境：`nvidia-5090x2` 上的
@@ -65,12 +67,14 @@ TF32 替代仍待实现。原接口现为 **166 已通过、47 待迁移／验�
 以固定 CUDA 镜像和上游快照、相同输入文件区分原算法误差、原 CUDA 故障与移植问题。
 用户已授权将代码及报告推送至 `zihaomu/LeetCUDA-rocm` 的独立 `rocm10` 分支。
 分支提交表示可复核的阶段成果，不改变尚未完成整体迁移的状态。
-当前 229 个原始接口均有 CUDA 运行证据，166 个已支持接口的 336 组共享输入对照通过。
+当前 229 个原始接口均有 CUDA 运行证据，168 个已支持接口的 340 组共享输入对照通过。
 本轮扩展 WMMA 输入发现两个原 CUDA 双缓冲入口的奇数 tile 收尾错误，已修复并在 5090 复验。
 K=4096 的 40 个 CUDA FP16 累加专项用例仍未通过门限，AMD FP32 累加通过；
 清单保留这种精度变化，不能将跨平台通过解释为逐位复现原算术。
 
-后续优先推进 29 个原 FlashAttention 变体的参数和调度契约，复用本轮矩阵 fragment、
+FlashAttention 的 29 个原接口已完成 2 个，下一批优先两个 FP32 tiling-QK/QKV 入口，
+随后处理 swizzle 与 split-KV。tiling 原实现 D>=256 的输出累加状态为 FP16，须单独验证。
+继续推进其余 27 个 FlashAttention 变体，复用已验证的矩阵 fragment、
 LDS 与预取经验；继续迁移 11 个 HGEMM MMA/CuTe、3 个标量异步 HGEMM、
 1 个 WS-HGEMM 和 3 个 TF32 SGEMM。16 个精度未验收入口保持独立研究。
 本轮 GEMM 的最好被测配置仍比同机 Torch 慢约 1.8～2.4 倍，性能优化与剩余功能迁移分别跟踪。
@@ -79,7 +83,8 @@ LDS 与预取经验；继续迁移 11 个 HGEMM MMA/CuTe、3 个标量异步 HGE
 
 - [算子支持清单](leetcuda_rocm10_operator_support.md)
 - [逐接口数据](leetcuda_rocm10_operator_inventory.json)
-- [当前基础资格报告](qualification_20261105_wmma.json)
+- [当前基础资格报告](qualification_20261105_flash_shared.json)
+- [本轮两个原 FlashAttention 接口与设备身份校验](flash_shared_20261105.md)
 - [本轮 9 个 WMMA HGEMM 与 166 接口跨平台对照](wmma_hgemm_20261105.md)
 - [5090 对照验收与剩余方案](cross_5090_20261105.md)
 - [三个异步 SGEMM 接口及实际 AMD 流水线](async_sgemm_20261103.md)
@@ -89,8 +94,10 @@ LDS 与预取经验；继续迁移 11 个 HGEMM MMA/CuTe、3 个标量异步 HGE
 - [FP4 数值展开可行性与目标指令探测](fp4_feasibility_20261103.md)
 - [FP4 完整链路、优化与 C++ 验证](fp4_pipeline_20261103.md)
 
-实验使用确认空闲的设备；物理 GPU3 禁止计算。本轮检查占用和工作区预约记录后使用
-GPU6；再次实验须重新检查，不将其视为长期空闲。当前阶段不需要更改共享 ROCm/Torch 环境。
+实验前核对 PCI、占用与预约；物理 GPU3（0000:63:00.0）禁止计算。
+第三轮确认 HIP mask 4 对应物理 GPU7（0000:e3:00.0），该卡驻留其他模型但当时无活跃计算。
+当前性能属于共享环境观察；历史未记录 PCI 的报告不再证明物理卡身份或独占性。
+本项目已增加实际 PCI 拒绝校验，不更改共享 ROCm/Torch 环境或其他任务。
 
 FP8/FP4 动态量化和离线 B 已完成功能验证；端到端和纯计算仍有性能差距。
 FP4 已消除设备函数调用及 scratch spill，并验证 packed FP16 展开；后续研究数据装载、
