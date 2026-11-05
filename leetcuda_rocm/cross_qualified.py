@@ -172,6 +172,7 @@ def cuda_build(module, names, original, cutlass):
         ),
         "mat_transpose": ("mat-transpose/mat_transpose_cute.cu",),
         "hgemm": ("hgemm/cublas/hgemm_cublas.cu",)
+        + (("hgemm/naive/hgemm.cu",) if "hgemm_naive_f16" in names else ())
         + (
             ("hgemm/naive/hgemm_async.cu",)
             if any(
@@ -345,6 +346,17 @@ def run(args):
         "scope": "Shared finite fixtures only; does not replace full AMD qualification or cover remaining unported interfaces.",
     }
     outputs = {}
+    if (
+        args.backend == "cuda"
+        and args.source_kind == "precision_reference_worktree"
+    ):
+        manifest = args.original / "precision_reference.json"
+        changes = json.loads(manifest.read_text())
+        for path, record in changes["files"].items():
+            assert sha(args.original / path) == record["fp32_sha256"]
+        report["precision_reference"] = changes
+        report["precision_reference_manifest_sha256"] = sha(manifest)
+        report["source_root"] = str(args.original)
     for module, names in fixture["modules"].items():
         if args.modules and module not in args.modules:
             continue
@@ -518,7 +530,11 @@ def main():
     runner.add_argument("--performance", action="store_true")
     runner.add_argument(
         "--source-kind",
-        choices=("upstream_snapshot", "ported_worktree"),
+        choices=(
+            "upstream_snapshot",
+            "ported_worktree",
+            "precision_reference_worktree",
+        ),
         default="upstream_snapshot",
     )
     cmp = sub.add_parser("compare")

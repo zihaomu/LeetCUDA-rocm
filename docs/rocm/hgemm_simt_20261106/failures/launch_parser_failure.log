@@ -1,0 +1,14 @@
+{"profile": "rocm10-foundation-r9700-v1", "passed": true, "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03", "output": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/d1f8a0b327724d19ba7c5a409798c66f.json"}
+Traceback (most recent call last):
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/u3/probe.py", line 8, in <module>
+    lib=_load('simt_precision_probe',(_prepare(binding(HGEMM)),_prepare(p.read_text())),cache_key(env),env['gpu_architecture'],False)
+                                                               ~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/loader.py", line 113, in _prepare
+    source = re.sub(r"<<<([^<>]+)>>>", stream, source)
+  File "/opt/python/cpython-3.13.13-linux-x86_64-gnu/lib/python3.13/re/__init__.py", line 208, in sub
+    return _compile(pattern, flags).sub(repl, string, count)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/loader.py", line 110, in stream
+    raise RuntimeError(f"Unreviewed kernel launch: {match[0]}")
+RuntimeError: Unreviewed kernel launch: <<<dim3((N + 31) / 32, (M + 31) / 32),
+                                  dim3(32, 32)>>>

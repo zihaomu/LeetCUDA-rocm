@@ -85,6 +85,24 @@ if vector_gemv_keys:
         for p in vector_gemv_report["performance"]
     )
     rejected.difference_update(vector_gemv_keys)
+simt_path = root / "docs/rocm/hgemm_simt_20261106/hip.json"
+simt_keys = {
+    ("hgemm", name) for name in research["failed_functions"]
+} & qualified
+if simt_keys:
+    simt_report = json.loads(simt_path.read_text())
+    assert simt_report["passed"] and simt_report["isa"]["passed"]
+    assert simt_keys == {("hgemm", n) for n in simt_report["variants"]}
+    for field in ("checks", "boundaries", "half_controls"):
+        assert simt_report[field] and all(
+            c["passed"] for c in simt_report[field]
+        )
+    assert len(simt_report["performance"]) == 33
+    assert all(
+        p["accuracy_passed"] and p["graph_replay_verified"]
+        for p in simt_report["performance"]
+    )
+    rejected.difference_update(simt_keys)
 reduce_precision_path = root / "docs/rocm/reduce_precision_20261106/hip.json"
 reduce_precision_keys = {
     key
@@ -518,6 +536,21 @@ for source in sorted((root / "kernels").rglob("*")):
                     vector_gemv_path.read_bytes()
                 ).hexdigest(),
             }
+        if (module, name) in simt_keys:
+            entries[-1]["implementation"] = {
+                "mechanism": "Eleven native synchronous SIMT kernels retaining naive/sliced, x4/x8, packed stores, BCF layout, double-buffer slots and original thread microtiles",
+                "original_accumulator": "FP16",
+                "rocm_accumulator": "FP32",
+                "precision_changed": True,
+                "numeric_semantics": "FP16 I/O; explicit FP32 FMA and running state; original FP16 arithmetic retained as private control",
+                "variant_geometry": simt_report["variants"][name],
+                "extended_boundary": "Bounded native scalar kernel for tails and unaligned addresses outside original fast-tile contracts",
+                "performance_status": "measured_per_workload",
+                "evidence": str(simt_path.relative_to(root)),
+                "evidence_sha256": hashlib.sha256(
+                    simt_path.read_bytes()
+                ).hexdigest(),
+            }
         if (module, name) in reduce_precision_keys:
             entries[-1]["implementation"] = {
                 "mechanism": "Native scalar/x2/x8 loads, compensated FP32 wave/block reduction and deterministic second-stage reduction",
@@ -833,6 +866,10 @@ if wmma_keys:
         qualified_cuda_path = (
             root / "docs/rocm/reduce_precision_20261106/qualified218_cuda.json"
         )
+    if simt_keys:
+        qualified_cuda_path = (
+            root / "docs/rocm/hgemm_simt_20261106/qualified229_cuda.json"
+        )
     qualified_cuda = json.loads(qualified_cuda_path.read_text())
     assert qualified_cuda["passed"]
     by_function = collections.defaultdict(list)
@@ -841,7 +878,7 @@ if wmma_keys:
     assert set(by_function) <= qualified
     for key, checks in by_function.items():
         cuda_coverage[key] = {
-            "source_kind": "ported_worktree",
+            "source_kind": qualified_cuda["source_kind"],
             "cases": len(checks),
             "accuracy_passed_cases": sum(c["passed"] for c in checks),
             "all_cases_passed": all(c["passed"] for c in checks),
@@ -938,6 +975,23 @@ if vector_gemv_keys:
                 vector_cuda_path.read_bytes()
             ).hexdigest(),
             "initialization_fixed_evidence": "docs/rocm/hgemv_vector_20261106/cuda_fixed.json",
+        }
+if simt_keys:
+    simt_cuda_path = root / "docs/rocm/hgemm_simt_20261106/cuda_original.json"
+    simt_cuda = json.loads(simt_cuda_path.read_text())
+    for key in simt_keys:
+        checks = [c for c in simt_cuda["checks"] if c["function"] == key[1]]
+        cuda_coverage[key] = {
+            "source_kind": "upstream_original_with_current_stream_launches",
+            "cases": len(checks),
+            "accuracy_passed_cases": sum(c["passed"] for c in checks),
+            "all_cases_passed": all(c["passed"] for c in checks),
+            "scope": "Original long-K FP16 accumulation and odd-slot epilogue failures retained; slot-only CUDA correction separately reported",
+            "evidence": str(simt_cuda_path.relative_to(root)),
+            "evidence_sha256": hashlib.sha256(
+                simt_cuda_path.read_bytes()
+            ).hexdigest(),
+            "slot_fixed_evidence": "docs/rocm/hgemm_simt_20261106/cuda_fixed.json",
         }
 if reduce_precision_keys:
     reduce_cuda_path = root / "docs/rocm/reduce_precision_20261106/cuda.json"

@@ -63,6 +63,7 @@ EXTRA_SOURCES = {
         "rocm/hgemm_wmma.cu",
         "rocm/hgemm_mma.cu",
         "rocm/hgemm_async.cu",
+        "rocm/hgemm_simt_precision.cu",
     ),
     "flash_attn": (
         "rocm/flash_attention_shared.cu",

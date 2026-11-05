@@ -122,7 +122,7 @@ void hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem_tn_swizzle_x4(
     int swizzle_stride);
 
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
-#ifndef LEETCUDA_ROCM_BLAS_ONLY
+  // ROCm explicitly upgrades these SIMT accumulators to FP32.
   // CUDA Cores FP16
   TORCH_BINDING_COMMON_EXTENSION(hgemm_naive_f16)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_sliced_k_f16)
@@ -136,7 +136,6 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   TORCH_BINDING_COMMON_EXTENSION(hgemm_t_8x8_sliced_k16_f16x8_pack_dbuf)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf)
-#endif
 #if !defined(LEETCUDA_ROCM) || defined(LEETCUDA_ROCM_BLAS_ONLY)
   TORCH_BINDING_COMMON_EXTENSION(init_cublas_handle)
   TORCH_BINDING_COMMON_EXTENSION(destroy_cublas_handle)

@@ -1,0 +1,17 @@
+{
+  "purpose": "Explicit matched FP32-state CUDA comparator, separate from original FP16 evidence",
+  "original_accumulator": "FP16",
+  "reference_accumulator": "FP32",
+  "changed_interfaces": 14,
+  "mechanisms": "Keep original tile geometries, vector loads/stores, BCF layouts and actual CUDA cp.async; retain previous odd-slot correction",
+  "files": {
+    "kernels/hgemm/naive/hgemm.cu": {
+      "slot_corrected_fp16_sha256": "16fd075b7ca6e9fc22c172fae24a55f00f8ca1aa18aad763dd40e3f9945761f9",
+      "fp32_sha256": "003e15d38dc058812d7298941478907b2826aae28941336114040ea333f7b457"
+    },
+    "kernels/hgemm/naive/hgemm_async.cu": {
+      "slot_corrected_fp16_sha256": "20322bd231d7c6dfe25c870bf7c66ad1f07255da5e1f845a0491c44aece066ab",
+      "fp32_sha256": "4ef8a818d48a86ed71d80cc289537479f81d88e2362caa19332776ce5f1b2463"
+    }
+  }
+}
