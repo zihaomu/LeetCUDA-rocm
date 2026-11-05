@@ -1,0 +1,532 @@
+{
+  "upstream_commit": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+  "inventory_sha256": "07d1779547fc00b7d71d92bc30b2c53ff726d2c7e71a887dec80c6d1f2a23fa6",
+  "groups": [
+    {
+      "source": "kernels/sgemm/sgemm_cublas.cu",
+      "module": "sgemm",
+      "functions": [
+        {
+          "name": "sgemm_cublas_tf32",
+          "declaration": "void sgemm_cublas_tf32(torch::Tensor a, torch::Tensor b, torch::Tensor c);",
+          "argc": 3
+        }
+      ]
+    },
+    {
+      "source": "kernels/sgemm/sgemm_wmma_tf32_stage.cu",
+      "module": "sgemm",
+      "functions": [
+        {
+          "name": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+          "declaration": "void sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages(torch::Tensor a, torch::Tensor b,\n                                               torch::Tensor c, int stages,\n                                               bool swizzle,\n                                               int swizzle_stride);",
+          "argc": 6
+        },
+        {
+          "name": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+          "declaration": "void sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem(torch::Tensor a,\n                                                     torch::Tensor b,\n                                                     torch::Tensor c,\n                                                     int stages, bool swizzle,\n                                                     int swizzle_stride);",
+          "argc": 6
+        }
+      ]
+    },
+    {
+      "source": "kernels/ws-hgemm/naive_ws_hgemm_sm8x.cu",
+      "module": "ws_hgemm",
+      "functions": [
+        {
+          "name": "ws_hgemm_naive_cute",
+          "declaration": "void ws_hgemm_naive_cute(torch::Tensor a, torch::Tensor b, torch::Tensor c);",
+          "argc": 3
+        }
+      ]
+    },
+    {
+      "source": "kernels/hgemm/cutlass/hgemm_mma_stage_tn_cute.cu",
+      "module": "hgemm",
+      "functions": [
+        {
+          "name": "hgemm_mma_stages_block_swizzle_tn_cute",
+          "declaration": "void hgemm_mma_stages_block_swizzle_tn_cute(torch::Tensor a, torch::Tensor b,\n                                            torch::Tensor c, int stages,\n                                            bool swizzle, int swizzle_stride);",
+          "argc": 6
+        }
+      ]
+    },
+    {
+      "source": "kernels/hgemm/mma/basic/hgemm_mma.cu",
+      "module": "hgemm",
+      "functions": [
+        {
+          "name": "hgemm_mma_m16n8k16_naive",
+          "declaration": "void hgemm_mma_m16n8k16_naive(torch::Tensor a, torch::Tensor b,\n                              torch::Tensor c);",
+          "argc": 3
+        },
+        {
+          "name": "hgemm_mma_m16n8k16_mma2x4_warp4x4",
+          "declaration": "void hgemm_mma_m16n8k16_mma2x4_warp4x4(torch::Tensor a, torch::Tensor b,\n                                       torch::Tensor c);",
+          "argc": 3
+        }
+      ]
+    },
+    {
+      "source": "kernels/hgemm/mma/basic/hgemm_mma_stage.cu",
+      "module": "hgemm",
+      "functions": [
+        {
+          "name": "hgemm_mma_m16n8k16_mma2x4_warp4x4_stages",
+          "declaration": "void hgemm_mma_m16n8k16_mma2x4_warp4x4_stages(torch::Tensor a, torch::Tensor b,\n                                              torch::Tensor c, int stages,\n                                              bool swizzle,\n                                              int swizzle_stride);",
+          "argc": 6
+        },
+        {
+          "name": "hgemm_mma_m16n8k16_mma2x4_warp4x4_stages_dsmem",
+          "declaration": "void hgemm_mma_m16n8k16_mma2x4_warp4x4_stages_dsmem(torch::Tensor a,\n                                                    torch::Tensor b,\n                                                    torch::Tensor c, int stages,\n                                                    bool swizzle,\n                                                    int swizzle_stride);",
+          "argc": 6
+        },
+        {
+          "name": "hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem",
+          "declaration": "void hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem(torch::Tensor a,\n                                                      torch::Tensor b,\n                                                      torch::Tensor c,\n                                                      int stages, bool swizzle,\n                                                      int swizzle_stride);",
+          "argc": 6
+        },
+        {
+          "name": "hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem_x4",
+          "declaration": "void hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem_x4(\n    torch::Tensor a, torch::Tensor b, torch::Tensor c, int stages, bool swizzle,\n    int swizzle_stride);",
+          "argc": 6
+        },
+        {
+          "name": "hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem_rr",
+          "declaration": "void hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem_rr(\n    torch::Tensor a, torch::Tensor b, torch::Tensor c, int stages, bool swizzle,\n    int swizzle_stride);",
+          "argc": 6
+        }
+      ]
+    },
+    {
+      "source": "kernels/hgemm/mma/basic/hgemm_mma_stage_tn.cu",
+      "module": "hgemm",
+      "functions": [
+        {
+          "name": "hgemm_mma_m16n8k16_mma2x4_warp4x4_stages_dsmem_tn",
+          "declaration": "void hgemm_mma_m16n8k16_mma2x4_warp4x4_stages_dsmem_tn(torch::Tensor a,\n                                                       torch::Tensor b,\n                                                       torch::Tensor c,\n                                                       int stages, bool swizzle,\n                                                       int swizzle_stride);",
+          "argc": 6
+        }
+      ]
+    },
+    {
+      "source": "kernels/hgemm/mma/swizzle/hgemm_mma_stage_swizzle.cu",
+      "module": "hgemm",
+      "functions": [
+        {
+          "name": "hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem_swizzle",
+          "declaration": "void hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem_swizzle(\n    torch::Tensor a, torch::Tensor b, torch::Tensor c, int stages, bool swizzle,\n    int swizzle_stride);",
+          "argc": 6
+        }
+      ]
+    },
+    {
+      "source": "kernels/hgemm/mma/swizzle/hgemm_mma_stage_tn_swizzle_x4.cu",
+      "module": "hgemm",
+      "functions": [
+        {
+          "name": "hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem_tn_swizzle_x4",
+          "declaration": "void hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem_tn_swizzle_x4(\n    torch::Tensor a, torch::Tensor b, torch::Tensor c, int stages, bool swizzle,\n    int swizzle_stride);",
+          "argc": 6
+        }
+      ]
+    },
+    {
+      "source": "kernels/hgemm/naive/hgemm_async.cu",
+      "module": "hgemm",
+      "functions": [
+        {
+          "name": "hgemm_t_8x8_sliced_k16_f16x8_pack_dbuf_async",
+          "declaration": "void hgemm_t_8x8_sliced_k16_f16x8_pack_dbuf_async(torch::Tensor a,\n                                                  torch::Tensor b,\n                                                  torch::Tensor c);",
+          "argc": 3
+        },
+        {
+          "name": "hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf_async",
+          "declaration": "void hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf_async(torch::Tensor a,\n                                                  torch::Tensor b,\n                                                  torch::Tensor c);",
+          "argc": 3
+        },
+        {
+          "name": "hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf_async",
+          "declaration": "void hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf_async(torch::Tensor a,\n                                                   torch::Tensor b,\n                                                   torch::Tensor c);",
+          "argc": 3
+        }
+      ]
+    },
+    {
+      "source": "kernels/hgemm/wmma/hgemm_wmma.cu",
+      "module": "hgemm",
+      "functions": [
+        {
+          "name": "hgemm_wmma_m16n16k16_naive",
+          "declaration": "void hgemm_wmma_m16n16k16_naive(torch::Tensor a, torch::Tensor b,\n                                torch::Tensor c);",
+          "argc": 3
+        },
+        {
+          "name": "hgemm_wmma_m16n16k16_mma4x2",
+          "declaration": "void hgemm_wmma_m16n16k16_mma4x2(torch::Tensor a, torch::Tensor b,\n                                 torch::Tensor c);",
+          "argc": 3
+        },
+        {
+          "name": "hgemm_wmma_m16n16k16_mma4x2_warp2x4",
+          "declaration": "void hgemm_wmma_m16n16k16_mma4x2_warp2x4(torch::Tensor a, torch::Tensor b,\n                                         torch::Tensor c);",
+          "argc": 3
+        },
+        {
+          "name": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async",
+          "declaration": "void hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async(torch::Tensor a,\n                                                    torch::Tensor b,\n                                                    torch::Tensor c);",
+          "argc": 3
+        },
+        {
+          "name": "hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async",
+          "declaration": "void hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async(torch::Tensor a,\n                                                   torch::Tensor b,\n                                                   torch::Tensor c);",
+          "argc": 3
+        }
+      ]
+    },
+    {
+      "source": "kernels/hgemm/wmma/hgemm_wmma_stage.cu",
+      "module": "hgemm",
+      "functions": [
+        {
+          "name": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages",
+          "declaration": "void hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages(torch::Tensor a,\n                                                torch::Tensor b,\n                                                torch::Tensor c, int stages,\n                                                bool swizzle,\n                                                int swizzle_stride);",
+          "argc": 6
+        },
+        {
+          "name": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem",
+          "declaration": "void hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem(torch::Tensor a,\n                                                      torch::Tensor b,\n                                                      torch::Tensor c,\n                                                      int stages, bool swizzle,\n                                                      int swizzle_stride);",
+          "argc": 6
+        },
+        {
+          "name": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem",
+          "declaration": "void hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem(torch::Tensor a,\n                                                      torch::Tensor b,\n                                                      torch::Tensor c,\n                                                      int stages, bool swizzle,\n                                                      int swizzle_stride);",
+          "argc": 6
+        },
+        {
+          "name": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem",
+          "declaration": "void hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem(torch::Tensor a,\n                                                      torch::Tensor b,\n                                                      torch::Tensor c,\n                                                      int stages, bool swizzle,\n                                                      int swizzle_stride);",
+          "argc": 6
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/cutlass/flash_attn_cute.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_cute",
+          "declaration": "void flash_attn_cute(torch::Tensor Q, torch::Tensor K, torch::Tensor V,\n                     torch::Tensor O);",
+          "argc": 4
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/basic/flash_attn_mma_share_kv.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_shared_kv",
+          "declaration": "void flash_attn_mma_stages_split_q_shared_kv(torch::Tensor Q, torch::Tensor K,\n                                             torch::Tensor V, torch::Tensor O,\n                                             int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/basic/flash_attn_mma_share_kv_F32F16F16F32.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_shared_kv_acc_f32",
+          "declaration": "void flash_attn_mma_stages_split_q_shared_kv_acc_f32(torch::Tensor Q,\n                                                     torch::Tensor K,\n                                                     torch::Tensor V,\n                                                     torch::Tensor O,\n                                                     int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/basic/flash_attn_mma_share_qkv.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_shared_qkv",
+          "declaration": "void flash_attn_mma_stages_split_q_shared_qkv(torch::Tensor Q, torch::Tensor K,\n                                              torch::Tensor V, torch::Tensor O,\n                                              int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/basic/flash_attn_mma_share_qkv_F32F16F16F32.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_shared_qkv_acc_f32",
+          "declaration": "void flash_attn_mma_stages_split_q_shared_qkv_acc_f32(torch::Tensor Q,\n                                                      torch::Tensor K,\n                                                      torch::Tensor V,\n                                                      torch::Tensor O,\n                                                      int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/basic/flash_attn_mma_split_kv.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_kv",
+          "declaration": "void flash_attn_mma_stages_split_kv(torch::Tensor Q, torch::Tensor K,\n                                    torch::Tensor V, torch::Tensor O,\n                                    int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/basic/flash_attn_mma_split_q.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q",
+          "declaration": "void flash_attn_mma_stages_split_q(torch::Tensor Q, torch::Tensor K,\n                                   torch::Tensor V, torch::Tensor O,\n                                   int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/basic/flash_attn_mma_tiling_qk.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_tiling_qk",
+          "declaration": "void flash_attn_mma_stages_split_q_tiling_qk(torch::Tensor Q, torch::Tensor K,\n                                             torch::Tensor V, torch::Tensor O,\n                                             int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/basic/flash_attn_mma_tiling_qk_F32F16F16F32.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_tiling_qk_acc_f32",
+          "declaration": "void flash_attn_mma_stages_split_q_tiling_qk_acc_f32(torch::Tensor Q,\n                                                     torch::Tensor K,\n                                                     torch::Tensor V,\n                                                     torch::Tensor O,\n                                                     int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/basic/flash_attn_mma_tiling_qkv.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_tiling_qkv",
+          "declaration": "void flash_attn_mma_stages_split_q_tiling_qkv(torch::Tensor Q, torch::Tensor K,\n                                              torch::Tensor V, torch::Tensor O,\n                                              int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/basic/flash_attn_mma_tiling_qkv_F32F16F16F32.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_tiling_qkv_acc_f32",
+          "declaration": "void flash_attn_mma_stages_split_q_tiling_qkv_acc_f32(torch::Tensor Q,\n                                                      torch::Tensor K,\n                                                      torch::Tensor V,\n                                                      torch::Tensor O,\n                                                      int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/others/flash_attn_mma_share_kv_F32F16F16F32_rr.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_shared_kv_acc_f32_rr",
+          "declaration": "void flash_attn_mma_stages_split_q_shared_kv_acc_f32_rr(torch::Tensor Q,\n                                                        torch::Tensor K,\n                                                        torch::Tensor V,\n                                                        torch::Tensor O,\n                                                        int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/others/flash_attn_mma_share_qkv_F32F16F16F32_rr.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_shared_qkv_acc_f32_rr",
+          "declaration": "void flash_attn_mma_stages_split_q_shared_qkv_acc_f32_rr(torch::Tensor Q,\n                                                         torch::Tensor K,\n                                                         torch::Tensor V,\n                                                         torch::Tensor O,\n                                                         int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/others/flash_attn_mma_share_qkv_Os2g.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_shared_qkv_Os2g",
+          "declaration": "void flash_attn_mma_stages_split_q_shared_qkv_Os2g(torch::Tensor Q,\n                                                   torch::Tensor K,\n                                                   torch::Tensor V,\n                                                   torch::Tensor O,\n                                                   int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/swizzle/flash_attn_mma_share_kv_swizzle_q.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_shared_kv_swizzle_q",
+          "declaration": "void flash_attn_mma_stages_split_q_shared_kv_swizzle_q(torch::Tensor Q,\n                                                       torch::Tensor K,\n                                                       torch::Tensor V,\n                                                       torch::Tensor O,\n                                                       int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/swizzle/flash_attn_mma_share_kv_swizzle_qk.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_shared_kv_swizzle_qk",
+          "declaration": "void flash_attn_mma_stages_split_q_shared_kv_swizzle_qk(torch::Tensor Q,\n                                                        torch::Tensor K,\n                                                        torch::Tensor V,\n                                                        torch::Tensor O,\n                                                        int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/swizzle/flash_attn_mma_share_kv_swizzle_qkv.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_shared_kv_swizzle_qkv",
+          "declaration": "void flash_attn_mma_stages_split_q_shared_kv_swizzle_qkv(torch::Tensor Q,\n                                                         torch::Tensor K,\n                                                         torch::Tensor V,\n                                                         torch::Tensor O,\n                                                         int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/swizzle/flash_attn_mma_share_qkv_swizzle_q.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_shared_qkv_swizzle_q",
+          "declaration": "void flash_attn_mma_stages_split_q_shared_qkv_swizzle_q(torch::Tensor Q,\n                                                        torch::Tensor K,\n                                                        torch::Tensor V,\n                                                        torch::Tensor O,\n                                                        int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/swizzle/flash_attn_mma_share_qkv_swizzle_qk.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_shared_qkv_swizzle_qk",
+          "declaration": "void flash_attn_mma_stages_split_q_shared_qkv_swizzle_qk(torch::Tensor Q,\n                                                         torch::Tensor K,\n                                                         torch::Tensor V,\n                                                         torch::Tensor O,\n                                                         int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/swizzle/flash_attn_mma_share_qkv_swizzle_qkv.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_shared_qkv_swizzle_qkv",
+          "declaration": "void flash_attn_mma_stages_split_q_shared_qkv_swizzle_qkv(torch::Tensor Q,\n                                                          torch::Tensor K,\n                                                          torch::Tensor V,\n                                                          torch::Tensor O,\n                                                          int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/swizzle/flash_attn_mma_tiling_qk_swizzle_q.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_tiling_qk_swizzle_q",
+          "declaration": "void flash_attn_mma_stages_split_q_tiling_qk_swizzle_q(torch::Tensor Q,\n                                                       torch::Tensor K,\n                                                       torch::Tensor V,\n                                                       torch::Tensor O,\n                                                       int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/swizzle/flash_attn_mma_tiling_qk_swizzle_qk.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_tiling_qk_swizzle_qk",
+          "declaration": "void flash_attn_mma_stages_split_q_tiling_qk_swizzle_qk(torch::Tensor Q,\n                                                        torch::Tensor K,\n                                                        torch::Tensor V,\n                                                        torch::Tensor O,\n                                                        int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/swizzle/flash_attn_mma_tiling_qk_swizzle_qkv.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_tiling_qk_swizzle_qkv",
+          "declaration": "void flash_attn_mma_stages_split_q_tiling_qk_swizzle_qkv(torch::Tensor Q,\n                                                         torch::Tensor K,\n                                                         torch::Tensor V,\n                                                         torch::Tensor O,\n                                                         int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_q.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_tiling_qkv_swizzle_q",
+          "declaration": "void flash_attn_mma_stages_split_q_tiling_qkv_swizzle_q(torch::Tensor Q,\n                                                        torch::Tensor K,\n                                                        torch::Tensor V,\n                                                        torch::Tensor O,\n                                                        int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_q_F32F16F16F32.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_q",
+          "declaration": "void flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_q(torch::Tensor Q,\n                                                                torch::Tensor K,\n                                                                torch::Tensor V,\n                                                                torch::Tensor O,\n                                                                int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_qk.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_tiling_qkv_swizzle_qk",
+          "declaration": "void flash_attn_mma_stages_split_q_tiling_qkv_swizzle_qk(torch::Tensor Q,\n                                                         torch::Tensor K,\n                                                         torch::Tensor V,\n                                                         torch::Tensor O,\n                                                         int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_qk_F32F16F16F32.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_qk",
+          "declaration": "void flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_qk(\n    torch::Tensor Q, torch::Tensor K, torch::Tensor V, torch::Tensor O,\n    int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_qkv.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_tiling_qkv_swizzle_qkv",
+          "declaration": "void flash_attn_mma_stages_split_q_tiling_qkv_swizzle_qkv(torch::Tensor Q,\n                                                          torch::Tensor K,\n                                                          torch::Tensor V,\n                                                          torch::Tensor O,\n                                                          int stages);",
+          "argc": 5
+        }
+      ]
+    },
+    {
+      "source": "kernels/flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_qkv_F32F16F16F32.cu",
+      "module": "flash_attn",
+      "functions": [
+        {
+          "name": "flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_qkv",
+          "declaration": "void flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_qkv(\n    torch::Tensor Q, torch::Tensor K, torch::Tensor V, torch::Tensor O,\n    int stages);",
+          "argc": 5
+        }
+      ]
+    }
+  ]
+}

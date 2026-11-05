@@ -1,0 +1,490 @@
+{
+  "timestamp_utc": "2026-11-05T07:22:29.367727+00:00",
+  "backend": "cuda",
+  "environment": {
+    "torch": "2.9.0a0+145a3a7bda.nv25.10",
+    "cuda": "13.0",
+    "python": "3.12.3",
+    "image": "sha256:42263b2424fc237b34c4fc4a91c30d603c57eed36e37d31ff6d9a4f1f801edee",
+    "nvcc": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Wed_Aug_20_01:58:59_PM_PDT_2025\nCuda compilation tools, release 13.0, V13.0.88\nBuild cuda_13.0.r13.0/compiler.36424714_0\n",
+    "nvidia_smi": "NVIDIA GeForce RTX 5090, GPU-17390cc0-bf3c-53e3-170c-21eb949de43b, 615.71.09\n",
+    "cutlass_commit": "e05f953a5b3d38adc240df2ff928e0421c2abba3"
+  },
+  "fixture_sha256": "8fbe660cab06a7ae80b15142135be37d1492ed92630c0d256ef7c0d5da3a7c01",
+  "harness_sha256": "f3998708c9882eafc1012fb89bf674974d912c8b33698605deb644b4a9979d69",
+  "upstream_commit": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+  "expected_interfaces": {
+    "elementwise": [
+      "elementwise_add_f16",
+      "elementwise_add_f16x2",
+      "elementwise_add_f16x8",
+      "elementwise_add_f16x8_pack",
+      "elementwise_add_f32",
+      "elementwise_add_f32x4"
+    ],
+    "relu": [
+      "relu_f16",
+      "relu_f16x2",
+      "relu_f16x8",
+      "relu_f16x8_pack",
+      "relu_f32",
+      "relu_f32x4"
+    ],
+    "gelu": [
+      "gelu_f16",
+      "gelu_f16x2",
+      "gelu_f16x8",
+      "gelu_f16x8_pack",
+      "gelu_f32",
+      "gelu_f32x4"
+    ],
+    "sigmoid": [
+      "sigmoid_f16",
+      "sigmoid_f16x2",
+      "sigmoid_f16x8",
+      "sigmoid_f16x8_pack",
+      "sigmoid_f32",
+      "sigmoid_f32x4"
+    ],
+    "swish": [
+      "swish_f16",
+      "swish_f16x2",
+      "swish_f16x8",
+      "swish_f16x8_pack",
+      "swish_f32",
+      "swish_f32x4"
+    ],
+    "hardswish": [
+      "hardswish_f16",
+      "hardswish_f16x2",
+      "hardswish_f16x8",
+      "hardswish_f16x8_pack",
+      "hardswish_f32",
+      "hardswish_f32x4"
+    ],
+    "hardshrink": [
+      "hardshrink_f16",
+      "hardshrink_f16x2",
+      "hardshrink_f16x8",
+      "hardshrink_f16x8_pack",
+      "hardshrink_f32",
+      "hardshrink_f32x4"
+    ],
+    "elu": [
+      "elu_f16",
+      "elu_f16x2",
+      "elu_f16x8",
+      "elu_f16x8_pack",
+      "elu_f32",
+      "elu_f32x4"
+    ],
+    "softmax": [
+      "online_safe_softmax_f32_per_token",
+      "online_safe_softmax_f32x4_pack_per_token",
+      "safe_softmax_f16_f32_per_token",
+      "safe_softmax_f16x2_f32_per_token",
+      "safe_softmax_f16x8_pack_f32_per_token",
+      "safe_softmax_f32_per_token",
+      "safe_softmax_f32x4_per_token",
+      "softmax_f32_per_token",
+      "softmax_f32x4_per_token"
+    ],
+    "rope": [
+      "rope_f32",
+      "rope_f32_v2",
+      "rope_f32x4_pack"
+    ],
+    "embedding": [
+      "embedding_f16",
+      "embedding_f16x8",
+      "embedding_f16x8_pack",
+      "embedding_f32",
+      "embedding_f32x4",
+      "embedding_f32x4_pack"
+    ],
+    "histogram": [
+      "histogram_i32",
+      "histogram_i32x4"
+    ],
+    "sgemv": [
+      "sgemv_k128_f32x4",
+      "sgemv_k16_f32",
+      "sgemv_k32_f32"
+    ],
+    "hgemv": [
+      "hgemv_k128_f16x4",
+      "hgemv_k16_f16",
+      "hgemv_k32_f16"
+    ],
+    "sgemm": [
+      "sgemm_cublas",
+      "sgemm_naive_f32",
+      "sgemm_sliced_k_f32",
+      "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf",
+      "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf",
+      "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf",
+      "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "sgemm_t_8x8_sliced_k_f32x4",
+      "sgemm_t_8x8_sliced_k_f32x4_bcf",
+      "sgemm_t_8x8_sliced_k_f32x4_bcf_dbuf",
+      "sgemm_t_8x8_sliced_k_f32x4_bcf_dbuf_offset",
+      "sgemm_t_8x8_sliced_k_f32x4_bcf_offset"
+    ],
+    "nms": [
+      "nms"
+    ],
+    "reduce": [
+      "block_all_reduce_sum_bf16_f32",
+      "block_all_reduce_sum_bf16x2_f32",
+      "block_all_reduce_sum_bf16x8_pack_f32",
+      "block_all_reduce_sum_f16_f16",
+      "block_all_reduce_sum_f16_f32",
+      "block_all_reduce_sum_f16x2_f16",
+      "block_all_reduce_sum_f16x2_f32",
+      "block_all_reduce_sum_f16x8_pack_f16",
+      "block_all_reduce_sum_f16x8_pack_f32",
+      "block_all_reduce_sum_f32_f32",
+      "block_all_reduce_sum_f32x4_f32",
+      "block_all_reduce_sum_fp8_e4m3_f16",
+      "block_all_reduce_sum_fp8_e4m3x16_pack_f16",
+      "block_all_reduce_sum_fp8_e5m2_f16",
+      "block_all_reduce_sum_fp8_e5m2x16_pack_f16",
+      "block_all_reduce_sum_i8_i32",
+      "block_all_reduce_sum_i8x16_pack_i32"
+    ],
+    "dot_product": [
+      "dot_prod_f16_f32",
+      "dot_prod_f16x2_f32",
+      "dot_prod_f16x8_pack_f32",
+      "dot_prod_f32_f32",
+      "dot_prod_f32x4_f32"
+    ],
+    "layer_norm": [
+      "layer_norm_f16_f16",
+      "layer_norm_f16_f32",
+      "layer_norm_f16x2_f16",
+      "layer_norm_f16x8_f16",
+      "layer_norm_f16x8_pack_f16",
+      "layer_norm_f16x8_pack_f32",
+      "layer_norm_f32",
+      "layer_norm_f32x4"
+    ],
+    "rms_norm": [
+      "rms_norm_f16_f16",
+      "rms_norm_f16_f32",
+      "rms_norm_f16x2_f16",
+      "rms_norm_f16x8_f16",
+      "rms_norm_f16x8_f32",
+      "rms_norm_f16x8_pack_f16",
+      "rms_norm_f16x8_pack_f32",
+      "rms_norm_f32",
+      "rms_norm_f32x4"
+    ],
+    "mat_transpose": [
+      "mat_transpose_cute_col2row_reg",
+      "mat_transpose_cute_col_smem",
+      "mat_transpose_cute_col_smem_swizzled",
+      "mat_transpose_cute_row2col_reg",
+      "mat_transpose_cute_row_cvectorized",
+      "mat_transpose_cute_row_cvectorized_swizzled",
+      "mat_transpose_cute_row_rvectorized",
+      "mat_transpose_cute_row_rvectorized_swizzled",
+      "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+      "mat_transpose_cute_row_smem",
+      "mat_transpose_cute_row_smem_swizzled",
+      "mat_transpose_f32_col2row",
+      "mat_transpose_f32_col2row2d",
+      "mat_transpose_f32_diagonal2d",
+      "mat_transpose_f32_row2col",
+      "mat_transpose_f32_row2col2d",
+      "mat_transpose_f32x4_col2row",
+      "mat_transpose_f32x4_col2row2d",
+      "mat_transpose_f32x4_row2col",
+      "mat_transpose_f32x4_row2col2d",
+      "mat_transpose_f32x4_shared_bcf_col2row2d",
+      "mat_transpose_f32x4_shared_bcf_merge_write_row2col2d",
+      "mat_transpose_f32x4_shared_bcf_row2col2d",
+      "mat_transpose_f32x4_shared_col2row2d",
+      "mat_transpose_f32x4_shared_row2col2d"
+    ],
+    "merge_attn_states": [
+      "merge_attn_states_cuda"
+    ],
+    "hgemm": [
+      "hgemm_cublas_tensor_op_nn",
+      "hgemm_cublas_tensor_op_tn"
+    ]
+  },
+  "modules": {
+    "gelu": {
+      "source_sha256": {
+        "kernels/gelu/gelu.cu": "64f8619cedb58aad8a05d208a6de8221ebf3f4d6e162d03b0a58ba3f9f17931b"
+      },
+      "staged_sha256": {
+        "source_0.cu": "c42130b278dcc13952bdcc9f9ff8a00a7fcf0e413d3087e13b806553ba89d507"
+      },
+      "flags": [
+        "-O3",
+        "-std=c++20",
+        "--use_fast_math",
+        "--expt-relaxed-constexpr",
+        "--expt-extended-lambda",
+        "-U__CUDA_NO_HALF_OPERATORS__",
+        "-U__CUDA_NO_HALF_CONVERSIONS__",
+        "-U__CUDA_NO_HALF2_OPERATORS__",
+        "-U__CUDA_NO_BFLOAT16_CONVERSIONS__",
+        "-DNO_CUBLAS_HGEMM_BIN"
+      ],
+      "binary_sha256": "ae54be40ffe9a96da2d9faa2f0f5af53dd8c452121f92e5a2942f2ce75236728",
+      "binary": "/work/.cache/cuda_comparison/qualified_gelu_a3d51a8503a56ba4/leetcuda_cuda_qualified_gelu_a3d51a8503a56ba4.so"
+    }
+  },
+  "checks": [
+    {
+      "id": "gelu/gelu_f16/8",
+      "module": "gelu",
+      "function": "gelu_f16",
+      "passed": true,
+      "max_abs_error": 0.00048828125,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "output_sha256": "6c3e29e7626baf1ad10878420148acf7bd579dc561cc91a1628476db7cd7d680",
+      "performance": {
+        "median_ms": 0.0024607999250292776,
+        "samples_ms": [
+          0.0028960000723600387,
+          0.002542399987578392,
+          0.002436799928545952,
+          0.0024560000747442245,
+          0.0024607999250292776
+        ]
+      }
+    },
+    {
+      "id": "gelu/gelu_f16/16",
+      "module": "gelu",
+      "function": "gelu_f16",
+      "passed": true,
+      "max_abs_error": 0.0009765625,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "output_sha256": "d2545086453de2e4b53a3f71d7b5ef5206dbd4e37f847f6a30607f4950401587",
+      "performance": {
+        "median_ms": 0.0023951999843120574,
+        "samples_ms": [
+          0.0025936000049114226,
+          0.0024304000660777094,
+          0.002385599911212921,
+          0.0023663999512791634,
+          0.0023951999843120574
+        ]
+      }
+    },
+    {
+      "id": "gelu/gelu_f16x2/8",
+      "module": "gelu",
+      "function": "gelu_f16x2",
+      "passed": true,
+      "max_abs_error": 0.0001220703125,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "output_sha256": "825d75360655105bfa9837c63738f73608a83dd0686a9fd2f879efab87c003a4",
+      "performance": {
+        "median_ms": 0.00242880005389452,
+        "samples_ms": [
+          0.0025248000398278236,
+          0.002492799982428551,
+          0.00242880005389452,
+          0.002401600033044815,
+          0.0023951999843120574
+        ]
+      }
+    },
+    {
+      "id": "gelu/gelu_f16x2/16",
+      "module": "gelu",
+      "function": "gelu_f16x2",
+      "passed": true,
+      "max_abs_error": 0.0009765625,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "output_sha256": "b4001fb9b4232f0d45f199953535296629869a5c428a3e98ae432e86621037e6",
+      "performance": {
+        "median_ms": 0.002406400069594383,
+        "samples_ms": [
+          0.002523200027644634,
+          0.002406400069594383,
+          0.002406400069594383,
+          0.0023919999599456786,
+          0.0024000000208616256
+        ]
+      }
+    },
+    {
+      "id": "gelu/gelu_f16x8/8",
+      "module": "gelu",
+      "function": "gelu_f16x8",
+      "passed": true,
+      "max_abs_error": 0.0001220703125,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "output_sha256": "6f61d250ecb299104cc4d84ec32d5b4f7ba0e9527a3add7a63d4a4a19a0e6057",
+      "performance": {
+        "median_ms": 0.002425600029528141,
+        "samples_ms": [
+          0.0025040000677108766,
+          0.002425600029528141,
+          0.0024304000660777094,
+          0.0023919999599456786,
+          0.0024000000208616256
+        ]
+      }
+    },
+    {
+      "id": "gelu/gelu_f16x8/16",
+      "module": "gelu",
+      "function": "gelu_f16x8",
+      "passed": true,
+      "max_abs_error": 0.0009765625,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "output_sha256": "afe0407e5c33bad5aecea5dc99db787452ad129bc9a17410ee18e726c6b069e1",
+      "performance": {
+        "median_ms": 0.0024320000782608988,
+        "samples_ms": [
+          0.002462399937212467,
+          0.0024512000381946564,
+          0.0024320000782608988,
+          0.0024175999686121942,
+          0.002406400069594383
+        ]
+      }
+    },
+    {
+      "id": "gelu/gelu_f16x8_pack/8",
+      "module": "gelu",
+      "function": "gelu_f16x8_pack",
+      "passed": true,
+      "max_abs_error": 0.0009765625,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "output_sha256": "df65dc1ec1c13075727d51fe7899a378659a14f5f6dcd972403c079cb2c200d4",
+      "performance": {
+        "median_ms": 0.0023951999843120574,
+        "samples_ms": [
+          0.0025008000433444978,
+          0.0023951999843120574,
+          0.0023840000852942468,
+          0.0023951999843120574,
+          0.0024831999093294145
+        ]
+      }
+    },
+    {
+      "id": "gelu/gelu_f16x8_pack/16",
+      "module": "gelu",
+      "function": "gelu_f16x8_pack",
+      "passed": true,
+      "max_abs_error": 0.0009765625,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "output_sha256": "7c597a8e7b69ed59e2ed9135cb7d3b0cae6443a91449436124c043c150e46fc0",
+      "performance": {
+        "median_ms": 0.0024111999198794367,
+        "samples_ms": [
+          0.0024607999250292776,
+          0.0024111999198794367,
+          0.0024399999529123306,
+          0.0023760000243783,
+          0.002401600033044815
+        ]
+      }
+    },
+    {
+      "id": "gelu/gelu_f32/8",
+      "module": "gelu",
+      "function": "gelu_f32",
+      "passed": true,
+      "max_abs_error": 5.1781535148620605e-06,
+      "atol": 2e-05,
+      "rtol": 2e-05,
+      "output_sha256": "fb1a26ffc67f8d01d4323adf31c8098358c8e934060f79ae19c56f34c068ee73",
+      "performance": {
+        "median_ms": 0.0024320000782608988,
+        "samples_ms": [
+          0.002523200027644634,
+          0.0024720000103116034,
+          0.0024320000782608988,
+          0.0023520000278949736,
+          0.0024304000660777094
+        ]
+      }
+    },
+    {
+      "id": "gelu/gelu_f32/16",
+      "module": "gelu",
+      "function": "gelu_f32",
+      "passed": true,
+      "max_abs_error": 5.125999450683594e-06,
+      "atol": 2e-05,
+      "rtol": 2e-05,
+      "output_sha256": "f64615b66b171a14d41704eed330e544fe2df1544ac2ee7cc1f8489eb27973f4",
+      "performance": {
+        "median_ms": 0.002398400008678436,
+        "samples_ms": [
+          0.0024560000747442245,
+          0.002401600033044815,
+          0.002398400008678436,
+          0.0023711999878287316,
+          0.002372800000011921
+        ]
+      }
+    },
+    {
+      "id": "gelu/gelu_f32x4/8",
+      "module": "gelu",
+      "function": "gelu_f32x4",
+      "passed": true,
+      "max_abs_error": 5.2228569984436035e-06,
+      "atol": 2e-05,
+      "rtol": 2e-05,
+      "output_sha256": "8f3e446277585b0d2f4f6c59f422b3b5a51557ca068acc8df61a2d897c65ecef",
+      "performance": {
+        "median_ms": 0.0024272000417113306,
+        "samples_ms": [
+          0.0024607999250292776,
+          0.0024272000417113306,
+          0.0023663999512791634,
+          0.0024320000782608988,
+          0.002372800000011921
+        ]
+      }
+    },
+    {
+      "id": "gelu/gelu_f32x4/16",
+      "module": "gelu",
+      "function": "gelu_f32x4",
+      "passed": true,
+      "max_abs_error": 5.245208740234375e-06,
+      "atol": 2e-05,
+      "rtol": 2e-05,
+      "output_sha256": "71327fa574caaa748ead420b35605bc4824babec23776a59df3b4711681f18ca",
+      "performance": {
+        "median_ms": 0.0024032000452280044,
+        "samples_ms": [
+          0.0024528000503778458,
+          0.0024800000712275503,
+          0.002385599911212921,
+          0.0024032000452280044,
+          0.0023631999269127847
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "scope": "Shared finite fixtures only; does not replace full AMD qualification or cover remaining unported interfaces.",
+  "outputs_sha256": "a6e3f0458b33a56bc58e373922b7195fd75426d2d5d5e8801bc970d12823a5d8",
+  "passed": true
+}

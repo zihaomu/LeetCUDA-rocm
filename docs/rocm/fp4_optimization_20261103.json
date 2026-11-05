@@ -1,0 +1,1782 @@
+{
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "1",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/88194e92ddc2415884119ead7a7f2ef3.json"
+  },
+  "logical_device": 0,
+  "method": "32 calls per HIP graph, adaptive replays targeting 40ms, 5 alternating samples; reused buffers; offline B preparation excluded",
+  "notes": [
+    "Same physical GPU1 and benchmark method; sequential measurements on a shared host, no exclusive reservation.",
+    "Final report verifies all packed expansion values before BF16 rounding.",
+    "Additional host GPU allocations observed after the final run; all raw baseline and candidate samples retained.",
+    "Static instruction counts across compiled code objects, not dynamic instruction counts."
+  ],
+  "variants": [
+    {
+      "report": "docs/rocm/fp4_pipeline_initial_20261103.json",
+      "report_sha256": "0b27fd235a1b880c3acea7bdc20a997d7fc6d4d77a046f0271bdbb3679dbf16e",
+      "checks": 1539,
+      "performance_cases": 96,
+      "scratch_instructions": 1432,
+      "device_call_instructions": 16,
+      "packed_fp16_mul_instructions": 0
+    },
+    {
+      "report": "docs/rocm/fp4_pipeline_inline_20261103.json",
+      "report_sha256": "0effd6ef022e9b69fd1dad0ed217586e7276a20293a51bb8e5c5e3f21d54436e",
+      "checks": 1539,
+      "performance_cases": 96,
+      "scratch_instructions": 0,
+      "device_call_instructions": 0,
+      "packed_fp16_mul_instructions": 0
+    },
+    {
+      "report": "docs/rocm/fp4_pipeline_20261103.json",
+      "report_sha256": "78bb2230b0c3801c990c0060118873adf8f1c1ec06853109b69904d3765d7e7f",
+      "checks": 1540,
+      "performance_cases": 96,
+      "scratch_instructions": 0,
+      "device_call_instructions": 0,
+      "packed_fp16_mul_instructions": 385
+    }
+  ],
+  "comparisons": [
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "single",
+      "tile": "default",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 0.2211932142575582,
+      "inline_ms": 0.16794155538082123,
+      "packed_ms": 0.04965389811474344,
+      "initial_to_packed_speedup": 4.454699885725198,
+      "inline_to_packed_speedup": 3.382243122035072,
+      "normalized_initial_to_packed": 4.450974650336709,
+      "packed_baseline_over_ours": 0.1373246517445349
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "single",
+      "tile": "default",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 0.2308350404103597,
+      "inline_ms": 0.17564871907234192,
+      "packed_ms": 0.057494651187549935,
+      "initial_to_packed_speedup": 4.014895918880632,
+      "inline_to_packed_speedup": 3.0550445205653745,
+      "normalized_initial_to_packed": 4.022464349653171,
+      "packed_baseline_over_ours": 0.11870885097609915
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "single",
+      "tile": "default",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 0.22513057788213095,
+      "inline_ms": 0.17122507095336914,
+      "packed_ms": 0.053103735049565635,
+      "initial_to_packed_speedup": 4.239449026928143,
+      "inline_to_packed_speedup": 3.224350806841593,
+      "normalized_initial_to_packed": 4.247114917753993,
+      "packed_baseline_over_ours": 0.1286450248711965
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "single",
+      "tile": "default",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 0.21899928649266562,
+      "inline_ms": 0.17565573751926422,
+      "packed_ms": 0.04836346552922176,
+      "initial_to_packed_speedup": 4.528196730657023,
+      "inline_to_packed_speedup": 3.6319923644249816,
+      "normalized_initial_to_packed": 4.537990202059096,
+      "packed_baseline_over_ours": 0.1414146430597491
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "single",
+      "tile": "default",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 0.22677365938822427,
+      "inline_ms": 0.1839705535343715,
+      "packed_ms": 0.05646615443022355,
+      "initial_to_packed_speedup": 4.016098876867087,
+      "inline_to_packed_speedup": 3.2580676936607733,
+      "normalized_initial_to_packed": 4.02439401506302,
+      "packed_baseline_over_ours": 0.1209272326885962
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "single",
+      "tile": "default",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 0.22228129704793295,
+      "inline_ms": 0.1794910090310233,
+      "packed_ms": 0.05176706314086914,
+      "initial_to_packed_speedup": 4.293874976895221,
+      "inline_to_packed_speedup": 3.4672820542782246,
+      "normalized_initial_to_packed": 4.301249583997685,
+      "packed_baseline_over_ours": 0.13190140355925511
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "single",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 0.22241524855295816,
+      "inline_ms": 0.17600040137767792,
+      "packed_ms": 0.04999058521710909,
+      "initial_to_packed_speedup": 4.449142725315354,
+      "inline_to_packed_speedup": 3.5206709546069175,
+      "normalized_initial_to_packed": 4.442484880442403,
+      "packed_baseline_over_ours": 0.13636164071617407
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "single",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 0.22990588347117105,
+      "inline_ms": 0.18436213902064733,
+      "packed_ms": 0.057865327054804024,
+      "initial_to_packed_speedup": 3.973119917795126,
+      "inline_to_packed_speedup": 3.1860554222054023,
+      "normalized_initial_to_packed": 3.9803415486561105,
+      "packed_baseline_over_ours": 0.11803926221049156
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "single",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 0.22513578335444132,
+      "inline_ms": 0.17980188982827322,
+      "packed_ms": 0.05348195632298788,
+      "initial_to_packed_speedup": 4.209565222236876,
+      "inline_to_packed_speedup": 3.3619168442981935,
+      "normalized_initial_to_packed": 4.21563717401566,
+      "packed_baseline_over_ours": 0.12763258822768414
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "single",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 0.21872284015019736,
+      "inline_ms": 0.17286691069602966,
+      "packed_ms": 0.04649575109835024,
+      "initial_to_packed_speedup": 4.7041468302672085,
+      "inline_to_packed_speedup": 3.7179076929066603,
+      "normalized_initial_to_packed": 4.704475011167488,
+      "packed_baseline_over_ours": 0.1468107031832855
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "single",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 0.22695032755533853,
+      "inline_ms": 0.18131935596466064,
+      "packed_ms": 0.05442017575968867,
+      "initial_to_packed_speedup": 4.170334336249062,
+      "inline_to_packed_speedup": 3.3318406902127573,
+      "normalized_initial_to_packed": 4.17726196065512,
+      "packed_baseline_over_ours": 0.12575044329103652
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "single",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 0.22251856327056885,
+      "inline_ms": 0.17649462819099426,
+      "packed_ms": 0.04992919243299044,
+      "initial_to_packed_speedup": 4.456682602451646,
+      "inline_to_packed_speedup": 3.534898515089469,
+      "normalized_initial_to_packed": 4.464615721363861,
+      "packed_baseline_over_ours": 0.13691111727126706
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "a",
+      "tile": "default",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 0.22298250595728555,
+      "inline_ms": 0.17322702705860138,
+      "packed_ms": 0.05464057695297968,
+      "initial_to_packed_speedup": 4.08089589078041,
+      "inline_to_packed_speedup": 3.1703001087940543,
+      "normalized_initial_to_packed": 4.074656169653531,
+      "packed_baseline_over_ours": 0.12485896491420356
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "a",
+      "tile": "default",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 0.23357597986857095,
+      "inline_ms": 0.18362018040248326,
+      "packed_ms": 0.06566905379295349,
+      "initial_to_packed_speedup": 3.55686531749045,
+      "inline_to_packed_speedup": 2.7961447561193022,
+      "normalized_initial_to_packed": 3.5589748285579765,
+      "packed_baseline_over_ours": 0.10417940319707873
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "a",
+      "tile": "default",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 0.22905840476353964,
+      "inline_ms": 0.17888236045837402,
+      "packed_ms": 0.06102360430217925,
+      "initial_to_packed_speedup": 3.753603337313191,
+      "inline_to_packed_speedup": 2.931363404438991,
+      "normalized_initial_to_packed": 3.776675570382905,
+      "packed_baseline_over_ours": 0.11258415188400075
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "a",
+      "tile": "default",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 0.22038821379343668,
+      "inline_ms": 0.1809570278440203,
+      "packed_ms": 0.05332055687904358,
+      "initial_to_packed_speedup": 4.133269168463152,
+      "inline_to_packed_speedup": 3.3937572755385323,
+      "normalized_initial_to_packed": 4.138714992882314,
+      "packed_baseline_over_ours": 0.12825835646995148
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "a",
+      "tile": "default",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 0.23102708657582602,
+      "inline_ms": 0.1918673004422869,
+      "packed_ms": 0.06430228948593139,
+      "initial_to_packed_speedup": 3.5928283179772644,
+      "inline_to_packed_speedup": 2.9838331103943863,
+      "normalized_initial_to_packed": 3.576329374618041,
+      "packed_baseline_over_ours": 0.10636686566926218
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "a",
+      "tile": "default",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 0.2265972097714742,
+      "inline_ms": 0.18722294058118547,
+      "packed_ms": 0.059589896883283346,
+      "initial_to_packed_speedup": 3.802611207992225,
+      "inline_to_packed_speedup": 3.1418570994994757,
+      "normalized_initial_to_packed": 3.805872044947339,
+      "packed_baseline_over_ours": 0.11467800098758502
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "a",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 0.2236102024714152,
+      "inline_ms": 0.18112364837101527,
+      "packed_ms": 0.05482685565948486,
+      "initial_to_packed_speedup": 4.078479420016336,
+      "inline_to_packed_speedup": 3.3035571015767613,
+      "normalized_initial_to_packed": 4.081936822849052,
+      "packed_baseline_over_ours": 0.12475544354714907
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "a",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 0.2348167896270752,
+      "inline_ms": 0.19250924246651785,
+      "packed_ms": 0.06611619497600355,
+      "initial_to_packed_speedup": 3.5515774873659995,
+      "inline_to_packed_speedup": 2.911680603162173,
+      "normalized_initial_to_packed": 3.5577616106731464,
+      "packed_baseline_over_ours": 0.10353540197358196
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "a",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 0.2301285664240519,
+      "inline_ms": 0.18775810514177596,
+      "packed_ms": 0.06154966922033401,
+      "initial_to_packed_speedup": 3.7389082563586697,
+      "inline_to_packed_speedup": 3.0505136342754997,
+      "normalized_initial_to_packed": 3.751112310320501,
+      "packed_baseline_over_ours": 0.11151522244294233
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "a",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 0.22028340895970663,
+      "inline_ms": 0.17849862575531006,
+      "packed_ms": 0.05160797119140625,
+      "initial_to_packed_speedup": 4.268398928969876,
+      "inline_to_packed_speedup": 3.4587413849942936,
+      "normalized_initial_to_packed": 4.255551006980813,
+      "packed_baseline_over_ours": 0.1319959638043777
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "a",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 0.23156124353408813,
+      "inline_ms": 0.18970075675419398,
+      "packed_ms": 0.06274445652961731,
+      "initial_to_packed_speedup": 3.690545051175702,
+      "inline_to_packed_speedup": 3.02338672205487,
+      "normalized_initial_to_packed": 3.6965635343325336,
+      "packed_baseline_over_ours": 0.1090761622768915
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "a",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 0.2268426020940145,
+      "inline_ms": 0.1849635328565325,
+      "packed_ms": 0.057874424891038376,
+      "initial_to_packed_speedup": 3.9195655511237772,
+      "inline_to_packed_speedup": 3.195945933022539,
+      "normalized_initial_to_packed": 3.9026329946463263,
+      "packed_baseline_over_ours": 0.11769678871935785
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "b",
+      "tile": "default",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 0.22320334116617838,
+      "inline_ms": 0.1738954484462738,
+      "packed_ms": 0.05469763820821589,
+      "initial_to_packed_speedup": 4.080676030590513,
+      "inline_to_packed_speedup": 3.1792131094273417,
+      "normalized_initial_to_packed": 4.082324021797702,
+      "packed_baseline_over_ours": 0.1251450517371927
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "b",
+      "tile": "default",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 0.23667756716410318,
+      "inline_ms": 0.18710080214909144,
+      "packed_ms": 0.06837482201425653,
+      "initial_to_packed_speedup": 3.4614725156396693,
+      "inline_to_packed_speedup": 2.7363991106270067,
+      "normalized_initial_to_packed": 3.4304527408470205,
+      "packed_baseline_over_ours": 0.09914094457915387
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "b",
+      "tile": "default",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 0.22644845644632974,
+      "inline_ms": 0.17656084895133972,
+      "packed_ms": 0.05801731889898127,
+      "initial_to_packed_speedup": 3.90311825406165,
+      "inline_to_packed_speedup": 3.043243850319322,
+      "normalized_initial_to_packed": 3.9070172561860583,
+      "packed_baseline_over_ours": 0.11803753378814905
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "b",
+      "tile": "default",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 0.22079588969548544,
+      "inline_ms": 0.18083061490740096,
+      "packed_ms": 0.05321811636288961,
+      "initial_to_packed_speedup": 4.148885845374494,
+      "inline_to_packed_speedup": 3.3979146062655254,
+      "normalized_initial_to_packed": 4.148440956379388,
+      "packed_baseline_over_ours": 0.1285251458346621
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "b",
+      "tile": "default",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 0.23454803228378296,
+      "inline_ms": 0.19481595924922399,
+      "packed_ms": 0.06710794724916157,
+      "initial_to_packed_speedup": 3.495085781911074,
+      "inline_to_packed_speedup": 2.9030236691028866,
+      "normalized_initial_to_packed": 3.493979603227268,
+      "packed_baseline_over_ours": 0.10195159680392485
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "b",
+      "tile": "default",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 0.22417998313903809,
+      "inline_ms": 0.18450355529785156,
+      "packed_ms": 0.05695570598949085,
+      "initial_to_packed_speedup": 3.936040810035829,
+      "inline_to_packed_speedup": 3.239421794400988,
+      "normalized_initial_to_packed": 3.9363394835757743,
+      "packed_baseline_over_ours": 0.12019058712110085
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "b",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 0.22381498416264853,
+      "inline_ms": 0.18168951783861434,
+      "packed_ms": 0.05522048991659413,
+      "initial_to_packed_speedup": 4.0531147858467405,
+      "inline_to_packed_speedup": 3.2902554488929914,
+      "normalized_initial_to_packed": 4.0578254530271725,
+      "packed_baseline_over_ours": 0.12401115398854305
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "b",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 0.237920880317688,
+      "inline_ms": 0.19556827204568045,
+      "packed_ms": 0.06910315940254613,
+      "initial_to_packed_speedup": 3.442981223647521,
+      "inline_to_packed_speedup": 2.830091615731171,
+      "normalized_initial_to_packed": 3.4436982872857502,
+      "packed_baseline_over_ours": 0.09909839741401784
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "b",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 0.22728010018666586,
+      "inline_ms": 0.1849949700491769,
+      "packed_ms": 0.058502760800448333,
+      "initial_to_packed_speedup": 3.8849465747764182,
+      "inline_to_packed_speedup": 3.16215794807002,
+      "normalized_initial_to_packed": 3.8880323150040215,
+      "packed_baseline_over_ours": 0.11708761138408191
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "b",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 0.2212763031323751,
+      "inline_ms": 0.1784728318452835,
+      "packed_ms": 0.051631927490234375,
+      "initial_to_packed_speedup": 4.285648703977343,
+      "inline_to_packed_speedup": 3.456637017454747,
+      "normalized_initial_to_packed": 4.263405969137499,
+      "packed_baseline_over_ours": 0.13263166381027935
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "b",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 0.23531262079874674,
+      "inline_ms": 0.19231906958988734,
+      "packed_ms": 0.06567687392234803,
+      "initial_to_packed_speedup": 3.582884000797065,
+      "inline_to_packed_speedup": 2.928261625504171,
+      "normalized_initial_to_packed": 3.5879697975725864,
+      "packed_baseline_over_ours": 0.10433464487286014
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "b",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 0.22372291485468546,
+      "inline_ms": 0.1820427349635533,
+      "packed_ms": 0.055128538090249764,
+      "initial_to_packed_speedup": 4.058205107641951,
+      "inline_to_packed_speedup": 3.3021505969473557,
+      "normalized_initial_to_packed": 4.062781904812337,
+      "packed_baseline_over_ours": 0.12426336142364205
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "two_level",
+      "tile": "default",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 0.22354833285013834,
+      "inline_ms": 0.17471888661384583,
+      "packed_ms": 0.05497884750366211,
+      "initial_to_packed_speedup": 4.0660789194471185,
+      "inline_to_packed_speedup": 3.177929231823346,
+      "normalized_initial_to_packed": 4.06824961376905,
+      "packed_baseline_over_ours": 0.12470250544951975
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "two_level",
+      "tile": "default",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 0.2400110363960266,
+      "inline_ms": 0.1904019628252302,
+      "packed_ms": 0.07171580526563856,
+      "initial_to_packed_speedup": 3.346696526756061,
+      "inline_to_packed_speedup": 2.654951194091355,
+      "normalized_initial_to_packed": 3.3474234521439237,
+      "packed_baseline_over_ours": 0.09553166700422126
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "two_level",
+      "tile": "default",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 0.2295067310333252,
+      "inline_ms": 0.18090525695255824,
+      "packed_ms": 0.06126408917563302,
+      "initial_to_packed_speedup": 3.7461869444491547,
+      "inline_to_packed_speedup": 2.952875973295477,
+      "normalized_initial_to_packed": 3.7546759667109764,
+      "packed_baseline_over_ours": 0.1121331499580717
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "two_level",
+      "tile": "default",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 0.2213511069615682,
+      "inline_ms": 0.18183985778263637,
+      "packed_ms": 0.05361571411291758,
+      "initial_to_packed_speedup": 4.128474471036436,
+      "inline_to_packed_speedup": 3.391540349526481,
+      "normalized_initial_to_packed": 4.130413510015037,
+      "packed_baseline_over_ours": 0.1278498945918574
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "two_level",
+      "tile": "default",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 0.23782589038213095,
+      "inline_ms": 0.19824041922887167,
+      "packed_ms": 0.07036036252975464,
+      "initial_to_packed_speedup": 3.380111782135246,
+      "inline_to_packed_speedup": 2.8175013900054586,
+      "normalized_initial_to_packed": 3.379545497905385,
+      "packed_baseline_over_ours": 0.0974441686256715
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "two_level",
+      "tile": "default",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 0.22756449381510416,
+      "inline_ms": 0.1878943613597325,
+      "packed_ms": 0.0735470283599127,
+      "initial_to_packed_speedup": 3.0941358052086807,
+      "inline_to_packed_speedup": 2.554751232643216,
+      "normalized_initial_to_packed": 5.0977603019082265,
+      "packed_baseline_over_ours": 0.15362766456216562
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "two_level",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 0.22517061233520508,
+      "inline_ms": 0.1819768292563302,
+      "packed_ms": 0.12049076706171036,
+      "initial_to_packed_speedup": 1.8687789763997606,
+      "inline_to_packed_speedup": 1.5102968774622312,
+      "normalized_initial_to_packed": 5.173456023280054,
+      "packed_baseline_over_ours": 0.15740400644397845
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "two_level",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 0.24114956458409628,
+      "inline_ms": 0.19844428130558558,
+      "packed_ms": 0.12871993912590873,
+      "initial_to_packed_speedup": 1.8734437432277944,
+      "inline_to_packed_speedup": 1.5416747603607492,
+      "normalized_initial_to_packed": 5.030067257771937,
+      "packed_baseline_over_ours": 0.14280289619071898
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "two_level",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 0.23061567544937134,
+      "inline_ms": 0.18873023986816406,
+      "packed_ms": 0.0607120618224144,
+      "initial_to_packed_speedup": 3.7985149660035087,
+      "inline_to_packed_speedup": 3.108611933164266,
+      "normalized_initial_to_packed": 3.735716660218489,
+      "packed_baseline_over_ours": 0.11101842656636803
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "two_level",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 0.2207507093747457,
+      "inline_ms": 0.17904886177607945,
+      "packed_ms": 0.05198122473324046,
+      "initial_to_packed_speedup": 4.246739289187662,
+      "inline_to_packed_speedup": 3.444491019496564,
+      "normalized_initial_to_packed": 4.3124776031585474,
+      "packed_baseline_over_ours": 0.1337523610206371
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "two_level",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 0.23770654201507568,
+      "inline_ms": 0.19538329328809464,
+      "packed_ms": 0.06898548101124011,
+      "initial_to_packed_speedup": 3.4457474026504955,
+      "inline_to_packed_speedup": 2.832237891568227,
+      "normalized_initial_to_packed": 3.4821137987661395,
+      "packed_baseline_over_ours": 0.10045620470922176
+    },
+    {
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": "two_level",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 0.22710305452346802,
+      "inline_ms": 0.1855358566556658,
+      "packed_ms": 0.058466179804368454,
+      "initial_to_packed_speedup": 3.8843491277071505,
+      "inline_to_packed_speedup": 3.173387713657375,
+      "normalized_initial_to_packed": 3.8848111017146305,
+      "packed_baseline_over_ours": 0.1171943674574608
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "single",
+      "tile": "default",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 3.5457355976104736,
+      "inline_ms": 2.1128218173980713,
+      "packed_ms": 0.6405012607574463,
+      "initial_to_packed_speedup": 5.535876062784553,
+      "inline_to_packed_speedup": 3.2987004817125305,
+      "normalized_initial_to_packed": 5.967654541155141,
+      "packed_baseline_over_ours": 0.2608832702328755
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "single",
+      "tile": "default",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 3.592676877975464,
+      "inline_ms": 2.1257951259613037,
+      "packed_ms": 0.671636700630188,
+      "initial_to_packed_speedup": 5.349137226426879,
+      "inline_to_packed_speedup": 3.1650967315614196,
+      "normalized_initial_to_packed": 5.579373009032691,
+      "packed_baseline_over_ours": 0.2418347385570394
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "single",
+      "tile": "default",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 3.5873525142669678,
+      "inline_ms": 2.1021907329559326,
+      "packed_ms": 0.6576176881790161,
+      "initial_to_packed_speedup": 5.455073029134249,
+      "inline_to_packed_speedup": 3.196676079040739,
+      "normalized_initial_to_packed": 5.704958523187905,
+      "packed_baseline_over_ours": 0.24805270446081998
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "single",
+      "tile": "default",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 3.1016252040863037,
+      "inline_ms": 2.7661728858947754,
+      "packed_ms": 0.612595001856486,
+      "initial_to_packed_speedup": 5.063092572885419,
+      "inline_to_packed_speedup": 4.515500253041263,
+      "normalized_initial_to_packed": 5.259838934886633,
+      "packed_baseline_over_ours": 0.2680118546036969
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "single",
+      "tile": "default",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 3.110318899154663,
+      "inline_ms": 2.7609920501708984,
+      "packed_ms": 0.6470374464988708,
+      "initial_to_packed_speedup": 4.807015290976812,
+      "inline_to_packed_speedup": 4.267128688008193,
+      "normalized_initial_to_packed": 4.984453887435691,
+      "packed_baseline_over_ours": 0.2539670030464778
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "single",
+      "tile": "default",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 3.0940685272216797,
+      "inline_ms": 2.7968688011169434,
+      "packed_ms": 0.6300597190856934,
+      "initial_to_packed_speedup": 4.910754383269597,
+      "inline_to_packed_speedup": 4.439053499842204,
+      "normalized_initial_to_packed": 5.166375442155801,
+      "packed_baseline_over_ours": 0.2654901809236293
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "single",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 6.4635910987854,
+      "inline_ms": 5.413492679595947,
+      "packed_ms": 1.546964406967163,
+      "initial_to_packed_speedup": 4.178241638705396,
+      "inline_to_packed_speedup": 3.499429369683525,
+      "normalized_initial_to_packed": 4.158091877029164,
+      "packed_baseline_over_ours": 0.10224838940460101
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "single",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 6.476353168487549,
+      "inline_ms": 5.457189083099365,
+      "packed_ms": 1.5853271484375,
+      "initial_to_packed_speedup": 4.0851840422152925,
+      "inline_to_packed_speedup": 3.442311000904751,
+      "normalized_initial_to_packed": 4.062479029272795,
+      "packed_baseline_over_ours": 0.09991319256455976
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "single",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 6.499144077301025,
+      "inline_ms": 5.4505133628845215,
+      "packed_ms": 1.5572830438613892,
+      "initial_to_packed_speedup": 4.173386529134714,
+      "inline_to_packed_speedup": 3.500014582686011,
+      "normalized_initial_to_packed": 4.153867767104178,
+      "packed_baseline_over_ours": 0.10176264293998585
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "single",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 6.114293098449707,
+      "inline_ms": 5.196302890777588,
+      "packed_ms": 1.2803430557250977,
+      "initial_to_packed_speedup": 4.775511587390143,
+      "inline_to_packed_speedup": 4.058523899155107,
+      "normalized_initial_to_packed": 5.435772480992597,
+      "packed_baseline_over_ours": 0.1415901619471195
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "single",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 6.113247394561768,
+      "inline_ms": 5.203406810760498,
+      "packed_ms": 1.3071599006652832,
+      "initial_to_packed_speedup": 4.676740306561126,
+      "inline_to_packed_speedup": 3.9806964764694874,
+      "normalized_initial_to_packed": 4.637957440137131,
+      "packed_baseline_over_ours": 0.1212032336329343
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "single",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 6.1042585372924805,
+      "inline_ms": 5.208001136779785,
+      "packed_ms": 1.2939553260803223,
+      "initial_to_packed_speedup": 4.7175187692017415,
+      "inline_to_packed_speedup": 4.024869353531684,
+      "normalized_initial_to_packed": 4.678651417980837,
+      "packed_baseline_over_ours": 0.1226526060566306
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "a",
+      "tile": "default",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 3.581113815307617,
+      "inline_ms": 2.1309092044830322,
+      "packed_ms": 0.9790275692939758,
+      "initial_to_packed_speedup": 3.6578273458531223,
+      "inline_to_packed_speedup": 2.176556893101319,
+      "normalized_initial_to_packed": 5.893891991998583,
+      "packed_baseline_over_ours": 0.25999848892173244
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "a",
+      "tile": "default",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 3.6217803955078125,
+      "inline_ms": 2.159709930419922,
+      "packed_ms": 0.6989076137542725,
+      "initial_to_packed_speedup": 5.182058864766048,
+      "inline_to_packed_speedup": 3.0901221962925276,
+      "normalized_initial_to_packed": 5.400992228974408,
+      "packed_baseline_over_ours": 0.23625257596034155
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "a",
+      "tile": "default",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 3.603433847427368,
+      "inline_ms": 2.1278607845306396,
+      "packed_ms": 0.6830506324768066,
+      "initial_to_packed_speedup": 5.275500345210096,
+      "inline_to_packed_speedup": 3.1152314094415137,
+      "normalized_initial_to_packed": 5.514852847174151,
+      "packed_baseline_over_ours": 0.24230354264444198
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "a",
+      "tile": "default",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 3.0925376415252686,
+      "inline_ms": 2.783738851547241,
+      "packed_ms": 0.631240725517273,
+      "initial_to_packed_speedup": 4.899141510540334,
+      "inline_to_packed_speedup": 4.409948121243436,
+      "normalized_initial_to_packed": 5.1975347701879135,
+      "packed_baseline_over_ours": 0.2696869126200538
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "a",
+      "tile": "default",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 3.138556718826294,
+      "inline_ms": 2.8067095279693604,
+      "packed_ms": 0.6744802594184875,
+      "initial_to_packed_speedup": 4.65329663099739,
+      "inline_to_packed_speedup": 4.161292326611907,
+      "normalized_initial_to_packed": 4.851046043451199,
+      "packed_baseline_over_ours": 0.24846483722330198
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "a",
+      "tile": "default",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 3.1251747608184814,
+      "inline_ms": 2.7914037704467773,
+      "packed_ms": 0.6564944982528687,
+      "initial_to_packed_speedup": 4.76039748868501,
+      "inline_to_packed_speedup": 4.251983493960043,
+      "normalized_initial_to_packed": 4.931999582114821,
+      "packed_baseline_over_ours": 0.2540067549470454
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "a",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 6.455185890197754,
+      "inline_ms": 5.47315788269043,
+      "packed_ms": 1.5890556573867798,
+      "initial_to_packed_speedup": 4.062278032988083,
+      "inline_to_packed_speedup": 3.444283312071712,
+      "normalized_initial_to_packed": 4.053775241831753,
+      "packed_baseline_over_ours": 0.1012398475914978
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "a",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 6.468048095703125,
+      "inline_ms": 5.511191368103027,
+      "packed_ms": 1.6332420110702515,
+      "initial_to_packed_speedup": 3.96025087027039,
+      "inline_to_packed_speedup": 3.374387464164961,
+      "normalized_initial_to_packed": 4.016974465471235,
+      "packed_baseline_over_ours": 0.09986240045802283
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "a",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 6.509927272796631,
+      "inline_ms": 5.5102643966674805,
+      "packed_ms": 1.606464147567749,
+      "initial_to_packed_speedup": 4.052332747452174,
+      "inline_to_packed_speedup": 3.4300574992664736,
+      "normalized_initial_to_packed": 4.085927413476358,
+      "packed_baseline_over_ours": 0.1009429412945891
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "a",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 6.101687908172607,
+      "inline_ms": 5.225638389587402,
+      "packed_ms": 1.3172454833984375,
+      "initial_to_packed_speedup": 4.632157016344828,
+      "inline_to_packed_speedup": 3.9670953178032367,
+      "normalized_initial_to_packed": 4.883646000119753,
+      "packed_baseline_over_ours": 0.12873224320751328
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "a",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 6.127326965332031,
+      "inline_ms": 5.260997772216797,
+      "packed_ms": 1.3384751081466675,
+      "initial_to_packed_speedup": 4.5778415512084445,
+      "inline_to_packed_speedup": 3.930590670080887,
+      "normalized_initial_to_packed": 4.5143309208822675,
+      "packed_baseline_over_ours": 0.11891767485816414
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "a",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 6.099030494689941,
+      "inline_ms": 5.2599992752075195,
+      "packed_ms": 1.311827301979065,
+      "initial_to_packed_speedup": 4.649263272298684,
+      "inline_to_packed_speedup": 4.009673580716086,
+      "normalized_initial_to_packed": 4.743602838198175,
+      "packed_baseline_over_ours": 0.12596594272929795
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "b",
+      "tile": "default",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 3.5795469284057617,
+      "inline_ms": 2.1352171897888184,
+      "packed_ms": 0.6612422466278076,
+      "initial_to_packed_speedup": 5.413366956906756,
+      "inline_to_packed_speedup": 3.2290997749734895,
+      "normalized_initial_to_packed": 5.800737698464604,
+      "packed_baseline_over_ours": 0.2575434771646279
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "b",
+      "tile": "default",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 3.616281509399414,
+      "inline_ms": 2.1614739894866943,
+      "packed_ms": 0.7021556496620178,
+      "initial_to_packed_speedup": 5.1502562304242785,
+      "inline_to_packed_speedup": 3.078340237705299,
+      "normalized_initial_to_packed": 5.413693367117477,
+      "packed_baseline_over_ours": 0.23881219675325166
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "b",
+      "tile": "default",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 3.5732126235961914,
+      "inline_ms": 2.1166765689849854,
+      "packed_ms": 0.6754094362258911,
+      "initial_to_packed_speedup": 5.290439297921103,
+      "inline_to_packed_speedup": 3.1339161928396,
+      "normalized_initial_to_packed": 5.652229162640164,
+      "packed_baseline_over_ours": 0.25391163411494366
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "b",
+      "tile": "default",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 3.100452423095703,
+      "inline_ms": 2.784003496170044,
+      "packed_ms": 0.6326243281364441,
+      "initial_to_packed_speedup": 4.900937705365955,
+      "inline_to_packed_speedup": 4.400721521998742,
+      "normalized_initial_to_packed": 4.76887315488793,
+      "packed_baseline_over_ours": 0.2660569736684042
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "b",
+      "tile": "default",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 3.1409966945648193,
+      "inline_ms": 2.804304599761963,
+      "packed_ms": 0.6766045093536377,
+      "initial_to_packed_speedup": 4.6422934685514035,
+      "inline_to_packed_speedup": 4.144673233763877,
+      "normalized_initial_to_packed": 4.7614635145410835,
+      "packed_baseline_over_ours": 0.24945384062426773
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "b",
+      "tile": "default",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 3.1117026805877686,
+      "inline_ms": 2.7791037559509277,
+      "packed_ms": 0.6475533843040466,
+      "initial_to_packed_speedup": 4.805322242168573,
+      "inline_to_packed_speedup": 4.291698295944742,
+      "normalized_initial_to_packed": 4.901545331571775,
+      "packed_baseline_over_ours": 0.2601149717929891
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "b",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 6.411349296569824,
+      "inline_ms": 5.475305080413818,
+      "packed_ms": 1.597226619720459,
+      "initial_to_packed_speedup": 4.014051116736281,
+      "inline_to_packed_speedup": 3.4280076557777925,
+      "normalized_initial_to_packed": 4.018159618643561,
+      "packed_baseline_over_ours": 0.10219162088793768
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "b",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 6.415853500366211,
+      "inline_ms": 5.509564399719238,
+      "packed_ms": 1.6288447380065918,
+      "initial_to_packed_speedup": 3.9388981347713,
+      "inline_to_packed_speedup": 3.3824982032737743,
+      "normalized_initial_to_packed": 3.9879581011353955,
+      "packed_baseline_over_ours": 0.10088392709463148
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "b",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 6.465846061706543,
+      "inline_ms": 5.505169868469238,
+      "packed_ms": 2.2109639644622803,
+      "initial_to_packed_speedup": 2.9244466059305836,
+      "inline_to_packed_speedup": 2.4899410198248657,
+      "normalized_initial_to_packed": 5.632167051309508,
+      "packed_baseline_over_ours": 0.1411957840955717
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "b",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 6.061799049377441,
+      "inline_ms": 5.2161970138549805,
+      "packed_ms": 1.5339887142181396,
+      "initial_to_packed_speedup": 3.951658179224015,
+      "inline_to_packed_speedup": 3.400414204816122,
+      "normalized_initial_to_packed": 4.15710329738583,
+      "packed_baseline_over_ours": 0.11140596390545295
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "b",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 6.037268161773682,
+      "inline_ms": 5.314757347106934,
+      "packed_ms": 1.346002221107483,
+      "initial_to_packed_speedup": 4.485332986156778,
+      "inline_to_packed_speedup": 3.948550205759677,
+      "normalized_initial_to_packed": 4.481832923642114,
+      "packed_baseline_over_ours": 0.12086471317858292
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "b",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 5.981536865234375,
+      "inline_ms": 5.263625621795654,
+      "packed_ms": 1.3261479139328003,
+      "initial_to_packed_speedup": 4.510459807982985,
+      "inline_to_packed_speedup": 3.9691090009604895,
+      "normalized_initial_to_packed": 4.46060463179955,
+      "packed_baseline_over_ours": 0.12183878921680771
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "two_level",
+      "tile": "default",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 3.583538055419922,
+      "inline_ms": 2.1311211585998535,
+      "packed_ms": 0.6623389720916748,
+      "initial_to_packed_speedup": 5.410429110192721,
+      "inline_to_packed_speedup": 3.2175687199407066,
+      "normalized_initial_to_packed": 5.63724102835415,
+      "packed_baseline_over_ours": 0.25378574763386275
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "two_level",
+      "tile": "default",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 3.614471197128296,
+      "inline_ms": 2.169274091720581,
+      "packed_ms": 0.718420147895813,
+      "initial_to_packed_speedup": 5.03113840517245,
+      "inline_to_packed_speedup": 3.0195062013143517,
+      "normalized_initial_to_packed": 5.19045863144704,
+      "packed_baseline_over_ours": 0.23379620910488513
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "two_level",
+      "tile": "default",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 3.5833261013031006,
+      "inline_ms": 2.126157760620117,
+      "packed_ms": 0.6893308758735657,
+      "initial_to_packed_speedup": 5.198267228001463,
+      "inline_to_packed_speedup": 3.084379120441558,
+      "normalized_initial_to_packed": 5.318485662702302,
+      "packed_baseline_over_ours": 0.2422966198252615
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "two_level",
+      "tile": "default",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 3.1072614192962646,
+      "inline_ms": 2.7857165336608887,
+      "packed_ms": 0.6344335675239563,
+      "initial_to_packed_speedup": 4.897693908951206,
+      "inline_to_packed_speedup": 4.390871915136646,
+      "normalized_initial_to_packed": 4.961819128191858,
+      "packed_baseline_over_ours": 0.2656575108917873
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "two_level",
+      "tile": "default",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 3.160569190979004,
+      "inline_ms": 2.8174631595611572,
+      "packed_ms": 0.6929346323013306,
+      "initial_to_packed_speedup": 4.5611361355721565,
+      "inline_to_packed_speedup": 4.065986931846626,
+      "normalized_initial_to_packed": 4.604447034787292,
+      "packed_baseline_over_ours": 0.24270873098600199
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "two_level",
+      "tile": "default",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 3.1321587562561035,
+      "inline_ms": 2.7997586727142334,
+      "packed_ms": 0.6637560129165649,
+      "initial_to_packed_speedup": 4.7188405005828855,
+      "inline_to_packed_speedup": 4.218053950896814,
+      "normalized_initial_to_packed": 4.7431143156992315,
+      "packed_baseline_over_ours": 0.2533885214212887
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "two_level",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "quantized",
+      "initial_ms": 6.403817653656006,
+      "inline_ms": 5.487543106079102,
+      "packed_ms": 1.5962153673171997,
+      "initial_to_packed_speedup": 4.011875705982625,
+      "inline_to_packed_speedup": 3.437846307232436,
+      "normalized_initial_to_packed": 3.9615992658057864,
+      "packed_baseline_over_ours": 0.10158102766798419
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "two_level",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "full",
+      "initial_ms": 6.447249889373779,
+      "inline_ms": 5.532256126403809,
+      "packed_ms": 1.6445941925048828,
+      "initial_to_packed_speedup": 3.9202679413296284,
+      "inline_to_packed_speedup": 3.3639034794216465,
+      "normalized_initial_to_packed": 3.9022247777615773,
+      "packed_baseline_over_ours": 0.09883291221653807
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "two_level",
+      "tile": "wide",
+      "use_ws": false,
+      "path": "offline_b",
+      "initial_ms": 6.449751377105713,
+      "inline_ms": 5.522082805633545,
+      "packed_ms": 1.6157664060592651,
+      "initial_to_packed_speedup": 3.991759794558534,
+      "inline_to_packed_speedup": 3.4176244690601636,
+      "normalized_initial_to_packed": 4.0058226791070295,
+      "packed_baseline_over_ours": 0.10125217545983184
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "two_level",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "quantized",
+      "initial_ms": 6.088457107543945,
+      "inline_ms": 5.234732151031494,
+      "packed_ms": 1.3226085901260376,
+      "initial_to_packed_speedup": 4.603370303956477,
+      "inline_to_packed_speedup": 3.9578845851384132,
+      "normalized_initial_to_packed": 4.594110837512408,
+      "packed_baseline_over_ours": 0.12315674531730728
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "two_level",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "full",
+      "initial_ms": 6.115455627441406,
+      "inline_ms": 5.379915714263916,
+      "packed_ms": 1.3815711736679077,
+      "initial_to_packed_speedup": 4.426449931787152,
+      "inline_to_packed_speedup": 3.8940561418785813,
+      "normalized_initial_to_packed": 4.538330829415538,
+      "packed_baseline_over_ours": 0.1210539465215762
+    },
+    {
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": "two_level",
+      "tile": "wide",
+      "use_ws": true,
+      "path": "offline_b",
+      "initial_ms": 6.01427698135376,
+      "inline_ms": 5.271751880645752,
+      "packed_ms": 1.3436269760131836,
+      "initial_to_packed_speedup": 4.476150813225968,
+      "inline_to_packed_speedup": 3.923523399543614,
+      "normalized_initial_to_packed": 4.446982285525013,
+      "packed_baseline_over_ours": 0.12111032715354941
+    }
+  ]
+}

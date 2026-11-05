@@ -1,0 +1,41 @@
+{
+  "timestamp_utc": "2026-11-03T07:43:50.454808+00:00",
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "0",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/f780d4f26aac4335b8a43c7cf1a4d864.json"
+  },
+  "finite_code_scale_pairs": 2032,
+  "exact_fp16_decode_pairs": 2032,
+  "signed_zero_preserved": true,
+  "maximum_magnitude": 2688.0,
+  "minimum_nonzero_magnitude": 0.0009765625,
+  "conversion_probe": {
+    "command": [
+      "/opt/rocm/bin/hipcc",
+      "--offload-arch=gfx1201",
+      "-O3",
+      "-c",
+      "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/fp4/conversion_probe.cpp",
+      "-o",
+      "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/fp4/conversion_probe.o"
+    ],
+    "returncode": 1,
+    "stderr": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/fp4/conversion_probe.cpp:4:22: error: '__builtin_amdgcn_cvt_scalef32_pk_f32_fp4' needs target feature fp4-cvt-scale-insts\n    4 |   out[threadIdx.x] = __builtin_amdgcn_cvt_scalef32_pk_f32_fp4(\n      |                      ^\n1 error generated when compiling for gfx1201.\nfailed to execute:/opt/rocm/core-10.1/lib/llvm/bin/clang++  --offload-arch=gfx1201  -O3 -c -x hip /home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/fp4/conversion_probe.cpp -o \"/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/fp4/conversion_probe.o\"\n",
+    "stdout": ""
+  },
+  "source_sha256": {
+    "leetcuda_rocm/research_fp4.py": "5e06aceb806428f508feda11ebaecd941155e55681a4de89768f56b3eb09d227",
+    "artifacts/rocm/fp4/conversion_probe.cpp": "f73f60f40b28264d94c6323e64ee6140f2cd51627e9865747a04fe28d946825a"
+  },
+  "qualified_public_api": false,
+  "conclusion": "All finite E2M1 x nonnegative E4M3 products can be expanded exactly to FP16; this does not validate quantization, packed layout, GEMM or performance."
+}

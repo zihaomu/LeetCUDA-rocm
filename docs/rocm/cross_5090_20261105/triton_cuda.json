@@ -1,0 +1,1833 @@
+{
+  "timestamp_utc": "2026-11-05T08:02:57.694471+00:00",
+  "environment": {
+    "torch": "2.9.0a0+145a3a7bda.nv25.10",
+    "cuda": "13.0",
+    "triton": "3.4.0",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "gpu_uuid": "17390cc0-bf3c-53e3-170c-21eb949de43b",
+    "image": "sha256:42263b2424fc237b34c4fc4a91c30d603c57eed36e37d31ff6d9a4f1f801edee"
+  },
+  "fixture_sha256": "921c32725ad8f11974dab946d453aca681148358c9024f770ffaecb9bc61604f",
+  "source_sha256": {
+    "kernels/openai-triton/vector-add/triton_vector_add.py": "dee2117aa186b1cd1a2214ea9cf80a7cbb94e99a786797e8d13bcba5e4195027",
+    "kernels/openai-triton/fused-softmax/triton_fused_softmax.py": "5a5fd436982c457f2674d645005c8163e469123c914a30b9186747f8fead5937",
+    "kernels/openai-triton/layer-norm/triton_layer_norm.py": "b856dadb7e1032a1c46558bc2948e81fbab8049bcc29e79e7db7091c22e5f973",
+    "kernels/openai-triton/merge-attn-states/triton_merge_attn_states.py": "7d3daca3391740c90ad10324a2671d816a16af04a696da14b1760ce620e4f4d9"
+  },
+  "harness_sha256": "18ace735491313bebdd61aeafc61d1266868c7edb8ad6d62ddf911acddd29d39",
+  "checks": [
+    {
+      "id": "add/0/device_guard",
+      "passed": true
+    },
+    {
+      "id": "add/0/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "add/1/device_guard",
+      "passed": true
+    },
+    {
+      "id": "add/1/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "c31a02cd3b3242671c359aee161f246cefba9d78220a634772d0a18ecec3cee0",
+        "f31040fa689c1231cac3bcb8ffdcba3dfa847de32b758a87660255071a86e103"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "add/2/device_guard",
+      "passed": true
+    },
+    {
+      "id": "add/2/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "b61dc7a63d9311c4938c094e0bed5409ce43cd1019b3631bf0cffcace0b7977f",
+        "eba74ef3b989eff8b7639526f6046f2dcf4668b8138fdfce7bfe99c871abe03f"
+      ],
+      "max_abs_error_fp64": 0.0009765625
+    },
+    {
+      "id": "add/3/device_guard",
+      "passed": true
+    },
+    {
+      "id": "add/3/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "678a8613a5b6b7a8701a41185483d0bf2054e82d2f20ac4fb188aea76962bbf0",
+        "351f4fbeeb5f781e7345172080bed95c055694d8e043f32a2d4fae3359e0fc43"
+      ],
+      "max_abs_error_fp64": 0.001953125
+    },
+    {
+      "id": "softmax/4/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/4/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "softmax/5/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/5/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "softmax/6/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/6/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "83e1c2abaed91c1a76f9e58a0d6e205e32ca8d1ef451c6b7cd70cdaf44193631"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "softmax/7/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/7/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "0e26ecd3dc12254cc2ed40eacf159469e0399c684a99f3eea33af80906c58e7e"
+      ],
+      "max_abs_error_fp64": 0.00021190078460231465
+    },
+    {
+      "id": "softmax/8/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/8/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "864b5879cb1ab009398ceaed5ea69aed982680fbb0c9d21d96268d411da7bec2"
+      ],
+      "max_abs_error_fp64": 0.0002440953532601986
+    },
+    {
+      "id": "softmax/9/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/9/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "3ef7be744bfe9b4397f39f7c04c511b25247628b2d40064eaf6305cb06f7f80e"
+      ],
+      "max_abs_error_fp64": 0.00018664008041546776
+    },
+    {
+      "id": "layer_norm/10/device_guard",
+      "passed": true
+    },
+    {
+      "id": "layer_norm/10/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "132efd5aae991c348df05954e3baafbbc9a1f4e7d5a325c91ecb31e2f84c50cd",
+        "f34b1ee7c6b3b526feb8fdbe25a1f615e07ba8181ed680c3765d8704b4ecd673",
+        "c70c37859452548f753e05a106457b7140eefab0fd1f72d19750d7a362e33d6b",
+        "b0a136b66c7f2feade7dd615489bc20e83a2545995b4a59c9b97cf57dd69e3c3"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "layer_norm/10/1",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "132efd5aae991c348df05954e3baafbbc9a1f4e7d5a325c91ecb31e2f84c50cd",
+        "f34b1ee7c6b3b526feb8fdbe25a1f615e07ba8181ed680c3765d8704b4ecd673",
+        "c70c37859452548f753e05a106457b7140eefab0fd1f72d19750d7a362e33d6b",
+        "b0a136b66c7f2feade7dd615489bc20e83a2545995b4a59c9b97cf57dd69e3c3"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "layer_norm/10/2",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "132efd5aae991c348df05954e3baafbbc9a1f4e7d5a325c91ecb31e2f84c50cd",
+        "f34b1ee7c6b3b526feb8fdbe25a1f615e07ba8181ed680c3765d8704b4ecd673",
+        "c70c37859452548f753e05a106457b7140eefab0fd1f72d19750d7a362e33d6b",
+        "b0a136b66c7f2feade7dd615489bc20e83a2545995b4a59c9b97cf57dd69e3c3"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "layer_norm/10/3",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "132efd5aae991c348df05954e3baafbbc9a1f4e7d5a325c91ecb31e2f84c50cd",
+        "f34b1ee7c6b3b526feb8fdbe25a1f615e07ba8181ed680c3765d8704b4ecd673",
+        "c70c37859452548f753e05a106457b7140eefab0fd1f72d19750d7a362e33d6b",
+        "b0a136b66c7f2feade7dd615489bc20e83a2545995b4a59c9b97cf57dd69e3c3"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "layer_norm/11/device_guard",
+      "passed": true
+    },
+    {
+      "id": "layer_norm/11/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "9c1996be38aa3243580aa44b8d82d3ecded0c78db2bf0f8f1d76f5df767b5455",
+        "266e7385dc7faf6b12e40c580455a6008d91f651e28c13d3b3c9e6e73b836670",
+        "4b8cc221cce64a74768b06ce39b2da7f29d384a6258a8d72486906a3cb6e77c1",
+        "1b0e864b04be51f9d05d2606aded694078e15e8d6bd968cd4b5eb6807746f53f"
+      ],
+      "max_abs_error_fp64": 0.0021176073535986717
+    },
+    {
+      "id": "layer_norm/11/1",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "9c1996be38aa3243580aa44b8d82d3ecded0c78db2bf0f8f1d76f5df767b5455",
+        "266e7385dc7faf6b12e40c580455a6008d91f651e28c13d3b3c9e6e73b836670",
+        "4b8cc221cce64a74768b06ce39b2da7f29d384a6258a8d72486906a3cb6e77c1",
+        "1b0e864b04be51f9d05d2606aded694078e15e8d6bd968cd4b5eb6807746f53f"
+      ],
+      "max_abs_error_fp64": 0.0003688693210539551
+    },
+    {
+      "id": "layer_norm/11/2",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "9c1996be38aa3243580aa44b8d82d3ecded0c78db2bf0f8f1d76f5df767b5455",
+        "266e7385dc7faf6b12e40c580455a6008d91f651e28c13d3b3c9e6e73b836670",
+        "4b8cc221cce64a74768b06ce39b2da7f29d384a6258a8d72486906a3cb6e77c1",
+        "1b0e864b04be51f9d05d2606aded694078e15e8d6bd968cd4b5eb6807746f53f"
+      ],
+      "max_abs_error_fp64": 0.00017787751924336348
+    },
+    {
+      "id": "layer_norm/11/3",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "9c1996be38aa3243580aa44b8d82d3ecded0c78db2bf0f8f1d76f5df767b5455",
+        "266e7385dc7faf6b12e40c580455a6008d91f651e28c13d3b3c9e6e73b836670",
+        "4b8cc221cce64a74768b06ce39b2da7f29d384a6258a8d72486906a3cb6e77c1",
+        "1b0e864b04be51f9d05d2606aded694078e15e8d6bd968cd4b5eb6807746f53f"
+      ],
+      "max_abs_error_fp64": 0.00023651123046875
+    },
+    {
+      "id": "layer_norm/12/device_guard",
+      "passed": true
+    },
+    {
+      "id": "layer_norm/12/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "062cba7096538fa7c3172679ef9805c0d2f209ecacb6142d42270b6a8e7015fd",
+        "0a35520df5edc6b72e9007d0bc15efe69ff5651d1bfd58bd81827c0ca60e1b44",
+        "042ba42495eb55b9674b4e45d925692ea2f23e7dd0b237f7315b94dc6eaf7748",
+        "3771edc0e51391f64f76b0ac0b4b58c9d89d290414487c970a3cad34018fb2e0"
+      ],
+      "max_abs_error_fp64": 0.0035583169600208464
+    },
+    {
+      "id": "layer_norm/12/1",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "062cba7096538fa7c3172679ef9805c0d2f209ecacb6142d42270b6a8e7015fd",
+        "0a35520df5edc6b72e9007d0bc15efe69ff5651d1bfd58bd81827c0ca60e1b44",
+        "042ba42495eb55b9674b4e45d925692ea2f23e7dd0b237f7315b94dc6eaf7748",
+        "3771edc0e51391f64f76b0ac0b4b58c9d89d290414487c970a3cad34018fb2e0"
+      ],
+      "max_abs_error_fp64": 0.00024392852278509736
+    },
+    {
+      "id": "layer_norm/12/2",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "062cba7096538fa7c3172679ef9805c0d2f209ecacb6142d42270b6a8e7015fd",
+        "0a35520df5edc6b72e9007d0bc15efe69ff5651d1bfd58bd81827c0ca60e1b44",
+        "042ba42495eb55b9674b4e45d925692ea2f23e7dd0b237f7315b94dc6eaf7748",
+        "3771edc0e51391f64f76b0ac0b4b58c9d89d290414487c970a3cad34018fb2e0"
+      ],
+      "max_abs_error_fp64": 0.0011195746277046226
+    },
+    {
+      "id": "layer_norm/12/3",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "062cba7096538fa7c3172679ef9805c0d2f209ecacb6142d42270b6a8e7015fd",
+        "0a35520df5edc6b72e9007d0bc15efe69ff5651d1bfd58bd81827c0ca60e1b44",
+        "042ba42495eb55b9674b4e45d925692ea2f23e7dd0b237f7315b94dc6eaf7748",
+        "3771edc0e51391f64f76b0ac0b4b58c9d89d290414487c970a3cad34018fb2e0"
+      ],
+      "max_abs_error_fp64": 0.0009598731994628906
+    },
+    {
+      "id": "layer_norm/13/device_guard",
+      "passed": true
+    },
+    {
+      "id": "layer_norm/13/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "68a82b960289cd5ab98df954b4dbb21631fc8cd34741e73fee1fdd1a03a4786a",
+        "9dd5963fac6018620bd7bdb2e78695a0554f7ed7beb4e0f66b938f001ea6d357",
+        "56c4c1963b3ab067a16e52d2d276923cd5de858da70ce1bacb41114f2741f4f5",
+        "5d78018c62ddac27079acd1790550478b17ec356f972972d7249012e081d0614"
+      ],
+      "max_abs_error_fp64": 0.003883079824475999
+    },
+    {
+      "id": "layer_norm/13/1",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "68a82b960289cd5ab98df954b4dbb21631fc8cd34741e73fee1fdd1a03a4786a",
+        "9dd5963fac6018620bd7bdb2e78695a0554f7ed7beb4e0f66b938f001ea6d357",
+        "56c4c1963b3ab067a16e52d2d276923cd5de858da70ce1bacb41114f2741f4f5",
+        "5d78018c62ddac27079acd1790550478b17ec356f972972d7249012e081d0614"
+      ],
+      "max_abs_error_fp64": 0.0002373355340963279
+    },
+    {
+      "id": "layer_norm/13/2",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "68a82b960289cd5ab98df954b4dbb21631fc8cd34741e73fee1fdd1a03a4786a",
+        "9dd5963fac6018620bd7bdb2e78695a0554f7ed7beb4e0f66b938f001ea6d357",
+        "56c4c1963b3ab067a16e52d2d276923cd5de858da70ce1bacb41114f2741f4f5",
+        "5d78018c62ddac27079acd1790550478b17ec356f972972d7249012e081d0614"
+      ],
+      "max_abs_error_fp64": 0.00038254111456947903
+    },
+    {
+      "id": "layer_norm/13/3",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "68a82b960289cd5ab98df954b4dbb21631fc8cd34741e73fee1fdd1a03a4786a",
+        "9dd5963fac6018620bd7bdb2e78695a0554f7ed7beb4e0f66b938f001ea6d357",
+        "56c4c1963b3ab067a16e52d2d276923cd5de858da70ce1bacb41114f2741f4f5",
+        "5d78018c62ddac27079acd1790550478b17ec356f972972d7249012e081d0614"
+      ],
+      "max_abs_error_fp64": 0.0004425048828125
+    },
+    {
+      "id": "merge/14/device_guard",
+      "passed": true
+    },
+    {
+      "id": "merge/14/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "3df6bdaa3d6b8e269b51bf3009809c932e6f409c6b6569fc6e31e57308b8f91b",
+        "7193b8a3818a359de6f9d00366e7379661ebe461e3b5aa4e31d97a79dcfc5bd8",
+        "8c3929ef2785b95da1c5ad8c20567081bb6c502a3943b07464a519af83b42147",
+        "5f5ede1cdcd26f6ad506f71c73a7bc87603fd53d3c50ea8c0f16cd3b2da2d435"
+      ],
+      "max_abs_error_fp64": 0.00047476071535701436
+    },
+    {
+      "id": "merge/14/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "3df6bdaa3d6b8e269b51bf3009809c932e6f409c6b6569fc6e31e57308b8f91b",
+        "7193b8a3818a359de6f9d00366e7379661ebe461e3b5aa4e31d97a79dcfc5bd8",
+        "8c3929ef2785b95da1c5ad8c20567081bb6c502a3943b07464a519af83b42147",
+        "5f5ede1cdcd26f6ad506f71c73a7bc87603fd53d3c50ea8c0f16cd3b2da2d435"
+      ],
+      "max_abs_error_fp64": 1.7241643206489243e-06
+    },
+    {
+      "id": "merge/14/autotuned/0",
+      "passed": true
+    },
+    {
+      "id": "merge/14/autotuned/1",
+      "passed": true
+    },
+    {
+      "id": "merge/15/device_guard",
+      "passed": true
+    },
+    {
+      "id": "merge/15/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "14478b207cb77c39f7a9962e290f772ad677c2eceee44a8678b9bcbc50030364",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f",
+        "eb57626384454165960b7130d92caeee9a9f06905a3db81e4e485402024a1b4c",
+        "84d1a8340f30f741a81a7c0c9d9789c7566b0663e8e9f8007cddfd8879cd86ac"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/15/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "14478b207cb77c39f7a9962e290f772ad677c2eceee44a8678b9bcbc50030364",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f",
+        "eb57626384454165960b7130d92caeee9a9f06905a3db81e4e485402024a1b4c",
+        "84d1a8340f30f741a81a7c0c9d9789c7566b0663e8e9f8007cddfd8879cd86ac"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/15/autotuned/0",
+      "passed": true
+    },
+    {
+      "id": "merge/15/autotuned/1",
+      "passed": true
+    },
+    {
+      "id": "merge/16/device_guard",
+      "passed": true
+    },
+    {
+      "id": "merge/16/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "f069dbafe6a00b21408f15d6d94138ca6775bdef163a3d22b59dc7f4c42e1ed0",
+        "bd56f3aa3915ecf9f0afdad87b44d9932628973e81a6b1e873ff98b6bd731964",
+        "14478b207cb77c39f7a9962e290f772ad677c2eceee44a8678b9bcbc50030364",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/16/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "f069dbafe6a00b21408f15d6d94138ca6775bdef163a3d22b59dc7f4c42e1ed0",
+        "bd56f3aa3915ecf9f0afdad87b44d9932628973e81a6b1e873ff98b6bd731964",
+        "14478b207cb77c39f7a9962e290f772ad677c2eceee44a8678b9bcbc50030364",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/16/autotuned/0",
+      "passed": true
+    },
+    {
+      "id": "merge/16/autotuned/1",
+      "passed": true
+    },
+    {
+      "id": "merge/17/device_guard",
+      "passed": true
+    },
+    {
+      "id": "merge/17/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "14478b207cb77c39f7a9962e290f772ad677c2eceee44a8678b9bcbc50030364",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f",
+        "14478b207cb77c39f7a9962e290f772ad677c2eceee44a8678b9bcbc50030364",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/17/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "14478b207cb77c39f7a9962e290f772ad677c2eceee44a8678b9bcbc50030364",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f",
+        "14478b207cb77c39f7a9962e290f772ad677c2eceee44a8678b9bcbc50030364",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/17/autotuned/0",
+      "passed": true
+    },
+    {
+      "id": "merge/17/autotuned/1",
+      "passed": true
+    },
+    {
+      "id": "merge/18/device_guard",
+      "passed": true
+    },
+    {
+      "id": "merge/18/0",
+      "passed": true,
+      "atol": 0.004,
+      "rtol": 0.004,
+      "input_sha256": [
+        "14478b207cb77c39f7a9962e290f772ad677c2eceee44a8678b9bcbc50030364",
+        "6d1e2b47c1461c79eddba6cee4b9d67a53e6528711f0e219f4e4abefd9727f83",
+        "aeb2636e1f330eac7c48e042be9ba5cec063b8ef0426dbfa0ad46911b772bcfa",
+        "768c2c73614d7f1437f4330ade7817cf763b8ee29217ff043382adaf227d7aff"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/18/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "14478b207cb77c39f7a9962e290f772ad677c2eceee44a8678b9bcbc50030364",
+        "6d1e2b47c1461c79eddba6cee4b9d67a53e6528711f0e219f4e4abefd9727f83",
+        "aeb2636e1f330eac7c48e042be9ba5cec063b8ef0426dbfa0ad46911b772bcfa",
+        "768c2c73614d7f1437f4330ade7817cf763b8ee29217ff043382adaf227d7aff"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/18/autotuned/0",
+      "passed": true
+    },
+    {
+      "id": "merge/18/autotuned/1",
+      "passed": true
+    },
+    {
+      "id": "add/19/device_guard",
+      "passed": true
+    },
+    {
+      "id": "add/19/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "add/20/device_guard",
+      "passed": true
+    },
+    {
+      "id": "add/20/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "dd4c4ed8095a5b1bf4ce6899201fb3259385ad7064a566ccf5ed1e1a0fd0bdd7",
+        "1ae4c125c9a6aae347135f702080c5f7af15bd9b73efde8e4e49d599fd27d96d"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "add/21/device_guard",
+      "passed": true
+    },
+    {
+      "id": "add/21/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "bc4dcd8dddd3d0d088bcdfa815fb00423059a36878df325592cceb14ac6876cd",
+        "4dca2019edad77d2f1077dcd55d2f2b06f6f3df3d77d2566cb992d564eb8454f"
+      ],
+      "max_abs_error_fp64": 0.00732421875
+    },
+    {
+      "id": "add/22/device_guard",
+      "passed": true
+    },
+    {
+      "id": "add/22/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "ed3d55c78ce14505cd63958dd0bc0654df02f9818f13698f9211f5125ad868ae",
+        "191b0f3eaf9813ae67fd49d0a0d5eb38c92b0e72a5f46704ff7b57424b468709"
+      ],
+      "max_abs_error_fp64": 0.015625
+    },
+    {
+      "id": "softmax/23/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/23/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "softmax/24/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/24/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "softmax/25/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/25/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "0e7ca09241e80ad4ed91a6924b300cdad0d5290aa8600a53875fa1b4f6a4b225"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "softmax/26/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/26/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "29e529dad96b9171a9a8cc8232a879c2d8a6738eeb2129bea2ec8e716149c14f"
+      ],
+      "max_abs_error_fp64": 0.0017757964522370218
+    },
+    {
+      "id": "softmax/27/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/27/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "0952663694a518585dd9610acb6434ddc00c01b207ae20e0148aa97dd7e7ad20"
+      ],
+      "max_abs_error_fp64": 0.001942418078494601
+    },
+    {
+      "id": "softmax/28/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/28/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "5352cf80e0a3617a65ae337ed59e366a984842252f4f454138953a0450f0ccfc"
+      ],
+      "max_abs_error_fp64": 0.0018268637411724686
+    },
+    {
+      "id": "layer_norm/29/device_guard",
+      "passed": true
+    },
+    {
+      "id": "layer_norm/29/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "3b891e10d4d5d5fe987e9446127afc7dc0205d452f5bbcedca87bb2b2ad8bb92",
+        "88b272d8e038f898e2735cfc7589fde376c150dfd7b5e957bffe091dd5044bc8",
+        "4c3f3028c73e2ecf105449cdcccf2f6a4f49b879c0f77b333ead00f146711b46",
+        "9bacc9315b4e820e2e4408b5b8cfaa9e7505a6f2242d07d043e57af21574af17"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "layer_norm/29/1",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "3b891e10d4d5d5fe987e9446127afc7dc0205d452f5bbcedca87bb2b2ad8bb92",
+        "88b272d8e038f898e2735cfc7589fde376c150dfd7b5e957bffe091dd5044bc8",
+        "4c3f3028c73e2ecf105449cdcccf2f6a4f49b879c0f77b333ead00f146711b46",
+        "9bacc9315b4e820e2e4408b5b8cfaa9e7505a6f2242d07d043e57af21574af17"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "layer_norm/29/2",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "3b891e10d4d5d5fe987e9446127afc7dc0205d452f5bbcedca87bb2b2ad8bb92",
+        "88b272d8e038f898e2735cfc7589fde376c150dfd7b5e957bffe091dd5044bc8",
+        "4c3f3028c73e2ecf105449cdcccf2f6a4f49b879c0f77b333ead00f146711b46",
+        "9bacc9315b4e820e2e4408b5b8cfaa9e7505a6f2242d07d043e57af21574af17"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "layer_norm/29/3",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "3b891e10d4d5d5fe987e9446127afc7dc0205d452f5bbcedca87bb2b2ad8bb92",
+        "88b272d8e038f898e2735cfc7589fde376c150dfd7b5e957bffe091dd5044bc8",
+        "4c3f3028c73e2ecf105449cdcccf2f6a4f49b879c0f77b333ead00f146711b46",
+        "9bacc9315b4e820e2e4408b5b8cfaa9e7505a6f2242d07d043e57af21574af17"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "layer_norm/30/device_guard",
+      "passed": true
+    },
+    {
+      "id": "layer_norm/30/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "dc7350b9bb7ddb811ee06a2d35a53d7a2f6af6f57b0a73292d010c95da23e470",
+        "5d796588664d26ab8c7b986067d03a005e0c55aa2cfa18fa9925622c9eda05d5",
+        "8cbe7f7525a52186dde988fa9c76622015b4a52917d3361a8e4f2d8433de1fe5",
+        "39b43ecabb79f9bc8a6249aa303a9e1ba28a4a62436077a390922e21ab29c38e"
+      ],
+      "max_abs_error_fp64": 0.01550191505059395
+    },
+    {
+      "id": "layer_norm/30/1",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "dc7350b9bb7ddb811ee06a2d35a53d7a2f6af6f57b0a73292d010c95da23e470",
+        "5d796588664d26ab8c7b986067d03a005e0c55aa2cfa18fa9925622c9eda05d5",
+        "8cbe7f7525a52186dde988fa9c76622015b4a52917d3361a8e4f2d8433de1fe5",
+        "39b43ecabb79f9bc8a6249aa303a9e1ba28a4a62436077a390922e21ab29c38e"
+      ],
+      "max_abs_error_fp64": 0.0009159741697580825
+    },
+    {
+      "id": "layer_norm/30/2",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "dc7350b9bb7ddb811ee06a2d35a53d7a2f6af6f57b0a73292d010c95da23e470",
+        "5d796588664d26ab8c7b986067d03a005e0c55aa2cfa18fa9925622c9eda05d5",
+        "8cbe7f7525a52186dde988fa9c76622015b4a52917d3361a8e4f2d8433de1fe5",
+        "39b43ecabb79f9bc8a6249aa303a9e1ba28a4a62436077a390922e21ab29c38e"
+      ],
+      "max_abs_error_fp64": 0.0017042982897857994
+    },
+    {
+      "id": "layer_norm/30/3",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "dc7350b9bb7ddb811ee06a2d35a53d7a2f6af6f57b0a73292d010c95da23e470",
+        "5d796588664d26ab8c7b986067d03a005e0c55aa2cfa18fa9925622c9eda05d5",
+        "8cbe7f7525a52186dde988fa9c76622015b4a52917d3361a8e4f2d8433de1fe5",
+        "39b43ecabb79f9bc8a6249aa303a9e1ba28a4a62436077a390922e21ab29c38e"
+      ],
+      "max_abs_error_fp64": 0.00189208984375
+    },
+    {
+      "id": "layer_norm/31/device_guard",
+      "passed": true
+    },
+    {
+      "id": "layer_norm/31/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "b367627b3f78cb935fa8d52bd60d1b1ae86bb0d0167f4193e2ccf24be08d33a8",
+        "679d5feef1c5d17260b19e1d63b6aec31b2f6328d35a3ee9d1b87de0e2507998",
+        "cbdd2e1a1ed9d26ea88c61682dd983fb055de5a739d043d3ca8141204bf1bac3",
+        "ebd251d33883f95b422f4b16e9180b55eed3df8609b79429e7e31df2e6553349"
+      ],
+      "max_abs_error_fp64": 0.02752939414376243
+    },
+    {
+      "id": "layer_norm/31/1",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "b367627b3f78cb935fa8d52bd60d1b1ae86bb0d0167f4193e2ccf24be08d33a8",
+        "679d5feef1c5d17260b19e1d63b6aec31b2f6328d35a3ee9d1b87de0e2507998",
+        "cbdd2e1a1ed9d26ea88c61682dd983fb055de5a739d043d3ca8141204bf1bac3",
+        "ebd251d33883f95b422f4b16e9180b55eed3df8609b79429e7e31df2e6553349"
+      ],
+      "max_abs_error_fp64": 0.0019332668751796955
+    },
+    {
+      "id": "layer_norm/31/2",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "b367627b3f78cb935fa8d52bd60d1b1ae86bb0d0167f4193e2ccf24be08d33a8",
+        "679d5feef1c5d17260b19e1d63b6aec31b2f6328d35a3ee9d1b87de0e2507998",
+        "cbdd2e1a1ed9d26ea88c61682dd983fb055de5a739d043d3ca8141204bf1bac3",
+        "ebd251d33883f95b422f4b16e9180b55eed3df8609b79429e7e31df2e6553349"
+      ],
+      "max_abs_error_fp64": 0.007666503692824733
+    },
+    {
+      "id": "layer_norm/31/3",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "b367627b3f78cb935fa8d52bd60d1b1ae86bb0d0167f4193e2ccf24be08d33a8",
+        "679d5feef1c5d17260b19e1d63b6aec31b2f6328d35a3ee9d1b87de0e2507998",
+        "cbdd2e1a1ed9d26ea88c61682dd983fb055de5a739d043d3ca8141204bf1bac3",
+        "ebd251d33883f95b422f4b16e9180b55eed3df8609b79429e7e31df2e6553349"
+      ],
+      "max_abs_error_fp64": 0.014742851257324219
+    },
+    {
+      "id": "layer_norm/32/device_guard",
+      "passed": true
+    },
+    {
+      "id": "layer_norm/32/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "df254f9ac304688bc703573a41cecf33f8b7c57a9c1376b3ad331d949e01b2a0",
+        "5b21a0c65c8e405696daf43c2c526b09b2f2c5145133d2a0fcdedbb8276b5c7b",
+        "b33961d03b12e47e146f37e5496e16c0adf9a1ffa751d3a52cdd027af0f2840f",
+        "9c5cc84c771860198a0a9e961de82b815daf75427095f2e6c7354a43a0581d10"
+      ],
+      "max_abs_error_fp64": 0.02750293367508938
+    },
+    {
+      "id": "layer_norm/32/1",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "df254f9ac304688bc703573a41cecf33f8b7c57a9c1376b3ad331d949e01b2a0",
+        "5b21a0c65c8e405696daf43c2c526b09b2f2c5145133d2a0fcdedbb8276b5c7b",
+        "b33961d03b12e47e146f37e5496e16c0adf9a1ffa751d3a52cdd027af0f2840f",
+        "9c5cc84c771860198a0a9e961de82b815daf75427095f2e6c7354a43a0581d10"
+      ],
+      "max_abs_error_fp64": 0.0019402527242953216
+    },
+    {
+      "id": "layer_norm/32/2",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "df254f9ac304688bc703573a41cecf33f8b7c57a9c1376b3ad331d949e01b2a0",
+        "5b21a0c65c8e405696daf43c2c526b09b2f2c5145133d2a0fcdedbb8276b5c7b",
+        "b33961d03b12e47e146f37e5496e16c0adf9a1ffa751d3a52cdd027af0f2840f",
+        "9c5cc84c771860198a0a9e961de82b815daf75427095f2e6c7354a43a0581d10"
+      ],
+      "max_abs_error_fp64": 0.0025818025265238465
+    },
+    {
+      "id": "layer_norm/32/3",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "df254f9ac304688bc703573a41cecf33f8b7c57a9c1376b3ad331d949e01b2a0",
+        "5b21a0c65c8e405696daf43c2c526b09b2f2c5145133d2a0fcdedbb8276b5c7b",
+        "b33961d03b12e47e146f37e5496e16c0adf9a1ffa751d3a52cdd027af0f2840f",
+        "9c5cc84c771860198a0a9e961de82b815daf75427095f2e6c7354a43a0581d10"
+      ],
+      "max_abs_error_fp64": 0.001953125
+    },
+    {
+      "id": "merge/33/device_guard",
+      "passed": true
+    },
+    {
+      "id": "merge/33/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "e44404b303a737bbb756ce84c08f40ee3afba36f76271401e2b0cd479906cbde",
+        "285f7d2836bd5ea959d5ecabcbad4f534cbd24f5399e7495535a44ff3ff3fd20",
+        "21949873464af3a5240bd86b27ebb266f296e158a03503c426d8c71fbc60ace6",
+        "368fca72bb08eb2e94bfa81c77c4ced079db2140f7586858ca983f157aca9515"
+      ],
+      "max_abs_error_fp64": 0.007377399384793648
+    },
+    {
+      "id": "merge/33/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "e44404b303a737bbb756ce84c08f40ee3afba36f76271401e2b0cd479906cbde",
+        "285f7d2836bd5ea959d5ecabcbad4f534cbd24f5399e7495535a44ff3ff3fd20",
+        "21949873464af3a5240bd86b27ebb266f296e158a03503c426d8c71fbc60ace6",
+        "368fca72bb08eb2e94bfa81c77c4ced079db2140f7586858ca983f157aca9515"
+      ],
+      "max_abs_error_fp64": 3.442760757366159e-06
+    },
+    {
+      "id": "merge/33/autotuned/0",
+      "passed": true
+    },
+    {
+      "id": "merge/33/autotuned/1",
+      "passed": true
+    },
+    {
+      "id": "merge/34/device_guard",
+      "passed": true
+    },
+    {
+      "id": "merge/34/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "42befdf81d3a5cd56c5511a56eb9541a3f792cac41d33ad18aab67da42e95002",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f",
+        "46e804a5334150648f7c279bb4b5ee2b4b8c47b7d0c3da7e16b4c5bf255560aa",
+        "6e7d57e9446af3cfdd528e3463359c7ec7f364d145f767ed5fbd5c2ecee0ec85"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/34/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "42befdf81d3a5cd56c5511a56eb9541a3f792cac41d33ad18aab67da42e95002",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f",
+        "46e804a5334150648f7c279bb4b5ee2b4b8c47b7d0c3da7e16b4c5bf255560aa",
+        "6e7d57e9446af3cfdd528e3463359c7ec7f364d145f767ed5fbd5c2ecee0ec85"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/34/autotuned/0",
+      "passed": true
+    },
+    {
+      "id": "merge/34/autotuned/1",
+      "passed": true
+    },
+    {
+      "id": "merge/35/device_guard",
+      "passed": true
+    },
+    {
+      "id": "merge/35/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "1160c70d0014c8be2520d8a28d64ee4ecc54ea1c750bfc5612808731de213ac1",
+        "6e35ce5e91a80a79237dd346e45043710cd835e6da561fcfb78fefebfd5ba7d0",
+        "42befdf81d3a5cd56c5511a56eb9541a3f792cac41d33ad18aab67da42e95002",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/35/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "1160c70d0014c8be2520d8a28d64ee4ecc54ea1c750bfc5612808731de213ac1",
+        "6e35ce5e91a80a79237dd346e45043710cd835e6da561fcfb78fefebfd5ba7d0",
+        "42befdf81d3a5cd56c5511a56eb9541a3f792cac41d33ad18aab67da42e95002",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/35/autotuned/0",
+      "passed": true
+    },
+    {
+      "id": "merge/35/autotuned/1",
+      "passed": true
+    },
+    {
+      "id": "merge/36/device_guard",
+      "passed": true
+    },
+    {
+      "id": "merge/36/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "42befdf81d3a5cd56c5511a56eb9541a3f792cac41d33ad18aab67da42e95002",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f",
+        "42befdf81d3a5cd56c5511a56eb9541a3f792cac41d33ad18aab67da42e95002",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/36/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "42befdf81d3a5cd56c5511a56eb9541a3f792cac41d33ad18aab67da42e95002",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f",
+        "42befdf81d3a5cd56c5511a56eb9541a3f792cac41d33ad18aab67da42e95002",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/36/autotuned/0",
+      "passed": true
+    },
+    {
+      "id": "merge/36/autotuned/1",
+      "passed": true
+    },
+    {
+      "id": "merge/37/device_guard",
+      "passed": true
+    },
+    {
+      "id": "merge/37/0",
+      "passed": true,
+      "atol": 0.03,
+      "rtol": 0.03,
+      "input_sha256": [
+        "42befdf81d3a5cd56c5511a56eb9541a3f792cac41d33ad18aab67da42e95002",
+        "6d1e2b47c1461c79eddba6cee4b9d67a53e6528711f0e219f4e4abefd9727f83",
+        "df15603afde4dfca79c1c9da66dd110c0d93919069586157fc0ccd07a8b973dc",
+        "f88822c09f19831242c88711b76f73273509c2d3d806f0fb501bee3c620ee00f"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/37/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "42befdf81d3a5cd56c5511a56eb9541a3f792cac41d33ad18aab67da42e95002",
+        "6d1e2b47c1461c79eddba6cee4b9d67a53e6528711f0e219f4e4abefd9727f83",
+        "df15603afde4dfca79c1c9da66dd110c0d93919069586157fc0ccd07a8b973dc",
+        "f88822c09f19831242c88711b76f73273509c2d3d806f0fb501bee3c620ee00f"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/37/autotuned/0",
+      "passed": true
+    },
+    {
+      "id": "merge/37/autotuned/1",
+      "passed": true
+    },
+    {
+      "id": "add/38/device_guard",
+      "passed": true
+    },
+    {
+      "id": "add/38/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "add/39/device_guard",
+      "passed": true
+    },
+    {
+      "id": "add/39/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "e3e417ae79c3e7a02a9f486b8e96730f4d57cc8d29e54f08c3b5ce2cf7e2262d",
+        "8f6802e6378b6608ca2253f74e5051976b8e8197d308a7f460238276fac431b8"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "add/40/device_guard",
+      "passed": true
+    },
+    {
+      "id": "add/40/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "985e22e25468b404eac91e05cb09b4f95b86e88eb9ae4c6f8b7e9eae43daca2b",
+        "7214844c6bea9eb17de49432371782222dcf1ef470242b26db34bede4cccb675"
+      ],
+      "max_abs_error_fp64": 1.1920928955078125e-07
+    },
+    {
+      "id": "add/41/device_guard",
+      "passed": true
+    },
+    {
+      "id": "add/41/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "179439dccba4da7eb8b8dd9557063941f77b8bb829ece1c6c40338cecff34738",
+        "d8f74dbbd69cd730fefa558f4542597dfd5b89fb1322b00e256eba48b6418d77"
+      ],
+      "max_abs_error_fp64": 2.384185791015625e-07
+    },
+    {
+      "id": "softmax/42/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/42/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "softmax/43/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/43/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "softmax/44/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/44/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "1646f8912f5934eb2f93623d4ee74b88c786828385c16aa04431442a5120e219"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "softmax/45/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/45/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "4f69e7444e4beee07631d2a8077c4081c347c91cb43a20d1045e1af8d81980a1"
+      ],
+      "max_abs_error_fp64": 1.3138497800824211e-07
+    },
+    {
+      "id": "softmax/46/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/46/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "2dac85eff1cbea63cbcbdfa4f5e54dcaa992539b964e985745a34f4ac623b336"
+      ],
+      "max_abs_error_fp64": 2.3421100359133362e-07
+    },
+    {
+      "id": "softmax/47/device_guard",
+      "passed": true
+    },
+    {
+      "id": "softmax/47/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "f63ae6e5d2cabc81fa90f241656500cbb296d6a3daf62ca6e71a4c63b7259720"
+      ],
+      "max_abs_error_fp64": 1.6174938866075905e-07
+    },
+    {
+      "id": "layer_norm/48/device_guard",
+      "passed": true
+    },
+    {
+      "id": "layer_norm/48/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "59d9f3f4d0f54433159ca7dc36cde27571c6cf0255f835bbc6e38b711b7b6378",
+        "1516867f8f152c6e3fc175161459dd09602d26f1d32f78110ec73f1ecbfaacc9",
+        "33889f3218bf5a07e3d18879c92a91990ed86c49789f3958b1acce50721eb1b0",
+        "c5e70ee01651b332c3da0640a2714052e0f42011fb24f1b2f3031ceab5f12ab2"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "layer_norm/48/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "59d9f3f4d0f54433159ca7dc36cde27571c6cf0255f835bbc6e38b711b7b6378",
+        "1516867f8f152c6e3fc175161459dd09602d26f1d32f78110ec73f1ecbfaacc9",
+        "33889f3218bf5a07e3d18879c92a91990ed86c49789f3958b1acce50721eb1b0",
+        "c5e70ee01651b332c3da0640a2714052e0f42011fb24f1b2f3031ceab5f12ab2"
+      ],
+      "max_abs_error_fp64": 4.5823540517631045e-08
+    },
+    {
+      "id": "layer_norm/48/2",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "59d9f3f4d0f54433159ca7dc36cde27571c6cf0255f835bbc6e38b711b7b6378",
+        "1516867f8f152c6e3fc175161459dd09602d26f1d32f78110ec73f1ecbfaacc9",
+        "33889f3218bf5a07e3d18879c92a91990ed86c49789f3958b1acce50721eb1b0",
+        "c5e70ee01651b332c3da0640a2714052e0f42011fb24f1b2f3031ceab5f12ab2"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "layer_norm/48/3",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "59d9f3f4d0f54433159ca7dc36cde27571c6cf0255f835bbc6e38b711b7b6378",
+        "1516867f8f152c6e3fc175161459dd09602d26f1d32f78110ec73f1ecbfaacc9",
+        "33889f3218bf5a07e3d18879c92a91990ed86c49789f3958b1acce50721eb1b0",
+        "c5e70ee01651b332c3da0640a2714052e0f42011fb24f1b2f3031ceab5f12ab2"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "layer_norm/49/device_guard",
+      "passed": true
+    },
+    {
+      "id": "layer_norm/49/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "72e24c18cf0d2a813982d1813cb6feb2c372714f87300fc5018dffdaf27523c8",
+        "5371c77cb3f3ccd2bee25b5c0c8a52a860cc24167bb840a2f332e2465c5d9245",
+        "a16c702787f3758ba22182759a4c03f464fb7cca9286f510b4df8b3589d247f8",
+        "8d209ac7ce5a686bc42aa25a1fb34bc58fb3882b33c513f5355ef1a390d2d674"
+      ],
+      "max_abs_error_fp64": 5.088954542209478e-07
+    },
+    {
+      "id": "layer_norm/49/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "72e24c18cf0d2a813982d1813cb6feb2c372714f87300fc5018dffdaf27523c8",
+        "5371c77cb3f3ccd2bee25b5c0c8a52a860cc24167bb840a2f332e2465c5d9245",
+        "a16c702787f3758ba22182759a4c03f464fb7cca9286f510b4df8b3589d247f8",
+        "8d209ac7ce5a686bc42aa25a1fb34bc58fb3882b33c513f5355ef1a390d2d674"
+      ],
+      "max_abs_error_fp64": 8.201120382800298e-08
+    },
+    {
+      "id": "layer_norm/49/2",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "72e24c18cf0d2a813982d1813cb6feb2c372714f87300fc5018dffdaf27523c8",
+        "5371c77cb3f3ccd2bee25b5c0c8a52a860cc24167bb840a2f332e2465c5d9245",
+        "a16c702787f3758ba22182759a4c03f464fb7cca9286f510b4df8b3589d247f8",
+        "8d209ac7ce5a686bc42aa25a1fb34bc58fb3882b33c513f5355ef1a390d2d674"
+      ],
+      "max_abs_error_fp64": 8.946360705031076e-08
+    },
+    {
+      "id": "layer_norm/49/3",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "72e24c18cf0d2a813982d1813cb6feb2c372714f87300fc5018dffdaf27523c8",
+        "5371c77cb3f3ccd2bee25b5c0c8a52a860cc24167bb840a2f332e2465c5d9245",
+        "a16c702787f3758ba22182759a4c03f464fb7cca9286f510b4df8b3589d247f8",
+        "8d209ac7ce5a686bc42aa25a1fb34bc58fb3882b33c513f5355ef1a390d2d674"
+      ],
+      "max_abs_error_fp64": 9.383074939250946e-08
+    },
+    {
+      "id": "layer_norm/50/device_guard",
+      "passed": true
+    },
+    {
+      "id": "layer_norm/50/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "23b4816a3f139658db3dbea84701c5e78c5fd980f6d8ba4aaf564de33c76a793",
+        "c386ee091aeb0581d5c782cbed32dee599f07958edf37cce67b3785cbd63c2f2",
+        "446d77b64edb90c9bb1f33e0b578570a685e5d6cdd1e0f7a59a5e1b2a69c5fcf",
+        "adde5df518ca57addbd1d3d7a443e1e07b68a5c4989bf24dfc75991a869042d9"
+      ],
+      "max_abs_error_fp64": 1.2781218909907466e-06
+    },
+    {
+      "id": "layer_norm/50/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "23b4816a3f139658db3dbea84701c5e78c5fd980f6d8ba4aaf564de33c76a793",
+        "c386ee091aeb0581d5c782cbed32dee599f07958edf37cce67b3785cbd63c2f2",
+        "446d77b64edb90c9bb1f33e0b578570a685e5d6cdd1e0f7a59a5e1b2a69c5fcf",
+        "adde5df518ca57addbd1d3d7a443e1e07b68a5c4989bf24dfc75991a869042d9"
+      ],
+      "max_abs_error_fp64": 1.2996142328969285e-07
+    },
+    {
+      "id": "layer_norm/50/2",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "23b4816a3f139658db3dbea84701c5e78c5fd980f6d8ba4aaf564de33c76a793",
+        "c386ee091aeb0581d5c782cbed32dee599f07958edf37cce67b3785cbd63c2f2",
+        "446d77b64edb90c9bb1f33e0b578570a685e5d6cdd1e0f7a59a5e1b2a69c5fcf",
+        "adde5df518ca57addbd1d3d7a443e1e07b68a5c4989bf24dfc75991a869042d9"
+      ],
+      "max_abs_error_fp64": 5.85163803634714e-07
+    },
+    {
+      "id": "layer_norm/50/3",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "23b4816a3f139658db3dbea84701c5e78c5fd980f6d8ba4aaf564de33c76a793",
+        "c386ee091aeb0581d5c782cbed32dee599f07958edf37cce67b3785cbd63c2f2",
+        "446d77b64edb90c9bb1f33e0b578570a685e5d6cdd1e0f7a59a5e1b2a69c5fcf",
+        "adde5df518ca57addbd1d3d7a443e1e07b68a5c4989bf24dfc75991a869042d9"
+      ],
+      "max_abs_error_fp64": 4.6944478526711464e-07
+    },
+    {
+      "id": "layer_norm/51/device_guard",
+      "passed": true
+    },
+    {
+      "id": "layer_norm/51/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "ad7e939eacfecc5bfe479bd47c718a3471c748fc94552cec5a4331eeb9d3fba9",
+        "2d2a6d56b4ab832eee2d2914f03ed47f7be3e55236177aaf979255fc70a83b46",
+        "b7ad87b4022a2e466fb40787affa4e913ccf97f2de1cc77b5ab417c02a48f9ed",
+        "c61a3d77aa90eda3db9433b29ca529846e54a5c4b350ea3367d0279fc0a4e94d"
+      ],
+      "max_abs_error_fp64": 1.071813567676827e-06
+    },
+    {
+      "id": "layer_norm/51/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "ad7e939eacfecc5bfe479bd47c718a3471c748fc94552cec5a4331eeb9d3fba9",
+        "2d2a6d56b4ab832eee2d2914f03ed47f7be3e55236177aaf979255fc70a83b46",
+        "b7ad87b4022a2e466fb40787affa4e913ccf97f2de1cc77b5ab417c02a48f9ed",
+        "c61a3d77aa90eda3db9433b29ca529846e54a5c4b350ea3367d0279fc0a4e94d"
+      ],
+      "max_abs_error_fp64": 7.717236161219887e-08
+    },
+    {
+      "id": "layer_norm/51/2",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "ad7e939eacfecc5bfe479bd47c718a3471c748fc94552cec5a4331eeb9d3fba9",
+        "2d2a6d56b4ab832eee2d2914f03ed47f7be3e55236177aaf979255fc70a83b46",
+        "b7ad87b4022a2e466fb40787affa4e913ccf97f2de1cc77b5ab417c02a48f9ed",
+        "c61a3d77aa90eda3db9433b29ca529846e54a5c4b350ea3367d0279fc0a4e94d"
+      ],
+      "max_abs_error_fp64": 1.6523992218964167e-07
+    },
+    {
+      "id": "layer_norm/51/3",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "ad7e939eacfecc5bfe479bd47c718a3471c748fc94552cec5a4331eeb9d3fba9",
+        "2d2a6d56b4ab832eee2d2914f03ed47f7be3e55236177aaf979255fc70a83b46",
+        "b7ad87b4022a2e466fb40787affa4e913ccf97f2de1cc77b5ab417c02a48f9ed",
+        "c61a3d77aa90eda3db9433b29ca529846e54a5c4b350ea3367d0279fc0a4e94d"
+      ],
+      "max_abs_error_fp64": 1.0989606380462646e-07
+    },
+    {
+      "id": "merge/52/device_guard",
+      "passed": true
+    },
+    {
+      "id": "merge/52/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "f2099580e54367fa6abf8795cb394bc514f2abc1bb3d23a54f1a517d59c4d3d8",
+        "bb8d4e609af62e21aa21665d6099c0042da0e3ffab495f437299aafe0eba2b20",
+        "4f8868e17ceb3ebe3c6c19f4705cff65a32cc530ce6e6f7778b36330093d906d",
+        "f56c2c3ece5475b42c23d4121b9a5f06f81369aa21732457a4efa54b5c11624a"
+      ],
+      "max_abs_error_fp64": 1.49185785280892e-07
+    },
+    {
+      "id": "merge/52/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "f2099580e54367fa6abf8795cb394bc514f2abc1bb3d23a54f1a517d59c4d3d8",
+        "bb8d4e609af62e21aa21665d6099c0042da0e3ffab495f437299aafe0eba2b20",
+        "4f8868e17ceb3ebe3c6c19f4705cff65a32cc530ce6e6f7778b36330093d906d",
+        "f56c2c3ece5475b42c23d4121b9a5f06f81369aa21732457a4efa54b5c11624a"
+      ],
+      "max_abs_error_fp64": 3.044349114134093e-06
+    },
+    {
+      "id": "merge/52/autotuned/0",
+      "passed": true
+    },
+    {
+      "id": "merge/52/autotuned/1",
+      "passed": true
+    },
+    {
+      "id": "merge/53/device_guard",
+      "passed": true
+    },
+    {
+      "id": "merge/53/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "1ce9451b1d0eee85c19e598ebaba78e839db74a2625d82690745ee88c552fdc5",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f",
+        "8d6b9e63e7138c8710ddf2ffe5d6f76a51e52405c383b606edfaa4097eebeb12",
+        "9bce1b6b60b226d907e1c8ff8511459de3cd99fc87a11fb524c04e64cb7ba931"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/53/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "1ce9451b1d0eee85c19e598ebaba78e839db74a2625d82690745ee88c552fdc5",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f",
+        "8d6b9e63e7138c8710ddf2ffe5d6f76a51e52405c383b606edfaa4097eebeb12",
+        "9bce1b6b60b226d907e1c8ff8511459de3cd99fc87a11fb524c04e64cb7ba931"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/53/autotuned/0",
+      "passed": true
+    },
+    {
+      "id": "merge/53/autotuned/1",
+      "passed": true
+    },
+    {
+      "id": "merge/54/device_guard",
+      "passed": true
+    },
+    {
+      "id": "merge/54/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "8d47e9b77afe5155d033ab43ef07b2f4bfc137fc0dc19f749c594fcf32317297",
+        "9dd35f5fd3461b20a169812c45726d107bd91b22a23719e29406ab3cc90fca46",
+        "1ce9451b1d0eee85c19e598ebaba78e839db74a2625d82690745ee88c552fdc5",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/54/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "8d47e9b77afe5155d033ab43ef07b2f4bfc137fc0dc19f749c594fcf32317297",
+        "9dd35f5fd3461b20a169812c45726d107bd91b22a23719e29406ab3cc90fca46",
+        "1ce9451b1d0eee85c19e598ebaba78e839db74a2625d82690745ee88c552fdc5",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/54/autotuned/0",
+      "passed": true
+    },
+    {
+      "id": "merge/54/autotuned/1",
+      "passed": true
+    },
+    {
+      "id": "merge/55/device_guard",
+      "passed": true
+    },
+    {
+      "id": "merge/55/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "1ce9451b1d0eee85c19e598ebaba78e839db74a2625d82690745ee88c552fdc5",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f",
+        "1ce9451b1d0eee85c19e598ebaba78e839db74a2625d82690745ee88c552fdc5",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/55/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "1ce9451b1d0eee85c19e598ebaba78e839db74a2625d82690745ee88c552fdc5",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f",
+        "1ce9451b1d0eee85c19e598ebaba78e839db74a2625d82690745ee88c552fdc5",
+        "91f6612ebba3a54a38a1f99cd83f78c82f0f6a1b30b680bd066acee207cedc4f"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/55/autotuned/0",
+      "passed": true
+    },
+    {
+      "id": "merge/55/autotuned/1",
+      "passed": true
+    },
+    {
+      "id": "merge/56/device_guard",
+      "passed": true
+    },
+    {
+      "id": "merge/56/0",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "1ce9451b1d0eee85c19e598ebaba78e839db74a2625d82690745ee88c552fdc5",
+        "6d1e2b47c1461c79eddba6cee4b9d67a53e6528711f0e219f4e4abefd9727f83",
+        "92dfa0f6300d388cda97dc66e6543baef68642d5f59d5216d858ac6a03e1068c",
+        "5d983af3605a1f68ae089e6e3fc5ea88ec0a849570ebe115e76c1c756d5cd6ed"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/56/1",
+      "passed": true,
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "input_sha256": [
+        "1ce9451b1d0eee85c19e598ebaba78e839db74a2625d82690745ee88c552fdc5",
+        "6d1e2b47c1461c79eddba6cee4b9d67a53e6528711f0e219f4e4abefd9727f83",
+        "92dfa0f6300d388cda97dc66e6543baef68642d5f59d5216d858ac6a03e1068c",
+        "5d983af3605a1f68ae089e6e3fc5ea88ec0a849570ebe115e76c1c756d5cd6ed"
+      ],
+      "max_abs_error_fp64": 0.0
+    },
+    {
+      "id": "merge/56/autotuned/0",
+      "passed": true
+    },
+    {
+      "id": "merge/56/autotuned/1",
+      "passed": true
+    }
+  ],
+  "performance": [
+    {
+      "id": "add/41",
+      "shape": [
+        98432
+      ],
+      "kernel": {
+        "median_ms": 0.019091199338436126,
+        "samples_ms": [
+          0.019390399754047393,
+          0.019228799641132353,
+          0.019070400297641753,
+          0.019091199338436126,
+          0.01833920031785965
+        ]
+      },
+      "torch": {
+        "median_ms": 0.004436799883842468,
+        "samples_ms": [
+          0.004871999844908714,
+          0.0049056001007556915,
+          0.004414400085806847,
+          0.004332799836993218,
+          0.004436799883842468
+        ]
+      }
+    },
+    {
+      "id": "softmax/46",
+      "shape": [
+        257,
+        781
+      ],
+      "kernel": {
+        "median_ms": 0.019993600249290467,
+        "samples_ms": [
+          0.021080000698566435,
+          0.0206496000289917,
+          0.019993600249290467,
+          0.01971839964389801,
+          0.019814400374889372
+        ]
+      },
+      "torch": {
+        "median_ms": 0.004491199925541878,
+        "samples_ms": [
+          0.004975999891757965,
+          0.0044720001518726345,
+          0.004422400146722794,
+          0.004491199925541878,
+          0.004686399921774864
+        ]
+      }
+    },
+    {
+      "id": "softmax/47",
+      "shape": [
+        9,
+        8192
+      ],
+      "kernel": {
+        "median_ms": 0.02003040015697479,
+        "samples_ms": [
+          0.020535999536514284,
+          0.020528000593185425,
+          0.019724799692630766,
+          0.02003040015697479,
+          0.019523200392723084
+        ]
+      },
+      "torch": {
+        "median_ms": 0.004492799937725067,
+        "samples_ms": [
+          0.004495999962091446,
+          0.00445760004222393,
+          0.004704000055789947,
+          0.004492799937725067,
+          0.00437919981777668
+        ]
+      }
+    },
+    {
+      "id": "layer_norm/50",
+      "shape": [
+        257,
+        256
+      ],
+      "kernel": {
+        "median_ms": 0.07433279752731323,
+        "samples_ms": [
+          0.08775039911270141,
+          0.07858399748802185,
+          0.07433279752731323,
+          0.07432159781455994,
+          0.0731872022151947
+        ]
+      },
+      "torch": {
+        "median_ms": 0.008075200021266937,
+        "samples_ms": [
+          0.008491200208663941,
+          0.008140800148248672,
+          0.007862400263547897,
+          0.008075200021266937,
+          0.007980799674987793
+        ]
+      }
+    },
+    {
+      "id": "layer_norm/51",
+      "shape": [
+        9,
+        2049
+      ],
+      "kernel": {
+        "median_ms": 0.04646239876747131,
+        "samples_ms": [
+          0.047686401009559634,
+          0.04646239876747131,
+          0.04506079852581024,
+          0.043654400110244754,
+          0.04652799963951111
+        ]
+      },
+      "torch": {
+        "median_ms": 0.009612800180912017,
+        "samples_ms": [
+          0.009649600088596343,
+          0.009612800180912017,
+          0.009440000355243682,
+          0.00950080007314682,
+          0.009831999987363815
+        ]
+      }
+    }
+  ],
+  "passed": true,
+  "outputs_sha256": "4875215085601e56fe7c527cdcac4dabd5fef01a2f1119799b1b8c40db361c7f"
+}

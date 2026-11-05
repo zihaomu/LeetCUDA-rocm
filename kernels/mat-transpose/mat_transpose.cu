@@ -73,15 +73,15 @@ __global__ void mat_transpose_f32x4_row2col_kernel(float *x, float *y,
   }
 }
 
-// work for row == col
+// Diagonal block traversal, including rectangular grids.
 __global__ void mat_transpose_f32_diagonal2d_kernel(float *x, float *y, int row,
                                                     int col) {
-  const int block_y = blockIdx.x;
+  const int block_y = blockIdx.y;
   const int block_x = (blockIdx.x + blockIdx.y) % gridDim.x;
   const int global_col = threadIdx.x + blockDim.x * block_x;
   const int global_row = threadIdx.y + blockDim.y * block_y;
   if (global_col < col && global_row < row) {
-    y[global_row * col + global_col] = x[global_col * row + global_row];
+    y[global_col * row + global_row] = x[global_row * col + global_col];
   }
 }
 
@@ -98,8 +98,8 @@ __global__ void mat_transpose_f32_col2row2d_kernel(float *x, float *y,
 __global__ void mat_transpose_f32_row2col2d_kernel(float *x, float *y,
                                                    const int row,
                                                    const int col) {
-  const int global_x = blockIdx.x * blockDim.x + threadIdx.x;
-  const int global_y = blockIdx.y * blockDim.y + threadIdx.y;
+  const int global_x = blockIdx.y * blockDim.y + threadIdx.x;
+  const int global_y = blockIdx.x * blockDim.x + threadIdx.y;
   if (global_y < col && global_x < row) {
     y[global_y * row + global_x] = x[global_x * col + global_y];
   }
@@ -426,7 +426,7 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   TORCH_BINDING_COMMON_EXTENSION(mat_transpose_f32x4_shared_bcf_row2col2d)
   TORCH_BINDING_COMMON_EXTENSION(
       mat_transpose_f32x4_shared_bcf_merge_write_row2col2d)
-  // CuTe implentations
+  // Original CuTe on CUDA; matching explicit layouts in the ROCm source set.
   TORCH_BINDING_COMMON_EXTENSION(mat_transpose_cute_col2row_reg)
   TORCH_BINDING_COMMON_EXTENSION(mat_transpose_cute_row2col_reg)
   TORCH_BINDING_COMMON_EXTENSION(mat_transpose_cute_row_smem)

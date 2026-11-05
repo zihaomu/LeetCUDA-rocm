@@ -1,0 +1,170 @@
+{
+  "timestamp_utc": "2026-11-03T07:19:10.693533+00:00",
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "0",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/3e7152739ec14cd09e345b78156df76e.json"
+  },
+  "checks": [
+    {
+      "dtype": "torch.float8_e4m3fn",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "passed": true,
+      "max_abs_error": 0.0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "stream": "non-default"
+    },
+    {
+      "dtype": "torch.float8_e4m3fn",
+      "shape_mnk": [
+        128,
+        256,
+        256
+      ],
+      "passed": true,
+      "max_abs_error": 0.0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "stream": "non-default"
+    },
+    {
+      "dtype": "torch.float8_e4m3fn",
+      "shape_mnk": [
+        512,
+        640,
+        320
+      ],
+      "passed": true,
+      "max_abs_error": 0.0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "stream": "non-default"
+    },
+    {
+      "dtype": "torch.float8_e5m2",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "passed": true,
+      "max_abs_error": 0.0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "stream": "non-default"
+    },
+    {
+      "dtype": "torch.float8_e5m2",
+      "shape_mnk": [
+        128,
+        256,
+        256
+      ],
+      "passed": true,
+      "max_abs_error": 7.152557373046875e-07,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "stream": "non-default"
+    },
+    {
+      "dtype": "torch.float8_e5m2",
+      "shape_mnk": [
+        512,
+        640,
+        320
+      ],
+      "passed": true,
+      "max_abs_error": 1.0132789611816406e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "stream": "non-default"
+    }
+  ],
+  "isa": [
+    {
+      "name": "float8_e4m3fn_17_33_19",
+      "instructions": [
+        "v_wmma_f32_16x16x16_fp8_fp8"
+      ],
+      "assembly": "artifacts/rocm/fp8/float8_e4m3fn_17_33_19.amdgcn",
+      "assembly_sha256": "aca71bc3f870f44a8f46b4db82b36cf889761f209591d6bf53a0e3d9c00edffc",
+      "hsaco_sha256": "1391167d57f6f8ef127f739b566e825b9732afca71e2450dea44f1eeeb5190c5",
+      "registers": 95,
+      "spills": 0
+    },
+    {
+      "name": "float8_e4m3fn_128_256_256",
+      "instructions": [
+        "v_wmma_f32_16x16x16_fp8_fp8"
+      ],
+      "assembly": "artifacts/rocm/fp8/float8_e4m3fn_128_256_256.amdgcn",
+      "assembly_sha256": "9dda1e6264ddf02ab29bc9b9ca693c8245040024a964256340e41399ba599e41",
+      "hsaco_sha256": "f5c3a04d0fcf8a5d9446120ca8370a3a80d72a380434b8ced7a698960ae9cf9e",
+      "registers": 93,
+      "spills": 0
+    },
+    {
+      "name": "float8_e4m3fn_512_640_320",
+      "instructions": [
+        "v_wmma_f32_16x16x16_fp8_fp8"
+      ],
+      "assembly": "artifacts/rocm/fp8/float8_e4m3fn_512_640_320.amdgcn",
+      "assembly_sha256": "11fc42ab6c142f3a8ee00edec17d7182a822415351b3319f6c39660cb5fe064f",
+      "hsaco_sha256": "c3f5f711f8d92f85b9abcc2f44ca6157531e4ee6d0290269ec132f079daa07b5",
+      "registers": 93,
+      "spills": 0
+    },
+    {
+      "name": "float8_e5m2_17_33_19",
+      "instructions": [
+        "v_wmma_f32_16x16x16_bf8_bf8"
+      ],
+      "assembly": "artifacts/rocm/fp8/float8_e5m2_17_33_19.amdgcn",
+      "assembly_sha256": "c4bf8cc9f2374d85fada9b259b2837de1e996fd931e23a057dbf49a2b28cf458",
+      "hsaco_sha256": "b53701b04d8a5befca95596284bf4de75f331bf280021f06c3182fb862148730",
+      "registers": 95,
+      "spills": 0
+    },
+    {
+      "name": "float8_e5m2_128_256_256",
+      "instructions": [
+        "v_wmma_f32_16x16x16_bf8_bf8"
+      ],
+      "assembly": "artifacts/rocm/fp8/float8_e5m2_128_256_256.amdgcn",
+      "assembly_sha256": "8699c6ac02267e65c9952fe815d2e160a3486c1ad8bf29827bf94ebc75042a69",
+      "hsaco_sha256": "53c25b8b0a27509bfd4b954178d77e7e4036c760c2b58c2a85977f2d1d2b5e3b",
+      "registers": 93,
+      "spills": 0
+    },
+    {
+      "name": "float8_e5m2_512_640_320",
+      "instructions": [
+        "v_wmma_f32_16x16x16_bf8_bf8"
+      ],
+      "assembly": "artifacts/rocm/fp8/float8_e5m2_512_640_320.amdgcn",
+      "assembly_sha256": "68ed769f7753f5521e21c7a80830251ad84af77c1181982f0250c5eb13c054fb",
+      "hsaco_sha256": "9a28ba518291b3efd2a9bcc994fde590f1723bd7c3f01467ff24e222ec8b8c09",
+      "registers": 93,
+      "spills": 0
+    }
+  ],
+  "capability_probe_passed": true,
+  "qualified_public_api": false,
+  "scope": "Already quantized FP8/BF8 operands, FP32 accumulation/output; scale/quantization API and C++ benchmarks remain to be ported.",
+  "source_sha256": {
+    "leetcuda_rocm/research_fp8.py": "b82431a7e272adfcb2860d941f59d3293cd853b84e538aba2e871917f8d7f3e6"
+  }
+}

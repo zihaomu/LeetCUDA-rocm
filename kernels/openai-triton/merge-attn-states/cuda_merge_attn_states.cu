@@ -1,6 +1,11 @@
 #include <ATen/cuda/CUDAContext.h>
 #include <algorithm>
 #include <c10/cuda/CUDAGuard.h>
+#include <c10/cuda/CUDAException.h>
+#include <cuda_bf16.h>
+#include <cuda_fp16.h>
+#include <cstdint>
+#include <limits>
 #include <optional>
 #include <torch/all.h>
 #include <torch/extension.h>
@@ -57,11 +62,14 @@ merge_attn_states_kernel(scalar_t *output, float *output_lse,
   const float max_lse = fmaxf(p_lse, s_lse);
   p_lse = p_lse - max_lse;
   s_lse = s_lse - max_lse;
-  const float p_se = expf(p_lse);
-  const float s_se = expf(s_lse);
+  // Both signs of infinity are the original API's empty-state sentinel.
+  // Avoid exp(-inf - -inf), and define two empty states as zero / -inf.
+  const bool empty = max_lse == -std::numeric_limits<float>::infinity();
+  const float p_se = empty ? 0.0f : expf(p_lse);
+  const float s_se = empty ? 0.0f : expf(s_lse);
   const float out_se = p_se + s_se;
-  const float p_scale = p_se / out_se;
-  const float s_scale = s_se / out_se;
+  const float p_scale = empty ? 0.0f : p_se / out_se;
+  const float s_scale = empty ? 0.0f : s_se / out_se;
 
   if (pack_offset < head_size) {
     // Pack 128b load
@@ -80,7 +88,11 @@ merge_attn_states_kernel(scalar_t *output, float *output_lse,
       const float s_out_f =
           to_float(reinterpret_cast<const scalar_t *>(&s_out_pack)[i]);
       // fma: a * b + c = p_out_f * p_scale + (s_out_f * s_scale)
-      const float o_out_f = p_out_f * p_scale + (s_out_f * s_scale);
+      // Empty inputs may contain uninitialized/NaN values; do not multiply
+      // those values by zero and contaminate the valid state's output.
+      const float p_value = p_scale == 0.0f ? 0.0f : p_out_f * p_scale;
+      const float s_value = s_scale == 0.0f ? 0.0f : s_out_f * s_scale;
+      const float o_out_f = p_value + s_value;
       // float -> half(uint16_t), bfloat16, float.
       from_float(reinterpret_cast<scalar_t *>(&o_out_pack)[i], o_out_f);
     }
@@ -91,7 +103,8 @@ merge_attn_states_kernel(scalar_t *output, float *output_lse,
   }
   // We only need to write to output_lse once per head.
   if (output_lse != nullptr && pack_idx == 0) {
-    float out_lse = logf(out_se) + max_lse;
+    float out_lse = empty ? -std::numeric_limits<float>::infinity()
+                          : logf(out_se) + max_lse;
     output_lse[head_idx * num_tokens + token_idx] = out_lse;
   }
 }
@@ -146,6 +159,8 @@ void merge_attn_states_launcher(
   // process one pack elements per thread. float -> 4, half/bf16 -> 8
   const uint threads_per_head = head_size / pack_size;
   const uint total_threads = num_tokens * num_heads * threads_per_head;
+  if (total_threads == 0)
+    return;
 
   dim3 block(NUM_THREADS);
   dim3 grid((total_threads + NUM_THREADS - 1) / NUM_THREADS);
@@ -166,7 +181,50 @@ void merge_attn_states_cuda(torch::Tensor &output,
                             const torch::Tensor &prefix_lse,
                             const torch::Tensor &suffix_output,
                             const torch::Tensor &suffix_lse) {
+  TORCH_CHECK(output.is_cuda() && output.dim() == 3,
+              "output must be a GPU tensor [tokens, heads, head_size]");
+  TORCH_CHECK(output.size(1) > 0 && output.size(2) > 0,
+              "heads and head_size must be positive");
+  TORCH_CHECK(output.numel() <= std::numeric_limits<int32_t>::max(),
+              "output exceeds supported 32-bit indexing");
+  TORCH_CHECK(output.scalar_type() == at::kFloat ||
+                  output.scalar_type() == at::kHalf ||
+                  output.scalar_type() == at::kBFloat16,
+              "output must be FP32, FP16 or BF16");
+  auto check_state = [&](const torch::Tensor &state) {
+    TORCH_CHECK(state.device() == output.device() && state.is_contiguous() &&
+                    state.sizes() == output.sizes() &&
+                    state.scalar_type() == output.scalar_type(),
+                "states must have matching shape, dtype, device and be contiguous");
+    TORCH_CHECK(!state.requires_grad(), "merge is forward-only");
+    TORCH_CHECK(reinterpret_cast<uintptr_t>(state.data_ptr()) % 16 == 0,
+                "states must be aligned to 16 bytes");
+  };
+  auto check_lse = [&](const torch::Tensor &lse) {
+    TORCH_CHECK(lse.device() == output.device() && lse.is_contiguous() &&
+                    lse.scalar_type() == at::kFloat && lse.dim() == 2 &&
+                    lse.size(0) == output.size(1) &&
+                    lse.size(1) == output.size(0),
+                "LSE must be contiguous FP32 [heads, tokens] on the same GPU");
+    TORCH_CHECK(!lse.requires_grad(), "merge is forward-only");
+  };
+  check_state(output);
+  check_state(prefix_output);
+  check_state(suffix_output);
+  check_lse(prefix_lse);
+  check_lse(suffix_lse);
+  for (const auto &input : {prefix_output, suffix_output, prefix_lse, suffix_lse})
+    TORCH_CHECK(!output.is_alias_of(input), "output must not alias inputs");
+  if (output_lse.has_value()) {
+    check_lse(*output_lse);
+    for (const auto &input :
+         {output, prefix_output, suffix_output, prefix_lse, suffix_lse})
+      TORCH_CHECK(!output_lse->is_alias_of(input),
+                  "output_lse must not alias output or inputs");
+  }
+  const c10::cuda::CUDAGuard device_guard(output.device());
   DISPATCH_BY_SCALAR_DTYPE(output.dtype(), CALL_MERGE_ATTN_STATES_LAUNCHER);
+  C10_CUDA_KERNEL_LAUNCH_CHECK();
 }
 
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {

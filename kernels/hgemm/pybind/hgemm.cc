@@ -122,6 +122,7 @@ void hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem_tn_swizzle_x4(
     int swizzle_stride);
 
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
+#ifndef LEETCUDA_ROCM_BLAS_ONLY
   // CUDA Cores FP16
   TORCH_BINDING_COMMON_EXTENSION(hgemm_naive_f16)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_sliced_k_f16)
@@ -131,18 +132,23 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   TORCH_BINDING_COMMON_EXTENSION(hgemm_t_8x8_sliced_k_f16x4_pack_bcf)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_t_8x8_sliced_k_f16x8_pack_bcf)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_t_8x8_sliced_k_f16x8_pack_bcf_dbuf)
-  // Copy Async
+  // Synchronous double-buffer variants are also available on ROCm.
   TORCH_BINDING_COMMON_EXTENSION(hgemm_t_8x8_sliced_k16_f16x8_pack_dbuf)
-  TORCH_BINDING_COMMON_EXTENSION(hgemm_t_8x8_sliced_k16_f16x8_pack_dbuf_async)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf)
-  TORCH_BINDING_COMMON_EXTENSION(hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf_async)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf)
-  TORCH_BINDING_COMMON_EXTENSION(hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf_async)
-  // cuBLAS Tensor Cores
+#endif
+#if !defined(LEETCUDA_ROCM) || defined(LEETCUDA_ROCM_BLAS_ONLY)
   TORCH_BINDING_COMMON_EXTENSION(init_cublas_handle)
   TORCH_BINDING_COMMON_EXTENSION(destroy_cublas_handle)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_cublas_tensor_op_nn)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_cublas_tensor_op_tn)
+#endif
+#ifndef LEETCUDA_ROCM
+  // Copy Async
+  TORCH_BINDING_COMMON_EXTENSION(hgemm_t_8x8_sliced_k16_f16x8_pack_dbuf_async)
+  TORCH_BINDING_COMMON_EXTENSION(hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf_async)
+  TORCH_BINDING_COMMON_EXTENSION(hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf_async)
+  // cuBLAS Tensor Cores
   // WMMA API Tensor Cores
   TORCH_BINDING_COMMON_EXTENSION(hgemm_wmma_m16n16k16_naive)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_wmma_m16n16k16_mma4x2)
@@ -179,4 +185,5 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
       hgemm_mma_m16n8k16_mma2x4_warp4x4x2_stages_dsmem_tn_swizzle_x4)
   // TN: cute hgemm with smem & block swizzle
   TORCH_BINDING_COMMON_EXTENSION(hgemm_mma_stages_block_swizzle_tn_cute)
+#endif // LEETCUDA_ROCM
 }

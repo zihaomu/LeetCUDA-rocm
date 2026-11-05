@@ -1,4 +1,7 @@
 #pragma once
+#if defined(LEETCUDA_ROCM)
+#include "../rocm/fp4_gemm_hip.cuh"
+#else
 #include "common.cuh"
 // fp4_gemm.cuh: Phase 10 NVFP4 GEMM — e2m1 在线量化 + SM120 blockscale mma 教学案例
 // =============================================================================
@@ -579,8 +582,11 @@ struct Fp4GemmTraits {
   using PermTileK = _64;
   using TiledMma = decltype(make_tiled_mma(MmaAtom{}, AtomLayoutMNK{},
                                            Tile<PermTileM, PermTileN, PermTileK>{}));
-  static_assert(size<0>(typename TiledMma::AtomShape_MNK{}) == 16 &&
-                    size<2>(typename TiledMma::AtomShape_MNK{}) == kBK,
+  // CUDA 13.4's constexpr interpreter crashes on the value-level CuTe
+  // comparison here. Read the same static dimensions through their types.
+  using AtomShapeMNK = typename TiledMma::AtomShape_MNK;
+  static_assert(decltype(size<0>(AtomShapeMNK{}))::value == 16 &&
+                    decltype(size<2>(AtomShapeMNK{}))::value == kBK,
                 "atom 必须是 16x8x64（K 与 BK 同宽，一跳一 stage）");
 
   // 数据 smem：4-bit 用 SW32 原子（8 行 x 64 个 4-bit = 32B/行）：布局单位是
@@ -1296,3 +1302,5 @@ inline bool fp4_gemm_use_wide_tile(int M, int N, int K) {
 
 }  // namespace fp4_gemm
 #endif  // NOTES_V2_ENABLE_CUTE && NOTES_V2_ENABLE_TMA_MMA_WS && NOTES_V2_ENABLE_SM120_FP4
+
+#endif // LEETCUDA_ROCM

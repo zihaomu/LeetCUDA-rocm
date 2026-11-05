@@ -124,8 +124,8 @@ __global__ void hgemm_t_8x8_sliced_k16_f16x8_pack_dbuf_kernel(half *a, half *b,
 // 计算剩下最后一块BK
 #pragma unroll
   for (int tk = 0; tk < BK; tk++) {
-    LDST128BITS(r_comp_a[0]) = LDST128BITS(s_a[1][tk][ty * TM]);
-    LDST128BITS(r_comp_b[0]) = LDST128BITS(s_b[1][tk][tx * TN]);
+    LDST128BITS(r_comp_a[0]) = LDST128BITS(s_a[((K + BK - 1) / BK - 1) & 1][tk][ty * TM]);
+    LDST128BITS(r_comp_b[0]) = LDST128BITS(s_b[((K + BK - 1) / BK - 1) & 1][tk][tx * TN]);
 
 #pragma unroll
     for (int tm = 0; tm < TM; tm++) {
@@ -145,6 +145,7 @@ __global__ void hgemm_t_8x8_sliced_k16_f16x8_pack_dbuf_kernel(half *a, half *b,
   }
 }
 
+#ifndef LEETCUDA_ROCM
 template <const int BM = 128, const int BN = 128, const int BK = 16,
           const int TM = 8, const int TN = 8, const int OFFSET = 0>
 __global__ void
@@ -253,6 +254,7 @@ hgemm_t_8x8_sliced_k16_f16x8_pack_dbuf_async_kernel(half *a, half *b, half *c,
     LDST128BITS(c[store_gmem_c_addr]) = LDST128BITS(r_c[i][0]);
   }
 }
+#endif // LEETCUDA_ROCM
 
 // compare w/o cp.async
 template <const int BM = 128, const int BN = 128, const int BK = 32,
@@ -348,8 +350,8 @@ __global__ void hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf_kernel(half *a, half *b,
 
 #pragma unroll
   for (int tk = 0; tk < BK; tk++) {
-    LDST128BITS(r_comp_a[0]) = LDST128BITS(s_a[1][tk][ty * TM]);
-    LDST128BITS(r_comp_b[0]) = LDST128BITS(s_b[1][tk][tx * TN]);
+    LDST128BITS(r_comp_a[0]) = LDST128BITS(s_a[((K + BK - 1) / BK - 1) & 1][tk][ty * TM]);
+    LDST128BITS(r_comp_b[0]) = LDST128BITS(s_b[((K + BK - 1) / BK - 1) & 1][tk][tx * TN]);
 
 #pragma unroll
     for (int tm = 0; tm < TM; tm++) {
@@ -369,6 +371,7 @@ __global__ void hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf_kernel(half *a, half *b,
   }
 }
 
+#ifndef LEETCUDA_ROCM
 template <const int BM = 128, const int BN = 128, const int BK = 32,
           const int TM = 8, const int TN = 8, const int OFFSET = 0>
 __global__ void
@@ -489,6 +492,7 @@ hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf_async_kernel(half *a, half *b, half *c,
     LDST128BITS(c[store_gmem_c_addr]) = LDST128BITS(r_c[i][0]);
   }
 }
+#endif // LEETCUDA_ROCM
 
 // t 16x8, 128x128, k 32, 8x16=128 threads per block, w/o cp.async
 template <const int BM = 128, const int BN = 128, const int BK = 32,
@@ -587,9 +591,9 @@ __global__ void hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf_kernel(half *a, half *b,
 
 #pragma unroll
   for (int tk = 0; tk < BK; tk++) {
-    LDST128BITS(r_comp_a[0]) = LDST128BITS(s_a[1][tk][ty * TM]);
-    LDST128BITS(r_comp_a[8]) = LDST128BITS(s_a[1][tk][ty * TM + 8]);
-    LDST128BITS(r_comp_b[0]) = LDST128BITS(s_b[1][tk][tx * TN]);
+    LDST128BITS(r_comp_a[0]) = LDST128BITS(s_a[((K + BK - 1) / BK - 1) & 1][tk][ty * TM]);
+    LDST128BITS(r_comp_a[8]) = LDST128BITS(s_a[((K + BK - 1) / BK - 1) & 1][tk][ty * TM + 8]);
+    LDST128BITS(r_comp_b[0]) = LDST128BITS(s_b[((K + BK - 1) / BK - 1) & 1][tk][tx * TN]);
 
 #pragma unroll
     for (int tm = 0; tm < TM; tm++) {
@@ -610,6 +614,7 @@ __global__ void hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf_kernel(half *a, half *b,
 }
 
 // t 16x8, 128x128, k 32, 8x16=128 threads per block, with cp.async
+#ifndef LEETCUDA_ROCM
 template <const int BM = 128, const int BN = 128, const int BK = 32,
           const int TM = 16, const int TN = 8, const int OFFSET = 0>
 __global__ void
@@ -742,6 +747,7 @@ hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf_async_kernel(half *a, half *b, half *c,
     LDST128BITS(c[store_gmem_c_addr]) = LDST128BITS(r_c[i][0]);
   }
 }
+#endif // LEETCUDA_ROCM
 
 #define STRINGFY(str) #str
 #define TORCH_BINDING_COMMON_EXTENSION(func)                                   \
@@ -785,6 +791,7 @@ void hgemm_t_8x8_sliced_k16_f16x8_pack_dbuf(torch::Tensor a, torch::Tensor b,
 }
 
 // t 8x8 fp16x8 pack, double buffers, k 16, copy async
+#ifndef LEETCUDA_ROCM
 void hgemm_t_8x8_sliced_k16_f16x8_pack_dbuf_async(torch::Tensor a,
                                                   torch::Tensor b,
                                                   torch::Tensor c) {
@@ -811,6 +818,7 @@ void hgemm_t_8x8_sliced_k16_f16x8_pack_dbuf_async(torch::Tensor a,
                         reinterpret_cast<half *>(b.data_ptr()),
                         reinterpret_cast<half *>(c.data_ptr()), M, N, K);
 }
+#endif // LEETCUDA_ROCM
 
 void hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf(torch::Tensor a, torch::Tensor b,
                                             torch::Tensor c) {
@@ -838,6 +846,7 @@ void hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf(torch::Tensor a, torch::Tensor b,
                         reinterpret_cast<half *>(c.data_ptr()), M, N, K);
 }
 
+#ifndef LEETCUDA_ROCM
 void hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf_async(torch::Tensor a,
                                                   torch::Tensor b,
                                                   torch::Tensor c) {
@@ -864,6 +873,7 @@ void hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf_async(torch::Tensor a,
                         reinterpret_cast<half *>(b.data_ptr()),
                         reinterpret_cast<half *>(c.data_ptr()), M, N, K);
 }
+#endif // LEETCUDA_ROCM
 
 // t 16x8, 128x128, k 32, 8x16=128 threads per block, with cp.async
 void hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf(torch::Tensor a, torch::Tensor b,
@@ -892,6 +902,7 @@ void hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf(torch::Tensor a, torch::Tensor b,
                         reinterpret_cast<half *>(c.data_ptr()), M, N, K);
 }
 
+#ifndef LEETCUDA_ROCM
 void hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf_async(torch::Tensor a,
                                                    torch::Tensor b,
                                                    torch::Tensor c) {
@@ -918,3 +929,4 @@ void hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf_async(torch::Tensor a,
                         reinterpret_cast<half *>(b.data_ptr()),
                         reinterpret_cast<half *>(c.data_ptr()), M, N, K);
 }
+#endif // LEETCUDA_ROCM

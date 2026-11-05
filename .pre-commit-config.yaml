@@ -11,6 +11,8 @@ repos:
       - id: check-yaml
         args: [--allow-multiple-documents]
       - id: check-added-large-files
+        # Structured GPU qualification evidence; binary artifacts stay ignored.
+        exclude: ^docs/rocm/.*\.json$
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
       - id: detect-private-key

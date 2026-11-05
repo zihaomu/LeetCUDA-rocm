@@ -1,0 +1,1618 @@
+{
+  "schema_version": 1,
+  "timestamp_utc": "2026-11-03T03:18:19.578610+00:00",
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "0,2",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/ef578b518c724336b6a7532074dc0315.json"
+  },
+  "logical_device": 1,
+  "excluded_functions": {
+    "reduce": {
+      "block_all_reduce_sum_bf16_bf16": "BF16 accumulation exceeds the numerical threshold; use the named FP32 accumulator",
+      "block_all_reduce_sum_bf16x2_bf16": "BF16 accumulation exceeds the numerical threshold; use the named FP32 accumulator",
+      "block_all_reduce_sum_bf16x8_pack_bf16": "BF16 accumulation exceeds the numerical threshold; use the named FP32 accumulator"
+    }
+  },
+  "seed": 20261102,
+  "modules": {
+    "merge_attn_states": {
+      "passed": true,
+      "checks": [
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            1,
+            1,
+            8
+          ],
+          "dtype": "torch.float32",
+          "case": "finite",
+          "with_output_lse": false,
+          "max_abs_error": 1.421040414228969e-07,
+          "atol": 2e-06,
+          "rtol": 2e-05,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            1,
+            1,
+            8
+          ],
+          "dtype": "torch.float32",
+          "case": "finite",
+          "with_output_lse": true,
+          "max_abs_error": 1.421040414228969e-07,
+          "atol": 2e-06,
+          "rtol": 2e-05,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            1,
+            1,
+            8
+          ],
+          "dtype": "torch.float32",
+          "case": "empty-and-extreme",
+          "with_output_lse": false,
+          "max_abs_error": 0.0,
+          "atol": 2e-06,
+          "rtol": 2e-05,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            1,
+            1,
+            8
+          ],
+          "dtype": "torch.float32",
+          "case": "empty-and-extreme",
+          "with_output_lse": true,
+          "max_abs_error": 0.0,
+          "atol": 2e-06,
+          "rtol": 2e-05,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            7,
+            3,
+            24
+          ],
+          "dtype": "torch.float32",
+          "case": "finite",
+          "with_output_lse": false,
+          "max_abs_error": 2.446151574631017e-07,
+          "atol": 2e-06,
+          "rtol": 2e-05,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            7,
+            3,
+            24
+          ],
+          "dtype": "torch.float32",
+          "case": "finite",
+          "with_output_lse": true,
+          "max_abs_error": 2.446151574631017e-07,
+          "atol": 2e-06,
+          "rtol": 2e-05,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            7,
+            3,
+            24
+          ],
+          "dtype": "torch.float32",
+          "case": "empty-and-extreme",
+          "with_output_lse": false,
+          "max_abs_error": 0.0,
+          "atol": 2e-06,
+          "rtol": 2e-05,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            7,
+            3,
+            24
+          ],
+          "dtype": "torch.float32",
+          "case": "empty-and-extreme",
+          "with_output_lse": true,
+          "max_abs_error": 0.0,
+          "atol": 2e-06,
+          "rtol": 2e-05,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            65,
+            5,
+            128
+          ],
+          "dtype": "torch.float32",
+          "case": "finite",
+          "with_output_lse": false,
+          "max_abs_error": 4.698871967079299e-07,
+          "atol": 2e-06,
+          "rtol": 2e-05,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            65,
+            5,
+            128
+          ],
+          "dtype": "torch.float32",
+          "case": "finite",
+          "with_output_lse": true,
+          "max_abs_error": 4.698871967079299e-07,
+          "atol": 2e-06,
+          "rtol": 2e-05,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            65,
+            5,
+            128
+          ],
+          "dtype": "torch.float32",
+          "case": "empty-and-extreme",
+          "with_output_lse": false,
+          "max_abs_error": 0.0,
+          "atol": 2e-06,
+          "rtol": 2e-05,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            65,
+            5,
+            128
+          ],
+          "dtype": "torch.float32",
+          "case": "empty-and-extreme",
+          "with_output_lse": true,
+          "max_abs_error": 0.0,
+          "atol": 2e-06,
+          "rtol": 2e-05,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "split-KV-composition",
+          "dtype": "torch.float32",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            1,
+            1,
+            8
+          ],
+          "dtype": "torch.float16",
+          "case": "finite",
+          "with_output_lse": false,
+          "max_abs_error": 2.996456259163338e-05,
+          "atol": 0.001,
+          "rtol": 0.001,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            1,
+            1,
+            8
+          ],
+          "dtype": "torch.float16",
+          "case": "finite",
+          "with_output_lse": true,
+          "max_abs_error": 2.996456259163338e-05,
+          "atol": 0.001,
+          "rtol": 0.001,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            1,
+            1,
+            8
+          ],
+          "dtype": "torch.float16",
+          "case": "empty-and-extreme",
+          "with_output_lse": false,
+          "max_abs_error": 0.0,
+          "atol": 0.001,
+          "rtol": 0.001,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            1,
+            1,
+            8
+          ],
+          "dtype": "torch.float16",
+          "case": "empty-and-extreme",
+          "with_output_lse": true,
+          "max_abs_error": 0.0,
+          "atol": 0.001,
+          "rtol": 0.001,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            7,
+            3,
+            24
+          ],
+          "dtype": "torch.float16",
+          "case": "finite",
+          "with_output_lse": false,
+          "max_abs_error": 0.000797318345346465,
+          "atol": 0.001,
+          "rtol": 0.001,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            7,
+            3,
+            24
+          ],
+          "dtype": "torch.float16",
+          "case": "finite",
+          "with_output_lse": true,
+          "max_abs_error": 0.000797318345346465,
+          "atol": 0.001,
+          "rtol": 0.001,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            7,
+            3,
+            24
+          ],
+          "dtype": "torch.float16",
+          "case": "empty-and-extreme",
+          "with_output_lse": false,
+          "max_abs_error": 0.0,
+          "atol": 0.001,
+          "rtol": 0.001,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            7,
+            3,
+            24
+          ],
+          "dtype": "torch.float16",
+          "case": "empty-and-extreme",
+          "with_output_lse": true,
+          "max_abs_error": 0.0,
+          "atol": 0.001,
+          "rtol": 0.001,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            65,
+            5,
+            128
+          ],
+          "dtype": "torch.float16",
+          "case": "finite",
+          "with_output_lse": false,
+          "max_abs_error": 0.000976758010969192,
+          "atol": 0.001,
+          "rtol": 0.001,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            65,
+            5,
+            128
+          ],
+          "dtype": "torch.float16",
+          "case": "finite",
+          "with_output_lse": true,
+          "max_abs_error": 0.000976758010969192,
+          "atol": 0.001,
+          "rtol": 0.001,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            65,
+            5,
+            128
+          ],
+          "dtype": "torch.float16",
+          "case": "empty-and-extreme",
+          "with_output_lse": false,
+          "max_abs_error": 0.0,
+          "atol": 0.001,
+          "rtol": 0.001,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            65,
+            5,
+            128
+          ],
+          "dtype": "torch.float16",
+          "case": "empty-and-extreme",
+          "with_output_lse": true,
+          "max_abs_error": 0.0,
+          "atol": 0.001,
+          "rtol": 0.001,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "split-KV-composition",
+          "dtype": "torch.float16",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            1,
+            1,
+            8
+          ],
+          "dtype": "torch.bfloat16",
+          "case": "finite",
+          "with_output_lse": false,
+          "max_abs_error": 0.003197960974333558,
+          "atol": 0.008,
+          "rtol": 0.008,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            1,
+            1,
+            8
+          ],
+          "dtype": "torch.bfloat16",
+          "case": "finite",
+          "with_output_lse": true,
+          "max_abs_error": 0.003197960974333558,
+          "atol": 0.008,
+          "rtol": 0.008,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            1,
+            1,
+            8
+          ],
+          "dtype": "torch.bfloat16",
+          "case": "empty-and-extreme",
+          "with_output_lse": false,
+          "max_abs_error": 0.0,
+          "atol": 0.008,
+          "rtol": 0.008,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            1,
+            1,
+            8
+          ],
+          "dtype": "torch.bfloat16",
+          "case": "empty-and-extreme",
+          "with_output_lse": true,
+          "max_abs_error": 0.0,
+          "atol": 0.008,
+          "rtol": 0.008,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            7,
+            3,
+            24
+          ],
+          "dtype": "torch.bfloat16",
+          "case": "finite",
+          "with_output_lse": false,
+          "max_abs_error": 0.007208658255172029,
+          "atol": 0.008,
+          "rtol": 0.008,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            7,
+            3,
+            24
+          ],
+          "dtype": "torch.bfloat16",
+          "case": "finite",
+          "with_output_lse": true,
+          "max_abs_error": 0.007208658255172029,
+          "atol": 0.008,
+          "rtol": 0.008,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            7,
+            3,
+            24
+          ],
+          "dtype": "torch.bfloat16",
+          "case": "empty-and-extreme",
+          "with_output_lse": false,
+          "max_abs_error": 0.0,
+          "atol": 0.008,
+          "rtol": 0.008,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            7,
+            3,
+            24
+          ],
+          "dtype": "torch.bfloat16",
+          "case": "empty-and-extreme",
+          "with_output_lse": true,
+          "max_abs_error": 0.0,
+          "atol": 0.008,
+          "rtol": 0.008,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            65,
+            5,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "case": "finite",
+          "with_output_lse": false,
+          "max_abs_error": 0.007790398012320843,
+          "atol": 0.008,
+          "rtol": 0.008,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            65,
+            5,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "case": "finite",
+          "with_output_lse": true,
+          "max_abs_error": 0.007790398012320843,
+          "atol": 0.008,
+          "rtol": 0.008,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            65,
+            5,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "case": "empty-and-extreme",
+          "with_output_lse": false,
+          "max_abs_error": 0.0,
+          "atol": 0.008,
+          "rtol": 0.008,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "shape_thd": [
+            65,
+            5,
+            128
+          ],
+          "dtype": "torch.bfloat16",
+          "case": "empty-and-extreme",
+          "with_output_lse": true,
+          "max_abs_error": 0.0,
+          "atol": 0.008,
+          "rtol": 0.008,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "split-KV-composition",
+          "dtype": "torch.bfloat16",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "cpu-state",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "state-dtype",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "lse-dtype",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "lse-shape",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "noncontiguous",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "out-alias",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "lse-alias",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "pack-alignment",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "unaligned-storage",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "autograd",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "zero-tokens",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "device-guard-restores-caller",
+          "passed": true
+        },
+        {
+          "function": "merge_attn_states_cuda",
+          "case": "mixed-devices-rejected",
+          "passed": true
+        }
+      ],
+      "binary_sha256": "694cd4752285e89949c9c9a8db6d6f2fc258278d992d878e518f5e150370e923",
+      "elapsed_seconds": 3.247244108999439
+    },
+    "sgemm": {
+      "passed": true,
+      "checks": [
+        {
+          "function": "sgemm_naive_f32",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                128,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 1.430511474609375e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_naive_f32",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                128
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 2.1457672119140625e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_sliced_k_f32",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                128,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 1.6689300537109375e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_sliced_k_f32",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                128
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 2.384185791015625e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                128,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 1.430511474609375e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 2.5033950805664062e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                128,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 1.5497207641601562e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 3.0994415283203125e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                128,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 1.3113021850585938e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 2.6226043701171875e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k_f32x4",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                128,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 1.1920928955078125e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k_f32x4",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                128
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 2.86102294921875e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k_f32x4_bcf",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                128,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 1.1920928955078125e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k_f32x4_bcf",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                128
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 2.5033950805664062e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k_f32x4_bcf_dbuf",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                128,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 1.430511474609375e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k_f32x4_bcf_dbuf",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                24
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                24,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                128
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 3.5762786865234375e-07,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k_f32x4_bcf_dbuf_offset",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                128,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 1.1920928955078125e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k_f32x4_bcf_dbuf_offset",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                24
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                24,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                128
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 3.5762786865234375e-07,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k_f32x4_bcf_offset",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                128,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                128,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 1.430511474609375e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k_f32x4_bcf_offset",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                128
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                128
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 2.6226043701171875e-06,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf",
+          "shape_mnk": [
+            128,
+            256,
+            16
+          ],
+          "k_tiles": 1,
+          "dtype": "torch.float32",
+          "reference": "FP64 matmul, rounded for assert_close",
+          "max_abs_error": 1.9318141708524195e-07,
+          "relative_l2_error": 7.388354248915029e-08,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf",
+          "shape_mnk": [
+            128,
+            256,
+            32
+          ],
+          "k_tiles": 2,
+          "dtype": "torch.float32",
+          "reference": "FP64 matmul, rounded for assert_close",
+          "max_abs_error": 3.714493039819189e-07,
+          "relative_l2_error": 1.0288409253234807e-07,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf",
+          "shape_mnk": [
+            128,
+            256,
+            48
+          ],
+          "k_tiles": 3,
+          "dtype": "torch.float32",
+          "reference": "FP64 matmul, rounded for assert_close",
+          "max_abs_error": 6.821399822776186e-07,
+          "relative_l2_error": 1.2523113675984897e-07,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf",
+          "shape_mnk": [
+            128,
+            256,
+            80
+          ],
+          "k_tiles": 5,
+          "dtype": "torch.float32",
+          "reference": "FP64 matmul, rounded for assert_close",
+          "max_abs_error": 9.596969778868925e-07,
+          "relative_l2_error": 1.6080763787777394e-07,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf",
+          "shape_mnk": [
+            128,
+            256,
+            128
+          ],
+          "k_tiles": 8,
+          "dtype": "torch.float32",
+          "reference": "FP64 matmul, rounded for assert_close",
+          "max_abs_error": 1.1937709749609837e-06,
+          "relative_l2_error": 2.0423507622779518e-07,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf",
+          "shape_mnk": [
+            128,
+            256,
+            16
+          ],
+          "k_tiles": 1,
+          "dtype": "torch.float32",
+          "reference": "FP64 matmul, rounded for assert_close",
+          "max_abs_error": 1.3719704983206071e-07,
+          "relative_l2_error": 7.364588737607286e-08,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf",
+          "shape_mnk": [
+            128,
+            256,
+            32
+          ],
+          "k_tiles": 2,
+          "dtype": "torch.float32",
+          "reference": "FP64 matmul, rounded for assert_close",
+          "max_abs_error": 4.037365766151879e-07,
+          "relative_l2_error": 1.0277311557710295e-07,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf",
+          "shape_mnk": [
+            128,
+            256,
+            48
+          ],
+          "k_tiles": 3,
+          "dtype": "torch.float32",
+          "reference": "FP64 matmul, rounded for assert_close",
+          "max_abs_error": 5.265318825387055e-07,
+          "relative_l2_error": 1.2523103772178996e-07,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf",
+          "shape_mnk": [
+            128,
+            256,
+            80
+          ],
+          "k_tiles": 5,
+          "dtype": "torch.float32",
+          "reference": "FP64 matmul, rounded for assert_close",
+          "max_abs_error": 1.103661092738406e-06,
+          "relative_l2_error": 1.6257238265392573e-07,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf",
+          "shape_mnk": [
+            128,
+            256,
+            128
+          ],
+          "k_tiles": 8,
+          "dtype": "torch.float32",
+          "reference": "FP64 matmul, rounded for assert_close",
+          "max_abs_error": 1.4110885859786038e-06,
+          "relative_l2_error": 2.0577423671874121e-07,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf",
+          "shape_mnk": [
+            128,
+            256,
+            16
+          ],
+          "k_tiles": 1,
+          "dtype": "torch.float32",
+          "reference": "FP64 matmul, rounded for assert_close",
+          "max_abs_error": 1.7422450637738507e-07,
+          "relative_l2_error": 7.533849114496085e-08,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf",
+          "shape_mnk": [
+            128,
+            256,
+            32
+          ],
+          "k_tiles": 2,
+          "dtype": "torch.float32",
+          "reference": "FP64 matmul, rounded for assert_close",
+          "max_abs_error": 3.5998108383061833e-07,
+          "relative_l2_error": 1.03001917588475e-07,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf",
+          "shape_mnk": [
+            128,
+            256,
+            48
+          ],
+          "k_tiles": 3,
+          "dtype": "torch.float32",
+          "reference": "FP64 matmul, rounded for assert_close",
+          "max_abs_error": 5.07813830541437e-07,
+          "relative_l2_error": 1.2432023647305347e-07,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf",
+          "shape_mnk": [
+            128,
+            256,
+            80
+          ],
+          "k_tiles": 5,
+          "dtype": "torch.float32",
+          "reference": "FP64 matmul, rounded for assert_close",
+          "max_abs_error": 8.126056365576062e-07,
+          "relative_l2_error": 1.6355850785205188e-07,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf",
+          "shape_mnk": [
+            128,
+            256,
+            128
+          ],
+          "k_tiles": 8,
+          "dtype": "torch.float32",
+          "reference": "FP64 matmul, rounded for assert_close",
+          "max_abs_error": 1.5276713840606249e-06,
+          "relative_l2_error": 2.0266508777664966e-07,
+          "atol": 0.0002,
+          "rtol": 0.0002,
+          "stream": "non-default",
+          "passed": true
+        }
+      ],
+      "binary_sha256": "43f1580eb445c175e8830081244216203d1b8846acd8a1bbd1ed4d1d034ea149",
+      "elapsed_seconds": 0.21145998100109864
+    }
+  },
+  "passed": true,
+  "git_revision": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+  "source_sha256": {
+    "merge_attn_states": "8121bf8dbdb9b8189d7529def6dcb40776dbbb6e6c954bb142af095305077c65",
+    "sgemm": "074f0d5a58e0bcb35ab9d00c649cf57ec26289a5b866537f67fdd8b5d0d0528b"
+  },
+  "source_files_sha256": {
+    "kernels/openai-triton/merge-attn-states/cuda_merge_attn_states.cu": "8121bf8dbdb9b8189d7529def6dcb40776dbbb6e6c954bb142af095305077c65",
+    "kernels/sgemm/sgemm.cu": "074f0d5a58e0bcb35ab9d00c649cf57ec26289a5b866537f67fdd8b5d0d0528b",
+    "kernels/sgemm/sgemm_async.cu": "c2eaf6c6db56a8b272bffd5c30117c5ef5e9c628e6b38978f0b19904ed6f952a"
+  },
+  "adapter_sha256": {
+    "leetcuda_rocm/__init__.py": "d8c9f7edf879b8d662efefe1411af933ebd8578e49fb61e0cb6228ebdc5d4950",
+    "leetcuda_rocm/build.py": "05586d0ad8252352ed3b04a42c77831e208bdaef8c0b2cb4075f1adc7e04cd01",
+    "leetcuda_rocm/environment.py": "077a38d192b13cfe7fed956b03269893ef76636fa7031809927837ad14a531b3",
+    "leetcuda_rocm/extra_checks.py": "5cf3b681fcce7c3cde05930a37985f90469b92e863155900160e47d9897e75bc",
+    "leetcuda_rocm/loader.py": "3783fbcafddf67d4090676914ef1b502df70258269abc99ded85004e7ed7bf42",
+    "leetcuda_rocm/matrix_attention.py": "550892bbd40338518119c398c3819ea0fc5a1de02ecf91e780080136e5cfeb66",
+    "leetcuda_rocm/matrix_attention_check.py": "a6b4ca86889b653433968678a886a919547da83b4d13863b7a52313fce57d70f",
+    "leetcuda_rocm/research_hgemm.py": "9128402e388034603606542f931f0c4fb921cc659ae35734c935ed53e4f660f5",
+    "leetcuda_rocm/smoke.py": "131ee2ddbb9f1fced3d692bb00ae3a01951f564d3f1ac9d49973f41b1c02b9b3"
+  }
+}

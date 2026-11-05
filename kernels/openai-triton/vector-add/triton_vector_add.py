@@ -24,7 +24,8 @@ import torch
 import triton
 import triton.language as tl
 
-DEVICE = torch.device("cuda:0")
+DEVICE = torch.device("cuda")
+
 
 @triton.jit
 def add_kernel(
@@ -63,7 +64,20 @@ def add_kernel(
 def add(x: torch.Tensor, y: torch.Tensor):
     # We need to preallocate the output.
     output = torch.empty_like(x)
-    assert x.device == DEVICE and y.device == DEVICE and output.device == DEVICE
+    if (
+        not x.is_cuda
+        or y.device != x.device
+        or x.shape != y.shape
+        or x.dtype != y.dtype
+        or not x.is_contiguous()
+        or not y.is_contiguous()
+        or x.dtype not in (torch.float16, torch.bfloat16, torch.float32)
+    ):
+        raise ValueError(
+            "add requires contiguous matching FP16/BF16/FP32 GPU tensors"
+        )
+    if x.requires_grad or y.requires_grad:
+        raise ValueError("add is forward-only")
     n_elements = output.numel()
     # The SPMD launch grid denotes the number of kernel instances that run in parallel.
     # It is analogous to CUDA launch grids. It can be either Tuple[int], or Callable(metaparameters) -> Tuple[int].
@@ -73,7 +87,9 @@ def add(x: torch.Tensor, y: torch.Tensor):
     #  - Each torch.tensor object is implicitly converted into a pointer to its first element.
     #  - `triton.jit`'ed functions can be indexed with a launch grid to obtain a callable GPU kernel.
     #  - Don't forget to pass meta-parameters as keywords arguments.
-    add_kernel[grid](x, y, output, n_elements, BLOCK_SIZE=1024)
+    if n_elements:
+        with torch.cuda.device(x.device):
+            add_kernel[grid](x, y, output, n_elements, BLOCK_SIZE=1024)
     # We return a handle to z but, since `torch.cuda.synchronize()` hasn't been called, the kernel is still
     # running asynchronously at this point.
     return output
@@ -82,18 +98,21 @@ def add(x: torch.Tensor, y: torch.Tensor):
 # %%
 # We can now use the above function to compute the element-wise sum of two `torch.tensor` objects and test its correctness:
 
-torch.manual_seed(0)
-size = 98432
-x = torch.rand(size, device=DEVICE)
-y = torch.rand(size, device=DEVICE)
-output_torch = x + y
-output_triton = add(x, y)
-print(output_torch)
-print(output_triton)
-print(
-    f"The maximum difference between torch and triton is "
-    f"{torch.max(torch.abs(output_torch - output_triton))}"
-)
+
+def demo():
+    torch.manual_seed(0)
+    size = 98432
+    x = torch.rand(size, device=DEVICE)
+    y = torch.rand(size, device=DEVICE)
+    output_torch = x + y
+    output_triton = add(x, y)
+    print(output_torch)
+    print(output_triton)
+    print(
+        f"The maximum difference between torch and triton is "
+        f"{torch.max(torch.abs(output_torch - output_triton))}"
+    )
+
 
 # %%
 # Seems like we're good to go!
@@ -142,4 +161,6 @@ def benchmark(size, provider):
 # %%
 # We can now run the decorated function above. Pass `print_data=True` to see the performance number, `show_plots=True` to plot them, and/or
 # `save_path='/path/to/results/' to save them to disk along with raw CSV data:
-benchmark.run(print_data=True, show_plots=True, save_path="./")
+if __name__ == "__main__":
+    demo()
+    benchmark.run(print_data=True, show_plots=True, save_path="./")

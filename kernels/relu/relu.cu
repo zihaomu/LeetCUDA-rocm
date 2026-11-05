@@ -97,7 +97,13 @@ __global__ void relu_f16x8_pack_kernel(half *x, half *y, int N) {
 #pragma unroll
   for (int i = 0; i < 8; i += 2) {
     // __hmax2 for half2 x 4
+#ifdef LEETCUDA_ROCM
+    // HIP 7.16 provides scalar half max, but no half2 __hmax2 overload.
+    half2 v = HALF2(pack_x[i]);
+    HALF2(pack_y[i]) = __halves2half2(__hmax(v.x, z2.x), __hmax(v.y, z2.y));
+#else
     HALF2(pack_y[i]) = __hmax2(HALF2(pack_x[i]), z2);
+#endif
   }
   // reinterpret as float4 and store 128 bits in 1 memory issue.
   if ((idx + 7) < N) {

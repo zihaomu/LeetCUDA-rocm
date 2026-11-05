@@ -1,0 +1,137 @@
+{
+  "timestamp_utc": "2026-11-03T09:06:33.844641+00:00",
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "0",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/32d2526730504ee3bacea168933ce9c2.json"
+  },
+  "checks": [
+    {
+      "name": "fp4_torch",
+      "passed": true,
+      "binary_sha256_before": "fc65e0bd9c9ed69eab0373a86b42260a70d19a65c9dee201e16bd56196c11bd3",
+      "binary_sha256_after": "fc65e0bd9c9ed69eab0373a86b42260a70d19a65c9dee201e16bd56196c11bd3",
+      "isa": {
+        "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+        "instructions": [
+          "v_wmma_f32_16x16x16_f16"
+        ],
+        "assembly": "artifacts/rocm/isa/readonly/fp4_torch/kernel.amdgcn",
+        "assembly_sha256": "aec309fabbd524856fa711ba364156149bc0a7b220e69942f66ba0d7a6dfbf6e",
+        "hsaco_sha256": "1527c1adf56d42ba4a5d470971525402a20f843fb603c61935091dfaed35ddb6"
+      },
+      "prior_evidence": "docs/rocm/fp4_pipeline_20261103.json",
+      "prior_evidence_sha256": "78bb2230b0c3801c990c0060118873adf8f1c1ec06853109b69904d3765d7e7f",
+      "device_code_unchanged": true
+    },
+    {
+      "name": "fp4_cpp",
+      "passed": true,
+      "binary_sha256_before": "05190d1e66fa5e09b70653cf6c06d29a9c8ead43cdc0bc9edd52c5c8749f9c67",
+      "binary_sha256_after": "05190d1e66fa5e09b70653cf6c06d29a9c8ead43cdc0bc9edd52c5c8749f9c67",
+      "isa": {
+        "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+        "instructions": [
+          "v_wmma_f32_16x16x16_f16"
+        ],
+        "assembly": "artifacts/rocm/isa/readonly/fp4_cpp/kernel.amdgcn",
+        "assembly_sha256": "bcd80f65b5b5535188bf40ffd3016796b634c6b8e331152dac4b7e442dce7ddd",
+        "hsaco_sha256": "0adc49b54f3160a43500512c8334d11412c2d65c1d63f163df8a4ef34e90e289"
+      },
+      "prior_evidence": "docs/rocm/fp4_cpp_20261103.json",
+      "prior_evidence_sha256": "c71469d9a3e6e209e0ce08d759b1b23ee1aa5c76ce2b1370d36fb6fb6805f72e",
+      "device_code_unchanged": true
+    },
+    {
+      "name": "fp8_torch",
+      "passed": true,
+      "binary_sha256_before": "eba9024655ecee82843abe8f200982593744c1d64447fe109c78ef1f183d198b",
+      "binary_sha256_after": "eba9024655ecee82843abe8f200982593744c1d64447fe109c78ef1f183d198b",
+      "isa": {
+        "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+        "instructions": [
+          "v_wmma_f32_16x16x16_fp8_fp8"
+        ],
+        "assembly": "artifacts/rocm/isa/readonly/fp8_torch/kernel.amdgcn",
+        "assembly_sha256": "b4b22bb670665e8ef89485ba339e39ebd01b85b05e41931e340e0577e24a3353",
+        "hsaco_sha256": "cabf7f1b72e83fab657425811c27f6c13dcbb4bd3ea29e4bcef1d7081ab473b2"
+      },
+      "prior_evidence": "docs/rocm/fp8_pipeline_20261103.json",
+      "prior_evidence_sha256": "8251bb483aa4bf7bba48086bd3fc60db6e1a6c53ae0dbe419bf210e468ef6bbb",
+      "device_code_unchanged": true
+    },
+    {
+      "name": "fp8_cpp",
+      "passed": true,
+      "binary_sha256_before": "49f0737c518c408f8ebd3f53b2805ff1b875fd4afaacb134324cbc43e312868d",
+      "binary_sha256_after": "49f0737c518c408f8ebd3f53b2805ff1b875fd4afaacb134324cbc43e312868d",
+      "isa": {
+        "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+        "instructions": [
+          "v_wmma_f32_16x16x16_fp8_fp8"
+        ],
+        "assembly": "artifacts/rocm/isa/readonly/fp8_cpp/kernel.amdgcn",
+        "assembly_sha256": "ebe1f88e9226a65b206142f59597b40106f736af7fa1a85a24d6c72f37a6900f",
+        "hsaco_sha256": "660371ce9c40b83fef482a39802aa5e3cd1c29ba12a167256d0cb6be7727e446"
+      },
+      "prior_evidence": "docs/rocm/fp8_cpp_20261103.json",
+      "prior_evidence_sha256": "2446729a7186db2250768ad6b6f6fe01f9a337d3efcb3908d7f46441ddcb1642",
+      "device_code_unchanged": true
+    },
+    {
+      "name": "sgemm_multi_object",
+      "passed": true,
+      "binary_sha256_before": "a24970f23b83028dcf3ee2d13d5c016fa4bfc0422e7676898a8a57724125a8cc",
+      "binary_sha256_after": "a24970f23b83028dcf3ee2d13d5c016fa4bfc0422e7676898a8a57724125a8cc",
+      "isa": {
+        "binary": "artifacts/rocm/isa/readonly/binaries/a24970f23b83028dcf3ee2d13d5c016fa4bfc0422e7676898a8a57724125a8cc.so",
+        "binary_sha256": "a24970f23b83028dcf3ee2d13d5c016fa4bfc0422e7676898a8a57724125a8cc",
+        "build_cache_binary": ".cache/rocm10/59fd7d638c6f8c646bbe/torch/sgemm_77b0776ae91dd3a0/leetcuda_rocm_sgemm_77b0776ae91dd3a0.so",
+        "objects": [
+          {
+            "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+            "bundle_offset": 0,
+            "object_offset": 4096,
+            "hsaco": "artifacts/rocm/isa/readonly/sgemm/object0.hsaco",
+            "hsaco_sha256": "0478e809e2bd92c9aed1a4cab186aeca2942808f09a6e898310fb563f41593e7",
+            "assembly": "artifacts/rocm/isa/readonly/sgemm/object0.amdgcn",
+            "assembly_sha256": "9341d7237c840c51b8d3ee51321b9daaf197aa3d64434ce23b1b8ca07a1d7d88"
+          },
+          {
+            "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+            "bundle_offset": 49152,
+            "object_offset": 4096,
+            "hsaco": "artifacts/rocm/isa/readonly/sgemm/object1.hsaco",
+            "hsaco_sha256": "896b7707a71434f549ebca436ce12f2831ad94529132e85a8eab9542fc026e1b",
+            "assembly": "artifacts/rocm/isa/readonly/sgemm/object1.amdgcn",
+            "assembly_sha256": "e04f456fc35c673876acb16652f143f4d7de2fff38e9fd6a3be018cefea4a36f"
+          }
+        ],
+        "assembly": "artifacts/rocm/isa/readonly/sgemm/kernel.amdgcn",
+        "assembly_sha256": "74220865184d19e27291ec35d5d0092c5e739e24cbdf3b588a56548e39d01934",
+        "instructions": []
+      },
+      "prior_evidence": "docs/rocm/async_sgemm_20261103.json",
+      "prior_evidence_sha256": "79af0bc81a56771db11d3c865d008bd574dd6f5d7e209bba261c3d0404cf3742",
+      "device_code_unchanged": true
+    }
+  ],
+  "passed": true,
+  "source_sha256": {
+    "leetcuda_rocm/isa.py": "f763cc8385247652fa76be8fbf34e2e30421dff5dac881c3d6d8f55f29344250",
+    "leetcuda_rocm/isa_objects.py": "256b23740a0a5fdf759a95970592e1806ac2cea7011cad0960cbabb0e0aa4a61",
+    "leetcuda_rocm/isa_readonly_check.py": "56b95dd126b9824c9ab958444048cb40b1b89b724726a26f8123b456eb3c70ad"
+  },
+  "legacy_isa_source": {
+    "path": "artifacts/rocm/isa/before_readonly/isa.py",
+    "sha256": "589f04c6d9008f82230bf0cd7ccb512bf8b854639b6d154c025312aa62347be9"
+  }
+}

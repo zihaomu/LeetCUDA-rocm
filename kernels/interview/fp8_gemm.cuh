@@ -1,4 +1,7 @@
 #pragma once
+#if defined(LEETCUDA_ROCM)
+#include "../rocm/fp8_gemm_hip.cuh"
+#else
 #include "common.cuh"
 // fp8_gemm.cuh: Phase 9 FP8 GEMM — e4m3 动态量化教学案例
 // =============================================================================
@@ -956,3 +959,4 @@ inline void fp8_gemm_bf16_b_offline(const __nv_bfloat16 *A,
 
 }  // namespace fp8_gemm
 #endif  // NOTES_V2_ENABLE_CUTE && NOTES_V2_ENABLE_TMA_MMA_WS
+#endif  // LEETCUDA_ROCM

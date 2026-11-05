@@ -768,8 +768,8 @@ __global__ void hgemm_t_8x8_sliced_k_f16x8_pack_bcf_dbuf_kernel(
 // 计算剩下最后一块BK
 #pragma unroll
   for (int tk = 0; tk < BK; tk++) {
-    LDST128BITS(r_comp_a[0]) = LDST128BITS(s_a[1][tk][ty * TM]);
-    LDST128BITS(r_comp_b[0]) = LDST128BITS(s_b[1][tk][tx * TN]);
+    LDST128BITS(r_comp_a[0]) = LDST128BITS(s_a[((K + BK - 1) / BK - 1) & 1][tk][ty * TM]);
+    LDST128BITS(r_comp_b[0]) = LDST128BITS(s_b[((K + BK - 1) / BK - 1) & 1][tk][tx * TN]);
 
 #pragma unroll
     for (int tm = 0; tm < TM; tm++) {

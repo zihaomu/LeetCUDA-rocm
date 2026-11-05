@@ -1,0 +1,3340 @@
+{
+  "timestamp_utc": "2026-11-03T07:45:53.543607+00:00",
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "0",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/4fa8a981cd50484d99955bc006501f5a.json"
+  },
+  "logical_device": 0,
+  "build_command": [
+    "/opt/rocm/bin/hipcc",
+    "-O3",
+    "-std=c++20",
+    "--offload-arch=gfx1201",
+    "-DLEETCUDA_ROCM=1",
+    "-I",
+    "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels",
+    "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/rocm/fp8_bench.cpp",
+    "-lhipblas",
+    "-o",
+    "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/cpp/fp8_ce80c5e04aa776c5/fp8_bench"
+  ],
+  "source_sha256": {
+    "kernels/rocm/fp8_bench.cpp": "2895cc8e464d3ea5cc3424edbc83ce001ef8f4c775941a739cb1ad06af78545f",
+    "kernels/rocm/fp8_gemm_hip.cuh": "ada8653a063c763abcca3d3ecf577a8cba72d83a5bec239eec8eae275f37ae14",
+    "kernels/interview/fp8_gemm.cuh": "da702f256286ecc770e1b6c7628ef14e183200fef61a8d80cb63c144bb56ee65",
+    "leetcuda_rocm/build_bench.py": "fd16ae275ddef10f5264fe3dda140c0428e96aa2b25ec6dd77975cec667094d6"
+  },
+  "binary_sha256": "600926d9ca3d81a89ff6b07f73a263d6862202b560401458e180d3bfc14642dd",
+  "linked_runtime_sha256": {
+    "/opt/rocm/core-10.1/lib/libhipblas.so.3": "a81453cbacb5f529185aa231dfd6392ebb42353192e71a7dec4280a00118289b",
+    "/opt/rocm/core-10.1/lib/libamdhip64.so.7": "5ad5a94ea0c3a4152b83925330c6c9a59739d4239b3c5e048aa89e1dad609a0a",
+    "/opt/rocm/core-10.1/lib/librocblas.so.5": "d2722466fcc2e0674201c751f8ef0a2b57683ad584e6f8b15dd46ca21371d238",
+    "/opt/rocm/core-10.1/lib/libamd_comgr.so.3": "3ab7d43c44ab02950c1d67f42887f4b56067f8fef007ecabdfe990675b68f727",
+    "/opt/rocm/core-10.1/lib/libhsa-runtime64.so.1": "676299ffa5f6b00180b8147ff65643d37b30bb39936282850ed55d9d23b7985e",
+    "/opt/rocm/core-10.1/lib/libhipblaslt.so.1": "a857353121be933573a3005e7466e781895a273b50815956ace49f81eab29d0b"
+  },
+  "isa": {
+    "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+    "instructions": [
+      "v_wmma_f32_16x16x16_fp8_fp8"
+    ],
+    "assembly": "artifacts/rocm/fp8_native/cpp_isa/kernel.amdgcn",
+    "assembly_sha256": "e5a54af8875cf39af102d826cc3608ed661b64d825366b80b06ebf4b9c3abc6b",
+    "hsaco_sha256": "660371ce9c40b83fef482a39802aa5e3cd1c29ba12a167256d0cb6be7727e446"
+  },
+  "checks": [
+    {
+      "kind": "baseline_check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "checked_outputs": 8,
+      "max_abs_error": 0.0008633136749,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 0,
+      "use_ws": 0,
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 1,
+      "use_ws": 0,
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 2,
+      "use_ws": 0,
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 0,
+      "use_ws": 1,
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 1,
+      "use_ws": 1,
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 2,
+      "use_ws": 1,
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        1,
+        8,
+        16
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 8,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "baseline_check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "checked_outputs": 17544,
+      "max_abs_error": 0.01550886407,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 0,
+      "use_ws": 0,
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 1,
+      "use_ws": 0,
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 2,
+      "use_ws": 0,
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 0,
+      "use_ws": 1,
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 1,
+      "use_ws": 1,
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 2,
+      "use_ws": 1,
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 17544,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 17544,
+      "max_abs_error": 0.0009765625,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 17544,
+      "max_abs_error": 0.0009765625,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 17544,
+      "max_abs_error": 0.0009765625,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 17544,
+      "max_abs_error": 0.0009765625,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 17544,
+      "max_abs_error": 0.0009765625,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        129,
+        136,
+        272
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 17544,
+      "max_abs_error": 0.0009765625,
+      "passed": true
+    },
+    {
+      "kind": "baseline_check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "checked_outputs": 2376,
+      "max_abs_error": 0.01557645202,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 0,
+      "use_ws": 0,
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 1,
+      "use_ws": 0,
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 2,
+      "use_ws": 0,
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 0,
+      "use_ws": 1,
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 1,
+      "use_ws": 1,
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "passed": true
+    },
+    {
+      "kind": "tile_check",
+      "variant": 2,
+      "use_ws": 1,
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        33,
+        72,
+        576
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 2376,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "baseline_check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "checked_outputs": 64,
+      "max_abs_error": 0.01341572963,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "baseline_check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "checked_outputs": 64,
+      "max_abs_error": 0.02468741219,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "quantized",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "full",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    },
+    {
+      "kind": "check",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "offline_b",
+      "checked_outputs": 64,
+      "max_abs_error": 0,
+      "passed": true
+    }
+  ],
+  "performance": [
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.01440128777,
+        0.01320646144,
+        0.01310611144,
+        0.01315435022,
+        0.01312286686
+      ],
+      "baseline_samples_ms": [
+        0.007306190208,
+        0.006891390774,
+        0.007228886709,
+        0.006862993352,
+        0.006973927841
+      ],
+      "ours_ms": 0.01315435022,
+      "baseline_ms": 0.006973927841,
+      "baseline_over_ours": 0.5301613212
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "full",
+      "ours_samples_ms": [
+        0.04979342222,
+        0.04976588115,
+        0.04977310821,
+        0.04983404279,
+        0.04981889203
+      ],
+      "baseline_samples_ms": [
+        0.006865610369,
+        0.00687408587,
+        0.006859515794,
+        0.006867133547,
+        0.006859398447
+      ],
+      "ours_ms": 0.04979342222,
+      "baseline_ms": 0.006865610369,
+      "baseline_over_ours": 0.137881875
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.01626282558,
+        0.01625286415,
+        0.01625509001,
+        0.01620145887,
+        0.01620887965
+      ],
+      "baseline_samples_ms": [
+        0.006896117236,
+        0.006862601731,
+        0.006883539259,
+        0.006851391401,
+        0.006883305497
+      ],
+      "ours_ms": 0.01625286415,
+      "baseline_ms": 0.006883305497,
+      "baseline_over_ours": 0.4235133827
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.01207124256,
+        0.01209034305,
+        0.01203667,
+        0.01208413113,
+        0.01205526479
+      ],
+      "baseline_samples_ms": [
+        0.007116426714,
+        0.006851937622,
+        0.007145487238,
+        0.006866311654,
+        0.007010215893
+      ],
+      "ours_ms": 0.01207124256,
+      "baseline_ms": 0.007010215893,
+      "baseline_over_ours": 0.5807368755
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "full",
+      "ours_samples_ms": [
+        0.04844867066,
+        0.04840687662,
+        0.04831352085,
+        0.04822105542,
+        0.04816844314
+      ],
+      "baseline_samples_ms": [
+        0.006817485206,
+        0.006821274292,
+        0.006825805642,
+        0.006835219916,
+        0.006841312628
+      ],
+      "ours_ms": 0.04831352085,
+      "baseline_ms": 0.006825805642,
+      "baseline_over_ours": 0.1412814856
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.01918591745,
+        0.01508459728,
+        0.01508448087,
+        0.01509510539,
+        0.01506971475
+      ],
+      "baseline_samples_ms": [
+        0.006820179522,
+        0.006846310571,
+        0.006982990075,
+        0.006855725776,
+        0.006917327177
+      ],
+      "ours_ms": 0.01508459728,
+      "baseline_ms": 0.006855725776,
+      "baseline_over_ours": 0.454485178
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.01488952246,
+        0.01325665507,
+        0.01318810135,
+        0.01323411614,
+        0.01319997571
+      ],
+      "baseline_samples_ms": [
+        0.00756224012,
+        0.007561030332,
+        0.007107206155,
+        0.006893108599,
+        0.007272517774
+      ],
+      "ours_ms": 0.01323411614,
+      "baseline_ms": 0.007272517774,
+      "baseline_over_ours": 0.5495280027
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "full",
+      "ours_samples_ms": [
+        0.05043208227,
+        0.05041055754,
+        0.05039298162,
+        0.05037430674,
+        0.05027235672
+      ],
+      "baseline_samples_ms": [
+        0.006946232636,
+        0.006881897338,
+        0.006864164025,
+        0.006871507969,
+        0.00687170215
+      ],
+      "ours_ms": 0.05039298162,
+      "baseline_ms": 0.00687170215,
+      "baseline_over_ours": 0.1363622844
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.01629899442,
+        0.01631751098,
+        0.01631044038,
+        0.01630247012,
+        0.01626122184
+      ],
+      "baseline_samples_ms": [
+        0.006884749047,
+        0.006865921896,
+        0.006861703005,
+        0.006858928595,
+        0.006928419694
+      ],
+      "ours_ms": 0.01630247012,
+      "baseline_ms": 0.006865921896,
+      "baseline_over_ours": 0.4211583734
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.01214881707,
+        0.0121514732,
+        0.01211381797,
+        0.01214639563,
+        0.01207412966
+      ],
+      "baseline_samples_ms": [
+        0.007195916958,
+        0.006860255729,
+        0.007058223709,
+        0.006853226572,
+        0.007441264577
+      ],
+      "ours_ms": 0.01214639563,
+      "baseline_ms": 0.007058223709,
+      "baseline_over_ours": 0.5810961723
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "full",
+      "ours_samples_ms": [
+        0.04904936254,
+        0.04898104817,
+        0.04890600592,
+        0.048816517,
+        0.04876112565
+      ],
+      "baseline_samples_ms": [
+        0.006871937308,
+        0.006849358324,
+        0.006834905129,
+        0.006873656064,
+        0.006893498823
+      ],
+      "ours_ms": 0.04890600592,
+      "baseline_ms": 0.006871937308,
+      "baseline_over_ours": 0.1405131519
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.01513865776,
+        0.01514658891,
+        0.01513877604,
+        0.01515014376,
+        0.01511373743
+      ],
+      "baseline_samples_ms": [
+        0.007261111401,
+        0.006899748929,
+        0.006952247117,
+        0.006862483453,
+        0.007015958894
+      ],
+      "ours_ms": 0.01513877604,
+      "baseline_ms": 0.006952247117,
+      "baseline_over_ours": 0.4592344165
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.01491815317,
+        0.01306407899,
+        0.01296536811,
+        0.01305036712,
+        0.01301275007
+      ],
+      "baseline_samples_ms": [
+        0.007546224631,
+        0.007544036955,
+        0.007454349659,
+        0.006918927655,
+        0.007300563622
+      ],
+      "ours_ms": 0.01305036712,
+      "baseline_ms": 0.007454349659,
+      "baseline_over_ours": 0.5711984634
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "full",
+      "ours_samples_ms": [
+        0.06159172952,
+        0.0617387183,
+        0.06175864115,
+        0.06159375608,
+        0.06410644948
+      ],
+      "baseline_samples_ms": [
+        0.006955216639,
+        0.006872716825,
+        0.006905255839,
+        0.006867561489,
+        0.006944474764
+      ],
+      "ours_ms": 0.0617387183,
+      "baseline_ms": 0.006905255839,
+      "baseline_over_ours": 0.1118464395
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.02836507745,
+        0.02836535126,
+        0.02834320068,
+        0.02831558511,
+        0.02829722688
+      ],
+      "baseline_samples_ms": [
+        0.007052910049,
+        0.006864045747,
+        0.007265485357,
+        0.007064980455,
+        0.007132871076
+      ],
+      "ours_ms": 0.02834320068,
+      "baseline_ms": 0.007064980455,
+      "baseline_over_ours": 0.2492654473
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.01196698379,
+        0.01199350692,
+        0.01193163265,
+        0.01199760847,
+        0.01193909161
+      ],
+      "baseline_samples_ms": [
+        0.007481185719,
+        0.007188298739,
+        0.00755907502,
+        0.007050293032,
+        0.007531458046
+      ],
+      "ours_ms": 0.01196698379,
+      "baseline_ms": 0.007481185719,
+      "baseline_over_ours": 0.6251521707
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "full",
+      "ours_samples_ms": [
+        0.06009830907,
+        0.05999170989,
+        0.059928976,
+        0.05980695039,
+        0.05969370529
+      ],
+      "baseline_samples_ms": [
+        0.007246735506,
+        0.006922716741,
+        0.007557044737,
+        0.007105254102,
+        0.007584700361
+      ],
+      "ours_ms": 0.059928976,
+      "baseline_ms": 0.007246735506,
+      "baseline_over_ours": 0.1209220663
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.02703989856,
+        0.02705122717,
+        0.0270140022,
+        0.02696579881,
+        0.02693298832
+      ],
+      "baseline_samples_ms": [
+        0.007530910894,
+        0.007465288043,
+        0.00756024709,
+        0.007532356307,
+        0.007562512532
+      ],
+      "ours_ms": 0.0270140022,
+      "baseline_ms": 0.007532356307,
+      "baseline_over_ours": 0.2788315713
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.01492408942,
+        0.01289001759,
+        0.01275931671,
+        0.01285517402,
+        0.01280134544
+      ],
+      "baseline_samples_ms": [
+        0.00755325472,
+        0.007544935681,
+        0.007566534914,
+        0.007601458114,
+        0.007554192562
+      ],
+      "ours_ms": 0.01285517402,
+      "baseline_ms": 0.007554192562,
+      "baseline_over_ours": 0.5876383185
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "full",
+      "ours_samples_ms": [
+        0.06106208265,
+        0.06121017039,
+        0.06132235005,
+        0.06124622375,
+        0.06117309257
+      ],
+      "baseline_samples_ms": [
+        0.007359742187,
+        0.006973223761,
+        0.007326500025,
+        0.00690435851,
+        0.007437319495
+      ],
+      "ours_ms": 0.06121017039,
+      "baseline_ms": 0.007326500025,
+      "baseline_over_ours": 0.1196941584
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.02802430093,
+        0.02801758051,
+        0.02799249999,
+        0.02795043401,
+        0.02792715095
+      ],
+      "baseline_samples_ms": [
+        0.007573996205,
+        0.007371695247,
+        0.007549387868,
+        0.007525247056,
+        0.007573801558
+      ],
+      "ours_ms": 0.02799249999,
+      "baseline_ms": 0.007549387868,
+      "baseline_over_ours": 0.2696932256
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.01181007084,
+        0.01179112587,
+        0.01172796264,
+        0.01179268863,
+        0.01172210276
+      ],
+      "baseline_samples_ms": [
+        0.007532082964,
+        0.007595402189,
+        0.007541067433,
+        0.007585442159,
+        0.0075462237
+      ],
+      "ours_ms": 0.01179112587,
+      "baseline_ms": 0.0075462237,
+      "baseline_over_ours": 0.6399917603
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "full",
+      "ours_samples_ms": [
+        0.05969725922,
+        0.0596376881,
+        0.05954343081,
+        0.05944487453,
+        0.05929972231
+      ],
+      "baseline_samples_ms": [
+        0.007554778364,
+        0.006948614027,
+        0.007542589679,
+        0.007297125179,
+        0.007538566366
+      ],
+      "ours_ms": 0.05954343081,
+      "baseline_ms": 0.007538566366,
+      "baseline_over_ours": 0.1266061813
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        512,
+        512,
+        512
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.02666662075,
+        0.02671923861,
+        0.02663880773,
+        0.02664576098,
+        0.0266093947
+      ],
+      "baseline_samples_ms": [
+        0.0075235283,
+        0.007275952958,
+        0.007508450188,
+        0.007015879732,
+        0.007495715749
+      ],
+      "ours_ms": 0.02664576098,
+      "baseline_ms": 0.007495715749,
+      "baseline_over_ours": 0.2813098729
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.2252316177,
+        0.2301408499,
+        0.2340549231,
+        0.2306174785,
+        0.2297029197
+      ],
+      "baseline_samples_ms": [
+        0.1498831064,
+        0.1492893994,
+        0.1499758214,
+        0.148995772,
+        0.1497212946
+      ],
+      "ours_ms": 0.2301408499,
+      "baseline_ms": 0.1497212946,
+      "baseline_over_ours": 0.6505637765
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "full",
+      "ours_samples_ms": [
+        0.3738421202,
+        0.3742940724,
+        0.3727177978,
+        0.3743602037,
+        0.3728806674
+      ],
+      "baseline_samples_ms": [
+        0.1482746452,
+        0.1497973651,
+        0.1500793695,
+        0.1505989432,
+        0.1499923468
+      ],
+      "ours_ms": 0.3738421202,
+      "baseline_ms": 0.1499923468,
+      "baseline_over_ours": 0.4012184143
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 0,
+      "use_ws": 0,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.2451422513,
+        0.2453768551,
+        0.24549748,
+        0.2457137406,
+        0.2454713434
+      ],
+      "baseline_samples_ms": [
+        0.1510684639,
+        0.1508600265,
+        0.1571733505,
+        0.1512654871,
+        0.1533726454
+      ],
+      "ours_ms": 0.2454713434,
+      "baseline_ms": 0.1512654871,
+      "baseline_over_ours": 0.6162246466
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.2252640575,
+        0.2258135825,
+        0.2248996049,
+        0.2258800268,
+        0.2249844074
+      ],
+      "baseline_samples_ms": [
+        0.1538033783,
+        0.1535543203,
+        0.1546846628,
+        0.1536910832,
+        0.1542252153
+      ],
+      "ours_ms": 0.2252640575,
+      "baseline_ms": 0.1538033783,
+      "baseline_over_ours": 0.6827692986
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "full",
+      "ours_samples_ms": [
+        0.3654275239,
+        0.3658359051,
+        0.3640162349,
+        0.3659047186,
+        0.3642199934
+      ],
+      "baseline_samples_ms": [
+        0.1541430652,
+        0.1554305553,
+        0.1552836448,
+        0.1561562866,
+        0.1562458873
+      ],
+      "ours_ms": 0.3654275239,
+      "baseline_ms": 0.1554305553,
+      "baseline_over_ours": 0.4253389537
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 0,
+      "use_ws": 1,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.2406719774,
+        0.2413640469,
+        0.2464862317,
+        0.2412483543,
+        0.2414392829
+      ],
+      "baseline_samples_ms": [
+        0.1556326747,
+        0.1564169824,
+        0.1559927315,
+        0.1559455097,
+        0.1566357762
+      ],
+      "ours_ms": 0.2413640469,
+      "baseline_ms": 0.1559927315,
+      "baseline_over_ours": 0.6462964416
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.228889823,
+        0.2323747277,
+        0.2315288633,
+        0.2327219397,
+        0.2317162752
+      ],
+      "baseline_samples_ms": [
+        0.1570876986,
+        0.155970335,
+        0.1564264745,
+        0.1557947993,
+        0.1574444175
+      ],
+      "ours_ms": 0.2317162752,
+      "baseline_ms": 0.1564264745,
+      "baseline_over_ours": 0.6750776172
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "full",
+      "ours_samples_ms": [
+        0.3760177493,
+        0.3762171865,
+        0.3740581274,
+        0.3762330115,
+        0.374799192
+      ],
+      "baseline_samples_ms": [
+        0.1558268815,
+        0.1579817683,
+        0.1562344581,
+        0.1582301259,
+        0.1565115154
+      ],
+      "ours_ms": 0.3760177493,
+      "baseline_ms": 0.1565115154,
+      "baseline_over_ours": 0.416234374
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 1,
+      "use_ws": 0,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.2476681173,
+        0.2477303892,
+        0.2481885999,
+        0.2475586832,
+        0.2476403266
+      ],
+      "baseline_samples_ms": [
+        0.158320725,
+        0.1582486033,
+        0.1579306871,
+        0.1580539644,
+        0.1564622074
+      ],
+      "ours_ms": 0.2476681173,
+      "baseline_ms": 0.1580539644,
+      "baseline_over_ours": 0.6381683946
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.2273885012,
+        0.2282645404,
+        0.2270689309,
+        0.2282595187,
+        0.2274257839
+      ],
+      "baseline_samples_ms": [
+        0.1554284692,
+        0.1553490907,
+        0.1532871425,
+        0.1527449489,
+        0.1509826779
+      ],
+      "ours_ms": 0.2274257839,
+      "baseline_ms": 0.1532871425,
+      "baseline_over_ours": 0.6740095019
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "full",
+      "ours_samples_ms": [
+        0.3753260672,
+        0.3683058619,
+        0.3664983809,
+        0.3677921891,
+        0.3664183021
+      ],
+      "baseline_samples_ms": [
+        0.151200369,
+        0.1499689519,
+        0.1496734768,
+        0.1489042044,
+        0.149890691
+      ],
+      "ours_ms": 0.3677921891,
+      "baseline_ms": 0.149890691,
+      "baseline_over_ours": 0.4075418115
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 1,
+      "use_ws": 1,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.2427094728,
+        0.2432387322,
+        0.2434529215,
+        0.2431614846,
+        0.2438095659
+      ],
+      "baseline_samples_ms": [
+        0.1491196454,
+        0.1491323709,
+        0.1493743807,
+        0.1490188241,
+        0.1492132843
+      ],
+      "ours_ms": 0.2432387322,
+      "baseline_ms": 0.1491323709,
+      "baseline_over_ours": 0.6131111383
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.2339476347,
+        0.2352747023,
+        0.2342445999,
+        0.2349828035,
+        0.2345122546
+      ],
+      "baseline_samples_ms": [
+        0.1509650648,
+        0.1492973119,
+        0.1491371244,
+        0.148837477,
+        0.1492066532
+      ],
+      "ours_ms": 0.2345122546,
+      "baseline_ms": 0.1492066532,
+      "baseline_over_ours": 0.6362424493
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "full",
+      "ours_samples_ms": [
+        0.4076702595,
+        0.4079121053,
+        0.4086046517,
+        0.4082013369,
+        0.4086869955
+      ],
+      "baseline_samples_ms": [
+        0.1495790482,
+        0.1489196867,
+        0.1499581933,
+        0.1491165608,
+        0.1496839374
+      ],
+      "ours_ms": 0.4082013369,
+      "baseline_ms": 0.1495790482,
+      "baseline_over_ours": 0.3664344847
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 2,
+      "use_ws": 0,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.2892657518,
+        0.2957358062,
+        0.2902059555,
+        0.2897549868,
+        0.2901820838
+      ],
+      "baseline_samples_ms": [
+        0.1493539065,
+        0.1491119713,
+        0.1498028189,
+        0.1489407122,
+        0.1497539282
+      ],
+      "ours_ms": 0.2901820838,
+      "baseline_ms": 0.1493539065,
+      "baseline_over_ours": 0.51469028
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.2289968431,
+        0.2295532227,
+        0.2286559492,
+        0.2295146286,
+        0.2287179679
+      ],
+      "baseline_samples_ms": [
+        0.1495463848,
+        0.1490458846,
+        0.1498292089,
+        0.1490713209,
+        0.1494193226
+      ],
+      "ours_ms": 0.2289968431,
+      "baseline_ms": 0.1494193226,
+      "baseline_over_ours": 0.6524951458
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "full",
+      "ours_samples_ms": [
+        0.4029334784,
+        0.4030764401,
+        0.4027573764,
+        0.4029170573,
+        0.4034208357
+      ],
+      "baseline_samples_ms": [
+        0.1502916217,
+        0.1491927356,
+        0.1499510109,
+        0.1492618918,
+        0.1501263231
+      ],
+      "ours_ms": 0.4029334784,
+      "baseline_ms": 0.1499510109,
+      "baseline_over_ours": 0.3721483052
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 2,
+      "use_ws": 1,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.2840027511,
+        0.2841920257,
+        0.2845898867,
+        0.2840588689,
+        0.2844415307
+      ],
+      "baseline_samples_ms": [
+        0.1496286541,
+        0.1493987292,
+        0.1494297236,
+        0.1490409672,
+        0.1497519314
+      ],
+      "ours_ms": 0.2841920257,
+      "baseline_ms": 0.1494297236,
+      "baseline_over_ours": 0.5258054733
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.2341075242,
+        0.2346989661,
+        0.2338136435,
+        0.2345134318,
+        0.233857587
+      ],
+      "baseline_samples_ms": [
+        0.1499743015,
+        0.1490248442,
+        0.1490343064,
+        0.1487964541,
+        0.1493363678
+      ],
+      "ours_ms": 0.2341075242,
+      "baseline_ms": 0.1490343064,
+      "baseline_over_ours": 0.6366062164
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "full",
+      "ours_samples_ms": [
+        0.4077670872,
+        0.4080380499,
+        0.4083294272,
+        0.4080696106,
+        0.4085594118
+      ],
+      "baseline_samples_ms": [
+        0.1495208293,
+        0.1487508118,
+        0.149579674,
+        0.1489305049,
+        0.1496142
+      ],
+      "ours_ms": 0.4080696106,
+      "baseline_ms": 0.1495208293,
+      "baseline_over_ours": 0.3664101064
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 3,
+      "use_ws": 0,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.2886016965,
+        0.2889834344,
+        0.2892028689,
+        0.2889976501,
+        0.2891487181
+      ],
+      "baseline_samples_ms": [
+        0.1494638175,
+        0.14890185,
+        0.1496174186,
+        0.1490298063,
+        0.1496360153
+      ],
+      "ours_ms": 0.2889976501,
+      "baseline_ms": 0.1494638175,
+      "baseline_over_ours": 0.5171800256
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "quantized",
+      "ours_samples_ms": [
+        0.2282679528,
+        0.2286752462,
+        0.2279269397,
+        0.2289584279,
+        0.2278149277
+      ],
+      "baseline_samples_ms": [
+        0.1490197331,
+        0.1489191055,
+        0.1492725462,
+        0.1490575224,
+        0.1493501216
+      ],
+      "ours_ms": 0.2282679528,
+      "baseline_ms": 0.1490575224,
+      "baseline_over_ours": 0.6529936194
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "full",
+      "ours_samples_ms": [
+        0.408819437,
+        0.4025290906,
+        0.4031339288,
+        0.4018558562,
+        0.4082919955
+      ],
+      "baseline_samples_ms": [
+        0.1506691128,
+        0.1490701139,
+        0.1497439146,
+        0.1490795612,
+        0.150031805
+      ],
+      "ours_ms": 0.4031339288,
+      "baseline_ms": 0.1497439146,
+      "baseline_over_ours": 0.3714495599
+    },
+    {
+      "kind": "performance",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "mode": 3,
+      "use_ws": 1,
+      "path": "offline_b",
+      "ours_samples_ms": [
+        0.2833055854,
+        0.2835385799,
+        0.2837098837,
+        0.283595264,
+        0.2838355303
+      ],
+      "baseline_samples_ms": [
+        0.1496823281,
+        0.1527138501,
+        0.1497282386,
+        0.149242416,
+        0.1495295763
+      ],
+      "ours_ms": 0.283595264,
+      "baseline_ms": 0.1496823281,
+      "baseline_over_ours": 0.5278026462
+    }
+  ],
+  "executed": true,
+  "benchmark_method": "HIP graphs of 32 calls, 32 replays per sample, five alternating samples; hipBLAS BF16 FP32-accumulation baseline; allocations and offline B quantization excluded",
+  "returncode": 0,
+  "stderr": "",
+  "passed": true
+}

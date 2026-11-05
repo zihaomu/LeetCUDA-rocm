@@ -1,0 +1,2132 @@
+{
+  "timestamp_utc": "2026-11-03T09:06:13.209453+00:00",
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "0,1",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/1dc3e94159b64f45bef147fa078a4de6.json"
+  },
+  "logical_device": 1,
+  "private_module": false,
+  "source_sha256": {
+    "kernels/sgemm/sgemm.cu": "27f357c2a12e9621c7df34e6e0391c694aacd269e93187c8675aa587ff95241f",
+    "kernels/sgemm/sgemm_async.cu": "293792bfb15b34f740b5d19d78e576bc3553a6ff249529113221b98d6d5bd87d",
+    "kernels/rocm/blas_backend.cu": "0aafad21900278f397ea5808d3b30b05b28ecee08ef7b855baebc4d2545d952b",
+    "leetcuda_rocm/async_gemm_check.py": "0a223c4cca192c87b2e7bd3ed2592197bd78524d97ada3dabaf51b8c7cb94f65",
+    "leetcuda_rocm/loader.py": "9e9a9d274196b705d78671c03a946d82178e766daa0a0ff150a423c4d357d654",
+    "leetcuda_rocm/benchmark.py": "c009e4ce46324b7b634f23b730f4896bec527447fd393e8a1f4b80e274bccbee",
+    "leetcuda_rocm/fp8_check.py": "d42d67b6b80e8a5ab261d1c6c0a2eed5e888db8420fb4b34e179bd07a0619537",
+    "leetcuda_rocm/isa_objects.py": "256b23740a0a5fdf759a95970592e1806ac2cea7011cad0960cbabb0e0aa4a61"
+  },
+  "checks": [
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 1,
+      "shape_mnk": [
+        64,
+        64,
+        16
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.5376681172796225e-07,
+      "relative_l2": 7.60234600561879e-08
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 2,
+      "shape_mnk": [
+        64,
+        64,
+        32
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 2.2075394601195342e-07,
+      "relative_l2": 1.0116472009973341e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 3,
+      "shape_mnk": [
+        128,
+        128,
+        48
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 3.8696896709211615e-07,
+      "relative_l2": 1.2542554819524504e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 5,
+      "shape_mnk": [
+        192,
+        64,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 6.671125534207789e-07,
+      "relative_l2": 1.5774771390725464e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 8,
+      "shape_mnk": [
+        64,
+        192,
+        128
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.0716585050474237e-06,
+      "relative_l2": 2.0548945874060444e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 17,
+      "shape_mnk": [
+        128,
+        192,
+        272
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 2.308517989657588e-06,
+      "relative_l2": 2.903995515300355e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 65,
+      "shape_mnk": [
+        64,
+        64,
+        1040
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 7.34063412544117e-06,
+      "relative_l2": 5.72400379151145e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 256,
+      "shape_mnk": [
+        64,
+        64,
+        4096
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 3.0096015938951837e-05,
+      "relative_l2": 1.119004455371911e-06
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 1,
+      "shape_mnk": [
+        64,
+        64,
+        16
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.299467055071446e-07,
+      "relative_l2": 7.40600225963718e-08
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 2,
+      "shape_mnk": [
+        64,
+        64,
+        32
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 3.240221269074084e-07,
+      "relative_l2": 1.0304456367910747e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 3,
+      "shape_mnk": [
+        128,
+        128,
+        48
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 4.254647343326923e-07,
+      "relative_l2": 1.2484476768752633e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 5,
+      "shape_mnk": [
+        192,
+        64,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 9.186597234034366e-07,
+      "relative_l2": 1.6002202157705014e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 8,
+      "shape_mnk": [
+        64,
+        192,
+        128
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 9.418227376878363e-07,
+      "relative_l2": 2.0236200970631198e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 17,
+      "shape_mnk": [
+        128,
+        192,
+        272
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 2.6592329813723836e-06,
+      "relative_l2": 2.9678008366552477e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 65,
+      "shape_mnk": [
+        64,
+        64,
+        1040
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 6.734379739636864e-06,
+      "relative_l2": 5.710141864767366e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 256,
+      "shape_mnk": [
+        64,
+        64,
+        4096
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 2.9887515335502712e-05,
+      "relative_l2": 1.1452604108582917e-06
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 1,
+      "shape_mnk": [
+        64,
+        64,
+        16
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.942168716961845e-07,
+      "relative_l2": 7.824550978166917e-08
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 2,
+      "shape_mnk": [
+        64,
+        64,
+        32
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 3.052503116940386e-07,
+      "relative_l2": 1.055139183198239e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 3,
+      "shape_mnk": [
+        128,
+        128,
+        48
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 4.413430509941918e-07,
+      "relative_l2": 1.2315158952775797e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 5,
+      "shape_mnk": [
+        192,
+        64,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 6.222721231630146e-07,
+      "relative_l2": 1.6093669567493254e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 8,
+      "shape_mnk": [
+        64,
+        192,
+        128
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.117930866989525e-06,
+      "relative_l2": 2.031483036649676e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 17,
+      "shape_mnk": [
+        128,
+        192,
+        272
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 2.172663854604906e-06,
+      "relative_l2": 2.963381605945976e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 65,
+      "shape_mnk": [
+        64,
+        64,
+        1040
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 8.865522244771995e-06,
+      "relative_l2": 5.66807158198665e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 256,
+      "shape_mnk": [
+        64,
+        64,
+        4096
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 2.9111025506622923e-05,
+      "relative_l2": 1.1577042419938597e-06
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "zero",
+      "shape_mnk": [
+        128,
+        128,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "cancellation",
+      "shape_mnk": [
+        128,
+        128,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 4.966197053590804e-08,
+      "relative_l2": 1.288935814922684e+294
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "range",
+      "shape_mnk": [
+        128,
+        128,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 7.863065940583169e-07,
+      "relative_l2": 1.6120481582908724e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 1,
+      "shape_mnk": [
+        128,
+        128,
+        16
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.5523574448117472e-07,
+      "relative_l2": 7.418034531881497e-08
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 2,
+      "shape_mnk": [
+        128,
+        128,
+        32
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 2.793728484107305e-07,
+      "relative_l2": 1.0198007559028602e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 3,
+      "shape_mnk": [
+        256,
+        256,
+        48
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 6.058038526379761e-07,
+      "relative_l2": 1.2586966858956216e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 5,
+      "shape_mnk": [
+        384,
+        128,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 7.250745923670365e-07,
+      "relative_l2": 1.6183527625878346e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 8,
+      "shape_mnk": [
+        128,
+        384,
+        128
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.0577033120462431e-06,
+      "relative_l2": 2.033236885725583e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 17,
+      "shape_mnk": [
+        256,
+        384,
+        272
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 2.9377421606469056e-06,
+      "relative_l2": 2.9358511254088933e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 65,
+      "shape_mnk": [
+        128,
+        128,
+        1040
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.0280612858792892e-05,
+      "relative_l2": 5.778100043945403e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 256,
+      "shape_mnk": [
+        128,
+        128,
+        4096
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 3.672886079275628e-05,
+      "relative_l2": 1.152763836438483e-06
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 1,
+      "shape_mnk": [
+        128,
+        128,
+        16
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.6838146099651397e-07,
+      "relative_l2": 7.466451674348695e-08
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 2,
+      "shape_mnk": [
+        128,
+        128,
+        32
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 4.0335911322131324e-07,
+      "relative_l2": 1.0651818569490404e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 3,
+      "shape_mnk": [
+        256,
+        256,
+        48
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 5.235591937768902e-07,
+      "relative_l2": 1.2504785833617585e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 5,
+      "shape_mnk": [
+        384,
+        128,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 8.93687847280944e-07,
+      "relative_l2": 1.6141644976859217e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 8,
+      "shape_mnk": [
+        128,
+        384,
+        128
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.4984271436979668e-06,
+      "relative_l2": 2.0261367187118494e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 17,
+      "shape_mnk": [
+        256,
+        384,
+        272
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 2.759419939657448e-06,
+      "relative_l2": 2.953155064452284e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 65,
+      "shape_mnk": [
+        128,
+        128,
+        1040
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 8.479808559336277e-06,
+      "relative_l2": 5.813901540806063e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 256,
+      "shape_mnk": [
+        128,
+        128,
+        4096
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 3.592667731844301e-05,
+      "relative_l2": 1.1397157126491871e-06
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 1,
+      "shape_mnk": [
+        128,
+        128,
+        16
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.5775671324824714e-07,
+      "relative_l2": 7.479306932035298e-08
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 2,
+      "shape_mnk": [
+        128,
+        128,
+        32
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 3.676362752003115e-07,
+      "relative_l2": 1.0352814975178388e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 3,
+      "shape_mnk": [
+        256,
+        256,
+        48
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 5.231737620903232e-07,
+      "relative_l2": 1.24380646087331e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 5,
+      "shape_mnk": [
+        384,
+        128,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 8.609644770452007e-07,
+      "relative_l2": 1.6002569907176812e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 8,
+      "shape_mnk": [
+        128,
+        384,
+        128
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.4508144747793494e-06,
+      "relative_l2": 2.02124525213844e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 17,
+      "shape_mnk": [
+        256,
+        384,
+        272
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 2.899481494900158e-06,
+      "relative_l2": 2.963559150382312e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 65,
+      "shape_mnk": [
+        128,
+        128,
+        1040
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 8.423268145207885e-06,
+      "relative_l2": 5.808979837274872e-07
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 256,
+      "shape_mnk": [
+        128,
+        128,
+        4096
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 3.61573793714598e-05,
+      "relative_l2": 1.109209213742365e-06
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "zero",
+      "shape_mnk": [
+        256,
+        256,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 5.311075312874891e-08,
+      "relative_l2": 2.5296946776300745e+294
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "range",
+      "shape_mnk": [
+        256,
+        256,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 9.150705260196901e-07,
+      "relative_l2": 1.619065324138724e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 1,
+      "shape_mnk": [
+        128,
+        256,
+        16
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.6743738640023764e-07,
+      "relative_l2": 7.301575849355131e-08
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 2,
+      "shape_mnk": [
+        128,
+        256,
+        32
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 4.393196888496931e-07,
+      "relative_l2": 1.0384879068730166e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 3,
+      "shape_mnk": [
+        256,
+        512,
+        48
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 5.467279529103308e-07,
+      "relative_l2": 1.2506710137160022e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 5,
+      "shape_mnk": [
+        384,
+        256,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 8.832556714910567e-07,
+      "relative_l2": 1.6089819773421093e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 8,
+      "shape_mnk": [
+        128,
+        768,
+        128
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.5893913594133835e-06,
+      "relative_l2": 2.0378661036182673e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 17,
+      "shape_mnk": [
+        256,
+        768,
+        272
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 3.307757489690033e-06,
+      "relative_l2": 2.9386407070436296e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 65,
+      "shape_mnk": [
+        128,
+        256,
+        1040
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.0149815314441923e-05,
+      "relative_l2": 5.757176373968476e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 20261103,
+      "k_tiles": 256,
+      "shape_mnk": [
+        128,
+        256,
+        4096
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 3.529243310573804e-05,
+      "relative_l2": 1.1597163538176341e-06
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 1,
+      "shape_mnk": [
+        128,
+        256,
+        16
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.5416574250526338e-07,
+      "relative_l2": 7.467109208395862e-08
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 2,
+      "shape_mnk": [
+        128,
+        256,
+        32
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 3.6938714642609227e-07,
+      "relative_l2": 1.0408291321327146e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 3,
+      "shape_mnk": [
+        256,
+        512,
+        48
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 5.206712774263877e-07,
+      "relative_l2": 1.244014894385327e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 5,
+      "shape_mnk": [
+        384,
+        256,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 8.203811370233183e-07,
+      "relative_l2": 1.62277733961319e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 8,
+      "shape_mnk": [
+        128,
+        768,
+        128
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.458196233095066e-06,
+      "relative_l2": 2.031834820016239e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 17,
+      "shape_mnk": [
+        256,
+        768,
+        272
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 4.781622728877721e-06,
+      "relative_l2": 2.9585315817549e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 65,
+      "shape_mnk": [
+        128,
+        256,
+        1040
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 9.032029995026392e-06,
+      "relative_l2": 5.79742522730694e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 17,
+      "k_tiles": 256,
+      "shape_mnk": [
+        128,
+        256,
+        4096
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 4.013172185324265e-05,
+      "relative_l2": 1.1403046727346727e-06
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 1,
+      "shape_mnk": [
+        128,
+        256,
+        16
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.543922188984581e-07,
+      "relative_l2": 7.309749058057233e-08
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 2,
+      "shape_mnk": [
+        128,
+        256,
+        32
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 3.255672829105549e-07,
+      "relative_l2": 1.0346181482542351e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 3,
+      "shape_mnk": [
+        256,
+        512,
+        48
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 5.357863770427684e-07,
+      "relative_l2": 1.2391146942616794e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 5,
+      "shape_mnk": [
+        384,
+        256,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 9.590546010684875e-07,
+      "relative_l2": 1.6088909460294415e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 8,
+      "shape_mnk": [
+        128,
+        768,
+        128
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 1.5259134404921326e-06,
+      "relative_l2": 2.027006079716194e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 17,
+      "shape_mnk": [
+        256,
+        768,
+        272
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 2.9729097188457843e-06,
+      "relative_l2": 2.9613954106561205e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 65,
+      "shape_mnk": [
+        128,
+        256,
+        1040
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 9.616311536397859e-06,
+      "relative_l2": 5.759813834866347e-07
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "random",
+      "seed": 93,
+      "k_tiles": 256,
+      "shape_mnk": [
+        128,
+        256,
+        4096
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 4.0526953911879104e-05,
+      "relative_l2": 1.1423098694004441e-06
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "zero",
+      "shape_mnk": [
+        256,
+        512,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 0.0,
+      "relative_l2": 0.0
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "cancellation",
+      "shape_mnk": [
+        256,
+        512,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 5.3658354204344505e-08,
+      "relative_l2": 3.661722732350661e+294
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "range",
+      "shape_mnk": [
+        256,
+        512,
+        80
+      ],
+      "passed": true,
+      "bitwise_matches_synchronous_variant": true,
+      "max_abs_error": 8.004621718793459e-07,
+      "relative_l2": 1.6146909921506584e-07
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "cpu",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "input_dtype",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "output_dtype",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "rank",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "strided",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "gradient",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "K_mismatch",
+      "passed": true,
+      "rejection": "GEMM shape mismatch"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "output_shape",
+      "passed": true,
+      "rejection": "GEMM shape mismatch"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "unaligned_a",
+      "passed": true,
+      "rejection": "matrix index overflow or missing 16-byte alignment"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "unaligned_b",
+      "passed": true,
+      "rejection": "matrix index overflow or missing 16-byte alignment"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "unaligned_out",
+      "passed": true,
+      "rejection": "matrix index overflow or missing 16-byte alignment"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "M_tile",
+      "passed": true,
+      "rejection": "async SGEMM requires M%64=0, N%64=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "N_tile",
+      "passed": true,
+      "rejection": "async SGEMM requires M%64=0, N%64=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "K_tile",
+      "passed": true,
+      "rejection": "async SGEMM requires M%64=0, N%64=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "zero_M",
+      "passed": true,
+      "rejection": "async SGEMM requires M%64=0, N%64=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "zero_K",
+      "passed": true,
+      "rejection": "async SGEMM requires M%64=0, N%64=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "zero_N",
+      "passed": true,
+      "rejection": "async SGEMM requires M%64=0, N%64=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "output_alias",
+      "passed": true,
+      "rejection": "output must not overlap inputs"
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "device_guard",
+      "input_device": 1,
+      "current_device": 0,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "mixed_device_rejection",
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "cpu",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "input_dtype",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "output_dtype",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "rank",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "strided",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "gradient",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "K_mismatch",
+      "passed": true,
+      "rejection": "GEMM shape mismatch"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "output_shape",
+      "passed": true,
+      "rejection": "GEMM shape mismatch"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "unaligned_a",
+      "passed": true,
+      "rejection": "matrix index overflow or missing 16-byte alignment"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "unaligned_b",
+      "passed": true,
+      "rejection": "matrix index overflow or missing 16-byte alignment"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "unaligned_out",
+      "passed": true,
+      "rejection": "matrix index overflow or missing 16-byte alignment"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "M_tile",
+      "passed": true,
+      "rejection": "async SGEMM requires M%128=0, N%128=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "N_tile",
+      "passed": true,
+      "rejection": "async SGEMM requires M%128=0, N%128=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "K_tile",
+      "passed": true,
+      "rejection": "async SGEMM requires M%128=0, N%128=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "zero_M",
+      "passed": true,
+      "rejection": "async SGEMM requires M%128=0, N%128=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "zero_K",
+      "passed": true,
+      "rejection": "async SGEMM requires M%128=0, N%128=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "zero_N",
+      "passed": true,
+      "rejection": "async SGEMM requires M%128=0, N%128=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "output_alias",
+      "passed": true,
+      "rejection": "output must not overlap inputs"
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "device_guard",
+      "input_device": 1,
+      "current_device": 0,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "mixed_device_rejection",
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "cpu",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "input_dtype",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "output_dtype",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "rank",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "strided",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "gradient",
+      "passed": true,
+      "rejection": "expected contiguous inference-only GPU FP32 matrices"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "K_mismatch",
+      "passed": true,
+      "rejection": "GEMM shape mismatch"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "output_shape",
+      "passed": true,
+      "rejection": "GEMM shape mismatch"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "unaligned_a",
+      "passed": true,
+      "rejection": "matrix index overflow or missing 16-byte alignment"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "unaligned_b",
+      "passed": true,
+      "rejection": "matrix index overflow or missing 16-byte alignment"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "unaligned_out",
+      "passed": true,
+      "rejection": "matrix index overflow or missing 16-byte alignment"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "M_tile",
+      "passed": true,
+      "rejection": "async SGEMM requires M%128=0, N%256=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "N_tile",
+      "passed": true,
+      "rejection": "async SGEMM requires M%128=0, N%256=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "K_tile",
+      "passed": true,
+      "rejection": "async SGEMM requires M%128=0, N%256=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "zero_M",
+      "passed": true,
+      "rejection": "async SGEMM requires M%128=0, N%256=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "zero_K",
+      "passed": true,
+      "rejection": "async SGEMM requires M%128=0, N%256=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "zero_N",
+      "passed": true,
+      "rejection": "async SGEMM requires M%128=0, N%256=0, K%16=0 and positive dimensions"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "rejection",
+      "case": "output_alias",
+      "passed": true,
+      "rejection": "output must not overlap inputs"
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "device_guard",
+      "input_device": 1,
+      "current_device": 0,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "mixed_device_rejection",
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 0,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 1,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 2,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 3,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 4,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 5,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 6,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 7,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 8,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 9,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 10,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 11,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 12,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 13,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 14,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 15,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 16,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 17,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 18,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 19,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 20,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 21,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 22,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 23,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 0,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 1,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 2,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 3,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 4,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 5,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 6,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 7,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 8,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 9,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 10,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 11,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 12,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 13,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 14,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 15,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 16,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 17,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 18,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 19,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 20,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 21,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 22,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 23,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 0,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 1,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 2,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 3,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 4,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 5,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 6,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 7,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 8,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 9,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 10,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 11,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 12,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 13,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 14,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 15,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 16,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 17,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 18,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 19,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 20,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 21,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 22,
+      "passed": true
+    },
+    {
+      "function": "sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async",
+      "kind": "concurrent_streams",
+      "iteration": 23,
+      "passed": true
+    }
+  ],
+  "performance": [],
+  "passed": true,
+  "numeric_gate": {
+    "atol": 0.0002,
+    "rtol": 0.0002,
+    "reference": "FP64 matmul rounded to FP32"
+  },
+  "mechanism": "A/B global_load_b128 to VGPRs, FP32 FMA on current LDS tile, explicit load-counter wait, next LDS tile; no direct-to-LDS DMA",
+  "isa": {
+    "binary": "artifacts/rocm/async_copy/binaries/95826e95208e4f93ef8d93557da4a2c3f5c2499cf992259d72187104cd5201bc.so",
+    "binary_sha256": "95826e95208e4f93ef8d93557da4a2c3f5c2499cf992259d72187104cd5201bc",
+    "build_cache_binary": ".cache/rocm10/59fd7d638c6f8c646bbe/torch/sgemm_77b0776ae91dd3a0/leetcuda_rocm_sgemm_77b0776ae91dd3a0.so",
+    "objects": [
+      {
+        "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+        "bundle_offset": 0,
+        "object_offset": 4096,
+        "hsaco": "artifacts/rocm/async_copy/isa_device1/object0.hsaco",
+        "hsaco_sha256": "896b7707a71434f549ebca436ce12f2831ad94529132e85a8eab9542fc026e1b",
+        "assembly": "artifacts/rocm/async_copy/isa_device1/object0.amdgcn",
+        "assembly_sha256": "30ac1b20f5fb62294c6fd00a82b0947d24acac2612d2ea96fff4d5e4cf160546"
+      },
+      {
+        "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+        "bundle_offset": 69632,
+        "object_offset": 4096,
+        "hsaco": "artifacts/rocm/async_copy/isa_device1/object1.hsaco",
+        "hsaco_sha256": "0478e809e2bd92c9aed1a4cab186aeca2942808f09a6e898310fb563f41593e7",
+        "assembly": "artifacts/rocm/async_copy/isa_device1/object1.amdgcn",
+        "assembly_sha256": "faa14c00c9986c141ec5c987913508fa80d8a794908912d23535f51f21391db4"
+      }
+    ],
+    "assembly": "artifacts/rocm/async_copy/isa_device1/kernel.amdgcn",
+    "assembly_sha256": "e5227004f78bb7c524286acfebe429af6575e2de0f74a71aa8e36e122e11a993",
+    "instructions": [],
+    "prefetch_kernels": [
+      {
+        "symbol": "_ZN18leetcuda_amd_async21sgemm_prefetch_kernelILi64ELi64ELi4EEEvPKfS2_Pfiii",
+        "vector_load_instructions": 8,
+        "max_fmas_before_load_wait": 32,
+        "scratch_instructions": 0,
+        "device_call_instructions": 0
+      },
+      {
+        "symbol": "_ZN18leetcuda_amd_async21sgemm_prefetch_kernelILi128ELi128ELi8EEEvPKfS2_Pfiii",
+        "vector_load_instructions": 8,
+        "max_fmas_before_load_wait": 64,
+        "scratch_instructions": 0,
+        "device_call_instructions": 0
+      },
+      {
+        "symbol": "_ZN18leetcuda_amd_async21sgemm_prefetch_kernelILi128ELi256ELi16EEEvPKfS2_Pfiii",
+        "vector_load_instructions": 12,
+        "max_fmas_before_load_wait": 128,
+        "scratch_instructions": 0,
+        "device_call_instructions": 0
+      }
+    ]
+  }
+}

@@ -17,22 +17,58 @@ def merge_attn_states_triton(
     suffix_lse: torch.Tensor,
     output_lse: Optional[torch.Tensor] = None,
 ) -> None:
+    tensors = (output, prefix_output, suffix_output, prefix_lse, suffix_lse)
+    if output_lse is not None:
+        tensors += (output_lse,)
+    if (
+        output.ndim != 3
+        or not output.is_cuda
+        or any(
+            not t.is_contiguous()
+            or t.device != output.device
+            or t.requires_grad
+            for t in tensors
+        )
+        or output.dtype not in (torch.float16, torch.bfloat16, torch.float32)
+        or any(
+            t.shape != output.shape or t.dtype != output.dtype
+            for t in (prefix_output, suffix_output)
+        )
+        or any(
+            t.shape != (output.shape[1], output.shape[0])
+            or t.dtype != torch.float32
+            for t in (prefix_lse, suffix_lse)
+        )
+        or (
+            output_lse is not None
+            and (
+                output_lse.shape != prefix_lse.shape
+                or output_lse.dtype != torch.float32
+            )
+        )
+    ):
+        raise ValueError(
+            "merge requires matching contiguous GPU states and FP32 [heads,tokens] LSE"
+        )
+    if not output.numel():
+        return
     num_tokens = output.shape[0]
     num_query_heads = output.shape[1]
     head_size = output.shape[2]
     padded_head_size = triton.next_power_of_2(head_size)
 
-    merge_attn_states_kernel[(num_tokens, num_query_heads)](
-        output,
-        output_lse,
-        prefix_output,
-        prefix_lse,
-        suffix_output,
-        suffix_lse,
-        head_size,
-        padded_head_size,
-        output_lse is not None,
-    )
+    with torch.cuda.device(output.device):
+        merge_attn_states_kernel[(num_tokens, num_query_heads)](
+            output,
+            output_lse,
+            prefix_output,
+            prefix_lse,
+            suffix_output,
+            suffix_lse,
+            head_size,
+            padded_head_size,
+            output_lse is not None,
+        )
 
 
 @triton.jit
@@ -63,12 +99,14 @@ def merge_attn_states_kernel(
     s_lse = float("-inf") if s_lse == float("inf") else s_lse
 
     max_lse = tl.maximum(p_lse, s_lse)
+    empty = max_lse == -float("inf")
+    max_lse = tl.where(empty, 0.0, max_lse)
     p_lse = p_lse - max_lse
     s_lse = s_lse - max_lse
     out_se = tl.exp(p_lse) + tl.exp(s_lse)
 
     if OUTPUT_LSE:
-        out_lse = tl.log(out_se) + max_lse
+        out_lse = tl.where(empty, -float("inf"), tl.log(out_se) + max_lse)
         tl.store(output_lse + head_idx * num_tokens + token_idx, out_lse)
 
     head_arange = tl.arange(0, PADDED_HEAD_SIZE)
@@ -91,9 +129,12 @@ def merge_attn_states_kernel(
     # NOTE(woosuk): Be careful with the numerical stability.
     # We should compute the scale first, and then multiply it with the output.
     # Do not multiply the output with tl.exp(p_lse) or tl.exp(s_lse) directly.
+    out_se = tl.where(empty, 1.0, out_se)
     p_scale = tl.exp(p_lse) / out_se
     s_scale = tl.exp(s_lse) / out_se
-    out = p_out * p_scale + s_out * s_scale
+    out = tl.where(p_scale == 0, 0.0, p_out * p_scale) + tl.where(
+        s_scale == 0, 0.0, s_out * s_scale
+    )
     tl.store(
         output
         + token_idx * num_heads * HEAD_SIZE
@@ -106,11 +147,11 @@ def merge_attn_states_kernel(
 
 @triton.autotune(
     configs=[
-        triton.Config({"num_warps": 2}, num_warps=2),
-        triton.Config({"num_warps": 4}, num_warps=4),
-        triton.Config({"num_warps": 8}, num_warps=8),
-        triton.Config({"num_warps": 16}, num_warps=16),
-        triton.Config({"num_warps": 32}, num_warps=32),
+        triton.Config({}, num_warps=2),
+        triton.Config({}, num_warps=4),
+        triton.Config({}, num_warps=8),
+        triton.Config({}, num_warps=16),
+        triton.Config({}, num_warps=32),
     ],
     key=["PADDED_HEAD_SIZE", "OUTPUT_LSE"],
     use_cuda_graph=False,
@@ -142,6 +183,8 @@ def merge_attn_states_kernel_opt(
     s_lse = float("-inf") if s_lse == float("inf") else s_lse
 
     max_lse = tl.maximum(p_lse, s_lse)
+    empty = max_lse == -float("inf")
+    max_lse = tl.where(empty, 0.0, max_lse)
     p_lse = p_lse - max_lse
     s_lse = s_lse - max_lse
     p_se = tl.exp(p_lse)
@@ -149,7 +192,7 @@ def merge_attn_states_kernel_opt(
     out_se = p_se + s_se
 
     if OUTPUT_LSE:
-        out_lse = tl.log(out_se) + max_lse
+        out_lse = tl.where(empty, -float("inf"), tl.log(out_se) + max_lse)
         tl.store(output_lse + head_idx * num_tokens + token_idx, out_lse)
 
     head_arange = tl.arange(0, PADDED_HEAD_SIZE)
@@ -173,9 +216,12 @@ def merge_attn_states_kernel_opt(
     # NOTE(woosuk): Be careful with the numerical stability.
     # We should compute the scale first, and then multiply it with the output.
     # Do not multiply the output with tl.exp(p_lse) or tl.exp(s_lse) directly.
+    out_se = tl.where(empty, 1.0, out_se)
     p_scale = p_se / out_se
     s_scale = s_se / out_se
-    out = p_out * p_scale + s_out * s_scale
+    out = tl.where(p_scale == 0, 0.0, p_out * p_scale) + tl.where(
+        s_scale == 0, 0.0, s_out * s_scale
+    )
     tl.store(
         output
         + token_idx * num_heads * HEAD_SIZE

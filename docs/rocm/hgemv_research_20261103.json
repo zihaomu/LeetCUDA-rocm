@@ -1,0 +1,1267 @@
+{
+  "timestamp_utc": "2026-11-03T07:15:27.574804+00:00",
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "0",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/ea51eae02120433b9a4a3d304f886a3a.json"
+  },
+  "qualified": false,
+  "failed_functions": [
+    "hgemv_f16_cute",
+    "hgemv_f16x8_cute",
+    "hgemv_tensor_core_cute"
+  ],
+  "checks": [
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        1,
+        1
+      ],
+      "passed": true,
+      "max_abs_error": 1.4901161193847656e-07,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        1,
+        1
+      ],
+      "passed": true,
+      "max_abs_error": 1.4901161193847656e-07,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": true,
+      "matches_wmma_interleaved4_fma_hypothesis": true
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        3,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 4.921481013298035e-05,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        3,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 4.921481013298035e-05,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        3,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 4.921481013298035e-05,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 6.103515625e-05,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        17,
+        19
+      ],
+      "passed": true,
+      "max_abs_error": 0.0003322442062199116,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        17,
+        19
+      ],
+      "passed": true,
+      "max_abs_error": 0.00021195239969529212,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.000244140625,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        64,
+        128
+      ],
+      "passed": true,
+      "max_abs_error": 0.0008754264947583579,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        64,
+        128
+      ],
+      "passed": true,
+      "max_abs_error": 0.0020117785752518103,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        64,
+        128
+      ],
+      "passed": true,
+      "max_abs_error": 0.0029883410752518103,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.0029296875,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        65,
+        256
+      ],
+      "passed": true,
+      "max_abs_error": 0.001833724556490779,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        65,
+        256
+      ],
+      "passed": true,
+      "max_abs_error": 0.0018302502576261759,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        65,
+        256
+      ],
+      "passed": true,
+      "max_abs_error": 0.0057354040909558535,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.00390625,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        129,
+        257
+      ],
+      "passed": true,
+      "max_abs_error": 0.0024608520907349885,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        129,
+        257
+      ],
+      "passed": true,
+      "max_abs_error": 0.007598763098940253,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.005859375,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        64,
+        1024
+      ],
+      "passed": false,
+      "max_abs_error": 0.006255900079850107,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        64,
+        1024
+      ],
+      "passed": true,
+      "max_abs_error": 0.004803592019015923,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        64,
+        1024
+      ],
+      "passed": false,
+      "max_abs_error": 0.0176278268409078,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.0185546875,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        64,
+        8192
+      ],
+      "passed": false,
+      "max_abs_error": 0.03373042564999196,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        64,
+        8192
+      ],
+      "passed": false,
+      "max_abs_error": 0.01275743101905391,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        64,
+        8192
+      ],
+      "passed": false,
+      "max_abs_error": 0.1248395821376107,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.1484375,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        3,
+        0
+      ],
+      "passed": true,
+      "max_abs_error": 0.0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        3,
+        0
+      ],
+      "passed": true,
+      "max_abs_error": 0.0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        3,
+        0
+      ],
+      "passed": true,
+      "max_abs_error": 0.0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0,
+      "matches_wmma_rtz_hypothesis": true,
+      "matches_wmma_sequential_fma_hypothesis": true,
+      "matches_wmma_interleaved4_fma_hypothesis": true
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        0,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        0,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261103,
+      "shape_mk": [
+        0,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0,
+      "matches_wmma_rtz_hypothesis": true,
+      "matches_wmma_sequential_fma_hypothesis": true,
+      "matches_wmma_interleaved4_fma_hypothesis": true
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        1,
+        1
+      ],
+      "passed": true,
+      "max_abs_error": 4.991888999938965e-07,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        1,
+        1
+      ],
+      "passed": true,
+      "max_abs_error": 4.991888999938965e-07,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": true,
+      "matches_wmma_interleaved4_fma_hypothesis": true
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        3,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 0.00016738846898078918,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        3,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 6.986036896705627e-05,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        3,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 6.986036896705627e-05,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 1.9073486328125e-05,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        17,
+        19
+      ],
+      "passed": true,
+      "max_abs_error": 0.0004923813976347446,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        17,
+        19
+      ],
+      "passed": true,
+      "max_abs_error": 0.00012305087875574827,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.000244140625,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        64,
+        128
+      ],
+      "passed": true,
+      "max_abs_error": 0.0014606062322854996,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        64,
+        128
+      ],
+      "passed": true,
+      "max_abs_error": 0.0015764530980959535,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        64,
+        128
+      ],
+      "passed": true,
+      "max_abs_error": 0.002194505534134805,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.00390625,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        65,
+        256
+      ],
+      "passed": true,
+      "max_abs_error": 0.001878764756838791,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        65,
+        256
+      ],
+      "passed": true,
+      "max_abs_error": 0.0019248559929110343,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        65,
+        256
+      ],
+      "passed": true,
+      "max_abs_error": 0.0031503720965702087,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.0029296875,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        129,
+        257
+      ],
+      "passed": true,
+      "max_abs_error": 0.0025633206823840737,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        129,
+        257
+      ],
+      "passed": true,
+      "max_abs_error": 0.00371854382683523,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.00390625,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        64,
+        1024
+      ],
+      "passed": true,
+      "max_abs_error": 0.005732002144213766,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        64,
+        1024
+      ],
+      "passed": true,
+      "max_abs_error": 0.003585272701457143,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        64,
+        1024
+      ],
+      "passed": false,
+      "max_abs_error": 0.013523036155675072,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.013671875,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        64,
+        8192
+      ],
+      "passed": false,
+      "max_abs_error": 0.03669564403662662,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        64,
+        8192
+      ],
+      "passed": false,
+      "max_abs_error": 0.018340545496357663,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        64,
+        8192
+      ],
+      "passed": false,
+      "max_abs_error": 0.1659966159331816,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.16796875,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        3,
+        0
+      ],
+      "passed": true,
+      "max_abs_error": 0.0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        3,
+        0
+      ],
+      "passed": true,
+      "max_abs_error": 0.0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        3,
+        0
+      ],
+      "passed": true,
+      "max_abs_error": 0.0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0,
+      "matches_wmma_rtz_hypothesis": true,
+      "matches_wmma_sequential_fma_hypothesis": true,
+      "matches_wmma_interleaved4_fma_hypothesis": true
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        0,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        0,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261104,
+      "shape_mk": [
+        0,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0,
+      "matches_wmma_rtz_hypothesis": true,
+      "matches_wmma_sequential_fma_hypothesis": true,
+      "matches_wmma_interleaved4_fma_hypothesis": true
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        1,
+        1
+      ],
+      "passed": true,
+      "max_abs_error": 3.993511199951172e-06,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        1,
+        1
+      ],
+      "passed": true,
+      "max_abs_error": 3.993511199951172e-06,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": true,
+      "matches_wmma_interleaved4_fma_hypothesis": true
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        3,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 0.0002205920172855258,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        3,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 2.35486077144742e-05,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        3,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 7.755681872367859e-05,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 6.103515625e-05,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": true,
+      "matches_wmma_interleaved4_fma_hypothesis": true
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        17,
+        19
+      ],
+      "passed": true,
+      "max_abs_error": 0.00031301844865083694,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        17,
+        19
+      ],
+      "passed": true,
+      "max_abs_error": 0.0002548079937696457,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.00048828125,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        64,
+        128
+      ],
+      "passed": true,
+      "max_abs_error": 0.000814169923614827,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        64,
+        128
+      ],
+      "passed": true,
+      "max_abs_error": 0.0010825811768881977,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        64,
+        128
+      ],
+      "passed": true,
+      "max_abs_error": 0.0020245642808731645,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.001953125,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        65,
+        256
+      ],
+      "passed": true,
+      "max_abs_error": 0.0016092013102024794,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        65,
+        256
+      ],
+      "passed": true,
+      "max_abs_error": 0.0022679532994516194,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        65,
+        256
+      ],
+      "passed": true,
+      "max_abs_error": 0.0042811613966478035,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.0048828125,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        129,
+        257
+      ],
+      "passed": true,
+      "max_abs_error": 0.0018528090440668166,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        129,
+        257
+      ],
+      "passed": true,
+      "max_abs_error": 0.006395669362973422,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.0078125,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        64,
+        1024
+      ],
+      "passed": true,
+      "max_abs_error": 0.004953364288667217,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        64,
+        1024
+      ],
+      "passed": true,
+      "max_abs_error": 0.0035690451768459752,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        64,
+        1024
+      ],
+      "passed": false,
+      "max_abs_error": 0.01918548229150474,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.021484375,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        64,
+        8192
+      ],
+      "passed": false,
+      "max_abs_error": 0.03389126854381175,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        64,
+        8192
+      ],
+      "passed": false,
+      "max_abs_error": 0.015872333997549504,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        64,
+        8192
+      ],
+      "passed": false,
+      "max_abs_error": 0.10962139241564728,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": false,
+      "max_abs_error_half_model": 0.1328125,
+      "matches_wmma_rtz_hypothesis": false,
+      "matches_wmma_sequential_fma_hypothesis": false,
+      "matches_wmma_interleaved4_fma_hypothesis": false
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        3,
+        0
+      ],
+      "passed": true,
+      "max_abs_error": 0.0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        3,
+        0
+      ],
+      "passed": true,
+      "max_abs_error": 0.0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        3,
+        0
+      ],
+      "passed": true,
+      "max_abs_error": 0.0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0.0,
+      "matches_wmma_rtz_hypothesis": true,
+      "matches_wmma_sequential_fma_hypothesis": true,
+      "matches_wmma_interleaved4_fma_hypothesis": true
+    },
+    {
+      "function": "hgemv_f16_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        0,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0
+    },
+    {
+      "function": "hgemv_f16x8_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        0,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0
+    },
+    {
+      "function": "hgemv_tensor_core_cute",
+      "seed": 20261105,
+      "shape_mk": [
+        0,
+        8
+      ],
+      "passed": true,
+      "max_abs_error": 0,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "matches_half_arithmetic_model": true,
+      "max_abs_error_half_model": 0,
+      "matches_wmma_rtz_hypothesis": true,
+      "matches_wmma_sequential_fma_hypothesis": true,
+      "matches_wmma_interleaved4_fma_hypothesis": true
+    }
+  ],
+  "isa": {
+    "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+    "instructions": [
+      "v_wmma_f16_16x16x16_f16"
+    ],
+    "assembly": "artifacts/rocm/hgemv/isa/kernel.amdgcn",
+    "assembly_sha256": "c32dc25c49bbe1326daa52fc904de3294fe8864a8005a8dc37b777a1f7769d05",
+    "hsaco_sha256": "dd29155e9f6d39333abf02f3a6887eb0b269ce5111fc6f7ba9dde3594be8d5a8"
+  },
+  "source_files_sha256": {
+    "kernels/rocm/hgemv_layouts.cu": "3dacca02b3764bc499dba3d1a348f85a5ee9f88f63f8131ceb3ddf201369ec66",
+    "leetcuda_rocm/research_hgemv.py": "5672b8a4268d033253327e49d5cdb0089a9ad8fb43c9ee9b66d662bc8cdb45b7",
+    "leetcuda_rocm/loader.py": "9e9a9d274196b705d78671c03a946d82178e766daa0a0ff150a423c4d357d654",
+    "leetcuda_rocm/isa.py": "589f04c6d9008f82230bf0cd7ccb512bf8b854639b6d154c025312aa62347be9"
+  },
+  "oracle_note": "Scalar/packed half-FMA models are independent; matrix rounding/order alternatives are hypotheses, not asserted hardware semantics.",
+  "source_sha256": "3dacca02b3764bc499dba3d1a348f85a5ee9f88f63f8131ceb3ddf201369ec66",
+  "binary": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/torch/hgemv_research_5de17429245de7a4/leetcuda_rocm_hgemv_research_5de17429245de7a4.so",
+  "binary_sha256": "0941aacad0d49128a8a28efa14882aab47a7802d1ffe3246da145f615eb72149"
+}

@@ -1,0 +1,182 @@
+# LeetCUDA ROCm 10 适配
+
+此入口将原仓库的基础 CUDA C++ 算子编译为 HIP 扩展；执行的仍是原始
+LeetCUDA 算法，不会把自定义 kernel 替换成 PyTorch 实现。PyTorch 仅作为
+测试参考。当前目标是 **ROCm 10.1.0 / Radeon AI PRO R9700 / gfx1201**。
+尚未完成整个仓库的 NVIDIA 专用 kernel 迁移。
+
+2026-11-05 最新实测：**23 个模块、157 个原始接口、890 项检查通过**，
+覆盖 **157/229=68.56%**。新增矩阵 HGEMV 明确使用 FP32 WMMA 累加、FP16 输入/输出；
+两张 AMD 卡分别完成 66、63 项扩展检查。详见
+[5090 同输入对照、剩余问题与解决方案](cross_5090_20261105.md)及
+[最新资格报告](qualification_20261105.json)。当前还有 56 个待迁移及 16 个低精度累加保留接口。
+
+2026-11-03 历史批次：**23 个模块、156 个原始接口、888 项检查通过**（物理 GPU0），
+见 [最新资格报告](qualification_20261103_async.json)。在此前布局转置与 BLAS 批次的
+153 个接口基础上，新增 3 个异步 SGEMM 入口，覆盖率为 156/229=68.12%。
+
+- [异步 SGEMM](async_sgemm_20261103.md)：三个原始入口使用 AMD VGPR 预取和双 LDS
+  缓冲，两张卡各 213 项检查、18 组性能比较通过；已验证实际加载／计算重叠，无 scratch spill。
+
+- [布局转置](layouts_20261103.md)：25/25 接口；第二张卡 324 项通过、33 组性能对比。
+- [BLAS 后端](blas_20261103.md)：hipBLAS/rocBLAS；170 项扩展检查、9 组性能对比，
+  第二张卡的 SGEMM/HGEMM 217 项通过。HGEMM 默认只发布 NN/TN 两个 BLAS 计算接口。
+- [前批研究](continuation_20261103.md)：Merge Attention States 与同步 SGEMM 已通过；
+  11 个同步 FP16 累加 HGEMM 的 FP64 精度门限仍未通过，保持研究状态。
+- [HGEMV CuTe 替代研究](hgemv_research_20261103.md)：3 个候选已运行，长 K 精度未通过；
+  不在默认模块发布。当时原接口清单为 156 已通过、56 待迁移／验证、17 精度未验收。
+- [FP8 完整链路](fp8_pipeline_20261103.md)：原生 HIP E4M3 动态量化、四种 scale 模式、
+  普通与 producer/consumer 调度、离线权重；Python 与专用 C++ 共用实现。功能通过，
+  性能仍待优化；原 C++ FP8 不在 229 的分母中。
+- [FP4 完整链路](fp4_pipeline_20261103.md)：保留 NVFP4 E2M1/E4M3 打包及两级量化，
+  精确展开为 FP16 后执行 WMMA；四种模式、两种 tile、两种调度和离线权重均验证。
+  使用 FP16 矩阵指令，性能仍需优化；同样单独统计，不增加原始接口的通过数量。
+
+2026-11-02 历史实测：**21 个模块、135 个函数变体、316 项检查通过**（物理 GPU0）。
+另有 [48 项非默认设备检查](device1.json) 在物理 GPU2 / 逻辑 GPU1 通过，覆盖
+histogram、reduce、dot product 的设备分配与非默认 stream。3 个 BF16 自身
+累加变体明确排除，详见下方限制。CUDA 路径本机未执行回归测试。
+
+新增：[AMD 矩阵单元 GEMM 和 FlashAttention 前向](matrix_attention.md)，提供独立
+`gemm` / `flash_attention` 接口、WMMA 指令检查和性能对比。第一批 21 模块报告
+保留为历史验证记录；这两个独立 AMD 实现单独验证，不计入 156 个原始接口。
+
+## 启动和验证
+
+从仓库根目录运行：
+
+```bash
+# 默认物理 GPU0；首先验证共享环境，再验证项目环境并运行数值测试
+./scripts/rocm/run.sh
+
+# 仅编译选定模块
+./scripts/rocm/run.sh python -m leetcuda_rocm.build elementwise softmax sgemm
+
+# 只验证选中的模块
+./scripts/rocm/run.sh python -m leetcuda_rocm.smoke --modules elementwise softmax sgemm
+
+# 同时记录 HIP event 耗时（包含 Python 调度，部分原接口还有分配/CPU 同步）
+./scripts/rocm/run.sh python -m leetcuda_rocm.smoke --bench
+
+# 查看项目实际运行环境
+./scripts/rocm/run.sh python -m leetcuda_rocm.environment
+```
+
+本工作区默认调用 `/home/zihaomu/zihaomu_workspace/rocm10-launch.sh`；可通过
+`ROCM10_LAUNCHER` 指定相同锁定环境的启动器。依赖已存在于锁定容器中，无需
+升级 Torch 或安装 CUDA toolkit。选卡前检查占用；物理 GPU3 禁止计算。
+
+- 项目锁：[`environment.lock.json`](../../scripts/rocm/environment.lock.json)。
+- ROCm release 为 **10.1.0**；其 HIP component 是 **7.16.26385**，不能用
+  HIP 版本是否以 `10` 开头判断 ROCm release。
+- Python **3.13.13**、Torch **2.14.0+rocm10.1.0**、Triton 的完整 package
+  version 和镜像 SHA256 均严格验证。
+- 编译使用 C++20。JIT 缓存位于 `.cache/rocm10/<环境指纹>/torch/`，源代码
+  内容另外参与模块名和构建目录指纹；生成的 HIP 文件不写回 `kernels/`。
+- 运行结果写入 `artifacts/rocm/qualification.json`。失败返回非零退出码；
+  报告记录 GPU、镜像、版本、源文件 hash、每个函数的误差与容差。
+- 使用新的 Python/Torch/ROCm/GPU 配置时必须另建 profile 并重新验证。
+
+## 当前迁移范围
+
+| 模块 | ROCm 入口包含的实现 |
+| --- | --- |
+| elementwise | FP32 / FP16 标量与向量化加法 |
+| relu, gelu, sigmoid, swish, hardswish, hardshrink, elu | 原标量和 packed 激活实现 |
+| softmax | per-token、safe、online，FP32 / FP16 |
+| layer_norm, rms_norm | FP32 / FP16、不同累加精度、packed |
+| reduce | FP32 / FP16 / BF16 输入 FP32 累加 / FP8 / INT8 reduction |
+| dot_product | FP32 / FP16 dot product |
+| rope, embedding, histogram | 原生 kernel |
+| sgemv, hgemv | k16 / k32 / k128；新增 `hgemv_tensor_core_cute`，明确采用 FP32 WMMA 累加 |
+| sgemm | 10 个同步 FP32 kernel、3 个 AMD VGPR 预取变体，以及 hipBLAS FP32 GEMM |
+| hgemm | hipBLAS FP16 NN/TN，普通 COMPUTE_16F；自定义 HGEMM 变体尚未发布 |
+| mat_transpose | 25 个接口：14 个原实现及 11 个显式 HIP 布局变体 |
+| nms | IoU ballot + 单 block 顺序消除 |
+| merge_attn_states | FP32/FP16/BF16 状态合并、可选 LSE、空状态和输入契约检查 |
+
+最新通过情况以 [`qualification_20261105.json`](qualification_20261105.json) 为准，
+[`qualification.json`](qualification.json) 保留 2026-11-02 的历史结果。两种规模、
+非默认 stream、独立数值参考用于基础资格检查；这不是所有 shape 的支持承诺。
+低精度累加变体使用报告中单独记录的容差，不等同于 FP32 累加精度。
+
+BF16 自身累加在随机输入测试中超过精度门限，因此保守地排除该类 3 个变体
+（`bf16_bf16`、`bf16x2_bf16`、`bf16x8_pack_bf16`）；原 CUDA 教学路径保留。
+例如 `bf16_bf16` 在 `[16,1024]` 输入上出现约 0.395 的绝对误差（1.86%），
+没有通过放宽测试容差将它标为合格。BF16 输入请使用名称含 `_f32` 的累加版本。
+
+以下入口仍为 NVIDIA 专用，**未迁移**：
+
+- `kernels/interview/build.sh` 的整套 C++ benchmark；FP8/FP4 头文件已有 AMD 分支和
+  `scripts/rocm/build_bench.sh {fp8,fp4} --run --performance` 专用入口（选择其中一个名称）。
+- `kernels/hgemm`、`ws-hgemm`、`flash-attn` 的 WMMA/MMA/PTX、cp.async、TMA、
+  WGMMA 和 CUTLASS/CuTe 实现；FFPA。FP8 E4M3 与 NVFP4 完整链路已单独接入。
+- 原目录下的 Python 大规模性能脚本、TensorRT、Nsight 示例。
+
+四个原 Triton 示例已接入 ROCm：vector-add、fused-softmax、layer-norm（含反向）、
+merge-attn-states。两张 AMD 卡和 5090 各 195 项检查通过，108 组跨平台输出/梯度
+对照通过；性能仍待优化。见 [全仓对照范围与未完成项](cross_5090_20261105.md)。
+
+后续应按 kernel 单独替换为 AMD WMMA/MFMA、HIP/rocBLAS 或 Triton 实现，保留
+算法标识和独立测试；不能用宏把 NVIDIA 指令静默变成空操作。当前未声称达到
+原 NVIDIA benchmark 的性能。
+
+完整的 [算子支持清单](leetcuda_rocm10_operator_support.md)、
+[229 项 JSON 清单](leetcuda_rocm10_operator_inventory.json) 和
+[迁移计划](leetcuda_rocm10_migration_plan.md) 随本分支保存。
+
+## Python 低层接口
+
+由 `run.sh` 启动的 Python 可以使用：
+
+```python
+import torch
+from leetcuda_rocm import load
+
+lib = load("elementwise")
+a = torch.randn(8, 256, device="cuda")
+b = torch.randn_like(a)
+c = torch.empty_like(a)
+lib.elementwise_add_f32x4(a, b, c)
+torch.testing.assert_close(c, a + b)
+```
+
+ROCm PyTorch 仍使用 `torch.cuda` / `device="cuda"`。这些是原教程的**低层
+接口**，没有 autograd、通用 shape dispatcher 或完整输入检查。调用方必须保证：
+
+- tensor 位于当前逻辑 GPU，同一设备、正确 dtype、连续存储且满足向量对齐；
+  多 GPU 使用前用 `torch.cuda.device(...)` 选择输入设备。
+- 遵守原函数的 tile/pack/block 限制。不能给无尾部保护的向量化 kernel 传
+  任意长度。参考 `leetcuda_rocm/smoke.py` 中的已验证形状。
+- 不传空 tensor、负 embedding/histogram 下标、越界 embedding 下标或超大
+  NMS 输入。当前资格报告不覆盖这些输入。
+
+适配层明确将原 kernel launch 放到 PyTorch 当前 stream，内部新分配放到
+当前逻辑设备。当前保留原来的 32-lane 算法假设，**不支持 wave64 GPU**；
+加载器拒绝未验证的架构，而不是直接在 MI 系列上沿用这些假设。
+
+同一环境下可用 `--device` 选择逻辑 GPU，例如物理 GPU0/2 均可用时：
+
+```bash
+HIP_VISIBLE_DEVICES=0,2 ./scripts/rocm/run.sh python -m leetcuda_rocm.smoke \
+  --device 1 --modules histogram reduce dot_product --output artifacts/rocm/device1.json
+```
+
+## 设计依据
+
+AMD 的 [ROCm 10.1 HIP 迁移指南](https://rocm.docs.amd.com/projects/HIP/en/docs-10.1.0/how-to/hip_porting_guide.html)
+要求人工处理架构相关代码和 warp 假设；PyTorch 的
+[HIP semantics](https://docs.pytorch.org/docs/stable/notes/hip.html) 保留 CUDA API
+命名。本实现使用 PyTorch 自带 HIPify，并补齐其尚未映射的 FP8 header 和
+转换符号。HIP sync intrinsic 的 mask 使用 64-bit 类型；gfx1201 仍按 32-lane
+执行。ReLU half2 使用两个标量 half max，FP16 GELU 使用 float tanh 避免指数
+商溢出。测试还修正了原 BF16/FP16 packed reduction 在 FP32 累加路径中
+提前舍入的问题，以及矩形转置的 block 索引和 SGEMM 中的残留补丁字符。
+不存在 ROCm 7 回退路径。
+
+11 个 `mat_transpose_cute_*` AMD 替代接口支持 FP32 连续二维输入与转置形状输出，
+包括零维长度和尾部；逐位保留 NaN、无穷与正负零。向量化接口要求 16 字节基地址对齐，
+拒绝别名、autograd 和混合设备，内部 device guard 保持调用方设备。其余原转置接口
+仍遵守原 tile/pack 限制。
+
+BLAS 接口的形状、精度与 TN 打包约定见 [BLAS 文档](blas_20261103.md)。

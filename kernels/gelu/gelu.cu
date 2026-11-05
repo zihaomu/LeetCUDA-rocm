@@ -40,13 +40,11 @@
 // pytorch transform type while do tanh operator which include in the
 // [pytorch/c10/util/BFloat16-math.h](https://github.com/pytorch/pytorch/blob/main/c10/util/BFloat16-math.h)
 __inline__ __device__ half gelu_tanh_approximate(half x) {
-  half x_cube = x * x * x;
-  // compute mid value : inner = 0.7978845608 * (x + 0.044715 * x * x * x)
-  half inner = HALF_SQRT_2_PI * (x + HALF_V_APP * x_cube);
-  // compute tanh
-  return HALF_DIV2 * x *
-         (HALF_1 +
-          ((hexp(inner * HALF_2) - HALF_1) / (hexp(inner * HALF_2) + HALF_1)));
+  // The exponential quotient overflows in half for positive inputs (e.g. 8),
+  // producing inf/inf. Evaluate tanh in float, as the PyTorch reference does.
+  float v = __half2float(x);
+  return __float2half(0.5f * v *
+                     (1.0f + tanhf(SQRT_2_PI * (v + 0.044715f * v * v * v))));
 }
 
 __inline__ __device__ float gelu_tanh_approximate(float x) {

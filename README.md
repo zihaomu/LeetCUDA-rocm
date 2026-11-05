@@ -44,6 +44,34 @@ apt install -y cublas-cuda-13 cudnn9-cuda-13 && apt install -y ccache
 ./build.sh --arch sm_120a && ./bin/leetcuda_bench_sm120a.bin --bench
 ```
 
+## AMD ROCm 10
+
+An initial ROCm 10.1.0 port of the basic kernels is available for Radeon AI PRO
+R9700 (`gfx1201`). See the [ROCm setup, support scope and validation](docs/rocm/README.md).
+Current numerical qualification covers **157/229 original interfaces (68.56%)**.
+An RTX 5090 comparison isolates original low-precision limitations and CUDA bugs;
+the matrix HGEMV port explicitly uses FP32 accumulation with FP16 I/O. See the
+[cross-platform evidence and remaining work](docs/rocm/cross_5090_20261105.md).
+Native AMD matrix-unit FP16/BF16 GEMM and FlashAttention forward are also available;
+see [implementation and performance validation](docs/rocm/matrix_attention.md).
+Merge Attention States and additional synchronous SGEMM variants are qualified;
+see the [latest port and FP16 accumulation study](docs/rocm/continuation_20261103.md).
+Three original asynchronous SGEMM interfaces now use AMD VGPR prefetch pipelines;
+see [correctness, generated ISA and performance](docs/rocm/async_sgemm_20261103.md).
+Native HIP E4M3 GEMM now includes dynamic quantization, four scale modes,
+prepacked weights and a standalone C++ benchmark; see the
+[FP8 qualification and performance report](docs/rocm/fp8_pipeline_20261103.md).
+NVFP4 storage and two-level quantization also have an AMD implementation using
+exact FP16 expansion and FP16 WMMA, with prepacked weights and a C++ benchmark;
+see the [FP4 qualification report](docs/rocm/fp4_pipeline_20261103.md).
+The four Triton examples now pass shared-input CUDA/ROCm checks, including layer-norm
+backward and empty attention states. See the [complete support inventory](docs/rocm/leetcuda_rocm10_operator_support.md).
+The remaining NVIDIA MMA/PTX/CUTLASS variants and full interview benchmark still require CUDA.
+
+```bash
+./scripts/rocm/run.sh
+```
+
 ## 🤖 Agentic workflow
 
 LeetCUDA provides a [leetcuda-cpp-kernel](./kernels/interview/book/skills/leetcuda-cpp-kernel/) SKILL that reuse the knowledge and examples from the open-source **book** and **repository**. Users can use it with Coding Agents, e.g, [GitHub Copilot](https://docs.github.com/en/copilot), [Claude Code](https://claude.ai), [Open Code](https://opencode.ai/).

@@ -460,9 +460,9 @@ __global__ void sgemm_t_8x8_sliced_k_f32x4_bcf_dbuf_kernel(
     __syncthreads();
   }
 
-// 计算剩下最后一块BK
+  // 计算剩下最后一块BK
   // Which buffer holds the final tile depends on parity of the loop's
-+ // last iteration (bk = numTiles - 1), matching smem_sel_next's formula.
+  // last iteration (bk = numTiles - 1), matching smem_sel_next's formula.
   int smem_sel_last = ((K + BK - 1) / BK - 1) & 1;
 
 #pragma unroll
@@ -754,16 +754,19 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   TORCH_BINDING_COMMON_EXTENSION(sgemm_t_8x8_sliced_k_f32x4_bcf_dbuf)
   TORCH_BINDING_COMMON_EXTENSION(sgemm_t_8x8_sliced_k_f32x4_bcf_dbuf_offset)
   TORCH_BINDING_COMMON_EXTENSION(sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf)
-  TORCH_BINDING_COMMON_EXTENSION(sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async)
   TORCH_BINDING_COMMON_EXTENSION(sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf)
-  TORCH_BINDING_COMMON_EXTENSION(sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async)
   TORCH_BINDING_COMMON_EXTENSION(sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf)
-  TORCH_BINDING_COMMON_EXTENSION(sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async)
-  // cuBLAS Tensor Cores
+  // cuBLAS on CUDA, hipBLAS/rocBLAS on AMD.
   TORCH_BINDING_COMMON_EXTENSION(sgemm_cublas)
+  TORCH_BINDING_COMMON_EXTENSION(sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async)
+  TORCH_BINDING_COMMON_EXTENSION(sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async)
+  TORCH_BINDING_COMMON_EXTENSION(sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async)
+#ifndef LEETCUDA_ROCM
+  // cuBLAS Tensor Cores
   TORCH_BINDING_COMMON_EXTENSION(sgemm_cublas_tf32)
   // WMMA API Tensor Cores, stage, thread block swizzle, dsmem
   TORCH_BINDING_COMMON_EXTENSION(sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages)
   TORCH_BINDING_COMMON_EXTENSION(
       sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem)
+#endif
 }

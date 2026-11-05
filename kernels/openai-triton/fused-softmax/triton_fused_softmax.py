@@ -3,6 +3,8 @@ Adapted from Triton tutorial
 https://triton-lang.org/main/getting-started/tutorials/02-fused-softmax.html#sphx-glr-getting-started-tutorials-02-fused-softmax-py
 """
 
+from functools import lru_cache
+
 import torch
 import triton
 import triton.language as tl
@@ -52,7 +54,7 @@ def softmax_kernel(
         input_ptrs = row_start_ptr + col_offsets
         # Load the row into SRAM, using a mask since BLOCK_SIZE may be > than n_cols
         mask = col_offsets < n_cols
-        row = tl.load(input_ptrs, mask=mask, other=-float("inf"))
+        row = tl.load(input_ptrs, mask=mask, other=-float("inf")).to(tl.float32)
         # Subtract maximum for numerical stability
         row_minus_max = row - tl.max(row, axis=0)
         # Note that exponentiation in Triton is fast but approximate (i.e., think __expf in CUDA)
@@ -65,102 +67,99 @@ def softmax_kernel(
         tl.store(output_ptrs, softmax_output, mask=mask)
 
 
+DEVICE = torch.device("cuda")
+
+
 def get_device_properties(device_id=None):
-    import pycuda.driver as cuda
-
-    device = (
-        cuda.Device(device_id)
-        if device_id is not None
-        else torch.cuda.current_device()
-    )
-    NUM_SM = device.get_attribute(cuda.device_attribute.MULTIPROCESSOR_COUNT)
-    NUM_REGS = device.get_attribute(
-        cuda.device_attribute.MAX_REGISTERS_PER_BLOCK
-    )
-    SIZE_SMEM = device.get_attribute(
-        cuda.device_attribute.MAX_SHARED_MEMORY_PER_BLOCK
-    )
-    WARP_SIZE = device.get_attribute(cuda.device_attribute.WARP_SIZE)
-    return NUM_SM, NUM_REGS, SIZE_SMEM, WARP_SIZE
+    device_id = torch.cuda.current_device() if device_id is None else device_id
+    return triton.runtime.driver.active.utils.get_device_properties(device_id)
 
 
-DEVICE = torch.cuda.current_device()
-NUM_SM, NUM_REGS, SIZE_SMEM, WARP_SIZE = get_device_properties(DEVICE)
-print(
-    f"NUM_SM: {NUM_SM}, NUM_REGS: {NUM_REGS}, "
-    f"SIZE_SMEM: {SIZE_SMEM}, WARP_SIZE: {WARP_SIZE}"
-)
+@lru_cache(maxsize=128)
+def _launch_config(device_id, n_cols, dtype):
+    # Compile for the actual device, width and dtype. ROCm uses wave32 here;
+    # neither register counts nor warp width should be assumed to match CUDA.
+    with torch.cuda.device(device_id):
+        props = get_device_properties(device_id)
+        block = triton.next_power_of_2(n_cols)
+        warps = 8
+        stages = 4 if props["max_shared_mem"] > 200000 else 2
+        probe = torch.empty((1, n_cols), dtype=dtype, device="cuda")
+        kernel = softmax_kernel.warmup(
+            probe,
+            probe,
+            n_cols,
+            n_cols,
+            1,
+            n_cols,
+            BLOCK_SIZE=block,
+            k_stages=stages,
+            num_warps=warps,
+            grid=(1,),
+        )
+        kernel._init_handles()
+        occupancy = props["max_num_regs"] // max(
+            1, kernel.n_regs * props["warpSize"] * warps
+        )
+        if kernel.metadata.shared:
+            occupancy = min(
+                occupancy, props["max_shared_mem"] // kernel.metadata.shared
+            )
+        occupancy = min(
+            occupancy,
+            props.get("max_threads_per_sm", 1024)
+            // (props["warpSize"] * warps),
+        )
+        return (
+            props["multiprocessor_count"] * max(1, occupancy),
+            block,
+            warps,
+            stages,
+        )
 
 
 def get_num_programs(x):
-    n_rows, n_cols = x.shape
-    # The block size of each loop iteration is the smallest power
-    # of two greater than the number of columns in `x`
-    BLOCK_SIZE = triton.next_power_of_2(n_cols)
-    num_warps = 8
-    # Number of software pipelining stages.
-    k_stages = 4 if SIZE_SMEM > 200000 else 2
-    # Allocate output
-    y = torch.empty_like(x)
-    # pre-compile kernel to get register usage and compute thread occupancy.
-    kernel = softmax_kernel.warmup(
-        y,
-        x,
-        x.stride(0),
-        y.stride(0),
-        n_rows,
-        n_cols,
-        BLOCK_SIZE=BLOCK_SIZE,
-        k_stages=k_stages,
-        num_warps=num_warps,
-        grid=(1,),
-    )
-    kernel._init_handles()
-    n_regs = kernel.n_regs
-    # shared > 0 if k_stages is not 0
-    size_smem = kernel.metadata.shared
-    occupancy = NUM_REGS // (n_regs * WARP_SIZE * num_warps)
-    occupancy = min(occupancy, SIZE_SMEM // size_smem)
-    num_programs = NUM_SM * occupancy
-    return num_programs
-
-
-NUM_PROGRAMS = get_num_programs(torch.randn(4096, 2048, device="cuda"))
+    return _launch_config(x.device.index, x.shape[1], x.dtype)[0]
 
 
 def triton_softmax(x: torch.Tensor):
-    """Compute row-wise softmax of X using Triton"""
+    """Row softmax for contiguous FP16/BF16/FP32 GPU matrices."""
+    if (
+        not x.is_cuda
+        or x.ndim != 2
+        or not x.is_contiguous()
+        or x.dtype not in (torch.float16, torch.bfloat16, torch.float32)
+        or x.requires_grad
+    ):
+        raise ValueError(
+            "softmax requires a contiguous forward-only floating GPU matrix"
+        )
     n_rows, n_cols = x.shape
-    # The block size of each loop iteration is the smallest power of
-    # two greater than the number of columns in `x`
-    BLOCK_SIZE = triton.next_power_of_2(n_cols)
-    num_warps = 8
-    # Number of software pipelining stages.
-    k_stages = 4 if SIZE_SMEM > 200000 else 2
-    # Allocate output
     y = torch.empty_like(x)
-    num_programs = min(NUM_PROGRAMS, n_rows)
-
-    # Create a number of persistent programs.
-    softmax_kernel[(num_programs, 1, 1)](
-        y,
-        x,
-        x.stride(0),
-        y.stride(0),
-        n_rows,
-        n_cols,
-        BLOCK_SIZE=BLOCK_SIZE,
-        k_stages=k_stages,
-        num_warps=num_warps,
-    )
+    if not x.numel():
+        return y
+    with torch.cuda.device(x.device):
+        programs, block, warps, stages = _launch_config(
+            x.device.index, n_cols, x.dtype
+        )
+        softmax_kernel[(min(programs, n_rows),)](
+            y,
+            x,
+            x.stride(0),
+            y.stride(0),
+            n_rows,
+            n_cols,
+            BLOCK_SIZE=block,
+            k_stages=stages,
+            num_warps=warps,
+        )
     return y
 
 
-torch.manual_seed(0)
-x = torch.randn(1823, 781, device="cuda")
-y_triton = triton_softmax(x)
-y_torch = naive_softmax(x)
-assert torch.allclose(y_triton, y_torch), (y_triton, y_torch)
+def demo():
+    torch.manual_seed(0)
+    x = torch.randn(1823, 781, device=DEVICE)
+    torch.testing.assert_close(triton_softmax(x), torch.softmax(x, dim=-1))
 
 
 @triton.testing.perf_report(
@@ -182,7 +181,7 @@ assert torch.allclose(y_triton, y_torch), (y_triton, y_torch)
         ],  # label name for the lines
         styles=[("blue", "-"), ("green", "-"), ("red", "-")],  # line styles
         ylabel="GB/s",  # label name for the y-axis
-        xlabel=f"M, {torch.cuda.get_device_name(DEVICE)}",  # label name for the x-axis
+        xlabel="M",  # label name for the x-axis
         plot_name="softmax-performance",  # name for the plot. Used also as a file name for saving the plot.
         args={
             "N": 2048
@@ -191,8 +190,6 @@ assert torch.allclose(y_triton, y_torch), (y_triton, y_torch)
 )
 def benchmark(M, N, provider):
     x = torch.randn(M, N, device=DEVICE, dtype=torch.float32)
-    stream = torch.cuda.Stream()
-    torch.cuda.set_stream(stream)
     if provider == "torch-naive-softmax":
         ms = triton.testing.do_bench(lambda: naive_softmax(x))
     if provider == "triton-fused-softmax":
@@ -203,4 +200,6 @@ def benchmark(M, N, provider):
     return gbps(ms)
 
 
-benchmark.run(show_plots=True, print_data=True, save_path="./")
+if __name__ == "__main__":
+    demo()
+    benchmark.run(show_plots=True, print_data=True, save_path="./")

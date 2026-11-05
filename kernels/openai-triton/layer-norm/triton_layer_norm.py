@@ -29,7 +29,7 @@ try:
 except ModuleNotFoundError:
     HAS_APEX = False
 
-DEVICE = triton.runtime.driver.active.get_active_torch_device()
+DEVICE = torch.device("cuda")
 
 
 @triton.jit
@@ -128,8 +128,8 @@ def _layer_norm_bwd_dx_fused(
     # Write dx
     tl.store(DX + cols, dx, mask=mask)
     # Accumulate partial sums for dw/db
-    partial_dw = (dy * xhat).to(w.dtype)
-    partial_db = (dy).to(w.dtype)
+    partial_dw = dy * xhat
+    partial_db = dy
     while tl.atomic_cas(Lock, 0, 1) == 1:
         pass
     count = tl.load(Count)
@@ -184,6 +184,26 @@ class LayerNorm(torch.autograd.Function):
 
     @staticmethod
     def forward(ctx, x, normalized_shape, weight, bias, eps):
+        if (
+            not x.is_cuda
+            or not x.is_contiguous()
+            or x.ndim < 1
+            or x.numel() == 0
+            or tuple(normalized_shape) != (x.shape[-1],)
+            or weight.shape != (x.shape[-1],)
+            or bias.shape != weight.shape
+            or any(
+                t.device != x.device
+                or t.dtype != x.dtype
+                or not t.is_contiguous()
+                for t in (weight, bias)
+            )
+            or x.dtype not in (torch.float16, torch.bfloat16, torch.float32)
+            or not eps > 0
+        ):
+            raise ValueError(
+                "layer_norm requires nonempty contiguous GPU inputs and one normalized dimension"
+            )
         # allocate output
         y = torch.empty_like(x)
         # reshape input data into 2D tensor
@@ -201,20 +221,21 @@ class LayerNorm(torch.autograd.Function):
         # heuristics for number of warps
         num_warps = min(max(BLOCK_SIZE // 256, 1), 8)
         # enqueue kernel
-        _layer_norm_fwd_fused[(M,)](  #
-            x_arg,
-            y,
-            weight,
-            bias,
-            mean,
-            rstd,  #
-            x_arg.stride(0),
-            N,
-            eps,  #
-            BLOCK_SIZE=BLOCK_SIZE,
-            num_warps=num_warps,
-            num_ctas=1,
-        )
+        with torch.cuda.device(x.device):
+            _layer_norm_fwd_fused[(M,)](  #
+                x_arg,
+                y,
+                weight,
+                bias,
+                mean,
+                rstd,  #
+                x_arg.stride(0),
+                N,
+                eps,  #
+                BLOCK_SIZE=BLOCK_SIZE,
+                num_warps=num_warps,
+                num_ctas=1,
+            )
         ctx.save_for_backward(x, weight, bias, mean, rstd)
         ctx.BLOCK_SIZE = BLOCK_SIZE
         ctx.num_warps = num_warps
@@ -224,6 +245,7 @@ class LayerNorm(torch.autograd.Function):
     @staticmethod
     def backward(ctx, dy):
         x, w, b, m, v = ctx.saved_tensors
+        dy = dy.contiguous()
         # heuristics for amount of parallel reduction stream for DW/DB
         N = w.shape[0]
         GROUP_SIZE_M = 64
@@ -237,8 +259,12 @@ class LayerNorm(torch.autograd.Function):
         locks = torch.zeros(
             2 * GROUP_SIZE_M, dtype=torch.int32, device=w.device
         )
-        _dw = torch.zeros((GROUP_SIZE_M, N), dtype=x.dtype, device=w.device)
-        _db = torch.zeros((GROUP_SIZE_M, N), dtype=x.dtype, device=w.device)
+        _dw = torch.zeros(
+            (GROUP_SIZE_M, N), dtype=torch.float32, device=w.device
+        )
+        _db = torch.zeros(
+            (GROUP_SIZE_M, N), dtype=torch.float32, device=w.device
+        )
         dw = torch.empty((N,), dtype=w.dtype, device=w.device)
         db = torch.empty((N,), dtype=w.dtype, device=w.device)
         dx = torch.empty_like(dy)
@@ -246,35 +272,36 @@ class LayerNorm(torch.autograd.Function):
         # also compute partial sums for DW and DB
         x_arg = x.reshape(-1, x.shape[-1])
         M, N = x_arg.shape
-        _layer_norm_bwd_dx_fused[(M,)](  #
-            dx,
-            dy,
-            _dw,
-            _db,
-            x,
-            w,
-            m,
-            v,
-            locks,  #
-            x_arg.stride(0),
-            N,  #
-            BLOCK_SIZE_N=ctx.BLOCK_SIZE,  #
-            GROUP_SIZE_M=GROUP_SIZE_M,  #
-            num_warps=ctx.num_warps,
-        )
-        grid = lambda meta: (triton.cdiv(N, meta["BLOCK_SIZE_N"]),)
-        # accumulate partial sums in separate kernel
-        _layer_norm_bwd_dwdb[grid](
-            _dw,
-            _db,
-            dw,
-            db,
-            min(GROUP_SIZE_M, M),
-            N,  #
-            BLOCK_SIZE_M=32,  #
-            BLOCK_SIZE_N=128,
-            num_ctas=1,
-        )
+        with torch.cuda.device(x.device):
+            _layer_norm_bwd_dx_fused[(M,)](  #
+                dx,
+                dy,
+                _dw,
+                _db,
+                x,
+                w,
+                m,
+                v,
+                locks,  #
+                x_arg.stride(0),
+                N,  #
+                BLOCK_SIZE_N=ctx.BLOCK_SIZE,  #
+                GROUP_SIZE_M=GROUP_SIZE_M,  #
+                num_warps=ctx.num_warps,
+            )
+            grid = lambda meta: (triton.cdiv(N, meta["BLOCK_SIZE_N"]),)
+            # accumulate partial sums in separate kernel
+            _layer_norm_bwd_dwdb[grid](
+                _dw,
+                _db,
+                dw,
+                db,
+                min(GROUP_SIZE_M, M),
+                N,  #
+                BLOCK_SIZE_M=32,  #
+                BLOCK_SIZE_N=128,
+                num_ctas=1,
+            )
         return dx, None, dw, db, None
 
 
@@ -324,12 +351,7 @@ def get_args():
     return parser.parse_args()
 
 
-args = get_args()
-if args.mode not in ["forward", "backward"]:
-    raise ValueError(
-        f"Invalid mode: {args.mode}. Choose 'forward' or 'backward'."
-    )
-bench_mode = args.mode
+bench_mode = get_args().mode if __name__ == "__main__" else "forward"
 
 
 @triton.testing.perf_report(
@@ -397,5 +419,6 @@ def bench_layer_norm(
     return gbps(ms), gbps(max_ms), gbps(min_ms)
 
 
-test_layer_norm(1151, 8192, torch.float16)
-bench_layer_norm.run(save_path=".", print_data=True)
+if __name__ == "__main__":
+    test_layer_norm(1151, 8192, torch.float16)
+    bench_layer_norm.run(save_path=".", print_data=True)

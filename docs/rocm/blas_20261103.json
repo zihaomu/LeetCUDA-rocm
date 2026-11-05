@@ -1,0 +1,2756 @@
+{
+  "timestamp_utc": "2026-11-03T07:07:08.786838+00:00",
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "0",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/6aa347f420a44ca6a2dac4b81b8d7b3d.json"
+  },
+  "logical_device": 0,
+  "checks": [
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 3.278399773876117e-10,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 1.661926851692641e-07,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 1.6854349129680202e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 2.3216625684163716e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 5.460134346435552e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 1.337604516038482e-08,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 1.23531762930007e-07,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 1.320667903703665e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 2.3494910923460566e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 5.882195096340581e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 6.252021123032137e-11,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 1.2695746476332204e-07,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 1.3047305540414555e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 2.909953398688714e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 8.127830356308152e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 5.677502912249111e-10,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 1.6026062765739368e-07,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 1.0292427345959254e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 2.436338143230188e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 4.876323911773284e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 1.8409274105124496e-10,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 1.211052116367739e-07,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 1.1558840475878185e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 2.388679908982283e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 6.6967203729007e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 8.013927299543866e-10,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 1.0574315645328625e-07,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 1.1807005020347816e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 2.968706885653205e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 6.002128819737607e-06,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.0,
+      "atol": 0.0002,
+      "rtol": 0.0002,
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "case": "reject-cpu",
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "case": "reject-dtype",
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "case": "reject-shape",
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "case": "reject-strides",
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "case": "reject-alias-a",
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "case": "reject-alias-b",
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "case": "reject-grad-input",
+      "passed": true
+    },
+    {
+      "function": "sgemm_cublas",
+      "case": "reject-grad-output",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 1.4901161193847656e-07,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.0003594688605517149,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.0009718158398754895,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.0018446925096213818,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.0018718178616836667,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.00011730194091796875,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.0004258615954313427,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.0009762982372194529,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.0014576110042980872,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.0018869606574298814,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 4.991888999938965e-07,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.0003677103668451309,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.0009660398354753852,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.0013326028347364627,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.001866606700787088,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 5.9604644775390625e-06,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.00024191098054870963,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.0009682783856987953,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.0012540044263005257,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.001897260284749791,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 3.993511199951172e-06,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.00031649133597966284,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.0009756371146067977,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.001784961874363944,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.0019364668132766383,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "default",
+      "max_abs_error": 0.0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 2.574920654296875e-05,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.00023965723812580109,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.0009739066008478403,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.0017690424574539065,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.001832254565670155,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "row-major [K,N]",
+      "stream": "non-default",
+      "max_abs_error": 0.0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "case": "reject-cpu",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "case": "reject-dtype",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "case": "reject-shape",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "case": "reject-strides",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "case": "reject-alias-a",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "case": "reject-alias-b",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "case": "reject-grad-input",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "case": "reject-grad-output",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "case": "destroy-reinitialize-handle",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 1.4901161193847656e-07,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0.0003594688605517149,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0.0009718158398754895,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0.0018446925096213818,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0.0018718178616836667,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0.0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.00011730194091796875,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.0004258615954313427,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.0009762982372194529,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.0014576110042980872,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.0018869606574298814,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261103,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 4.991888999938965e-07,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0.0003677103668451309,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0.0009660398354753852,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0.0013326028347364627,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0.001866606700787088,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0.0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 5.9604644775390625e-06,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.00024191098054870963,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.0009682783856987953,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.0012540044263005257,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.001897260284749791,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261104,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 3.993511199951172e-06,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0.00031649133597966284,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0.0009756371146067977,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0.001784961874363944,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0.0019364668132766383,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "default",
+      "max_abs_error": 0.0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        1,
+        1,
+        1
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 2.574920654296875e-05,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        17,
+        33,
+        19
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.00023965723812580109,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        128,
+        256,
+        128
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.0009739066008478403,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        256,
+        128,
+        256
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.0017690424574539065,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        17,
+        33,
+        1025
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.001832254565670155,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        0,
+        5,
+        8
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        3,
+        0,
+        7
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        3,
+        4,
+        0
+      ],
+      "seed": 20261105,
+      "reference": "FP64 matrix product",
+      "b_storage": "packed [N,K] in [K,N] tensor",
+      "stream": "non-default",
+      "max_abs_error": 0.0,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "case": "reject-cpu",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "case": "reject-dtype",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "case": "reject-shape",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "case": "reject-strides",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "case": "reject-alias-a",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "case": "reject-alias-b",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "case": "reject-grad-input",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "case": "reject-grad-output",
+      "passed": true
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "case": "destroy-reinitialize-handle",
+      "passed": true
+    }
+  ],
+  "performance": [
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "dtype": "torch.float32",
+      "baseline": "torch.mm(out=), default ROCm BLAS backend",
+      "b_packing_timed": false,
+      "correctness_passed": true,
+      "ours_ms": 0.01614542889700062,
+      "baseline_ms": 0.01614209293269917,
+      "baseline_over_ours": 0.999793380261204,
+      "samples_ms": {
+        "ours": [
+          0.01614542889700062,
+          0.016141426198336542,
+          0.016142483691235523,
+          0.016191774556008173,
+          0.016168608493411663
+        ],
+        "baseline": [
+          0.016141663983723187,
+          0.016163423516099645,
+          0.016139863884967305,
+          0.016156154002958133,
+          0.01614209293269917
+        ]
+      }
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "dtype": "torch.float32",
+      "baseline": "torch.mm(out=), default ROCm BLAS backend",
+      "b_packing_timed": false,
+      "correctness_passed": true,
+      "ours_ms": 0.13570345552584615,
+      "baseline_ms": 0.13586012109533532,
+      "baseline_over_ours": 1.0011544700087562,
+      "samples_ms": {
+        "ours": [
+          0.1357013175784538,
+          0.135593992663968,
+          0.13570345552584615,
+          0.13575416515877775,
+          0.13588916445241392
+        ],
+        "baseline": [
+          0.13559363983772899,
+          0.1361150903216863,
+          0.13570379979402117,
+          0.13586012109533532,
+          0.13588482294327173
+        ]
+      }
+    },
+    {
+      "function": "sgemm_cublas",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "dtype": "torch.float32",
+      "baseline": "torch.mm(out=), default ROCm BLAS backend",
+      "b_packing_timed": false,
+      "correctness_passed": true,
+      "ours_ms": 1.1656046686945736,
+      "baseline_ms": 1.1676565058091106,
+      "baseline_over_ours": 1.00176031991776,
+      "samples_ms": {
+        "ours": [
+          1.1656046686945736,
+          1.1664732297261555,
+          1.1642300287882485,
+          1.1661679035908468,
+          1.16370891122257
+        ],
+        "baseline": [
+          1.1626442074775696,
+          1.1684755052839007,
+          1.1676565058091106,
+          1.1703534559770064,
+          1.1655358450753348
+        ]
+      }
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "dtype": "torch.float16",
+      "baseline": "torch.mm(out=), default ROCm BLAS backend",
+      "b_packing_timed": false,
+      "correctness_passed": true,
+      "ours_ms": 0.004807724758930004,
+      "baseline_ms": 0.004418710298526667,
+      "baseline_over_ours": 0.9190855383971867,
+      "samples_ms": {
+        "ours": [
+          0.004371707600758488,
+          0.004807724758930004,
+          0.004847794409222931,
+          0.00442487746106267,
+          0.004852187259924038
+        ],
+        "baseline": [
+          0.004373703529542585,
+          0.0043702610435976475,
+          0.004850290681673511,
+          0.004418710298526667,
+          0.00444765532960212
+        ]
+      }
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "dtype": "torch.float16",
+      "baseline": "torch.mm(out=), default ROCm BLAS backend",
+      "b_packing_timed": false,
+      "correctness_passed": true,
+      "ours_ms": 0.004083538274152563,
+      "baseline_ms": 0.004382102097137065,
+      "baseline_over_ours": 1.073114001373346,
+      "samples_ms": {
+        "ours": [
+          0.0041285030769579335,
+          0.004532231767199545,
+          0.004082241461372288,
+          0.004083538274152563,
+          0.004081396404525722
+        ],
+        "baseline": [
+          0.004382102097137065,
+          0.004842075051330939,
+          0.00484767016293346,
+          0.004380450896115577,
+          0.004379036516606833
+        ]
+      }
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "dtype": "torch.float16",
+      "baseline": "torch.mm(out=), default ROCm BLAS backend",
+      "b_packing_timed": false,
+      "correctness_passed": true,
+      "ours_ms": 0.022468755688521733,
+      "baseline_ms": 0.02245577859122918,
+      "baseline_over_ours": 0.9994224380970423,
+      "samples_ms": {
+        "ours": [
+          0.022214689947907488,
+          0.022395280761426994,
+          0.022576480705013238,
+          0.022468755688521733,
+          0.023640465380540536
+        ],
+        "baseline": [
+          0.02202637554848031,
+          0.02227324333743773,
+          0.0232330092900916,
+          0.02245577859122918,
+          0.023553579833331978
+        ]
+      }
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "dtype": "torch.float16",
+      "baseline": "torch.mm(out=), default ROCm BLAS backend",
+      "b_packing_timed": false,
+      "correctness_passed": true,
+      "ours_ms": 0.02319669400011992,
+      "baseline_ms": 0.022896568048841572,
+      "baseline_over_ours": 0.9870616928741314,
+      "samples_ms": {
+        "ours": [
+          0.022569371794299166,
+          0.02220061478341461,
+          0.02319669400011992,
+          0.02320231945628433,
+          0.02336107468630112
+        ],
+        "baseline": [
+          0.023232525490060902,
+          0.022884911451584253,
+          0.022896568048841572,
+          0.02282073349945117,
+          0.02391556999606731
+        ]
+      }
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_nn",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "dtype": "torch.float16",
+      "baseline": "torch.mm(out=), default ROCm BLAS backend",
+      "b_packing_timed": false,
+      "correctness_passed": true,
+      "ours_ms": 0.1600342891255363,
+      "baseline_ms": 0.1603091135621071,
+      "baseline_over_ours": 1.0017172847023752,
+      "samples_ms": {
+        "ours": [
+          0.15960523730418721,
+          0.15998048744653995,
+          0.16013428447692374,
+          0.1601744572321574,
+          0.1600342891255363
+        ],
+        "baseline": [
+          0.15956263287077224,
+          0.15988280352424172,
+          0.1603091135621071,
+          0.1603265479207039,
+          0.16052495638529457
+        ]
+      }
+    },
+    {
+      "function": "hgemm_cublas_tensor_op_tn",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "dtype": "torch.float16",
+      "baseline": "torch.mm(out=), default ROCm BLAS backend",
+      "b_packing_timed": false,
+      "correctness_passed": true,
+      "ours_ms": 0.13597239185293378,
+      "baseline_ms": 0.16091076350303446,
+      "baseline_over_ours": 1.1834076117236634,
+      "samples_ms": {
+        "ours": [
+          0.13535323759325507,
+          0.1355835478184587,
+          0.13597239185293378,
+          0.13641179055484082,
+          0.13602949339767983
+        ],
+        "baseline": [
+          0.16076159477233887,
+          0.1603490273783526,
+          0.16113541747809385,
+          0.16091076350303446,
+          0.1618985715119735
+        ]
+      }
+    }
+  ],
+  "source_sha256": {
+    "kernels/sgemm/sgemm.cu": "5c895757aadbeccdb159b99652405f68f03fefb31694ebb2ac523054965107d8",
+    "kernels/sgemm/sgemm_async.cu": "c2eaf6c6db56a8b272bffd5c30117c5ef5e9c628e6b38978f0b19904ed6f952a",
+    "kernels/rocm/blas_backend.cu": "0aafad21900278f397ea5808d3b30b05b28ecee08ef7b855baebc4d2545d952b",
+    "kernels/hgemm/pybind/hgemm.cc": "5705185c9da71d2e0de69f4f13337e0ea19c4321defe5b35c09c643a16b449e8",
+    "leetcuda_rocm/__init__.py": "d8c9f7edf879b8d662efefe1411af933ebd8578e49fb61e0cb6228ebdc5d4950",
+    "leetcuda_rocm/blas_check.py": "84b9a507ec32fa5e9ea10200697888eec32cc295135825e7ee9c37a87dc07b7f",
+    "leetcuda_rocm/blas_checks.py": "ef8f3fcaac4da5afa9f1ba9c51dd956ecf54aea07a6e9f83860c2eec221cd9f3",
+    "leetcuda_rocm/build.py": "05586d0ad8252352ed3b04a42c77831e208bdaef8c0b2cb4075f1adc7e04cd01",
+    "leetcuda_rocm/environment.py": "077a38d192b13cfe7fed956b03269893ef76636fa7031809927837ad14a531b3",
+    "leetcuda_rocm/extra_checks.py": "b0c73f720872904b1538ab73e2517aa5dd70684ee7ab2bd0bedce43608bce767",
+    "leetcuda_rocm/layout_check.py": "5744c23526e59ead259984ffb6b60b7fe2f59d04812933c6136e8910cc657322",
+    "leetcuda_rocm/loader.py": "9e9a9d274196b705d78671c03a946d82178e766daa0a0ff150a423c4d357d654",
+    "leetcuda_rocm/matrix_attention.py": "550892bbd40338518119c398c3819ea0fc5a1de02ecf91e780080136e5cfeb66",
+    "leetcuda_rocm/matrix_attention_check.py": "a6b4ca86889b653433968678a886a919547da83b4d13863b7a52313fce57d70f",
+    "leetcuda_rocm/research_blas.py": "bf2bd83cbcd73ffdba9963364dd02170a9892fa0c7bc13e44ad0b0c8df5d8fc3",
+    "leetcuda_rocm/research_hgemm.py": "9128402e388034603606542f931f0c4fb921cc659ae35734c935ed53e4f660f5",
+    "leetcuda_rocm/smoke.py": "7b9f8ce308a903a3b9ef0c5364ae0f4788186b71793b8586d4117969668b7ba7",
+    "leetcuda_rocm/transpose_checks.py": "28492dd0fa4d45f54257547afbb546b95b03b07ed7c3e4762291e40268acdac1"
+  },
+  "method": "HIP graphs; reused buffers; 5 alternating 40ms samples, median",
+  "passed": true
+}

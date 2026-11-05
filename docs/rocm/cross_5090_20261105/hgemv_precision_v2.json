@@ -1,0 +1,465 @@
+{
+  "timestamp_utc": "2026-11-05T07:23:00.980792+00:00",
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "0",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/0a24e61a175a4311b005e733a1d410bc.json"
+  },
+  "fixture_sha256": "c0b24036702825f68e74ced9ef9b44394d16fb4580e6c1d8ee5ab6a708d42456",
+  "cuda_report_sha256": "4bea01a7b6fa5507c40e0d6d613f1887bb481d0ef3e45b1400767e7fa813071f",
+  "source_sha256": {
+    "kernels/rocm/hgemv_matrix_precision.cu": "ca2e9a197528268b3c52881628c5534de0e5310362634efbf29e56437bf81570",
+    "leetcuda_rocm/cross_hgemv_precision.py": "6d49da5d0eeb6696398320f67d3547cef41ece256646287a1c4e6825db9eec61"
+  },
+  "binary_sha256": "a9425b19fc8e587771b34cd8b902b60b66c852d955b473d67bae804d5cbc59ed",
+  "checks": [
+    {
+      "id": "hgemv_20261105_17_19",
+      "function": "hgemv_wmma_tile16_half_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0003524729690980166,
+      "matches_cuda": true,
+      "max_abs_cuda": 0.0,
+      "matches_half_tile_model": true,
+      "performance": {
+        "median_ms": 0.005011849850416183,
+        "samples_ms": [
+          0.006859800219535828,
+          0.005717850103974342,
+          0.005011849850416183,
+          0.0049898501485586165,
+          0.004923849925398826
+        ]
+      }
+    },
+    {
+      "id": "hgemv_20261105_17_19",
+      "function": "hgemv_wmma_fp32_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0001481473445892334,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.00048828125,
+      "matches_half_tile_model": false,
+      "performance": {
+        "median_ms": 0.00433184988796711,
+        "samples_ms": [
+          0.0045078501105308534,
+          0.004353849962353706,
+          0.00433184988796711,
+          0.004303900152444839,
+          0.004325899854302406
+        ]
+      }
+    },
+    {
+      "id": "hgemv_20261105_64_128",
+      "function": "hgemv_wmma_tile16_half_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0006816638633608818,
+      "matches_cuda": true,
+      "max_abs_cuda": 0.0,
+      "matches_half_tile_model": true,
+      "performance": {
+        "median_ms": 0.008393800258636475,
+        "samples_ms": [
+          0.008387800306081772,
+          0.008449749648571014,
+          0.00840974971652031,
+          0.008369799703359604,
+          0.008393800258636475
+        ]
+      }
+    },
+    {
+      "id": "hgemv_20261105_64_128",
+      "function": "hgemv_wmma_fp32_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.00045919150579720736,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.0009765625,
+      "matches_half_tile_model": false,
+      "performance": {
+        "median_ms": 0.008293800055980682,
+        "samples_ms": [
+          0.00825975015759468,
+          0.008305799961090089,
+          0.008317799866199493,
+          0.008293800055980682,
+          0.00828780010342598
+        ]
+      }
+    },
+    {
+      "id": "hgemv_20261105_65_256",
+      "function": "hgemv_wmma_tile16_half_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0019102677761111408,
+      "matches_cuda": true,
+      "max_abs_cuda": 0.0,
+      "matches_half_tile_model": true,
+      "performance": {
+        "median_ms": 0.013641649484634399,
+        "samples_ms": [
+          0.014025600254535675,
+          0.013641649484634399,
+          0.013605649769306182,
+          0.013653649389743805,
+          0.013603650033473969
+        ]
+      }
+    },
+    {
+      "id": "hgemv_20261105_65_256",
+      "function": "hgemv_wmma_fp32_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0008211622480303049,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.001953125,
+      "matches_half_tile_model": false,
+      "performance": {
+        "median_ms": 0.013431650400161744,
+        "samples_ms": [
+          0.013431650400161744,
+          0.01342564970254898,
+          0.013423649966716767,
+          0.013443650305271148,
+          0.013465650379657745
+        ]
+      }
+    },
+    {
+      "id": "hgemv_20261105_64_1024",
+      "function": "hgemv_wmma_tile16_half_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.011044832528568804,
+      "matches_cuda": true,
+      "max_abs_cuda": 0.0,
+      "matches_half_tile_model": true,
+      "performance": {
+        "median_ms": 0.045358800888061525,
+        "samples_ms": [
+          0.0453788012266159,
+          0.045372799038887024,
+          0.04535279870033264,
+          0.0452967494726181,
+          0.045358800888061525
+        ]
+      }
+    },
+    {
+      "id": "hgemv_20261105_64_1024",
+      "function": "hgemv_wmma_fp32_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0014044595518498681,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.01171875,
+      "matches_half_tile_model": false,
+      "performance": {
+        "median_ms": 0.04400284886360169,
+        "samples_ms": [
+          0.0446648508310318,
+          0.04440679848194122,
+          0.04400284886360169,
+          0.04342685043811798,
+          0.04264490008354187
+        ]
+      }
+    },
+    {
+      "id": "hgemv_20261105_64_8192",
+      "function": "hgemv_wmma_tile16_half_state",
+      "fp64_accuracy_passed": false,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.11819922807990224,
+      "matches_cuda": true,
+      "max_abs_cuda": 0.0,
+      "matches_half_tile_model": true,
+      "performance": {
+        "median_ms": 0.29521214962005615,
+        "samples_ms": [
+          0.29656410217285156,
+          0.295272159576416,
+          0.29521214962005615,
+          0.29469614028930663,
+          0.2948781490325928
+        ]
+      }
+    },
+    {
+      "id": "hgemv_20261105_64_8192",
+      "function": "hgemv_wmma_fp32_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.006800771920097759,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.125,
+      "matches_half_tile_model": false,
+      "performance": {
+        "median_ms": 0.29005630016326905,
+        "samples_ms": [
+          0.28997230529785156,
+          0.2902862548828125,
+          0.2903803110122681,
+          0.2897303104400635,
+          0.29005630016326905
+        ]
+      }
+    },
+    {
+      "id": "hgemv_20261106_17_19",
+      "function": "hgemv_wmma_tile16_half_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0001856810413300991,
+      "matches_cuda": true,
+      "max_abs_cuda": 0.0,
+      "matches_half_tile_model": true
+    },
+    {
+      "id": "hgemv_20261106_17_19",
+      "function": "hgemv_wmma_fp32_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.00011813297169283032,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.000244140625,
+      "matches_half_tile_model": false
+    },
+    {
+      "id": "hgemv_20261106_64_128",
+      "function": "hgemv_wmma_tile16_half_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.001154765166575089,
+      "matches_cuda": true,
+      "max_abs_cuda": 0.0,
+      "matches_half_tile_model": true
+    },
+    {
+      "id": "hgemv_20261106_64_128",
+      "function": "hgemv_wmma_fp32_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0007983598334249109,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.001953125,
+      "matches_half_tile_model": false
+    },
+    {
+      "id": "hgemv_20261106_65_256",
+      "function": "hgemv_wmma_tile16_half_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0020849740831181407,
+      "matches_cuda": true,
+      "max_abs_cuda": 0.0,
+      "matches_half_tile_model": true
+    },
+    {
+      "id": "hgemv_20261106_65_256",
+      "function": "hgemv_wmma_fp32_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0007096973713487387,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.001953125,
+      "matches_half_tile_model": false
+    },
+    {
+      "id": "hgemv_20261106_64_1024",
+      "function": "hgemv_wmma_tile16_half_state",
+      "fp64_accuracy_passed": false,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.007190903175796848,
+      "matches_cuda": true,
+      "max_abs_cuda": 0.0,
+      "matches_half_tile_model": true
+    },
+    {
+      "id": "hgemv_20261106_64_1024",
+      "function": "hgemv_wmma_fp32_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0008211957319872454,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.0078125,
+      "matches_half_tile_model": false
+    },
+    {
+      "id": "hgemv_20261106_64_8192",
+      "function": "hgemv_wmma_tile16_half_state",
+      "fp64_accuracy_passed": false,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.03912872844875892,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.0078125,
+      "matches_half_tile_model": false
+    },
+    {
+      "id": "hgemv_20261106_64_8192",
+      "function": "hgemv_wmma_fp32_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0032813084944791626,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.0390625,
+      "matches_half_tile_model": false
+    },
+    {
+      "id": "hgemv_20261107_17_19",
+      "function": "hgemv_wmma_tile16_half_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.00015031814109534025,
+      "matches_cuda": true,
+      "max_abs_cuda": 0.0,
+      "matches_half_tile_model": true
+    },
+    {
+      "id": "hgemv_20261107_17_19",
+      "function": "hgemv_wmma_fp32_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.00011703069321811199,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.000244140625,
+      "matches_half_tile_model": false
+    },
+    {
+      "id": "hgemv_20261107_64_128",
+      "function": "hgemv_wmma_tile16_half_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0011219811785849743,
+      "matches_cuda": true,
+      "max_abs_cuda": 0.0,
+      "matches_half_tile_model": true
+    },
+    {
+      "id": "hgemv_20261107_64_128",
+      "function": "hgemv_wmma_fp32_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0008311438214150257,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.001953125,
+      "matches_half_tile_model": false
+    },
+    {
+      "id": "hgemv_20261107_65_256",
+      "function": "hgemv_wmma_tile16_half_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0017854947363957763,
+      "matches_cuda": true,
+      "max_abs_cuda": 0.0,
+      "matches_half_tile_model": true
+    },
+    {
+      "id": "hgemv_20261107_65_256",
+      "function": "hgemv_wmma_fp32_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0008171336012310348,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.001953125,
+      "matches_half_tile_model": false
+    },
+    {
+      "id": "hgemv_20261107_64_1024",
+      "function": "hgemv_wmma_tile16_half_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.009091664534935262,
+      "matches_cuda": true,
+      "max_abs_cuda": 0.0,
+      "matches_half_tile_model": true
+    },
+    {
+      "id": "hgemv_20261107_64_1024",
+      "function": "hgemv_wmma_fp32_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.0017325716180494055,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.009765625,
+      "matches_half_tile_model": false
+    },
+    {
+      "id": "hgemv_20261107_64_8192",
+      "function": "hgemv_wmma_tile16_half_state",
+      "fp64_accuracy_passed": false,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.05080366810398118,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.0078125,
+      "matches_half_tile_model": false
+    },
+    {
+      "id": "hgemv_20261107_64_8192",
+      "function": "hgemv_wmma_fp32_state",
+      "fp64_accuracy_passed": true,
+      "atol": 0.003,
+      "rtol": 0.003,
+      "max_abs_error_fp64": 0.007011921572711799,
+      "matches_cuda": false,
+      "max_abs_cuda": 0.05078125,
+      "matches_half_tile_model": false
+    }
+  ],
+  "isa": {
+    "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+    "instructions": [
+      "v_wmma_f32_16x16x16_f16"
+    ],
+    "assembly": "artifacts/rocm/cross/hgemv_precision_isa/kernel.amdgcn",
+    "assembly_sha256": "520f7ae903c6ae0e0624dd6b0cb9ef37c7460c5aa56128660a159dce724b6c69",
+    "hsaco_sha256": "7390f9a46270b106a6f963b59b0320097d8de5fd9b3740601b04dafa7bbdccf1"
+  },
+  "note": "Research only. FP32-state changes accumulation precision; it is not a bitwise FP16-accumulator port."
+}

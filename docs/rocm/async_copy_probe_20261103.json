@@ -1,0 +1,70 @@
+{
+  "timestamp_utc": "2026-11-03T08:29:32.671946+00:00",
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "0",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/ead3a1077a664fe2add9c40f1ed0ae40.json"
+  },
+  "probes": [
+    {
+      "builtin": "__builtin_amdgcn_global_load_lds",
+      "source": "artifacts/rocm/async_copy/probes/global_load_lds.cpp",
+      "source_sha256": "2a155a286ee8297b85d4c232e555fcb797a8189f8c9362ab98ec969f328ab56c",
+      "command": [
+        "/opt/rocm/bin/hipcc",
+        "-O3",
+        "--offload-arch=gfx1201",
+        "-c",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/async_copy/probes/global_load_lds.cpp",
+        "-o",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/async_copy/probes/global_load_lds.o"
+      ],
+      "returncode": 1,
+      "stderr": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/async_copy/probes/global_load_lds.cpp:9:1: error: '__builtin_amdgcn_global_load_lds' needs target feature vmem-to-lds-load-insts\n    9 | __builtin_amdgcn_global_load_lds((Global*)(src+threadIdx.x), (Local*)tile, 4, 0, 0);\n      | ^\n1 error generated when compiling for gfx1201.\nfailed to execute:/opt/rocm/core-10.1/lib/llvm/bin/clang++  --offload-arch=gfx1201  -O3 -c -x hip /home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/async_copy/probes/global_load_lds.cpp -o \"/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/async_copy/probes/global_load_lds.o\"\n",
+      "stdout": ""
+    },
+    {
+      "builtin": "__builtin_amdgcn_global_load_async_lds",
+      "source": "artifacts/rocm/async_copy/probes/global_load_async_lds.cpp",
+      "source_sha256": "4b366065c1e8330435f7fad451dc16bc4ae6db14b00d42c0f336261e74de689b",
+      "command": [
+        "/opt/rocm/bin/hipcc",
+        "-O3",
+        "--offload-arch=gfx1201",
+        "-c",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/async_copy/probes/global_load_async_lds.cpp",
+        "-o",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/async_copy/probes/global_load_async_lds.o"
+      ],
+      "returncode": 1,
+      "stderr": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/async_copy/probes/global_load_async_lds.cpp:9:1: error: '__builtin_amdgcn_global_load_async_lds' needs target feature vmem-to-lds-load-insts\n    9 | __builtin_amdgcn_global_load_async_lds((Global*)(src+threadIdx.x), (Local*)tile, 4, 0, 0);\n      | ^\n1 error generated when compiling for gfx1201.\nfailed to execute:/opt/rocm/core-10.1/lib/llvm/bin/clang++  --offload-arch=gfx1201  -O3 -c -x hip /home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/async_copy/probes/global_load_async_lds.cpp -o \"/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/async_copy/probes/global_load_async_lds.o\"\n",
+      "stdout": ""
+    },
+    {
+      "builtin": "__builtin_amdgcn_global_load_async_to_lds_b128",
+      "source": "artifacts/rocm/async_copy/probes/global_load_async_to_lds_b128.cpp",
+      "source_sha256": "fec9c9d8cadaeda3b05af7c49b8bfadec02d0506d0c2ab00cc3dc37a6ae81ebd",
+      "command": [
+        "/opt/rocm/bin/hipcc",
+        "-O3",
+        "--offload-arch=gfx1201",
+        "-c",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/async_copy/probes/global_load_async_to_lds_b128.cpp",
+        "-o",
+        "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/async_copy/probes/global_load_async_to_lds_b128.o"
+      ],
+      "returncode": 1,
+      "stderr": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/async_copy/probes/global_load_async_to_lds_b128.cpp:9:1: error: '__builtin_amdgcn_global_load_async_to_lds_b128' needs target feature async-load-to-lds-insts,wavefrontsize32\n    9 | __builtin_amdgcn_global_load_async_to_lds_b128((Global4*)(src+threadIdx.x), (Local4*)(tile+threadIdx.x), 0, 0);\n      | ^\n1 error generated when compiling for gfx1201.\nfailed to execute:/opt/rocm/core-10.1/lib/llvm/bin/clang++  --offload-arch=gfx1201  -O3 -c -x hip /home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/async_copy/probes/global_load_async_to_lds_b128.cpp -o \"/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/async_copy/probes/global_load_async_to_lds_b128.o\"\n",
+      "stdout": ""
+    }
+  ],
+  "script_sha256": "3bc8fe3ac917acf7cae9a1505b8d4397c1b7c10310938bbdecb94b6c926106fb"
+}

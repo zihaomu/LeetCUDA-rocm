@@ -9,6 +9,11 @@
 #include <torch/extension.h>
 #include <torch/types.h>
 #include <vector>
+#ifdef LEETCUDA_ROCM
+#include <c10/cuda/CUDAGuard.h>
+#include <c10/cuda/CUDAException.h>
+#include <climits>
+#endif
 
 #define INT4(value) (reinterpret_cast<int4*>(&(value))[0])
 #define FLOAT4(value) (reinterpret_cast<float4*>(&(value))[0])
@@ -118,9 +123,9 @@ __global__ void sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_kernel(
 
 #pragma unroll
     for (int tk = 0; tk < BK; tk++) {
-        FLOAT4(r_comp_a[0]) = FLOAT4(s_a[1][tk][ty * TM]);
-        FLOAT4(r_comp_a[4]) = FLOAT4(s_a[1][tk][ty * TM + 4]);
-        FLOAT4(r_comp_b[0]) = FLOAT4(s_b[1][tk][tx * TN]);
+        FLOAT4(r_comp_a[0]) = FLOAT4(s_a[((K + BK - 1) / BK - 1) & 1][tk][ty * TM]);
+        FLOAT4(r_comp_a[4]) = FLOAT4(s_a[((K + BK - 1) / BK - 1) & 1][tk][ty * TM + 4]);
+        FLOAT4(r_comp_b[0]) = FLOAT4(s_b[((K + BK - 1) / BK - 1) & 1][tk][tx * TN]);
 
 #pragma unroll
         for (int tm = 0; tm < TM; tm++) {
@@ -140,6 +145,7 @@ __global__ void sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_kernel(
     }
 }
 
+#ifndef LEETCUDA_ROCM
 template <const int BM = 64,
     const int BN = 64,
     const int BK = 16,
@@ -266,6 +272,186 @@ __global__ void sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async_kernel(
         FLOAT4(c[store_c_gmem_addr]) = FLOAT4(r_c[i][0]);
     }
 }
+#endif // LEETCUDA_ROCM
+
+#ifdef LEETCUDA_ROCM
+// RDNA4 has no direct global-to-LDS instruction. Preserve the original two LDS
+// buffers and per-thread output layout, but prefetch A and B into VGPRs while
+// computing the previous tile. The explicit load-counter wait is required:
+// these inline-assembly loads are not tracked by LLVM's memory hazard pass.
+namespace leetcuda_amd_async {
+using Vec4 = float __attribute__((ext_vector_type(4)));
+
+__device__ __forceinline__ Vec4 prefetch(const float *source) {
+  Vec4 value;
+  asm volatile("global_load_b128 %0, %1, off"
+               : "=v"(value)
+               : "v"(source)
+               : "memory");
+  return value;
+}
+
+template <int LB>
+__device__ __forceinline__ void wait_loads(Vec4 (&a)[2], Vec4 (&b)[LB / 4]) {
+  // Read/write constraints make every later use depend on this wait, including
+  // register-only moves that a memory clobber alone would not constrain.
+  if constexpr (LB == 8) {
+    asm volatile("s_wait_loadcnt 0"
+                 : "+v"(a[0]), "+v"(a[1]), "+v"(b[0]), "+v"(b[1])::"memory");
+  } else {
+    asm volatile("s_wait_loadcnt 0"
+                 : "+v"(a[0]), "+v"(a[1]), "+v"(b[0]), "+v"(b[1]), "+v"(b[2]),
+                   "+v"(b[3])::"memory");
+  }
+}
+
+template <int BM, int BN, int TN>
+__device__ __forceinline__ void issue(const float *a, const float *b, int n,
+                                      int k, int tile, int tid, Vec4 (&ra)[2],
+                                      Vec4 (&rb)[(TN == 16 ? 16 : 8) / 4]) {
+  constexpr int LB = TN == 16 ? 16 : 8;
+  const int am = blockIdx.y * BM + tid / 2;
+  const int ak = tile * 16 + (tid % 2) * 8;
+  const int bk = tile * 16 + tid / (BN / LB);
+  const int bn = blockIdx.x * BN + (tid % (BN / LB)) * LB;
+#pragma unroll
+  for (int i = 0; i < 2; ++i)
+    ra[i] = prefetch(a + am * k + ak + 4 * i);
+#pragma unroll
+  for (int i = 0; i < LB / 4; ++i)
+    rb[i] = prefetch(b + bk * n + bn + 4 * i);
+}
+
+template <int BM, int BN, int TN>
+__device__ __forceinline__ void
+stage(Vec4 (&ra)[2], Vec4 (&rb)[(TN == 16 ? 16 : 8) / 4], float (&sa)[16][BM],
+      float (&sb)[16][BN], int tid) {
+  constexpr int LB = TN == 16 ? 16 : 8;
+  wait_loads<LB>(ra, rb);
+#pragma unroll
+  for (int i = 0; i < 8; ++i)
+    sa[(tid % 2) * 8 + i][tid / 2] = ra[i / 4][i % 4];
+#pragma unroll
+  for (int i = 0; i < LB / 4; ++i)
+    *reinterpret_cast<Vec4 *>(
+        &sb[tid / (BN / LB)][(tid % (BN / LB)) * LB + i * 4]) = rb[i];
+}
+
+template <int BM, int BN, int TN>
+__device__ __forceinline__ void compute(const float (&sa)[16][BM],
+                                        const float (&sb)[16][BN],
+                                        float (&acc)[8][TN]) {
+  // Full K unrolling spilled the 8x16 variant's live prefetch registers;
+  // scratch-load waits then drained pending global reads before computation.
+#pragma unroll 1
+  for (int kk = 0; kk < 16; ++kk) {
+    float av[8], bv[TN];
+#pragma unroll
+    for (int i = 0; i < 8; ++i) {
+      const int row = TN == 8 ? threadIdx.y * 4 + (i % 4) + (i / 4) * (BM / 2)
+                              : threadIdx.y * 8 + i;
+      av[i] = sa[kk][row];
+    }
+#pragma unroll
+    for (int j = 0; j < TN; ++j) {
+      const int col = TN == 8 ? threadIdx.x * 4 + (j % 4) + (j / 4) * (BN / 2)
+                              : threadIdx.x * TN + j;
+      bv[j] = sb[kk][col];
+    }
+#pragma unroll
+    for (int i = 0; i < 8; ++i)
+#pragma unroll
+      for (int j = 0; j < TN; ++j)
+        acc[i][j] = __fmaf_rn(av[i], bv[j], acc[i][j]);
+  }
+}
+
+template <int BM, int BN, int TN>
+__global__ void sgemm_prefetch_kernel(const float *a, const float *b, float *c,
+                                      int m, int n, int k) {
+  __shared__ float sa[2][16][BM];
+  __shared__ float sb[2][16][BN];
+  constexpr int LB = TN == 16 ? 16 : 8;
+  const int tid = threadIdx.y * blockDim.x + threadIdx.x;
+  Vec4 ra[2], rb[LB / 4];
+  float acc[8][TN] = {};
+  issue<BM, BN, TN>(a, b, n, k, 0, tid, ra, rb);
+  stage<BM, BN, TN>(ra, rb, sa[0], sb[0], tid);
+  __syncthreads();
+  for (int tile = 1; tile < k / 16; ++tile) {
+    issue<BM, BN, TN>(a, b, n, k, tile, tid, ra, rb);
+    __builtin_amdgcn_sched_barrier(0);
+    compute<BM, BN, TN>(sa[(tile - 1) & 1], sb[(tile - 1) & 1], acc);
+    __builtin_amdgcn_sched_barrier(0);
+    stage<BM, BN, TN>(ra, rb, sa[tile & 1], sb[tile & 1], tid);
+    __syncthreads();
+  }
+  compute<BM, BN, TN>(sa[(k / 16 - 1) & 1], sb[(k / 16 - 1) & 1], acc);
+#pragma unroll
+  for (int i = 0; i < 8; ++i) {
+    const int row = TN == 8 ? threadIdx.y * 4 + (i % 4) + (i / 4) * (BM / 2)
+                            : threadIdx.y * 8 + i;
+#pragma unroll
+    for (int j = 0; j < TN; j += 4) {
+      const int col =
+          TN == 8 ? threadIdx.x * 4 + (j / 4) * (BN / 2) : threadIdx.x * TN + j;
+      const Vec4 result = {acc[i][j], acc[i][j + 1], acc[i][j + 2],
+                           acc[i][j + 3]};
+      *reinterpret_cast<Vec4 *>(c + (blockIdx.y * BM + row) * n +
+                                blockIdx.x * BN + col) = result;
+    }
+  }
+}
+
+template <int BM, int BN, int TN>
+void launch(torch::Tensor a, torch::Tensor b, torch::Tensor c) {
+  for (const auto &t : {a, b, c}) {
+    TORCH_CHECK(t.is_cuda() && t.scalar_type() == torch::kFloat32 &&
+                    t.dim() == 2 && t.is_contiguous() && !t.requires_grad(),
+                "expected contiguous inference-only GPU FP32 matrices");
+    TORCH_CHECK(t.device() == a.device(), "all matrices must share a device");
+    TORCH_CHECK(t.numel() <= INT_MAX &&
+                    reinterpret_cast<uintptr_t>(t.data_ptr()) % 16 == 0,
+                "matrix index overflow or missing 16-byte alignment");
+  }
+  const int m = a.size(0), k = a.size(1), n = b.size(1);
+  TORCH_CHECK(m > 0 && n > 0 && k > 0 && m % BM == 0 && n % BN == 0 &&
+                  k % 16 == 0,
+              "async SGEMM requires M%", BM, "=0, N%", BN,
+              "=0, K%16=0 and positive dimensions");
+  TORCH_CHECK(b.size(0) == k && c.size(0) == m && c.size(1) == n,
+              "GEMM shape mismatch");
+  const auto begin = reinterpret_cast<uintptr_t>(c.data_ptr()),
+             end = begin + c.nbytes();
+  for (const auto &t : {a, b}) {
+    const auto p = reinterpret_cast<uintptr_t>(t.data_ptr());
+    TORCH_CHECK(end <= p || p + t.nbytes() <= begin,
+                "output must not overlap inputs");
+  }
+  const c10::cuda::CUDAGuard guard(a.device());
+  const dim3 block(BN / TN, BM / 8), grid(n / BN, m / BM);
+  sgemm_prefetch_kernel<BM, BN, TN><<<grid, block>>>(
+      a.data_ptr<float>(), b.data_ptr<float>(), c.data_ptr<float>(), m, n, k);
+  C10_CUDA_KERNEL_LAUNCH_CHECK();
+}
+} // namespace leetcuda_amd_async
+
+void sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async(torch::Tensor a,
+                                                 torch::Tensor b,
+                                                 torch::Tensor c) {
+  leetcuda_amd_async::launch<64, 64, 4>(a, b, c);
+}
+void sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async(torch::Tensor a,
+                                                 torch::Tensor b,
+                                                 torch::Tensor c) {
+  leetcuda_amd_async::launch<128, 128, 8>(a, b, c);
+}
+void sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async(torch::Tensor a,
+                                                  torch::Tensor b,
+                                                  torch::Tensor c) {
+  leetcuda_amd_async::launch<128, 256, 16>(a, b, c);
+}
+#endif // LEETCUDA_ROCM
 
 template <const int BM = 128,
     const int BN = 128,
@@ -358,10 +544,10 @@ __global__ void sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_kernel(
 
 #pragma unroll
     for (int tk = 0; tk < BK; tk++) {
-        FLOAT4(r_comp_a[0]) = FLOAT4(s_a[1][tk][ty * TM / 2]);
-        FLOAT4(r_comp_a[4]) = FLOAT4(s_a[1][tk][ty * TM / 2 + BM / 2]);
-        FLOAT4(r_comp_b[0]) = FLOAT4(s_b[1][tk][tx * TN / 2]);
-        FLOAT4(r_comp_b[4]) = FLOAT4(s_b[1][tk][tx * TN / 2 + BN / 2]);
+        FLOAT4(r_comp_a[0]) = FLOAT4(s_a[((K + BK - 1) / BK - 1) & 1][tk][ty * TM / 2]);
+        FLOAT4(r_comp_a[4]) = FLOAT4(s_a[((K + BK - 1) / BK - 1) & 1][tk][ty * TM / 2 + BM / 2]);
+        FLOAT4(r_comp_b[0]) = FLOAT4(s_b[((K + BK - 1) / BK - 1) & 1][tk][tx * TN / 2]);
+        FLOAT4(r_comp_b[4]) = FLOAT4(s_b[((K + BK - 1) / BK - 1) & 1][tk][tx * TN / 2 + BN / 2]);
 
 #pragma unroll
         for (int tm = 0; tm < TM; tm++) {
@@ -390,6 +576,7 @@ __global__ void sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_kernel(
     }
 }
 
+#ifndef LEETCUDA_ROCM
 template <const int BM = 128,
     const int BN = 128,
     const int BK = 16,
@@ -527,6 +714,7 @@ __global__ void sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async_kernel(
         FLOAT4(c[store_c_gmem_addr + BN / 2]) = FLOAT4(r_c[i + TM / 2][4]);
     }
 }
+#endif // LEETCUDA_ROCM
 
 // t 8x16, k 16, w/o async
 template <const int BM = 128,
@@ -644,11 +832,11 @@ __global__ void sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_kernel(
 // smem -> regristers
 #pragma unroll
         for (int r = 0; r < 8; r += 4) {
-            FLOAT4(r_comp_a[r]) = FLOAT4(s_a[1][tk][ty * TM + r]);
+            FLOAT4(r_comp_a[r]) = FLOAT4(s_a[((K + BK - 1) / BK - 1) & 1][tk][ty * TM + r]);
         }
 #pragma unroll
         for (int r = 0; r < 16; r += 4) {
-            FLOAT4(r_comp_b[r]) = FLOAT4(s_b[1][tk][tx * TN + r]);
+            FLOAT4(r_comp_b[r]) = FLOAT4(s_b[((K + BK - 1) / BK - 1) & 1][tk][tx * TN + r]);
         }
 
 #pragma unroll
@@ -673,6 +861,7 @@ __global__ void sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_kernel(
 }
 
 // t 8x16, k 16, async
+#ifndef LEETCUDA_ROCM
 template <const int BM = 128,
     const int BN = 256,
     const int BK = 16,
@@ -825,6 +1014,7 @@ __global__ void sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async_kernel(
         }
     }
 }
+#endif // LEETCUDA_ROCM
 
 #define STRINGFY(str) #str
 #define TORCH_BINDING_COMMON_EXTENSION(func) m.def(STRINGFY(func), &func, STRINGFY(func));
@@ -869,6 +1059,7 @@ void sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf(torch::Tensor a, torch::Tensor b, tor
             K);
 }
 
+#ifndef LEETCUDA_ROCM
 void sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async(
     torch::Tensor a, torch::Tensor b, torch::Tensor c) {
     CHECK_TORCH_TENSOR_DTYPE(a, torch::kFloat32)
@@ -897,6 +1088,7 @@ void sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async(
             N,
             K);
 }
+#endif // LEETCUDA_ROCM
 
 // 8x8, k16
 void sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf(torch::Tensor a, torch::Tensor b, torch::Tensor c) {
@@ -927,6 +1119,7 @@ void sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf(torch::Tensor a, torch::Tensor b, tor
             K);
 }
 
+#ifndef LEETCUDA_ROCM
 void sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async(
     torch::Tensor a, torch::Tensor b, torch::Tensor c) {
     CHECK_TORCH_TENSOR_DTYPE(a, torch::kFloat32)
@@ -955,6 +1148,7 @@ void sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async(
             N,
             K);
 }
+#endif // LEETCUDA_ROCM
 
 // 8x16, k16
 void sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf(torch::Tensor a, torch::Tensor b, torch::Tensor c) {
@@ -985,6 +1179,7 @@ void sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf(torch::Tensor a, torch::Tensor b, to
             K);
 }
 
+#ifndef LEETCUDA_ROCM
 void sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async(
     torch::Tensor a, torch::Tensor b, torch::Tensor c) {
     CHECK_TORCH_TENSOR_DTYPE(a, torch::kFloat32)
@@ -1013,3 +1208,4 @@ void sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async(
             N,
             K);
 }
+#endif // LEETCUDA_ROCM

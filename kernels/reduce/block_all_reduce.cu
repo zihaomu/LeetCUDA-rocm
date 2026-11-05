@@ -172,11 +172,11 @@ __global__ void block_all_reduce_sum_f16x2_f32_kernel(half *a, float *y,
 
   // keep the data in register is enough for warp operaion.
   half2 reg_a = HALF2(a[idx]);
-  half sum_f16 = (idx < N) ? __hadd(reg_a.x, reg_a.y) : __float2half(0.0f);
+  float sum_f32 = (idx < N) ? __half2float(reg_a.x) + __half2float(reg_a.y) : 0.0f;
   int warp = tid / WARP_SIZE;
   int lane = tid % WARP_SIZE;
   // perform warp sync reduce.
-  float sum_f32 = warp_reduce_sum_f16_f32<WARP_SIZE>(sum_f16);
+  sum_f32 = warp_reduce_sum_f32<WARP_SIZE>(sum_f32);
   // warp leaders store the data to shared memory.
   // use float to keep sum from each block and reduce
   // with fp32 inter warps.
@@ -416,12 +416,11 @@ __global__ void block_all_reduce_sum_bf16x2_f32_kernel(__nv_bfloat16 *a,
 
   // keep the data in register is enough for warp operaion.
   __nv_bfloat162 reg_a = BFLOAT2(a[idx]);
-  __nv_bfloat16 sum_bf16 =
-      (idx < N) ? __hadd(reg_a.x, reg_a.y) : __float2bfloat16(0.0f);
+  float sum_f32 = (idx < N) ? __bfloat162float(reg_a.x) + __bfloat162float(reg_a.y) : 0.0f;
   int warp = tid / WARP_SIZE;
   int lane = tid % WARP_SIZE;
   // perform warp sync reduce.
-  float sum_f32 = warp_reduce_sum_bf16_f32<WARP_SIZE>(sum_bf16);
+  sum_f32 = warp_reduce_sum_f32<WARP_SIZE>(sum_f32);
   // warp leaders store the data to shared memory.
   // use float to keep sum from each block and reduce
   // with fp32 inter warps.
@@ -485,19 +484,18 @@ __global__ void block_all_reduce_sum_bf16x8_pack_f32_kernel(__nv_bfloat16 *a,
   __nv_bfloat16 pack_a[8]; // 8x16 bits=128 bits.
   // reinterpret as float4 and load 128 bits in 1 memory issue.
   LDST128BITS(pack_a[0]) = LDST128BITS(a[idx]); // load 128 bits
-  const __nv_bfloat16 z = __float2bfloat16(0.0f);
-
-  __nv_bfloat16 sum_bf16 = z;
+  // Convert before summing: the f32 variant must not round partial sums to BF16.
+  float sum_f32 = 0.0f;
 #pragma unroll
   for (int i = 0; i < 8; ++i) {
-    sum_bf16 += (((idx + i) < N) ? pack_a[i] : z);
+    sum_f32 += (((idx + i) < N) ? __bfloat162float(pack_a[i]) : 0.0f);
   }
 
   // keep the data in register is enough for warp operaion.
   int warp = tid / WARP_SIZE;
   int lane = tid % WARP_SIZE;
   // perform warp sync reduce.
-  float sum_f32 = warp_reduce_sum_bf16_f32<WARP_SIZE>(sum_bf16);
+  sum_f32 = warp_reduce_sum_f32<WARP_SIZE>(sum_f32);
   // warp leaders store the data to shared memory.
   // use float to keep sum from each block and reduce
   // with fp32 inter warps.
@@ -879,11 +877,15 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_f16x2_f32)
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_f16x8_pack_f16)
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_f16x8_pack_f32)
+#ifndef LEETCUDA_ROCM
+  // These teaching variants accumulate in BF16 and exceed the ROCm numerical
+  // qualification threshold. Use the explicitly named FP32 accumulators.
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_bf16_bf16)
-  TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_bf16_f32)
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_bf16x2_bf16)
-  TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_bf16x2_f32)
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_bf16x8_pack_bf16)
+#endif
+  TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_bf16_f32)
+  TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_bf16x2_f32)
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_bf16x8_pack_f32)
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_fp8_e4m3_f16)
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_fp8_e4m3x16_pack_f16)

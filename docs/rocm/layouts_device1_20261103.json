@@ -1,0 +1,3558 @@
+{
+  "schema_version": 1,
+  "timestamp_utc": "2026-11-03T07:03:33.253485+00:00",
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "0,1",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/bfbc3453ab9c4e29b9130f49a7164424.json"
+  },
+  "logical_device": 1,
+  "excluded_functions": {
+    "reduce": {
+      "block_all_reduce_sum_bf16_bf16": "BF16 accumulation exceeds the numerical threshold; use the named FP32 accumulator",
+      "block_all_reduce_sum_bf16x2_bf16": "BF16 accumulation exceeds the numerical threshold; use the named FP32 accumulator",
+      "block_all_reduce_sum_bf16x8_pack_bf16": "BF16 accumulation exceeds the numerical threshold; use the named FP32 accumulator"
+    }
+  },
+  "seed": 20261102,
+  "modules": {
+    "mat_transpose": {
+      "passed": true,
+      "checks": [
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32_col2row",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32_col2row",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32_col2row2d",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32_col2row2d",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32_diagonal2d",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32_diagonal2d",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32_row2col",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32_row2col",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32_row2col2d",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32_row2col2d",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_col2row",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_col2row",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_col2row2d",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_col2row2d",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_row2col",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_row2col",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_row2col2d",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_row2col2d",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_shared_bcf_col2row2d",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_shared_bcf_col2row2d",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_shared_bcf_merge_write_row2col2d",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_shared_bcf_merge_write_row2col2d",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_shared_bcf_row2col2d",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_shared_bcf_row2col2d",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_shared_col2row2d",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_shared_col2row2d",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_shared_row2col2d",
+          "rows": 8,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                256,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_f32x4_shared_row2col2d",
+          "rows": 16,
+          "tensor_arguments": [
+            {
+              "shape": [
+                256,
+                512
+              ],
+              "dtype": "torch.float32"
+            },
+            {
+              "shape": [
+                512,
+                256
+              ],
+              "dtype": "torch.float32"
+            }
+          ],
+          "max_abs_error": 0.0,
+          "atol": 0,
+          "rtol": 0,
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "device-guard-restores-caller",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "reject-cpu",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "reject-dtype",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "reject-shape",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "reject-noncontiguous",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "reject-alias",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "reject-autograd",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col2row_reg",
+          "case": "reject-mixed-devices",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "device-guard-restores-caller",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "reject-cpu",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "reject-dtype",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "reject-shape",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "reject-noncontiguous",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "reject-alias",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "reject-autograd",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem",
+          "case": "reject-mixed-devices",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "device-guard-restores-caller",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "reject-cpu",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "reject-dtype",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "reject-shape",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "reject-noncontiguous",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "reject-alias",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "reject-autograd",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_col_smem_swizzled",
+          "case": "reject-mixed-devices",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "device-guard-restores-caller",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "reject-cpu",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "reject-dtype",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "reject-shape",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "reject-noncontiguous",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "reject-alias",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "reject-autograd",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row2col_reg",
+          "case": "reject-mixed-devices",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "device-guard-restores-caller",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "reject-cpu",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "reject-dtype",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "reject-shape",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "reject-noncontiguous",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "reject-alias",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "reject-autograd",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "reject-unaligned-input",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "reject-unaligned-output",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized",
+          "case": "reject-mixed-devices",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "device-guard-restores-caller",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "reject-cpu",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "reject-dtype",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "reject-shape",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "reject-noncontiguous",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "reject-alias",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "reject-autograd",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "reject-unaligned-input",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "reject-unaligned-output",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_cvectorized_swizzled",
+          "case": "reject-mixed-devices",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "device-guard-restores-caller",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "reject-cpu",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "reject-dtype",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "reject-shape",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "reject-noncontiguous",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "reject-alias",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "reject-autograd",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "reject-unaligned-input",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "reject-unaligned-output",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized",
+          "case": "reject-mixed-devices",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "device-guard-restores-caller",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "reject-cpu",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "reject-dtype",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "reject-shape",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "reject-noncontiguous",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "reject-alias",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "reject-autograd",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "reject-unaligned-input",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "reject-unaligned-output",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled",
+          "case": "reject-mixed-devices",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "device-guard-restores-caller",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "reject-cpu",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "reject-dtype",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "reject-shape",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "reject-noncontiguous",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "reject-alias",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "reject-autograd",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "reject-unaligned-input",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "reject-unaligned-output",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_rvectorized_swizzled_optimized",
+          "case": "reject-mixed-devices",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "device-guard-restores-caller",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "reject-cpu",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "reject-dtype",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "reject-shape",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "reject-noncontiguous",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "reject-alias",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "reject-autograd",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem",
+          "case": "reject-mixed-devices",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            1,
+            1
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            3,
+            5
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            16,
+            16
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            17,
+            63
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            64,
+            128
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            65,
+            129
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            0,
+            7
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "bitwise-special-values-and-tails",
+          "shape": [
+            7,
+            0
+          ],
+          "stream": "non-default",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "device-guard-restores-caller",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "reject-cpu",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "reject-dtype",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "reject-shape",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "reject-noncontiguous",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "reject-alias",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "reject-autograd",
+          "passed": true
+        },
+        {
+          "function": "mat_transpose_cute_row_smem_swizzled",
+          "case": "reject-mixed-devices",
+          "passed": true
+        }
+      ],
+      "binary_sha256": "82329ce3b2c397ec2699d4ebf047e18f15126709fe79006bb8e66a52c92be0e5",
+      "elapsed_seconds": 1.122007152000151
+    }
+  },
+  "passed": true,
+  "git_revision": "3dbd618e703943e6761db05f29dd66cb7de94d13",
+  "source_sha256": {
+    "mat_transpose": "a62f2437bcbf5e2f6f455e2ae96dd6d24d174c437971af7f37e080f26a7ec96a"
+  },
+  "source_files_sha256": {
+    "kernels/mat-transpose/mat_transpose.cu": "a62f2437bcbf5e2f6f455e2ae96dd6d24d174c437971af7f37e080f26a7ec96a",
+    "kernels/rocm/mat_transpose_layouts.cu": "c997501c770a1f9d29511ad1c66454821427ba348ee414da072d2f1c818c8d60"
+  },
+  "adapter_sha256": {
+    "leetcuda_rocm/__init__.py": "d8c9f7edf879b8d662efefe1411af933ebd8578e49fb61e0cb6228ebdc5d4950",
+    "leetcuda_rocm/build.py": "05586d0ad8252352ed3b04a42c77831e208bdaef8c0b2cb4075f1adc7e04cd01",
+    "leetcuda_rocm/environment.py": "077a38d192b13cfe7fed956b03269893ef76636fa7031809927837ad14a531b3",
+    "leetcuda_rocm/extra_checks.py": "5cf3b681fcce7c3cde05930a37985f90469b92e863155900160e47d9897e75bc",
+    "leetcuda_rocm/layout_check.py": "5744c23526e59ead259984ffb6b60b7fe2f59d04812933c6136e8910cc657322",
+    "leetcuda_rocm/loader.py": "5058afb782a36c44100940c7e13271812adaa4d9b0d81e717e66de617d216bfb",
+    "leetcuda_rocm/matrix_attention.py": "550892bbd40338518119c398c3819ea0fc5a1de02ecf91e780080136e5cfeb66",
+    "leetcuda_rocm/matrix_attention_check.py": "a6b4ca86889b653433968678a886a919547da83b4d13863b7a52313fce57d70f",
+    "leetcuda_rocm/research_blas.py": "bf2bd83cbcd73ffdba9963364dd02170a9892fa0c7bc13e44ad0b0c8df5d8fc3",
+    "leetcuda_rocm/research_hgemm.py": "9128402e388034603606542f931f0c4fb921cc659ae35734c935ed53e4f660f5",
+    "leetcuda_rocm/smoke.py": "1289797ece5c992f15c99e417b64a93402e65fac437027e596ccee7e50f1e663",
+    "leetcuda_rocm/transpose_checks.py": "28492dd0fa4d45f54257547afbb546b95b03b07ed7c3e4762291e40268acdac1"
+  }
+}
