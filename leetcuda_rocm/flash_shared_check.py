@@ -261,7 +261,7 @@ def inspect_isa(lib, destination):
     for i in range(1, len(sections), 3):
         symbol, body = sections[i + 1 : i + 3]
         match = re.search(
-            r"attention_sharedILi(\d+)ELi([12])ELb([01])EEE", symbol
+            r"attention_sharedILi(\d+)ELi([12])ELb([01])E(?:Lb0E)?EE", symbol
         )
         if not match:
             continue

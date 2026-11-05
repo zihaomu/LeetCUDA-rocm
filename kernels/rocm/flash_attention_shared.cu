@@ -58,11 +58,16 @@ __device__ __forceinline__ void publish(_Float16 *dst, U4 *r) {
   }
 }
 
-template <int D, int Stage, bool ShareQ> struct Config {
+template <int D, int Stage, bool ShareQ, bool RR = false> struct Config {
   // D=256 needs fewer Q rows to fit the 64 KiB RDNA4 LDS limit.
   static constexpr int BR = D == 256 ? 64 : 128;
-  static constexpr int BC = !ShareQ && D >= 128 ? 32 : 64;
-  static constexpr int Threads = BR / 16 * 32;
+  static constexpr int BC =
+      (!ShareQ && D >= 128) || (RR && D == 256 && Stage == 2) ? 32 : 64;
+  // Two cooperating warp groups share Q/K/V loads while keeping half the
+  // FP32 output state live in each lane. Only one group publishes shared P.
+  static constexpr int Planes = RR && D > 64 ? 2 : 1;
+  static constexpr int OD = ((D + Planes * 16 - 1) / (Planes * 16)) * 16;
+  static constexpr int Threads = BR / 16 * 32 * Planes;
   static constexpr int Q = BR * D, KV = Stage * BC * D;
   static constexpr int Data = ShareQ ? (Q > KV ? Q : KV) : Q + KV;
   static constexpr int HalfElements = Data + BR * BC;
@@ -70,12 +75,13 @@ template <int D, int Stage, bool ShareQ> struct Config {
   static constexpr int KVLoads = (BC * D + Threads * 8 - 1) / (Threads * 8);
 };
 
-template <int D, int Stage, bool ShareQ>
-__global__ void __launch_bounds__((D == 256 ? 64 : 128) * 2)
+template <int D, int Stage, bool ShareQ, bool RR = false>
+__global__ void __launch_bounds__((D == 256 ? 64 : 128) * 2 *
+                                  (RR && D > 64 ? 2 : 1))
     attention_shared(const _Float16 *q, const _Float16 *k, const _Float16 *v,
                      _Float16 *o, int n) {
-  using C = Config<D, Stage, ShareQ>;
-  constexpr int BR = C::BR, BC = C::BC, Threads = C::Threads;
+  using C = Config<D, Stage, ShareQ, RR>;
+  constexpr int BR = C::BR, BC = C::BC, OD = C::OD, Threads = C::Threads;
   extern __shared__ _Float16 lds[];
   _Float16 *sq = lds;
   _Float16 *sk = ShareQ ? lds : lds + C::Q;
@@ -87,7 +93,9 @@ __global__ void __launch_bounds__((D == 256 ? 64 : 128) * 2)
   v += base;
   o += base;
   int q0 = blockIdx.x * BR;
-  int lane = threadIdx.x % 32, wave = threadIdx.x / 32;
+  int plane = (threadIdx.x / 32) % C::Planes;
+  int od0 = plane * OD;
+  int lane = threadIdx.x % 32, wave = threadIdx.x / 32 / C::Planes;
   H8 qcache[D / 16];
   {
     U4 qr[C::QLoads];
@@ -106,7 +114,7 @@ __global__ void __launch_bounds__((D == 256 ? 64 : 128) * 2)
     }
   }
   U4 kr[C::KVLoads], vr[C::KVLoads];
-  F8 output[D / 16] = {};
+  F8 output[OD / 16] = {};
   F8 maximum, denominator = {};
 #pragma unroll
   for (int x = 0; x < 8; ++x)
@@ -177,7 +185,8 @@ __global__ void __launch_bounds__((D == 256 ? 64 : 128) * 2)
         float prob = expf(score[j][x] - mx);
         sum += prob;
         int row = wave * 16 + lane / 16 * 8 + x;
-        p[row * BC + j * 16 + lane % 16] = (_Float16)prob;
+        if (plane == 0)
+          p[row * BC + j * 16 + lane % 16] = (_Float16)prob;
       }
 #pragma unroll
       for (int delta = 8; delta > 0; delta /= 2)
@@ -187,7 +196,7 @@ __global__ void __launch_bounds__((D == 256 ? 64 : 128) * 2)
     }
     __syncthreads(); // Publish V and FP16 P before the PV matrix product.
 #pragma unroll
-    for (int d = 0; d < D / 16; ++d) {
+    for (int d = 0; d < OD / 16; ++d) {
       F8 pv = {};
 #pragma unroll
       for (int j = 0; j < BC / 16; ++j) {
@@ -195,7 +204,10 @@ __global__ void __launch_bounds__((D == 256 ? 64 : 128) * 2)
 #pragma unroll
         for (int x = 0; x < 8; ++x) {
           a[x] = p[(wave * 16 + lane % 16) * BC + j * 16 + lane / 16 * 8 + x];
-          b[x] = sv[(d * 16 + lane % 16) * BC + j * 16 + lane / 16 * 8 + x];
+          b[x] = od0 + d * 16 + lane % 16 < D
+                     ? sv[(od0 + d * 16 + lane % 16) * BC + j * 16 +
+                          lane / 16 * 8 + x]
+                     : (_Float16)0;
         }
         pv = __builtin_amdgcn_wmma_f32_16x16x16_f16_w32_gfx12(a, b, pv);
       }
@@ -210,12 +222,12 @@ __global__ void __launch_bounds__((D == 256 ? 64 : 128) * 2)
     __syncthreads();
   }
 #pragma unroll
-  for (int d = 0; d < D / 16; ++d)
+  for (int d = 0; d < OD / 16; ++d)
 #pragma unroll
     for (int x = 0; x < 8; ++x) {
       int row = q0 + wave * 16 + lane / 16 * 8 + x;
-      if (row < n)
-        o[row * D + d * 16 + lane % 16] =
+      if (row < n && od0 + d * 16 + lane % 16 < D)
+        o[row * D + od0 + d * 16 + lane % 16] =
             (_Float16)(output[d][x] / denominator[x]);
     }
 }
@@ -240,27 +252,28 @@ void check(torch::Tensor q, torch::Tensor k, torch::Tensor v, torch::Tensor o) {
               "index or grid range exceeded");
 }
 
-template <int D, int Stage, bool ShareQ>
+template <int D, int Stage, bool ShareQ, bool RR = false>
 void launch(torch::Tensor q, torch::Tensor k, torch::Tensor v,
             torch::Tensor o) {
-  using C = Config<D, Stage, ShareQ>;
+  using C = Config<D, Stage, ShareQ, RR>;
   static_assert(C::HalfElements * 2 <= 65536);
   dim3 grid((q.size(2) + C::BR - 1) / C::BR, q.size(0) * q.size(1));
-  attention_shared<D, Stage, ShareQ><<<grid, C::Threads, C::HalfElements * 2>>>(
-      reinterpret_cast<const _Float16 *>(q.data_ptr()),
-      reinterpret_cast<const _Float16 *>(k.data_ptr()),
-      reinterpret_cast<const _Float16 *>(v.data_ptr()),
-      reinterpret_cast<_Float16 *>(o.data_ptr()), q.size(2));
+  attention_shared<D, Stage, ShareQ, RR>
+      <<<grid, C::Threads, C::HalfElements * 2>>>(
+          reinterpret_cast<const _Float16 *>(q.data_ptr()),
+          reinterpret_cast<const _Float16 *>(k.data_ptr()),
+          reinterpret_cast<const _Float16 *>(v.data_ptr()),
+          reinterpret_cast<_Float16 *>(o.data_ptr()), q.size(2));
   C10_CUDA_KERNEL_LAUNCH_CHECK();
 }
 
-template <bool ShareQ>
+template <bool ShareQ, bool RR = false>
 void dispatch(torch::Tensor q, torch::Tensor k, torch::Tensor v,
               torch::Tensor o, int stages) {
   check(q, k, v, o);
   int d = q.size(3);
   TORCH_CHECK(d == 32 || d == 64 || d == 96 || d == 128 ||
-                  (d == 256 && stages <= 1),
+                  (d == 256 && (stages <= 1 || (RR && ShareQ))),
               "unsupported head dimension/stage combination");
   if (!q.numel())
     return;
@@ -269,9 +282,9 @@ void dispatch(torch::Tensor q, torch::Tensor k, torch::Tensor v,
 #define HEAD(D)                                                                \
   case D:                                                                      \
     if (stages > 1)                                                            \
-      launch<D, 2, ShareQ>(q, k, v, o);                                        \
+      launch<D, 2, ShareQ, RR>(q, k, v, o);                                    \
     else                                                                       \
-      launch<D, 1, ShareQ>(q, k, v, o);                                        \
+      launch<D, 1, ShareQ, RR>(q, k, v, o);                                    \
     break;
   switch (d) {
     HEAD(32)
@@ -279,7 +292,13 @@ void dispatch(torch::Tensor q, torch::Tensor k, torch::Tensor v,
     HEAD(96)
     HEAD(128)
   case 256:
-    launch<256, 1, ShareQ>(q, k, v, o);
+    if constexpr (RR && ShareQ) {
+      if (stages > 1) {
+        launch<256, 2, ShareQ, RR>(q, k, v, o);
+        break;
+      }
+    }
+    launch<256, 1, ShareQ, RR>(q, k, v, o);
     break;
   }
 #undef HEAD
@@ -299,4 +318,20 @@ void flash_attn_mma_stages_split_q_shared_qkv_acc_f32(torch::Tensor q,
                                                       torch::Tensor o,
                                                       int stages) {
   dispatch<true>(q, k, v, o, stages);
+}
+
+void flash_attn_mma_stages_split_q_shared_kv_acc_f32_rr(torch::Tensor q,
+                                                        torch::Tensor k,
+                                                        torch::Tensor v,
+                                                        torch::Tensor o,
+                                                        int stages) {
+  dispatch<false, true>(q, k, v, o, stages);
+}
+
+void flash_attn_mma_stages_split_q_shared_qkv_acc_f32_rr(torch::Tensor q,
+                                                         torch::Tensor k,
+                                                         torch::Tensor v,
+                                                         torch::Tensor o,
+                                                         int stages) {
+  dispatch<true, true>(q, k, v, o, stages);
 }

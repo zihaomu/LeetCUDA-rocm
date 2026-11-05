@@ -118,6 +118,8 @@ def cuda_build(module, names, original, cutlass):
             "flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_q_F32F16F16F32.cu",
             "flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_qk_F32F16F16F32.cu",
             "flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_qkv_F32F16F16F32.cu",
+            "flash-attn/mma/others/flash_attn_mma_share_kv_F32F16F16F32_rr.cu",
+            "flash-attn/mma/others/flash_attn_mma_share_qkv_F32F16F16F32_rr.cu",
         ),
         "hgemv": (
             ("hgemv/hgemv_cute.cu",)
@@ -165,6 +167,7 @@ def cuda_build(module, names, original, cutlass):
         "-U__CUDA_NO_HALF2_OPERATORS__",
         "-U__CUDA_NO_BFLOAT16_CONVERSIONS__",
         "-DNO_CUBLAS_HGEMM_BIN",
+        *(["-DBUILD_FLASH_ATTN_MMA_OTHERS=1"] if module == "flash_attn" else []),
     ]
     headers = (
         sorted((original / "kernels/flash-attn").rglob("*.h"))

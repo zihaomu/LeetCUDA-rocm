@@ -80,8 +80,36 @@ if wmma_keys:
     assert wmma_report["rocm_accumulator"] == "FP32"
 fp8_report_path = root / "docs/rocm/fp8_pipeline_20261103.json"
 flash_keys = {
-    key for key in qualified if key[0] == "flash_attn" and "_shared_" in key[1]
+    key
+    for key in qualified
+    if key[0] == "flash_attn"
+    and "_shared_" in key[1]
+    and not key[1].endswith("_rr")
 }
+rr_keys = {
+    key
+    for key in qualified
+    if key[0] == "flash_attn" and key[1].endswith("_acc_f32_rr")
+}
+rr_path = root / "docs/rocm/flash_rr_20261105/hip.json"
+if rr_keys:
+    rr_report = json.loads(rr_path.read_text())
+    assert rr_report["passed"]
+    assert rr_keys == {
+        ("flash_attn", c["function"]) for c in rr_report["checks"]
+    }
+    for field in ("checks", "boundaries", "storage_checks", "device_checks"):
+        assert rr_report[field] and all(c["passed"] for c in rr_report[field])
+    assert len(rr_report["storage_checks"]) == 19
+    rr_kernels = [k for k in rr_report["isa"]["kernels"] if k["rr"]]
+    assert len(rr_kernels) == 19 and all(
+        k["wmma"] and k["dynamic_lds_bytes"] <= 65536 for k in rr_kernels
+    )
+    assert len(rr_report["performance"]) == 69
+    assert all(
+        p["accuracy_passed"] and p["graph_replay_verified"]
+        for p in rr_report["performance"]
+    )
 tiled_keys = {
     key
     for key in qualified
@@ -317,6 +345,21 @@ for source in sorted((root / "kernels").rglob("*")):
                     flash_path.read_bytes()
                 ).hexdigest(),
             }
+        if (module, name) in rr_keys:
+            entries[-1]["implementation"] = {
+                "mechanism": "Native gfx1201 WMMA; two cooperating output warp groups at D>64 share Q/K/V loads, halving live output state per thread",
+                "original_accumulator": "FP32",
+                "rocm_accumulator": "FP32",
+                "precision_changed": False,
+                "numeric_semantics": "FP16 Q/K/V/P/O; FP32 QK/PV, online max/sum and output state",
+                "head_dimensions": "32,64,96,128,256; stages1/2 except KV D256 only stage1",
+                "architecture_adaptation": "D256 BR64; QKV D256/stage2 BC32 to fit 64KiB LDS; D<=64 retains single group; QK is repeated per output group",
+                "performance_status": "measured_pending_optimization",
+                "evidence": str(rr_path.relative_to(root)),
+                "evidence_sha256": hashlib.sha256(
+                    rr_path.read_bytes()
+                ).hexdigest(),
+            }
         if (module, name) in tiled_keys:
             entries[-1]["implementation"] = {
                 "mechanism": "Native gfx1201 split-Q WMMA attention; distinct reduction-striped V (tiling-QK) or output-striped V (tiling-QKV)",
@@ -451,6 +494,10 @@ if wmma_keys:
         qualified_cuda_path = (
             root / "docs/rocm/flash_swizzle_20261105/qualified173_cuda.json"
         )
+    if rr_keys:
+        qualified_cuda_path = (
+            root / "docs/rocm/flash_rr_20261105/qualified175_cuda.json"
+        )
     qualified_cuda = json.loads(qualified_cuda_path.read_text())
     assert qualified_cuda["passed"]
     by_function = collections.defaultdict(list)
@@ -492,6 +539,7 @@ for keys, flash_cuda_path in (
     (flash_keys, root / "docs/rocm/flash_shared_20261105/cuda.json"),
     (tiled_keys, root / "docs/rocm/flash_tiled_20261105/cuda.json"),
     (swizzle_keys, root / "docs/rocm/flash_swizzle_20261105/cuda.json"),
+    (rr_keys, root / "docs/rocm/flash_rr_20261105/cuda.json"),
 ):
     if not keys:
         continue

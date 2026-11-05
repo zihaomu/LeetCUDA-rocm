@@ -151,6 +151,8 @@ void flash_attn_mma_stages_split_q_shared_qkv_Os2g(torch::Tensor Q,
                                                    torch::Tensor K,
                                                    torch::Tensor V,
                                                    torch::Tensor O, int stages);
+#endif
+#if defined(BUILD_FLASH_ATTN_MMA_OTHERS) || defined(LEETCUDA_ROCM)
 // reduce registers usage.
 void flash_attn_mma_stages_split_q_shared_qkv_acc_f32_rr(torch::Tensor Q,
                                                          torch::Tensor K,
@@ -221,10 +223,12 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   // Others
 #ifdef BUILD_FLASH_ATTN_MMA_OTHERS
   TORCH_BINDING_COMMON_EXTENSION(flash_attn_mma_stages_split_q_shared_qkv_Os2g)
+#endif
+#endif
+#if defined(BUILD_FLASH_ATTN_MMA_OTHERS) || defined(LEETCUDA_ROCM)
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_shared_kv_acc_f32_rr)
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_shared_qkv_acc_f32_rr)
-#endif
 #endif
 }

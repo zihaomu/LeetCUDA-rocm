@@ -5,7 +5,14 @@ LeetCUDA 算法，不会把自定义 kernel 替换成 PyTorch 实现。PyTorch �
 测试参考。当前目标是 **ROCm 10.1.0 / Radeon AI PRO R9700 / gfx1201**。
 尚未完成整个仓库的 NVIDIA 专用 kernel 迁移。
 
-2026-11-05 第五轮：**24 个模块、173 个原始接口、937 项检查通过**，
+2026-11-05 第六轮 B2：**175/229（76.42%）**，新增两个shared rr Attention入口，
+原Attention达到9/29。两卡各660项专项、191组原CUDA/AMD对照、全库971项与
+全接口354组对照全部通过。FP32输出状态保持不变；大D寄存器压力降低，性能仍需优化。
+当前38待迁移、16精度未验收，正在继续B3。主卡PCI a3（物理GPU5/HIP7），复验卡PCI43（物理GPU2/HIP1）。
+见[B2结果](flash_rr_20261105.md)、[资格报告](flash_rr_20261105/qualification175.json)、
+[实时进度](leetcuda_rocm10_live_progress.md)。
+
+2026-11-05 第五轮历史实测：**24 个模块、173 个原始接口、937 项检查通过**，
 覆盖 **173/229=75.55%**。按计划新增 Q/QK/QKV 三个 FP32 swizzle FlashAttention，
 原 FlashAttention 达到 7/29；两张 AMD 卡各 1329 项专项、372 组原 CUDA/AMD 对照通过。
 全接口 350/350 组共享输入通过两端参考及容差检查。42 个特化全部使用 WMMA、
