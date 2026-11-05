@@ -1,0 +1,16 @@
+{"profile": "rocm10-foundation-r9700-v1", "passed": true, "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03", "output": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/3a2c16dd28fe45ed91d9313ac7e03677.json"}
+In file included from artifacts/rocm/continuation_all/interview_hgemm/smoke.cpp:1:
+kernels/rocm/interview_hgemm_hip.cuh:176:17: error: expected '>'
+  176 | __global__ void __launch_bounds__(Config<Kind, Stages>::Threads)
+      |                 ^
+/opt/rocm/core-10.1/lib/llvm/bin/../../../include/hip/amd_detail/amd_hip_runtime.h:151:29: note: expanded from macro '__launch_bounds__'
+  151 |   select_impl_(__VA_ARGS__, launch_bounds_impl1, launch_bounds_impl0, )(__VA_ARGS__)
+      |                             ^
+kernels/rocm/interview_hgemm_hip.cuh:176:41: note: to match this '<'
+  176 | __global__ void __launch_bounds__(Config<Kind, Stages>::Threads)
+      |                                         ^
+kernels/rocm/interview_hgemm_hip.cuh:176:57: error: no member named 'Threads' in the global namespace
+  176 | __global__ void __launch_bounds__(Config<Kind, Stages>::Threads)
+      |                                                         ^~~~~~~
+2 errors generated when compiling for gfx1201.
+failed to execute:/opt/rocm/core-10.1/lib/llvm/bin/clang++  --offload-arch=gfx1201 --driver-mode=g++ --hip-link  -O3 -std=c++20 -DLEETCUDA_ROCM=1 -I kernels -x hip artifacts/rocm/continuation_all/interview_hgemm/smoke.cpp -o "artifacts/rocm/continuation_all/interview_hgemm/smoke"

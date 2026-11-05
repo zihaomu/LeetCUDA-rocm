@@ -10,12 +10,12 @@
 | base.cuh | 19 | 完成 | 完成 |
 | sgemv.cuh | 3 | 完成 | 完成 |
 | sgemm.cuh | 4 | 完成 | 完成 |
-| hgemm.cuh | 5 | 待完成 | 待完成 |
+| hgemm.cuh | 5 | 完成 | 4条CUDA源码参考；WGMMA为CPU及5090数学参考 |
 | flash_attn.cuh | 8 | 待完成 | 待完成 |
 | ffpa_attn.cuh | 3 | 完成 | 完成；原CUDA同步缺陷及显式修复分别保留 |
 | FP8头文件 | 5 | 完成，E4M3/E5M2 | 完成 |
 | FP4头文件 | 6 | 完成 | 完成；1560项共同输出全部逐位一致 |
-| 合计 | **53** | **40/53（75.47%）** | **40/53（75.47%）** |
+| 合计 | **53** | **45/53（84.91%）** | **44条CUDA源码参考 + 1条数学参考** |
 
 base/SGEMV：[双卡和5090各370项、跨平台370项](interview_base_20261106.md)。
 FFPA：[三种Split-D实现](ffpa_20261106.md)。FP8：[两种格式完整链路](fp8_e5m2_20261106.md)。
@@ -43,3 +43,5 @@ CPU布局绘图、book排版和空transformer目录不属于GPU算子。
 每次新增结果更新此清单及[实时进度](leetcuda_rocm10_live_progress.md)。整体迁移尚未完成。
 
 SGEMM补充：[四路径双卡/5090各234项及跨平台234项通过](interview_sgemm_20261106.md)。
+
+HGEMM补充：[五路径双卡各477项、显式FP32 CUDA参考及比较各336项](interview_hgemm_20261106.md)。36个AMD编译特化零scratch/spill；原CUDA108项精度失败及WGMMA在5090编译限制均保留。

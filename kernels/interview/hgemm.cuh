@@ -1,4 +1,7 @@
 #pragma once
+#if defined(LEETCUDA_ROCM)
+#include "../rocm/interview_hgemm_hip.cuh"
+#else
 #include "base.cuh"
 // hgemm.cuh: Phase 7b-d HGEMM (MMA/Swizzle/CuTe/WGMMA/TMA_MMA_WS)
 
@@ -2098,3 +2101,5 @@ __global__ void __launch_bounds__(kNumThreads, 1)
 }
 
 #endif /* NOTES_V2_ENABLE_TMA_MMA_WS */
+
+#endif // LEETCUDA_ROCM

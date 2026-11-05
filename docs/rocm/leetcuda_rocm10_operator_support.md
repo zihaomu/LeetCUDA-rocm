@@ -502,3 +502,5 @@ FFPA补充范围已功能验收：三个Split-D路径，双卡各2755项、5090�
 独立SGEMM四路径已验收：[234项双卡与原CUDA专项、234项共同输出比较](interview_sgemm_20261106.md)，四kernel零scratch。interview功能40/53、完整跨平台34/53；其余范围继续执行。
 
 NVFP4完整链跨平台证据已闭合：[1560项全部逐位一致](fp4_cross_20261106.md)。两端各48性能配置已测，AMD相对本机BF16库仍有明显差距，继续优化。interview功能和完整跨平台当前均40/53。
+
+独立HGEMM补充：[五路径验收](interview_hgemm_20261106.md)。双卡各477项、明确FP32参考及跨平台各336项通过；interview功能45/53，44条CUDA源码参考加1条WGMMA数学参考。剩8条独立FlashAttention及其他补充范围继续执行。
