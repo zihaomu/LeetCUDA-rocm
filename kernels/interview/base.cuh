@@ -96,7 +96,11 @@
 
 #include <algorithm>
 #include <cstring>
+#if defined(LEETCUDA_ROCM)
+#include <hip/hip_fp16.h>
+#else
 #include <cuda_fp16.h>
+#endif
 
 // =============================================================================
 // Phase 1a: Warp Reduce（warp 内归约，纯寄存器操作，无需 shared memory）
@@ -150,7 +154,7 @@ template <const int kWarpWidth = kWarpSize, typename T = float>
 __device__ __forceinline__ T warp_reduce_sum(T val) {
 #pragma unroll
   for (int mask = kWarpWidth >> 1; mask >= 1; mask >>= 1) {
-    val += __shfl_xor_sync(0xffffffff, val, mask, kWarpWidth);
+    val += __shfl_xor_sync(0xffffffffULL, val, mask, kWarpWidth);
   }
   return val;
 }
@@ -160,7 +164,7 @@ template <const int kWarpWidth = kWarpSize, typename T = float>
 __device__ __forceinline__ T warp_reduce_max(T val) {
 #pragma unroll
   for (int mask = kWarpWidth >> 1; mask >= 1; mask >>= 1) {
-    val = max(val, __shfl_xor_sync(0xffffffff, val, mask, kWarpWidth));
+    val = max(val, __shfl_xor_sync(0xffffffffULL, val, mask, kWarpWidth));
   }
   return val;
 }
@@ -191,7 +195,7 @@ __device__ float block_reduce_sum(float val) {
   value = warp_reduce_sum<kNumWarps>(value);
   // 关键：broadcast 结果到所有线程，后续用 result
   // 做除法等操作时所有线程都能拿到
-  value = __shfl_sync(0xffffffff, value, 0, 32);
+  value = __shfl_sync(0xffffffffULL, value, 0, 32);
   return value;
 }
 
@@ -209,7 +213,7 @@ __device__ float block_reduce_max(float val) {
   __syncthreads();
   value = (lane < kNumWarps) ? shared[lane] : -FLT_MAX;
   value = warp_reduce_max<kNumWarps>(value);
-  value = __shfl_sync(0xffffffff, value, 0, 32);
+  value = __shfl_sync(0xffffffffULL, value, 0, 32);
   return value;
 }
 
@@ -610,8 +614,8 @@ __device__ __forceinline__ MD warp_reduce_md(MD md1) {
 #pragma unroll
   for (int mask = kWarpWidth >> 1; mask >= 1; mask >>= 1) {
     MD md2;
-    md2.m = __shfl_xor_sync(0xffffffff, md1.m, mask, kWarpWidth);
-    md2.d = __shfl_xor_sync(0xffffffff, md1.d, mask, kWarpWidth);
+    md2.m = __shfl_xor_sync(0xffffffffULL, md1.m, mask, kWarpWidth);
+    md2.d = __shfl_xor_sync(0xffffffffULL, md1.d, mask, kWarpWidth);
 
     MD b_m = (md1.m > md2.m) ? md1 : md2; // max
     MD s_m = (md1.m > md2.m) ? md2 : md1;

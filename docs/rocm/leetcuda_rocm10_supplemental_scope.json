@@ -1,0 +1,122 @@
+{
+  "scope": "separate from 229 original bound interfaces",
+  "interview": [
+    {
+      "source": "kernels/interview/base.cuh",
+      "original_kernel_definitions": 19,
+      "kernels": [
+        "block_reduce_all",
+        "dot",
+        "dot_vec4",
+        "relu",
+        "relu_vec4",
+        "elementwise_add",
+        "elementwise_add_vec4",
+        "histogram",
+        "merge_attn_states",
+        "softmax_per_token",
+        "safe_softmax_per_token",
+        "online_safe_softmax_per_token",
+        "rms_norm",
+        "rms_norm_vec4",
+        "layer_norm",
+        "layer_norm_vec4",
+        "rope",
+        "mat_transpose",
+        "mat_transpose_padded"
+      ],
+      "status": "functional_cross_passed",
+      "report": "interview_base_20261106.md"
+    },
+    {
+      "source": "kernels/interview/sgemv.cuh",
+      "original_kernel_definitions": 3,
+      "kernels": [
+        "sgemv_k32",
+        "sgemv_k128",
+        "sgemv_k16"
+      ],
+      "status": "functional_cross_passed",
+      "report": "interview_base_20261106.md"
+    },
+    {
+      "source": "kernels/interview/sgemm.cuh",
+      "original_kernel_definitions": 4,
+      "kernels": [
+        "sgemm",
+        "sgemm_vec4",
+        "f32x4_tf32x4_kernel",
+        "sgemm_tf32"
+      ],
+      "status": "pending",
+      "report": null
+    },
+    {
+      "source": "kernels/interview/hgemm.cuh",
+      "original_kernel_definitions": 5,
+      "kernels": [
+        "hgemm_mma_stages_tn",
+        "hgemm_mma_stages_tn_swizzle",
+        "hgemm_mma_stages_tn_cute",
+        "hgemm_wgmma_stages_tn",
+        "hgemm_tma_mma_ws_tn"
+      ],
+      "status": "pending",
+      "report": null
+    },
+    {
+      "source": "kernels/interview/flash_attn.cuh",
+      "original_kernel_definitions": 8,
+      "kernels": [
+        "flash_attn_mma_stages_split_q",
+        "flash_attn_tma_mma_ws_stages_split_q",
+        "flash_attn_3_tma_ws_stages_split_q",
+        "flash_attn_mma_stages_split_q_cute",
+        "flash_attn_tma_mma_ws_split_q_cute",
+        "flash_attn_3_tma_mma_ws_split_q_cute",
+        "flash_attn_3_cute_tma_copy_smoke",
+        "flash_attn_cute_persist_d_sm120"
+      ],
+      "status": "pending",
+      "report": null
+    },
+    {
+      "source": "kernels/interview/ffpa_attn.cuh",
+      "original_kernel_definitions": 3,
+      "kernels": [
+        "ffpa_split_d_cute",
+        "ffpa_attn_tma_mma_ws_split_d_cute",
+        "ffpa_attn_tma_split_d_cute"
+      ],
+      "status": "functional_cross_passed",
+      "report": "ffpa_20261106.md"
+    },
+    {
+      "source": "kernels/interview/fp8_gemm.cuh",
+      "original_kernel_definitions": 5,
+      "kernels": [
+        "quantize_a_perrow_kernel",
+        "quantize_a_perblock_kernel",
+        "quantize_bt_kernel",
+        "fp8_gemm_tma_kernel",
+        "fp8_gemm_tma_ws_kernel"
+      ],
+      "status": "functional_cross_passed",
+      "report": "fp8_e5m2_20261106.md"
+    },
+    {
+      "source": "kernels/interview/fp4_gemm.cuh",
+      "original_kernel_definitions": 6,
+      "kernels": [
+        "row_amax_fp4_kernel",
+        "quantize_a_fp4_kernel",
+        "col_amax_fp4_kernel",
+        "quantize_bt_tile_fp4_kernel",
+        "fp4_gemm_tma_kernel",
+        "fp4_gemm_tma_ws_kernel"
+      ],
+      "status": "functional_passed_cross_pending",
+      "report": "fp4_pipeline_20261103.md"
+    }
+  ]
+}

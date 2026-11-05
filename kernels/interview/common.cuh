@@ -1,4 +1,7 @@
 #pragma once
+#if defined(LEETCUDA_ROCM)
+#include "../rocm/interview_common_hip.cuh"
+#else
 // common.cuh: CUDA headers, macros, MMA/WGMMA PTX, swizzle, TMA helpers
 
 #include <cuda_runtime.h>
@@ -801,3 +804,5 @@ __host__ static inline CUtensorMap *allocate_and_create_tensor_map(
   return tma_map_d;
 }
 #endif /* NOTES_V2_ENABLE_WGMMA || NOTES_V2_ENABLE_TMA_MMA_WS */
+
+#endif // LEETCUDA_ROCM

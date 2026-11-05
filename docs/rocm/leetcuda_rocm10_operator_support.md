@@ -289,9 +289,9 @@ FP16 FMA 累加结果**；另 **55/55 项**分块边界检查通过。但这些�
 | 原因分类 | 数量 | 分布 | 当前结论 |
 | --- | ---: | --- | --- |
 | 原公开接口尚未功能验收 | **0** | 无 | 229个均通过当前测试；60个显式累加升级、3个输入精度升级 |
-| 不在229分母内的补充范围 | 单独统计 | FFPA、独立构建/非绑定源码（E5M2与训练Attention功能已完成） | 仍需继续实现与验收，详见第4节 |
+| 不在229分母内的补充范围 | 单独统计 | 独立构建/非绑定源码（E5M2、训练Attention与FFPA功能已完成） | 仍需继续实现与验收，详见第4节 |
 
-当前实测证明通过当前资格门限的是 229 个原始接口，另加 6 个独立 AMD 计算接口。
+当前实测证明通过当前资格门限的是 229 个原始接口，另加 8 个独立 AMD 计算接口。
 **目前没有证据证明某个算子的数学功能永久无法在 ROCm 上实现。**
 “原 NVIDIA 实现不能原样运行”“尚未适配”“已运行但精度未验收”是不同状态；
 也不能承诺全部变体能保持原有精度语义及性能通过同一门限。
@@ -347,7 +347,7 @@ FP16 FMA 累加结果**；另 **55/55 项**分块边界检查通过。但这些�
 | WS-HGEMM（`ws-hgemm`） | 1 | 1 | 0 | 0 | 100.00% | 独立生产者/消费者、三槽LDS与WMMA；显式FP32累加升级 |
 | 原版 FlashAttention（`flash-attn`） | 29 | 29 | 0 | 0 | 100.00% | 全部原入口功能通过；19个MMA入口明确升级QK累加，保留PV和输出状态；性能独立记录 |
 | Merge Attention States | 1 | 1 | 0 | 0 | 100.00% | FP32/FP16/BF16，含空状态、可选 LSE 和设备／stream 检查 |
-| **合计：25 个扩展模块** | **229** | **229** | **0** | **0** | **100.00%** | 其中60个累加精度升级、3个TF32输入精度升级；6 个独立 AMD 计算接口另列 |
+| **合计：25 个扩展模块** | **229** | **229** | **0** | **0** | **100.00%** | 其中60个累加精度升级、3个TF32输入精度升级；8 个独立 AMD 计算接口另列 |
 
 “全部接口通过”也仅表示通过现有测试集，仍须遵守原实现的 dtype、形状、连续性、
 对齐和 tile/pack 限制。已支持的基础模块调用入口为 `leetcuda_rocm.load("模块名")`。
@@ -391,12 +391,12 @@ BN/stages 保持原约定；此差异及量化损失在报告中明确列出。
 | HGEMV 的 CuTe 变体 | 3/3已支持 | 均明确提升FP32累加；原FP16失败保留，性能按形状记录 |
 | Matrix Transpose 的 CuTe 变体 | 已支持 | 11 个接口已用显式 HIP 布局实现；CUDA CuTe 源码保留 |
 | Reduce Sum 的 BF16 自身累加变体 | 3/3已支持，精度升级 | 原BF16失败保留；使用补偿FP32、确定性两级归约 |
-| FP8/FP4 GEMM、FFPA 扩展 | FP8/FP4 功能通过，整体未完成 | E4M3/E5M2 与 NVFP4 完整链路、离线 B、Python 和专用 C++ benchmark 已接入；性能仍落后库基线；FFPA待迁移 |
+| FP8/FP4 GEMM、FFPA 扩展 | 三者功能通过，整体性能未完成 | E4M3/E5M2、NVFP4完整链路及FFPA三路径已接入；FFPA双卡各2755、跨平台1700份比较通过；性能仍有差距，FP4需补完整链路5090共享输入对照 |
 | 新增 Attention 的扩展功能 | 计划范围功能完成 | 独立`attention`支持GQA、bool/加性mask、显式Philox dropout、Q/K/V一阶梯度及D≤256；NQ≠NK左上因果。双卡、5090、性能和空间通过；二阶导数/mask梯度明确不支持 |
 | `kernels/cutlass`、CuTe DSL 示例 | 未移植 | NVIDIA 库、指令及对应编译入口 |
 | `kernels/swizzle` 示例 | 未移植 | 独立布局、矩阵乘和转置示例 |
 | `kernels/openai-triton` 原有示例 | 四个已验证，性能待优化 | vector-add、fused-softmax、layer-norm（含梯度）、merge-attn-states 两张 AMD 卡与 5090 各 195 项通过；不计入 229 个扩展接口 |
-| `kernels/interview` 的 GPU 算子与 C++ benchmark | FP8/FP4 局部接入 | 两个头文件增加 AMD 分支，有专用 C++ 构建入口；原 `build.sh` 多模块 benchmark 体系仍未整体接入 |
+| `kernels/interview` 的 GPU 算子与 C++ benchmark | FP8/FP4/FFPA与base/SGEMV已接入 | FFPA新增独立C++729项；base/SGEMV 22 kernel已在两张AMD与5090各370项通过；其余SGEMM/HGEMM/FlashAttention及统一入口继续推进 |
 | 原目录 Python 性能脚本及 NVIDIA 工具示例 | 未整体适配 | CUDA 专用构建参数、依赖和 Nsight 等工具流程 |
 | 其他 AMD GPU 架构 | 尚未验证 | 当前实现只对 gfx1201 提供资格声明，不能直接外推至 MI 系列／wave64 GPU |
 
@@ -414,13 +414,13 @@ BF16 原自身累加的3个入口，U2已通过显式精度升级验收：
 
 | 补充范围 | 实现文件数 | 当前原因与状态 |
 | --- | ---: | --- |
-| `interview` 的 GPU kernel 头文件 | 8 | FP8/FP4 两个头文件核心路径已有 AMD 分支及专用 C++ 检查／性能报告；其余基础算子、SGEMV、SGEMM、HGEMM、FlashAttention、FFPA 头文件与整套原构建仍待接入 |
+| `interview` 的 GPU kernel 头文件 | 8 | FP8/FP4/FFPA三个头文件已接入；base/SGEMV两个头文件的22 kernel已通过双卡及5090各370项，370项跨平台对照也全部通过，其中250项逐位一致；SGEMM/HGEMM/FlashAttention三个头文件及统一构建继续推进 |
 | `openai-triton` 的 Triton 实现 | 4 | vector-add、fused-softmax、layer-norm（含反向）、merge-attn-states 已接入：AMD 两卡与 5090 各 195 项检查通过，108 组输出对照通过；性能仍待优化。CUDA 版 merge-attn-states 的 1 个绑定已通过验证并计入 229，不重复计入本行 |
 | `cutlass`／CuTe DSL GPU 示例 | 4 | 1 个 CuTe vector-add 源文件、3 个 CuTe DSL SGEMM 示例；需替换 NVIDIA 后端与构建方式 |
 | `swizzle` GPU 示例 | 3 | 独立矩阵乘／转置／布局实现，尚未迁移和验证 |
 | `nvidia-nsight` GPU 示例 | 2 | 示例算子代码尚未迁移，Nsight 分析流程也需要换成 AMD 工具 |
 
-其他未绑定的 CUDA 实现（例如 HGEMM 的 WGMMA 源文件）也没有被 229 的分母覆盖。
+其他未绑定的CUDA实现也不在229的分母：2个HGEMM WGMMA、1个HGEMM TN-swizzle、1个tiling-QK acc_f32_rr Attention均已明确加入后续清单。4个历史SGEMM stage2/3名称只有声明，不误计为已存在实现。
 上述补充文件数用于标明范围，不声称是全仓独立 GPU kernel 函数的总数。
 没有实现内容的 `kernels/transformer` 占位目录不计为算子。
 
@@ -436,7 +436,7 @@ E5M2随后已完成独立的完整链路验收，见[2026-11-06报告](fp8_e5m2_
 | --- | --- | --- |
 | NVFP4 完整链路，Python／C++ | GPU1 1,540 项、GPU0 1,541 项、大尺寸 40 项、C++ 263 项通过；Python/C++ 各 96 组性能比较，仍落后 BF16 库基线 | [FP4 迁移报告](fp4_pipeline_20261103.md) |
 | FP8 E4M3/E5M2完整链路，Python／C++ | 每种格式两卡各756项、C++143项；每种Python/C++各48性能；480输出跨平台通过，性能仍落后库基线 | [FP8完整格式报告](fp8_e5m2_20261106.md) |
-| 本轮基础算子，PCI 0000:83:00.0，2026-11-06 | 25模块、229接口、1262项；全接口同精度CUDA参考/AMD对照462/462，原FP16树460/462 | [当前基础报告](attention_training_20261106/qualification229.json) |
+| 本轮基础算子，PCI 0000:83:00.0，2026-11-06 | 25模块、229接口、1262项；全接口同精度CUDA参考/AMD对照462/462，原FP16树460/462 | [当前基础报告](ffpa_20261106/qualification229.json) |
 | 本轮 swizzle 专项，PCI 03 / 43 | 两卡各 1329 项；42 个 WMMA 特化；372/372 CUDA/AMD 对照通过；性能 1/3 达标 | [本轮报告](flash_swizzle_20261105.md) |
 | 上轮基础算子，PCI 0000:c3:00.0，2026-11-05 | 24 模块、170 接口、931 项检查通过 | [历史基础报告](qualification_20261105_flash_tiled.json) |
 | 上轮 tiling FlashAttention 专项 | 854 项、28 个 WMMA 特化；与 CUDA 248/248 对照通过 | [本轮专项报告](flash_tiled_20261105.md) |
@@ -496,3 +496,5 @@ export HIP_VISIBLE_DEVICES=2
 运行环境见 [环境锁](../../scripts/rocm/environment.lock.json)。
 
 FFPA补充范围已功能验收：三个Split-D路径，双卡各2755项、5090修复参考1220项、跨平台1700份输出/LSE、C++729项通过；27特化零scratch。原CUDA18项stage3尾部故障保留并提供显式修复。两端各135性能配置完成，性能差距仍开放。见[FFPA报告](ffpa_20261106.md)。
+
+独立补充范围以[逐项清单](leetcuda_rocm10_supplemental_scope.md)为准；[base/SGEMV正式报告](interview_base_20261106.md)已完成。
