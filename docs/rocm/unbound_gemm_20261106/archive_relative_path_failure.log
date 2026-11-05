@@ -1,0 +1,15 @@
+shared hgemm_wgmma_m64n128k16_stages_tma_ws_tn
+shared hgemm_wgmma_m64n128k16_f16acc_stages_tma_ws_tn
+shared hgemm_mma_m16n8k16_mma2x4_warp4x4_stages_dsmem_tn_swizzle
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/work/leetcuda_rocm/unbound_gemm_check.py", line 533, in <module>
+    run(args) if args.command == "run" else compare(args)
+    ^^^^^^^^^
+  File "/work/leetcuda_rocm/unbound_gemm_check.py", line 470, in run
+    r["frozen_binary"] = str(dest.relative_to(ROOT))
+                             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 682, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: 'artifacts/rocm/continuation_all/unbound_gemm/binaries/217a749a9737d1d2cd37d69eb01785cdcebb428b79ed3a2649ad8a30d0c9769e.so' is not in the subpath of '/work'

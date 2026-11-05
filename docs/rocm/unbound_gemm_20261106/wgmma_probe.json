@@ -1,0 +1,38 @@
+[
+  {
+    "precision": "fp32",
+    "command": [
+      "/usr/local/cuda/bin/nvcc",
+      "-O3",
+      "-std=c++20",
+      "-arch=sm_120a",
+      "-c",
+      "/work/artifacts/rocm/continuation_all/unbound_gemm/wgmma_fp32_probe.cu",
+      "-o",
+      "/work/artifacts/rocm/continuation_all/unbound_gemm/wgmma_fp32_probe.o"
+    ],
+    "returncode": 255,
+    "original_source_sha256": "fe5abaa317347f7f2b3cadf8245ccf4745a3cc3a224193c15c904f258e551533",
+    "probe_sha256": "a97a12a43951fae9d1dde24b170f4a3e7de06301fb337660df7a4612be990631",
+    "log_sha256": "d1a93d75c218e53ff31f7c307e9048aeecf50c46156902dfb42b8e1c9b209e80",
+    "hardware_rejection_confirmed": true
+  },
+  {
+    "precision": "fp16",
+    "command": [
+      "/usr/local/cuda/bin/nvcc",
+      "-O3",
+      "-std=c++20",
+      "-arch=sm_120a",
+      "-c",
+      "/work/artifacts/rocm/continuation_all/unbound_gemm/wgmma_fp16_probe.cu",
+      "-o",
+      "/work/artifacts/rocm/continuation_all/unbound_gemm/wgmma_fp16_probe.o"
+    ],
+    "returncode": 255,
+    "original_source_sha256": "fccd2087d972a5296a7946f2ac83704a095d4061f9b1ffdb133f36f7e86b1510",
+    "probe_sha256": "2f26ff330b63e0ac556712d969fe3e531ccd0f2b3a15d105244dc55acd769d36",
+    "log_sha256": "bf40e12b5daf8558dfb79272ffd9f3159393f7caa60d8c95948a4854e660b0c0",
+    "hardware_rejection_confirmed": true
+  }
+]

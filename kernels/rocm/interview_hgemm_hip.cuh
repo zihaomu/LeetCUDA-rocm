@@ -13,13 +13,14 @@ using H8 = _Float16 __attribute__((ext_vector_type(8)));
 using F8 = float __attribute__((ext_vector_type(8)));
 using U4 = unsigned __attribute__((ext_vector_type(4)));
 template <int Kind, int Stages> struct Config {
-  static_assert(Kind >= 0 && Kind <= 4 && Stages >= 2 && Stages <= 4);
-  static constexpr bool WS = Kind >= 3;
+  static_assert(Kind >= 0 && Kind <= 5 && Stages >= 2 &&
+                Stages <= ((Kind == 3 || Kind == 5) ? 5 : 4));
+  static constexpr bool WS = Kind == 3 || Kind == 4;
   static constexpr int BM = WS || (Kind == 1 && Stages > 2) ? 64 : 128;
   // Match the original CuTe FP32 configuration's BN=128. The FP16 state
   // control uses the same smaller CTA to keep the diagnostic free of spills.
   static constexpr int BN = Kind == 1 && Stages > 2 ? 64 : 128;
-  static constexpr int BK = Kind == 0                                 ? 16
+  static constexpr int BK = Kind == 0 || Kind == 5                    ? 16
                             : Kind == 1 || (Kind == 4 && Stages == 2) ? 64
                                                                       : 32;
   static constexpr int Producers = Kind == 4 ? 4 : 1;
@@ -32,7 +33,7 @@ template <int Kind, int Stages> struct Config {
     int offset = row * BK + k;
     if constexpr (Kind == 2)
       return offset ^ ((offset >> 3) & 56);
-    if constexpr (Kind == 1)
+    if constexpr (Kind == 1 || Kind == 5)
       return row * BK + (k ^ (((row >> 2) & 1) * 8));
     if constexpr (Kind != 0)
       return row * BK + (k ^ ((row & (BK / 8 - 1)) * 8));
@@ -312,12 +313,15 @@ template <int Kind, int Stages, bool AccF32 = true, bool Audit = false,
           bool Delay = false>
 inline hipError_t launch(const _Float16 *a, const _Float16 *b, _Float16 *c,
                          int m, int n, int k, bool block_swizzle,
-                         hipStream_t stream, unsigned *metrics = nullptr) {
+                         hipStream_t stream, unsigned *metrics = nullptr,
+                         int swizzle_stride = 2048) {
   using T = Config<Kind, Stages>;
   static_assert(Stages * T::Slot * 2 +
                     (T::WS ? Stages * (T::Producers + 4) * 4 : 0) <=
                 65536);
-  int z = block_swizzle ? (n + 2047) / 2048 : 1;
+  if (block_swizzle && swizzle_stride <= 0)
+    return hipErrorInvalidValue;
+  int z = block_swizzle ? 1 + (n - 1) / swizzle_stride : 1;
   dim3 grid(((n + T::BN - 1) / T::BN + z - 1) / z, (m + T::BM - 1) / T::BM, z);
   kernel<Kind, Stages, AccF32, Audit, Delay>
       <<<grid, T::Threads, 0, stream>>>(a, b, c, m, n, k, metrics);

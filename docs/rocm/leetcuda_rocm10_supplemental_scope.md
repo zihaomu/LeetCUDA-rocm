@@ -26,8 +26,8 @@ FP4：[完整链跨平台验收](fp4_cross_20261106.md)。逐头文件数据见[
 
 | 范围 | 实际入口/文件 | 状态与方案 |
 | --- | --- | --- |
-| 未绑定HGEMM WGMMA | `hgemm_wgmma_m64n128k16_stages_tma_ws_tn`、`hgemm_wgmma_m64n128k16_f16acc_stages_tma_ws_tn` | 待完成；AMD WMMA与真实生产者/消费者替换Hopper指令，分别记录原精度与升级精度；5090不能执行的专有指令记录真实编译/运行限制 |
-| 未绑定HGEMM TN swizzle | `hgemm_mma_m16n8k16_mma2x4_warp4x4_stages_dsmem_tn_swizzle` | 待完成；保留TN布局、stage及swizzle分工 |
+| 未绑定HGEMM WGMMA | `hgemm_wgmma_m64n128k16_stages_tma_ws_tn`、`hgemm_wgmma_m64n128k16_f16acc_stages_tma_ws_tn` | 完成；真实stage2–5的WMMA生产者/消费者，5090 WGMMA编译拒绝与数学参考分列 |
+| 未绑定HGEMM TN swizzle | `hgemm_mma_m16n8k16_mma2x4_warp4x4_stages_dsmem_tn_swizzle` | 完成；独立BK16/TN XOR布局，stage2–5及swizzle stride均已验收 |
 | 未绑定tiling-QK Attention | `flash_attn_mma_stages_split_q_tiling_qk_acc_f32_rr` | 待完成；D32/64/96/128/256/512/1024及stage1/2专项验收 |
 | CuTe向量加 | `kernels/cutlass/cute/vector_add.cu` | 待完成；保留半精度多元素线程布局 |
 | CuTeDSL SGEMM | `sgemm.py`、`mma_atom.py`、`pipelining.py` | 待完成；分别实现标量、SIMT矩阵分块、三级异步流水线；原例不是TF32矩阵指令，首例FP16输出舍入需明确记录 |
@@ -45,3 +45,5 @@ CPU布局绘图、book排版和空transformer目录不属于GPU算子。
 SGEMM补充：[四路径双卡/5090各234项及跨平台234项通过](interview_sgemm_20261106.md)。
 
 HGEMM补充：[五路径双卡各477项、显式FP32 CUDA参考及比较各336项](interview_hgemm_20261106.md)。36个AMD编译特化零scratch/spill；原CUDA108项精度失败及WGMMA在5090编译限制均保留。
+
+未绑定HGEMM：[3入口双卡各600项独立检查、跨平台432项](unbound_gemm_20261106.md)。未绑定范围3/4，原229分母不变；20个编译特化零spill，性能差距保留。

@@ -129,3 +129,5 @@ M6补充证据：[base/SGEMV 22个kernel](interview_base_20261106.md)，[独立�
 NVFP4补充证据：[原CUDA完整链共同输入验收](fp4_cross_20261106.md)，两张AMD和5090各1560项、跨平台全部逐位一致；两端各48性能配置。M4功能与此项跨平台闭合，性能差距仍继续处理。
 
 独立HGEMM补充：[五路径验收](interview_hgemm_20261106.md)。双卡各477项、明确FP32参考及跨平台各336项通过；interview功能45/53，44条CUDA源码参考加1条WGMMA数学参考。剩8条独立FlashAttention及其他补充范围继续执行。
+
+未绑定计算入口补充3/4：[WGMMA两种原精度及TN swizzle验收](unbound_gemm_20261106.md)。新增load_unbound(hgemm)，不计入原229；剩余Attention与其他补充范围继续执行。

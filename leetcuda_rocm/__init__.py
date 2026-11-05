@@ -3,6 +3,7 @@
 __all__ = [
     "KERNELS",
     "load",
+    "load_unbound",
     "gemm",
     "flash_attention",
     "attention",
@@ -27,6 +28,10 @@ def __getattr__(name):
         from . import matrix_attention
 
         return getattr(matrix_attention, name)
+    if name == "load_unbound":
+        from .unbound import load_unbound
+
+        return load_unbound
     if name == "attention":
         from .attention_training import attention
 
