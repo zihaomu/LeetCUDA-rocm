@@ -149,6 +149,8 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   TORCH_BINDING_COMMON_EXTENSION(hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf_async)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf_async)
   // cuBLAS Tensor Cores
+#endif
+#if !defined(LEETCUDA_ROCM) || defined(LEETCUDA_ROCM_BLAS_ONLY)
   // WMMA API Tensor Cores
   TORCH_BINDING_COMMON_EXTENSION(hgemm_wmma_m16n16k16_naive)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_wmma_m16n16k16_mma4x2)
@@ -163,6 +165,8 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
       hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem)
   TORCH_BINDING_COMMON_EXTENSION(
       hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem)
+#endif
+#ifndef LEETCUDA_ROCM
   // MMA API Tensor Cores
   TORCH_BINDING_COMMON_EXTENSION(hgemm_mma_m16n8k16_naive)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_mma_m16n8k16_mma2x4_warp4x4)

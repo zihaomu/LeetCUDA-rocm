@@ -59,6 +59,25 @@ if matrix_gemv_key in qualified:
     assert matrix_gemv["original_accumulator"] == "FP16"
     assert matrix_gemv["rocm_accumulator"] == "FP32"
     rejected.discard(matrix_gemv_key)
+wmma_path = root / "docs/rocm/wmma_hgemm_20261105.json"
+wmma_keys = {
+    key
+    for key in qualified
+    if key[0] == "hgemm" and key[1].startswith("hgemm_wmma_")
+}
+if wmma_keys:
+    wmma_report = json.loads(wmma_path.read_text())
+    assert wmma_report["passed"]
+    assert all(
+        c["passed"] for c in wmma_report["checks"] + wmma_report["boundaries"]
+    )
+    assert all(
+        p["graph_replay_verified"] and p["accuracy_passed"]
+        for p in wmma_report["performance"]
+    )
+    assert wmma_keys == {("hgemm", n) for n in wmma_report["variants"]}
+    assert wmma_report["original_accumulator"] == "FP16"
+    assert wmma_report["rocm_accumulator"] == "FP32"
 fp8_report_path = root / "docs/rocm/fp8_pipeline_20261103.json"
 fp8_report = json.loads(fp8_report_path.read_text())
 assert fp8_report["passed"] and all(c["passed"] for c in fp8_report["checks"])
@@ -186,6 +205,20 @@ for source in sorted((root / "kernels").rglob("*")):
                     matrix_gemv_path.read_bytes()
                 ).hexdigest(),
             }
+        if (module, name) in wmma_keys:
+            entries[-1]["implementation"] = {
+                "mechanism": "Native gfx1201 WMMA; variant-specific block/warp tiles, LDS ring and grid swizzle",
+                "original_accumulator": "FP16",
+                "rocm_accumulator": "FP32",
+                "precision_changed": True,
+                "variant_geometry": wmma_report["variants"][name],
+                "cp_async_replacement": "VGPR prefetch, explicit load wait, LDS publication",
+                "numeric_semantics": "FP16 I/O, FP32 state; not bitwise FP16 accumulation emulation",
+                "evidence": str(wmma_path.relative_to(root)),
+                "evidence_sha256": hashlib.sha256(
+                    wmma_path.read_bytes()
+                ).hexdigest(),
+            }
     current = [entry for entry in entries if entry["source"] == rel]
     counts = collections.Counter(entry["status"] for entry in current)
     modules.append(
@@ -264,6 +297,47 @@ for group in pending_cuda["groups"]:
                 pending_path.read_bytes()
             ).hexdigest(),
         }
+if wmma_keys:
+    qualified_cuda_path = (
+        root / "docs/rocm/wmma_hgemm_20261105/qualified166_cuda.json"
+    )
+    qualified_cuda = json.loads(qualified_cuda_path.read_text())
+    assert qualified_cuda["passed"]
+    by_function = collections.defaultdict(list)
+    for check in qualified_cuda["checks"]:
+        by_function[(check["module"], check["function"])].append(check)
+    assert set(by_function) == qualified
+    for key, checks in by_function.items():
+        cuda_coverage[key] = {
+            "source_kind": "ported_worktree",
+            "cases": len(checks),
+            "accuracy_passed_cases": sum(c["passed"] for c in checks),
+            "all_cases_passed": all(c["passed"] for c in checks),
+            "evidence": str(qualified_cuda_path.relative_to(root)),
+            "evidence_sha256": hashlib.sha256(
+                qualified_cuda_path.read_bytes()
+            ).hexdigest(),
+        }
+    # Preserve the stronger long-K findings instead of replacing them with
+    # the smaller cases in the all-interface regression.
+    wmma_cuda_path = root / "docs/rocm/wmma_hgemm_20261105/cuda_fixed.json"
+    wmma_cuda = json.loads(wmma_cuda_path.read_text())
+    for key in wmma_keys:
+        checks = [
+            c for c in wmma_cuda["checks"] if c["id"].startswith(key[1] + "/")
+        ]
+        assert checks
+        cuda_coverage[key] = {
+            "source_kind": "ported_worktree_with_current_stream_launches",
+            "cases": len(checks),
+            "accuracy_passed_cases": sum(c["passed"] for c in checks),
+            "all_cases_passed": all(c["passed"] for c in checks),
+            "scope": "Expanded K=4096 coverage reveals original FP16 accumulation error; AMD explicitly uses FP32 state",
+            "evidence": str(wmma_cuda_path.relative_to(root)),
+            "evidence_sha256": hashlib.sha256(
+                wmma_cuda_path.read_bytes()
+            ).hexdigest(),
+        }
 assert set(cuda_coverage) == {(e["module"], e["function"]) for e in entries}
 for entry in entries:
     entry["cuda_comparison"] = cuda_coverage[
@@ -324,6 +398,10 @@ snapshot = {
         "total_original_compute_entrypoints": len(entries),
         **counts,
         "qualified_percent": round(100 * counts["qualified"] / len(entries), 2),
+        "qualified_with_explicit_accumulator_upgrade": sum(
+            e.get("implementation", {}).get("precision_changed", False)
+            for e in entries
+        ),
         "fully_qualified_modules": fully_qualified,
         "partially_qualified_modules": partially_qualified,
         "no_qualified_exports_modules": unqualified,

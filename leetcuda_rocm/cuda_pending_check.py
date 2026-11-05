@@ -166,13 +166,40 @@ def build(group, args):
     source_hashes = {
         str(p.relative_to(args.source_root)): sha(p) for p in (source, *headers)
     }
+    current_stream = getattr(args, "cuda_current_stream", False)
+    fingerprint_data = [group, source_hashes, flags, CUTLASS]
+    if current_stream:
+        fingerprint_data.append("current-stream-v1")
     fingerprint = hashlib.sha256(
-        json.dumps(
-            [group, source_hashes, flags, CUTLASS], sort_keys=True
-        ).encode()
+        json.dumps(fingerprint_data, sort_keys=True).encode()
     ).hexdigest()[:16]
     directory = ROOT / ".cache/cuda_pending" / fingerprint
     directory.mkdir(parents=True, exist_ok=True)
+    adapted_sha = None
+    if current_stream:
+        # Opt-in for graph timing. Preserve the original kernel arithmetic,
+        # but use the caller's CUDA stream instead of the legacy default.
+        def stream_launch(match):
+            fields = match[1].split(",")
+            if len(fields) == 2:
+                fields.append("0")
+            assert len(fields) == 3, match[0]
+            return (
+                "<<<"
+                + ",".join(fields)
+                + ", at::cuda::getCurrentCUDAStream()>>>"
+            )
+
+        adapted = "#include <ATen/cuda/CUDAContext.h>\n" + re.sub(
+            r"<<<([^<>]+)>>>",
+            stream_launch,
+            source.read_text(encoding="utf-8-sig"),
+        )
+        staged = directory / "current_stream.cu"
+        if not staged.exists() or staged.read_text() != adapted:
+            staged.write_text(adapted)
+        sources[0] = str(staged)
+        adapted_sha = sha(staged)
     if "PYBIND11_MODULE(" not in source.read_text(encoding="utf-8-sig"):
         binding = "#include <torch/extension.h>\n" + "\n".join(
             f["declaration"] for f in group["functions"]
@@ -208,6 +235,8 @@ def build(group, args):
     )
     return lib, dict(
         source_sha256=source_hashes,
+        current_stream_adaptation=current_stream,
+        adapted_source_sha256=adapted_sha,
         flags=flags,
         cutlass_commit=CUTLASS,
         binary_sha256=sha(lib.__file__),

@@ -48,7 +48,10 @@ apt install -y cublas-cuda-13 cudnn9-cuda-13 && apt install -y ccache
 
 An initial ROCm 10.1.0 port of the basic kernels is available for Radeon AI PRO
 R9700 (`gfx1201`). See the [ROCm setup, support scope and validation](docs/rocm/README.md).
-Current numerical qualification covers **157/229 original interfaces (68.56%)**.
+Current numerical qualification covers **166/229 original interfaces (72.49%)**.
+The latest batch adds nine WMMA HGEMM interfaces with explicit FP32 accumulation,
+including tiled, double-buffered and staged LDS implementations. See the
+[new kernels, RTX 5090 comparison and performance](docs/rocm/wmma_hgemm_20261105.md).
 An RTX 5090 comparison isolates original low-precision limitations and CUDA bugs;
 the matrix HGEMV port explicitly uses FP32 accumulation with FP16 I/O. See the
 [cross-platform evidence and remaining work](docs/rocm/cross_5090_20261105.md).

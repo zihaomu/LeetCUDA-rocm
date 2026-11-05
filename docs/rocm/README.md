@@ -5,14 +5,21 @@ LeetCUDA 算法，不会把自定义 kernel 替换成 PyTorch 实现。PyTorch �
 测试参考。当前目标是 **ROCm 10.1.0 / Radeon AI PRO R9700 / gfx1201**。
 尚未完成整个仓库的 NVIDIA 专用 kernel 迁移。
 
-2026-11-05 最新实测：**23 个模块、157 个原始接口、890 项检查通过**，
-覆盖 **157/229=68.56%**。新增矩阵 HGEMV 明确使用 FP32 WMMA 累加、FP16 输入/输出；
-两张 AMD 卡分别完成 66、63 项扩展检查。详见
-[5090 同输入对照、剩余问题与解决方案](cross_5090_20261105.md)及
-[最新资格报告](qualification_20261105.json)。当前还有 56 个待迁移及 16 个低精度累加保留接口。
+2026-11-05 第二轮实测：**23 个模块、166 个原始接口、923 项检查通过**，
+覆盖 **166/229=72.49%**。本轮新增 9 个 WMMA HGEMM 接口，包括不同分块、
+双缓冲、静态／动态 LDS 多 stage 路径；明确采用 FP16 输入/输出、FP32 累加。
+专项 1465 项通过，166 个接口的 336 组共享输入在 5090 与 AMD 上全部通过，
+两端输出均在接口容差内一致。详见 [本轮实现与性能](wmma_hgemm_20261105.md)和
+[最新资格报告](qualification_20261105_wmma.json)。当前还有 47 个待迁移及 16 个精度未验收接口。
+本轮使用物理 GPU6，未追加第二张 AMD 卡检查；单卡检查数不能与此前双卡报告直接比较。
+
+此前矩阵 HGEMV 批次达到 157/229、890 项；矩阵 HGEMV 同样明确提升为 FP32 WMMA
+累加，两张 AMD 卡分别完成 66、63 项扩展检查。保留
+[上一轮 5090 对照和剩余方案](cross_5090_20261105.md)及
+[历史资格报告](qualification_20261105.json)。
 
 2026-11-03 历史批次：**23 个模块、156 个原始接口、888 项检查通过**（物理 GPU0），
-见 [最新资格报告](qualification_20261103_async.json)。在此前布局转置与 BLAS 批次的
+见 [历史资格报告](qualification_20261103_async.json)。在此前布局转置与 BLAS 批次的
 153 个接口基础上，新增 3 个异步 SGEMM 入口，覆盖率为 156/229=68.12%。
 
 - [异步 SGEMM](async_sgemm_20261103.md)：三个原始入口使用 AMD VGPR 预取和双 LDS
@@ -20,11 +27,11 @@ LeetCUDA 算法，不会把自定义 kernel 替换成 PyTorch 实现。PyTorch �
 
 - [布局转置](layouts_20261103.md)：25/25 接口；第二张卡 324 项通过、33 组性能对比。
 - [BLAS 后端](blas_20261103.md)：hipBLAS/rocBLAS；170 项扩展检查、9 组性能对比，
-  第二张卡的 SGEMM/HGEMM 217 项通过。HGEMM 默认只发布 NN/TN 两个 BLAS 计算接口。
+  第二张卡的 SGEMM/HGEMM 217 项通过；该批新增 NN/TN 两个 HGEMM BLAS 计算接口。
 - [前批研究](continuation_20261103.md)：Merge Attention States 与同步 SGEMM 已通过；
   11 个同步 FP16 累加 HGEMM 的 FP64 精度门限仍未通过，保持研究状态。
 - [HGEMV CuTe 替代研究](hgemv_research_20261103.md)：3 个候选已运行，长 K 精度未通过；
-  不在默认模块发布。当时原接口清单为 156 已通过、56 待迁移／验证、17 精度未验收。
+  该历史批次未在默认模块发布；矩阵 HGEMV 后续已用 FP32 累加通过，另两个仍精度未验收。
 - [FP8 完整链路](fp8_pipeline_20261103.md)：原生 HIP E4M3 动态量化、四种 scale 模式、
   普通与 producer/consumer 调度、离线权重；Python 与专用 C++ 共用实现。功能通过，
   性能仍待优化；原 C++ FP8 不在 229 的分母中。
@@ -39,7 +46,7 @@ histogram、reduce、dot product 的设备分配与非默认 stream。3 个 BF16
 
 新增：[AMD 矩阵单元 GEMM 和 FlashAttention 前向](matrix_attention.md)，提供独立
 `gemm` / `flash_attention` 接口、WMMA 指令检查和性能对比。第一批 21 模块报告
-保留为历史验证记录；这两个独立 AMD 实现单独验证，不计入 156 个原始接口。
+保留为历史验证记录；这两个独立 AMD 实现单独验证，不计入原始接口的通过数。
 
 ## 启动和验证
 
@@ -90,12 +97,12 @@ histogram、reduce、dot product 的设备分配与非默认 stream。3 个 BF16
 | rope, embedding, histogram | 原生 kernel |
 | sgemv, hgemv | k16 / k32 / k128；新增 `hgemv_tensor_core_cute`，明确采用 FP32 WMMA 累加 |
 | sgemm | 10 个同步 FP32 kernel、3 个 AMD VGPR 预取变体，以及 hipBLAS FP32 GEMM |
-| hgemm | hipBLAS FP16 NN/TN，普通 COMPUTE_16F；自定义 HGEMM 变体尚未发布 |
+| hgemm | hipBLAS FP16 NN/TN（COMPUTE_16F），以及 9 个 AMD WMMA 变体（FP32 累加）；共 11/36 个接口 |
 | mat_transpose | 25 个接口：14 个原实现及 11 个显式 HIP 布局变体 |
 | nms | IoU ballot + 单 block 顺序消除 |
 | merge_attn_states | FP32/FP16/BF16 状态合并、可选 LSE、空状态和输入契约检查 |
 
-最新通过情况以 [`qualification_20261105.json`](qualification_20261105.json) 为准，
+最新通过情况以 [`qualification_20261105_wmma.json`](qualification_20261105_wmma.json) 为准，
 [`qualification.json`](qualification.json) 保留 2026-11-02 的历史结果。两种规模、
 非默认 stream、独立数值参考用于基础资格检查；这不是所有 shape 的支持承诺。
 低精度累加变体使用报告中单独记录的容差，不等同于 FP32 累加精度。
@@ -109,8 +116,9 @@ BF16 自身累加在随机输入测试中超过精度门限，因此保守地排
 
 - `kernels/interview/build.sh` 的整套 C++ benchmark；FP8/FP4 头文件已有 AMD 分支和
   `scripts/rocm/build_bench.sh {fp8,fp4} --run --performance` 专用入口（选择其中一个名称）。
-- `kernels/hgemm`、`ws-hgemm`、`flash-attn` 的 WMMA/MMA/PTX、cp.async、TMA、
-  WGMMA 和 CUTLASS/CuTe 实现；FFPA。FP8 E4M3 与 NVFP4 完整链路已单独接入。
+- `kernels/hgemm` 中剩余的 MMA/PTX、CuTe、标量异步路径，`ws-hgemm` 与
+  `flash-attn` 原绑定变体，以及未绑定 WGMMA/TMA 和 FFPA；9 个 WMMA HGEMM 已迁移。
+  FP8 E4M3 与 NVFP4 完整链路已单独接入。
 - 原目录下的 Python 大规模性能脚本、TensorRT、Nsight 示例。
 
 四个原 Triton 示例已接入 ROCm：vector-add、fused-softmax、layer-norm（含反向）、

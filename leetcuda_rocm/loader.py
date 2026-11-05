@@ -47,7 +47,7 @@ EXTRA_SOURCES = {
     "hgemv": ("rocm/hgemv_matrix_precision.cu",),
     "sgemm": ("sgemm/sgemm_async.cu", "rocm/blas_backend.cu"),
     "mat_transpose": ("rocm/mat_transpose_layouts.cu",),
-    "hgemm": ("rocm/blas_backend.cu",),
+    "hgemm": ("rocm/blas_backend.cu", "rocm/hgemm_wmma.cu"),
 }
 
 

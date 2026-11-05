@@ -1,0 +1,6401 @@
+{
+  "timestamp_utc": "2026-11-05T08:30:50.789155+00:00",
+  "environment": {
+    "torch": "2.9.0a0+145a3a7bda.nv25.10",
+    "cuda": "13.0",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "gpu_uuid": "5864d26e-25e9-041f-2901-2745fccf5e30",
+    "image": "sha256:42263b2424fc237b34c4fc4a91c30d603c57eed36e37d31ff6d9a4f1f801edee"
+  },
+  "backend": "cuda",
+  "fixture_sha256": "e4f4b28757888a8a04452690f4f7c1693c2b307a51a673d012d9616e966d4c48",
+  "harness_sha256": "481ac0e1c68758e30020ac883602dbc867938f2826adee0abe1f24e061286fa2",
+  "variants": {
+    "hgemm_wmma_m16n16k16_naive": [
+      16,
+      16,
+      1,
+      1,
+      1,
+      1,
+      "global"
+    ],
+    "hgemm_wmma_m16n16k16_mma4x2": [
+      64,
+      32,
+      4,
+      2,
+      1,
+      1,
+      "static"
+    ],
+    "hgemm_wmma_m16n16k16_mma4x2_warp2x4": [
+      128,
+      128,
+      4,
+      2,
+      2,
+      4,
+      "static"
+    ],
+    "hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async": [
+      128,
+      128,
+      4,
+      2,
+      2,
+      4,
+      "prefetch2"
+    ],
+    "hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async": [
+      128,
+      128,
+      2,
+      4,
+      4,
+      2,
+      "prefetch2"
+    ],
+    "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages": [
+      128,
+      128,
+      4,
+      2,
+      2,
+      4,
+      "static-ring"
+    ],
+    "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem": [
+      128,
+      128,
+      4,
+      2,
+      2,
+      4,
+      "dynamic-ring"
+    ],
+    "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem": [
+      256,
+      128,
+      4,
+      2,
+      4,
+      4,
+      "dynamic-ring"
+    ],
+    "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem": [
+      256,
+      256,
+      4,
+      4,
+      4,
+      4,
+      "dynamic-ring"
+    ]
+  },
+  "builds": {
+    "kernels/hgemm/wmma/hgemm_wmma.cu": {
+      "source_sha256": {
+        "kernels/hgemm/wmma/hgemm_wmma.cu": "44bce16dd44f8f55f87b32ad1e530edb0392f13aa9511a53ae760e8227fa9d7d",
+        "kernels/hgemm/utils/utils.h": "03a0c592345d7e97514ac156976ff21fedf4fec500d0308e78e9245aa7ac7b5f"
+      },
+      "current_stream_adaptation": true,
+      "adapted_source_sha256": "b416471f5f0c1321e4863b57af0edefc277c426b32652da4793977a1a6728a41",
+      "flags": [
+        "-O3",
+        "-std=c++20",
+        "--use_fast_math",
+        "--expt-relaxed-constexpr",
+        "--expt-extended-lambda",
+        "-U__CUDA_NO_HALF_OPERATORS__",
+        "-U__CUDA_NO_HALF_CONVERSIONS__",
+        "-U__CUDA_NO_HALF2_OPERATORS__",
+        "-U__CUDA_NO_BFLOAT16_CONVERSIONS__",
+        "-DNO_CUBLAS_HGEMM_BIN",
+        "-DNO_MMA_HGEMM_BIN",
+        "-DNO_WMMA_HGEMM_BIN",
+        "-DNO_CUTE_HGEMM_BIN",
+        "-DBUILD_FLASH_ATTN_MMA_OTHERS"
+      ],
+      "cutlass_commit": "e05f953a5b3d38adc240df2ff928e0421c2abba3",
+      "binary_sha256": "c960990c5695c5fb1ec0d9e8d4ce90ce0fb5111234d78b2e1c0b648af6158126",
+      "binary": "/work/.cache/cuda_pending/cfd931a349d64e7a/leetcuda_pending_cfd931a349d64e7a.so"
+    },
+    "kernels/hgemm/wmma/hgemm_wmma_stage.cu": {
+      "source_sha256": {
+        "kernels/hgemm/wmma/hgemm_wmma_stage.cu": "11475c78cc26e00c7b0f81ea83d5c21b9e631b686e2504d64cf86bcbd8f5f0b0",
+        "kernels/hgemm/utils/utils.h": "03a0c592345d7e97514ac156976ff21fedf4fec500d0308e78e9245aa7ac7b5f"
+      },
+      "current_stream_adaptation": true,
+      "adapted_source_sha256": "f15f18f2a2e2207f88a35782e43c19e12aa76a9f6189e98d7a271b2524d38fe9",
+      "flags": [
+        "-O3",
+        "-std=c++20",
+        "--use_fast_math",
+        "--expt-relaxed-constexpr",
+        "--expt-extended-lambda",
+        "-U__CUDA_NO_HALF_OPERATORS__",
+        "-U__CUDA_NO_HALF_CONVERSIONS__",
+        "-U__CUDA_NO_HALF2_OPERATORS__",
+        "-U__CUDA_NO_BFLOAT16_CONVERSIONS__",
+        "-DNO_CUBLAS_HGEMM_BIN",
+        "-DNO_MMA_HGEMM_BIN",
+        "-DNO_WMMA_HGEMM_BIN",
+        "-DNO_CUTE_HGEMM_BIN",
+        "-DBUILD_FLASH_ATTN_MMA_OTHERS"
+      ],
+      "cutlass_commit": "e05f953a5b3d38adc240df2ff928e0421c2abba3",
+      "binary_sha256": "138c62a79b7217e4820cae333be35c53f508161f5fe1cf660110214b03a47028",
+      "binary": "/work/.cache/cuda_pending/5a5b2ef9bae4f499/leetcuda_pending_5a5b2ef9bae4f499.so"
+    }
+  },
+  "original_accumulator": "FP16",
+  "rocm_accumulator": "FP32",
+  "checks": [
+    {
+      "id": "hgemm_wmma_m16n16k16_naive/()/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_naive/()/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_naive/()/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_naive/()/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_naive/()/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_naive/()/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_naive/()/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_naive/()/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_naive/()/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_naive/()/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2/()/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2/()/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2/()/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2/()/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2/()/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2/()/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2/()/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2/()/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2/()/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2/()/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4/()/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4/()/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4/()/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4/()/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4/()/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4/()/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4/()/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4/()/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4/()/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4/()/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async/()/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async/()/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async/()/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async/()/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async/()/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async/()/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async/()/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async/()/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async/()/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async/()/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async/()/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async/()/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async/()/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async/()/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async/()/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async/()/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async/()/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async/()/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async/()/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async/()/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(2, False, 256)/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(2, False, 256)/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(2, False, 256)/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(2, False, 256)/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(2, False, 256)/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(2, False, 256)/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(2, False, 256)/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(2, False, 256)/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(2, False, 256)/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(2, False, 256)/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(3, True, 256)/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(3, True, 256)/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(3, True, 256)/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(3, True, 256)/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(3, True, 256)/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(3, True, 256)/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(3, True, 256)/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(3, True, 256)/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(3, True, 256)/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(3, True, 256)/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(4, True, 512)/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(4, True, 512)/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(4, True, 512)/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(4, True, 512)/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(4, True, 512)/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(4, True, 512)/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(4, True, 512)/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(4, True, 512)/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(4, True, 512)/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(4, True, 512)/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(5, True, 256)/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(5, True, 256)/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(5, True, 256)/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(5, True, 256)/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(5, True, 256)/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(5, True, 256)/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(5, True, 256)/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(5, True, 256)/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(5, True, 256)/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages/(5, True, 256)/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(4, True, 512)/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(4, True, 512)/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(4, True, 512)/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(4, True, 512)/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(4, True, 512)/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(4, True, 512)/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(4, True, 512)/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(4, True, 512)/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(4, True, 512)/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(4, True, 512)/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(2, False, 256)/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(2, False, 256)/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(2, False, 256)/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(2, False, 256)/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(2, False, 256)/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(2, False, 256)/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(2, False, 256)/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(2, False, 256)/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(2, False, 256)/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(2, False, 256)/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(3, True, 256)/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(3, True, 256)/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(3, True, 256)/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(3, True, 256)/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(3, True, 256)/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(3, True, 256)/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(3, True, 256)/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(3, True, 256)/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(3, True, 256)/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(3, True, 256)/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(4, True, 512)/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(4, True, 512)/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(4, True, 512)/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(4, True, 512)/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(4, True, 512)/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(4, True, 512)/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(4, True, 512)/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(4, True, 512)/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(4, True, 512)/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(4, True, 512)/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(5, True, 256)/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(5, True, 256)/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(5, True, 256)/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(5, True, 256)/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(5, True, 256)/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(5, True, 256)/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(5, True, 256)/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(5, True, 256)/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(5, True, 256)/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem/(5, True, 256)/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(2, False, 256)/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(2, False, 256)/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(2, False, 256)/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(2, False, 256)/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(2, False, 256)/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(2, False, 256)/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(2, False, 256)/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(2, False, 256)/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(2, False, 256)/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(2, False, 256)/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(3, True, 256)/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(3, True, 256)/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(3, True, 256)/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(3, True, 256)/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(3, True, 256)/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(3, True, 256)/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(3, True, 256)/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(3, True, 256)/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(3, True, 256)/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(3, True, 256)/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(4, True, 512)/s20261105_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.004991956113371998,
+      "input_sha256": [
+        "204826e79b1b103a35eb3e0377bd6428c8dc721b219f4e700f5e44f0889b5c96",
+        "35a03b3d2bf64d4d0180d6623298ec0182060c0ae118c6c4c806d33fc1bb7ec0"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(4, True, 512)/s20261105_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.011583420400711475,
+      "input_sha256": [
+        "e8df1e6520315f41ef3a11c622ed0bc737c2ae3032f13d387ab04b952ac934bd",
+        "85d8636ba289fa0b6f576bbfda2147dc298748ad4ad9f7c9bc4909c40a562a89"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(4, True, 512)/s20261105_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0030845158034935594,
+      "input_sha256": [
+        "8177a7a3e204502f7d23d48d297b93ba2aac1ebe0e2e7e0e20f96b8dd26ba318",
+        "c7f4d6f8bf6128353cd13b14bbd7eba55105d42366b5ace2f13482304e0c19a9"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(4, True, 512)/s20261105_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0020931931503582746,
+      "input_sha256": [
+        "c8658e23fa771ae7af72f3e392e12a74f07cd7379d24c67d410a719bb71a9700",
+        "10b09314e1d424461e6fb8a2fc861101c7e64316531cfa891356a4cec926e57a"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(4, True, 512)/s20261105_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07716231203630741,
+      "input_sha256": [
+        "ba48b8f5231cf755817b7793e42e30d9d35cbe6bdffddb517e89680c652c1e28",
+        "f489b277bdafe242676219029053101b88b82c14a90cef01abe8a293f2e7ad05"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(4, True, 512)/s17_256_256_256",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.005881513345229905,
+      "input_sha256": [
+        "94b3e9732b25ce692f59aaa6484eba011ad5d38087e7fc18ae68c1b7ed28a19a",
+        "8e2f4e2ca95b5cce50cc3b26170fe22ef612528e165f8d67a009147714d8fb53"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(4, True, 512)/s17_256_512_512",
+      "shape_mnk": [
+        256,
+        512,
+        512
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.01315405828790972,
+      "input_sha256": [
+        "12c8e9723a565d1ca779893f1c7feee33cfc055287734be40aab35a0cf9109c2",
+        "9301a6f0613a9a7bf63c53f0ed644023ab7f202de9778731fe806c8113dc84db"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(4, True, 512)/s17_512_512_128",
+      "shape_mnk": [
+        512,
+        512,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.0035658804117701948,
+      "input_sha256": [
+        "8003fce2505f932f9c58f6715f2d2dde9560ada7054e07174af1d8332d43c691",
+        "9c616b3fd1091b10b67188b0869a5c9a8478476d5dddc592b98271906c122b3f"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(4, True, 512)/s17_256_1024_80",
+      "shape_mnk": [
+        256,
+        1024,
+        80
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": true,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.001969555887626484,
+      "input_sha256": [
+        "c483f068201ca0c3dcc754658162dafee4ffe9d8a054ac99fc5165f6027ced00",
+        "165d2718f5746ddf3ca69013130975e44251dc710dc76a3ab2bee53cfaa94f42"
+      ]
+    },
+    {
+      "id": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem/(4, True, 512)/s17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "passed": false,
+      "atol": 0.01,
+      "rtol": 0.01,
+      "finite": true,
+      "max_abs_error_fp64": 0.07578073142212816,
+      "input_sha256": [
+        "905f2a9df32a5202c3bf900d68aef95c9df9888733d69516b2142738d37b57d6",
+        "ad67594b2be97e409de93899bb2042d5d01c49213dea6b05dfc090f3d7b04c2a"
+      ]
+    }
+  ],
+  "boundaries": [],
+  "performance": [
+    {
+      "function": "hgemm_wmma_m16n16k16_naive",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.0030735725266927585,
+      "baseline_ms": 0.0023051940683108656,
+      "baseline_over_ours": 0.7500047740182375,
+      "samples_ms": {
+        "ours": [
+          0.0030735725266927585,
+          0.0030735725266927585,
+          0.0030735725266927585
+        ],
+        "baseline": [
+          0.002304955204920982,
+          0.0023051940683108656,
+          0.0023051940683108656
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 407,
+        "baseline": 536
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.004862505638181931,
+      "baseline_ms": 0.0023051940683108656,
+      "baseline_over_ours": 0.4740753512365627,
+      "samples_ms": {
+        "ours": [
+          0.004862505638181931,
+          0.004862505638181931,
+          0.004862505638181931
+        ],
+        "baseline": [
+          0.0023051940683108656,
+          0.002305432931700749,
+          0.0023051940683108656
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 257,
+        "baseline": 536
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.012806531117886913,
+      "baseline_ms": 0.0023051940683108656,
+      "baseline_over_ours": 0.18000144200572749,
+      "samples_ms": {
+        "ours": [
+          0.012806531117886913,
+          0.012806531117886913,
+          0.012806531117886913
+        ],
+        "baseline": [
+          0.0023051940683108656,
+          0.0023051940683108656,
+          0.002305343302328195
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 98,
+        "baseline": 536
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.00793681039085871,
+      "baseline_ms": 0.0023051940683108656,
+      "baseline_over_ours": 0.2904433840281598,
+      "samples_ms": {
+        "ours": [
+          0.00793681039085871,
+          0.007938430279116088,
+          0.00793518974811216
+        ],
+        "baseline": [
+          0.0023051940683108656,
+          0.002304955204920982,
+          0.0023051940683108656
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 158,
+        "baseline": 536
+      }
+    },
+    {
+      "function": "hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.007933569859854783,
+      "baseline_ms": 0.0023051940683108656,
+      "baseline_over_ours": 0.2905620179858176,
+      "samples_ms": {
+        "ours": [
+          0.007933569859854783,
+          0.007933569859854783,
+          0.007933569859854783
+        ],
+        "baseline": [
+          0.002304955204920982,
+          0.002305432931700749,
+          0.0023051940683108656
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 158,
+        "baseline": 536
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.007427786934305225,
+      "baseline_ms": 0.0023051940683108656,
+      "baseline_over_ours": 0.3103473603509451,
+      "samples_ms": {
+        "ours": [
+          0.007427786934305225,
+          0.007427786934305225,
+          0.007427786934305225
+        ],
+        "baseline": [
+          0.0023051940683108656,
+          0.002305432931700749,
+          0.0023051940683108656
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 169,
+        "baseline": 536
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.006915535716062093,
+      "baseline_ms": 0.0023051940683108656,
+      "baseline_over_ours": 0.3333355741272218,
+      "samples_ms": {
+        "ours": [
+          0.006915535716062093,
+          0.006915535716062093,
+          0.006916950420780076
+        ],
+        "baseline": [
+          0.0023051940683108656,
+          0.0023051940683108656,
+          0.0023051567042051855
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 181,
+        "baseline": 536
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.006398041029365695,
+      "baseline_ms": 0.0023051940683108656,
+      "baseline_over_ours": 0.3602968561361983,
+      "samples_ms": {
+        "ours": [
+          0.00639738781111581,
+          0.006398041029365695,
+          0.006398041029365695
+        ],
+        "baseline": [
+          0.0023051940683108656,
+          0.002304955204920982,
+          0.0023051940683108656
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 196,
+        "baseline": 536
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.006400653294154576,
+      "baseline_ms": 0.0023051940683108656,
+      "baseline_over_ours": 0.3601498100851821,
+      "samples_ms": {
+        "ours": [
+          0.006400653294154576,
+          0.006400653294154576,
+          0.006401959122443686
+        ],
+        "baseline": [
+          0.0023051940683108656,
+          0.0023051940683108656,
+          0.0023051940683108656
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 196,
+        "baseline": 536
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.007466155611826274,
+      "baseline_ms": 0.0023051785720206975,
+      "baseline_over_ours": 0.30875040541203436,
+      "samples_ms": {
+        "ours": [
+          0.007466155611826274,
+          0.007463089720217767,
+          0.007472287395043287
+        ],
+        "baseline": [
+          0.0023051785720206975,
+          0.0023051785720206975,
+          0.0023051785720206975
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 167,
+        "baseline": 543
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.0069044707293178945,
+      "baseline_ms": 0.0023051785720206975,
+      "baseline_over_ours": 0.3338675276342913,
+      "samples_ms": {
+        "ours": [
+          0.00690310141619514,
+          0.006907208718080571,
+          0.0069044707293178945
+        ],
+        "baseline": [
+          0.0023051785720206975,
+          0.0023051785720206975,
+          0.0023054731924011342
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 187,
+        "baseline": 543
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.00639869363940492,
+      "baseline_ms": 0.0023051785720206975,
+      "baseline_over_ours": 0.3602576872605327,
+      "samples_ms": {
+        "ours": [
+          0.00639869363940492,
+          0.006398041029365695,
+          0.006399346857654805
+        ],
+        "baseline": [
+          0.0023051785720206975,
+          0.0023051785720206975,
+          0.00230494300743932
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 196,
+        "baseline": 543
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.0066539575444891095,
+      "baseline_ms": 0.0023051785720206975,
+      "baseline_over_ours": 0.3464372227517254,
+      "samples_ms": {
+        "ours": [
+          0.0066539575444891095,
+          0.0066539575444891095,
+          0.0066539575444891095
+        ],
+        "baseline": [
+          0.0023051785720206975,
+          0.0023051785720206975,
+          0.0023054143561403615
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 188,
+        "baseline": 543
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.013062667101621628,
+      "baseline_ms": 0.0023051785720206975,
+      "baseline_over_ours": 0.1764707432324083,
+      "samples_ms": {
+        "ours": [
+          0.013063999513785044,
+          0.013062667101621628,
+          0.013062667101621628
+        ],
+        "baseline": [
+          0.00230583433288237,
+          0.0023051785720206975,
+          0.0023051785720206975
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 96,
+        "baseline": 543
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.012038154097703787,
+      "baseline_ms": 0.0023051940683108656,
+      "baseline_over_ours": 0.19149065958131978,
+      "samples_ms": {
+        "ours": [
+          0.012038154097703787,
+          0.012038154097703787,
+          0.012038154097703787
+        ],
+        "baseline": [
+          0.0023051940683108656,
+          0.0023051940683108656,
+          0.0023051940683108656
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 104,
+        "baseline": 536
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.01228423562704348,
+      "baseline_ms": 0.0023051785720206975,
+      "baseline_over_ours": 0.1876533992026249,
+      "samples_ms": {
+        "ours": [
+          0.01228423562704348,
+          0.01228423562704348,
+          0.012286744865716672
+        ],
+        "baseline": [
+          0.0023051785720206975,
+          0.0023051785720206975,
+          0.0023057236855859916
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 102,
+        "baseline": 543
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.01202830786888416,
+      "baseline_ms": 0.0023051940683108656,
+      "baseline_over_ours": 0.19164741154274376,
+      "samples_ms": {
+        "ours": [
+          0.01202830786888416,
+          0.01202830786888416,
+          0.01202830786888416
+        ],
+        "baseline": [
+          0.002305432931700749,
+          0.0023051940683108656,
+          0.0023051940683108656
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 104,
+        "baseline": 536
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.017416889468828838,
+      "baseline_ms": 0.0023051940683108656,
+      "baseline_over_ours": 0.13235394715207283,
+      "samples_ms": {
+        "ours": [
+          0.017416889468828838,
+          0.017416889468828838,
+          0.017416889468828838
+        ],
+        "baseline": [
+          0.0023051940683108656,
+          0.002304955204920982,
+          0.0023051940683108656
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 72,
+        "baseline": 536
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.01739911072784,
+      "baseline_ms": 0.0023051785720206975,
+      "baseline_over_ours": 0.13248829828597064,
+      "samples_ms": {
+        "ours": [
+          0.01739555597305298,
+          0.01739911072784,
+          0.0174026671383116
+        ],
+        "baseline": [
+          0.0023051785720206975,
+          0.0023051785720206975,
+          0.0023051785720206975
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 72,
+        "baseline": 543
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        256,
+        256,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "accuracy_passed": true,
+      "graph_replay_verified": true,
+      "ours_ms": 0.018976970152421432,
+      "baseline_ms": 0.0023051785720206975,
+      "baseline_over_ours": 0.12147242439154915,
+      "samples_ms": {
+        "ours": [
+          0.018969212517593845,
+          0.018976970152421432,
+          0.018996363336389713
+        ],
+        "baseline": [
+          0.0023051785720206975,
+          0.0023051785720206975,
+          0.0023051785720206975
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 66,
+        "baseline": 543
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_naive",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.08780799706776937,
+      "baseline_ms": 0.014084315032101748,
+      "baseline_over_ours": 0.16039900125761447,
+      "samples_ms": {
+        "ours": [
+          0.08811519940694174,
+          0.08780799706776937,
+          0.0877568006515503
+        ],
+        "baseline": [
+          0.014084315032101748,
+          0.014078562179308259,
+          0.014090067884895238
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 15,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.031203903803011267,
+      "baseline_ms": 0.014088629336839312,
+      "baseline_over_ours": 0.451502139789308,
+      "samples_ms": {
+        "ours": [
+          0.031160194699357196,
+          0.03122887669540033,
+          0.031203903803011267
+        ],
+        "baseline": [
+          0.014087190788783384,
+          0.014088629336839312,
+          0.014092943641576873
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 41,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.045440001147133965,
+      "baseline_ms": 0.014090067884895238,
+      "baseline_over_ours": 0.31008071146987504,
+      "samples_ms": {
+        "ours": [
+          0.045426287821360996,
+          0.04549485870770046,
+          0.045440001147133965
+        ],
+        "baseline": [
+          0.014092943641576873,
+          0.014087190788783384,
+          0.014090067884895238
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 28,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.024563450439303528,
+      "baseline_ms": 0.014092943641576873,
+      "baseline_over_ours": 0.5737363191869418,
+      "samples_ms": {
+        "ours": [
+          0.024422902686923157,
+          0.02457097932404163,
+          0.024563450439303528
+        ],
+        "baseline": [
+          0.014088629336839312,
+          0.014092943641576873,
+          0.014092943641576873
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 51,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.024216615236722507,
+      "baseline_ms": 0.014092943641576873,
+      "baseline_over_ours": 0.5819534853989868,
+      "samples_ms": {
+        "ours": [
+          0.02423384556403527,
+          0.024216615236722507,
+          0.024174768191117506
+        ],
+        "baseline": [
+          0.014092943641576873,
+          0.014092943641576873,
+          0.014094336649005333
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 52,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.023067927360534667,
+      "baseline_ms": 0.014092943641576873,
+      "baseline_over_ours": 0.6109323746912574,
+      "samples_ms": {
+        "ours": [
+          0.023088873516429555,
+          0.02305396470156583,
+          0.023067927360534667
+        ],
+        "baseline": [
+          0.014092943641576873,
+          0.014091505093520947,
+          0.014092943641576873
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 55,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.021258847188141385,
+      "baseline_ms": 0.01409582073768873,
+      "baseline_over_ours": 0.6630566847270846,
+      "samples_ms": {
+        "ours": [
+          0.021258847188141385,
+          0.021258847188141385,
+          0.021258847188141385
+        ],
+        "baseline": [
+          0.014092943641576873,
+          0.014098696494370365,
+          0.01409582073768873
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 59,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.018697551826932536,
+      "baseline_ms": 0.014092943641576873,
+      "baseline_over_ours": 0.7537320271671588,
+      "samples_ms": {
+        "ours": [
+          0.018697551826932536,
+          0.018697551826932536,
+          0.018703282769046613
+        ],
+        "baseline": [
+          0.014092943641576873,
+          0.014090067884895238,
+          0.014092943641576873
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 67,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.019454029890207145,
+      "baseline_ms": 0.014092899440379624,
+      "baseline_over_ours": 0.7244205709519224,
+      "samples_ms": {
+        "ours": [
+          0.019454029890207145,
+          0.019454029890207145,
+          0.01945796929872953
+        ],
+        "baseline": [
+          0.014092943641576873,
+          0.014090067884895238,
+          0.014092899440379624
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 65,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.023540148028620967,
+      "baseline_ms": 0.014092943641576873,
+      "baseline_over_ours": 0.5986769337406953,
+      "samples_ms": {
+        "ours": [
+          0.023540148028620967,
+          0.023544889909249765,
+          0.023535408355571604
+        ],
+        "baseline": [
+          0.014094382189632802,
+          0.014092899440379624,
+          0.014092943641576873
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 54,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.020370516084855603,
+      "baseline_ms": 0.014092943641576873,
+      "baseline_over_ours": 0.6918304662911426,
+      "samples_ms": {
+        "ours": [
+          0.020370516084855603,
+          0.020403612044549758,
+          0.020329290820706274
+        ],
+        "baseline": [
+          0.014092943641576873,
+          0.014090067884895238,
+          0.014094382189632802
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 62,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.01868226812846625,
+      "baseline_ms": 0.014092943641576873,
+      "baseline_over_ours": 0.7543486446436017,
+      "samples_ms": {
+        "ours": [
+          0.01868226812846625,
+          0.01868226812846625,
+          0.01868226812846625
+        ],
+        "baseline": [
+          0.014092943641576873,
+          0.014087190788783384,
+          0.014094382189632802
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 67,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.019961903965662397,
+      "baseline_ms": 0.014092943641576873,
+      "baseline_over_ours": 0.7059919567702031,
+      "samples_ms": {
+        "ours": [
+          0.019961903965662397,
+          0.019961903965662397,
+          0.019961903965662397
+        ],
+        "baseline": [
+          0.014092943641576873,
+          0.014098696494370365,
+          0.014092943641576873
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 63,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.04214186668395996,
+      "baseline_ms": 0.014092899440379624,
+      "baseline_over_ours": 0.33441564290609993,
+      "samples_ms": {
+        "ours": [
+          0.04208213488260905,
+          0.04214186668395996,
+          0.042167464892069496
+        ],
+        "baseline": [
+          0.014092943641576873,
+          0.014087190788783384,
+          0.014092899440379624
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 30,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.03720658666947309,
+      "baseline_ms": 0.014092943641576873,
+      "baseline_over_ours": 0.37877550463772375,
+      "samples_ms": {
+        "ours": [
+          0.03720658666947309,
+          0.03720658666947309,
+          0.03720658666947309
+        ],
+        "baseline": [
+          0.014092943641576873,
+          0.014092943641576873,
+          0.014092943641576873
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 34,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.038912000078143494,
+      "baseline_ms": 0.014092943641576873,
+      "baseline_over_ours": 0.36217474335102984,
+      "samples_ms": {
+        "ours": [
+          0.038912000078143494,
+          0.038912000078143494,
+          0.03889636198679606
+        ],
+        "baseline": [
+          0.014092943641576873,
+          0.014092943641576873,
+          0.014092943641576873
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 33,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.037334589397206026,
+      "baseline_ms": 0.014092943641576873,
+      "baseline_over_ours": 0.3774768617820003,
+      "samples_ms": {
+        "ours": [
+          0.037342117113225604,
+          0.037334589397206026,
+          0.0373232925639433
+        ],
+        "baseline": [
+          0.014092943641576873,
+          0.014092943641576873,
+          0.014092943641576873
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 34,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.06094019185929071,
+      "baseline_ms": 0.014092899440379624,
+      "baseline_over_ours": 0.23125787777169712,
+      "samples_ms": {
+        "ours": [
+          0.06095237958998907,
+          0.06094019185929071,
+          0.06092799845195952
+        ],
+        "baseline": [
+          0.014092899440379624,
+          0.014087190788783384,
+          0.01409582073768873
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 21,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.06016000111897787,
+      "baseline_ms": 0.01409577519706126,
+      "baseline_over_ours": 0.23430476952924548,
+      "samples_ms": {
+        "ours": [
+          0.06016000111897787,
+          0.06012342657361712,
+          0.06016000111897787
+        ],
+        "baseline": [
+          0.01409582073768873,
+          0.014087190788783384,
+          0.01409577519706126
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 21,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        1024,
+        1024,
+        1024
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.06528000235557556,
+      "baseline_ms": 0.01409582073768873,
+      "baseline_over_ours": 0.21592861870484917,
+      "samples_ms": {
+        "ours": [
+          0.06529279947280883,
+          0.06528000235557556,
+          0.06525440216064453
+        ],
+        "baseline": [
+          0.01409582073768873,
+          0.014092943641576873,
+          0.01409582073768873
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 20,
+        "baseline": 89
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_naive",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.6166613499323527,
+      "baseline_ms": 0.10009599648989163,
+      "baseline_over_ours": 0.1623192316185733,
+      "samples_ms": {
+        "ours": [
+          0.6154666741689047,
+          0.6170026858647665,
+          0.6166613499323527
+        ],
+        "baseline": [
+          0.10009599648989163,
+          0.10017476632044865,
+          0.10007630861722507
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 3,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.21977599461873373,
+      "baseline_ms": 0.10017476632044865,
+      "baseline_over_ours": 0.45580394935411994,
+      "samples_ms": {
+        "ours": [
+          0.21962666511535645,
+          0.21977599461873373,
+          0.22011733055114746
+        ],
+        "baseline": [
+          0.10017476632044865,
+          0.10023384827833909,
+          0.10017476632044865
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 6,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.13621759414672852,
+      "baseline_ms": 0.10023384827833909,
+      "baseline_over_ours": 0.7358362838971515,
+      "samples_ms": {
+        "ours": [
+          0.13616640567779542,
+          0.1362944006919861,
+          0.13621759414672852
+        ],
+        "baseline": [
+          0.10023384827833909,
+          0.10015507844778207,
+          0.10023384827833909
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 10,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_dbuf_async",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.09881600049825814,
+      "baseline_ms": 0.10021415123572716,
+      "baseline_over_ours": 1.0141490318411912,
+      "samples_ms": {
+        "ours": [
+          0.0987076942737286,
+          0.09881600049825814,
+          0.09883568837092473
+        ],
+        "baseline": [
+          0.10017476632044865,
+          0.10021415123572716,
+          0.10029292106628418
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 13,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m32n8k16_mma2x4_warp2x4_dbuf_async",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.09883568837092473,
+      "baseline_ms": 0.10039138793945312,
+      "baseline_over_ours": 1.0157402613789661,
+      "samples_ms": {
+        "ours": [
+          0.0985796910065871,
+          0.09883568837092473,
+          0.09887507328620324
+        ],
+        "baseline": [
+          0.1003716908968412,
+          0.10039138793945312,
+          0.10047015777001014
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 13,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.07576093954198501,
+      "baseline_ms": 0.10054892760056716,
+      "baseline_over_ours": 1.3271869146348851,
+      "samples_ms": {
+        "ours": [
+          0.07558776350582347,
+          0.07576093954198501,
+          0.07619741383720846
+        ],
+        "baseline": [
+          0.10050954268528865,
+          0.10054892760056716,
+          0.10062768826117882
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 17,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.07698047161102295,
+      "baseline_ms": 0.10066707317645733,
+      "baseline_over_ours": 1.307696238665842,
+      "samples_ms": {
+        "ours": [
+          0.07695058514090146,
+          0.07698047161102295,
+          0.07729694422553568
+        ],
+        "baseline": [
+          0.10066707317645733,
+          0.10064738530379075,
+          0.10070645809173584
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 17,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.07654376590953153,
+      "baseline_ms": 0.10072615513434777,
+      "baseline_over_ours": 1.3159289190630865,
+      "samples_ms": {
+        "ours": [
+          0.07651387943941004,
+          0.07654376590953153,
+          0.07661929551292868
+        ],
+        "baseline": [
+          0.10068677021906926,
+          0.10072615513434777,
+          0.10072615513434777
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 17,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.0809440016746521,
+      "baseline_ms": 0.10070645809173584,
+      "baseline_over_ours": 1.244149733250369,
+      "samples_ms": {
+        "ours": [
+          0.08078400045633316,
+          0.0809440016746521,
+          0.08115175366401672
+        ],
+        "baseline": [
+          0.1007163066130418,
+          0.10066707317645733,
+          0.10070645809173584
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 16,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.07705623262068804,
+      "baseline_ms": 0.10072615513434777,
+      "baseline_over_ours": 1.3071772614445833,
+      "samples_ms": {
+        "ours": [
+          0.07705623262068804,
+          0.0769503537346335,
+          0.07719152815201703
+        ],
+        "baseline": [
+          0.10070645809173584,
+          0.10074584300701435,
+          0.10072615513434777
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 17,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.07756799810072955,
+      "baseline_ms": 0.10072615513434777,
+      "baseline_over_ours": 1.2985529806189546,
+      "samples_ms": {
+        "ours": [
+          0.0774776444715612,
+          0.07756799810072955,
+          0.07762070263133329
+        ],
+        "baseline": [
+          0.10072615513434777,
+          0.10070645809173584,
+          0.10074584300701435
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 17,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.07729670580695658,
+      "baseline_ms": 0.10074584300701435,
+      "baseline_over_ours": 1.30336528517296,
+      "samples_ms": {
+        "ours": [
+          0.07717647271997788,
+          0.07729670580695658,
+          0.07747741306529325
+        ],
+        "baseline": [
+          0.10074584300701435,
+          0.10076554004962628,
+          0.10074584300701435
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 17,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp2x4_stages_dsmem",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.08284775167703629,
+      "baseline_ms": 0.10078522792229286,
+      "baseline_over_ours": 1.2165113220595518,
+      "samples_ms": {
+        "ours": [
+          0.08295200020074844,
+          0.08267174661159515,
+          0.08284775167703629
+        ],
+        "baseline": [
+          0.10075569152832031,
+          0.10080492496490479,
+          0.10078522792229286
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 16,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.10656000177065532,
+      "baseline_ms": 0.10068677021906926,
+      "baseline_over_ours": 0.9448833384572687,
+      "samples_ms": {
+        "ours": [
+          0.10662399729092915,
+          0.10651733477910359,
+          0.10656000177065532
+        ],
+        "baseline": [
+          0.10068677021906926,
+          0.10072615513434777,
+          0.10064738530379075
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 12,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.101494156397306,
+      "baseline_ms": 0.10064738530379075,
+      "baseline_over_ours": 0.9916569473201935,
+      "samples_ms": {
+        "ours": [
+          0.10147445935469407,
+          0.101494156397306,
+          0.101494156397306
+        ],
+        "baseline": [
+          0.10066707317645733,
+          0.10064738530379075,
+          0.10058830334590031
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 13,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.10265599764310397,
+      "baseline_ms": 0.10064738530379075,
+      "baseline_over_ours": 0.9804335607716131,
+      "samples_ms": {
+        "ours": [
+          0.10263630977043739,
+          0.10265599764310397,
+          0.10269538255838248
+        ],
+        "baseline": [
+          0.10064738530379075,
+          0.10064738530379075,
+          0.10064738530379075
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 13,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x2_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.10228184553293082,
+      "baseline_ms": 0.10062768826117882,
+      "baseline_over_ours": 0.9838274596715267,
+      "samples_ms": {
+        "ours": [
+          0.10232123044820932,
+          0.10228184553293082,
+          0.10226215766026424
+        ],
+        "baseline": [
+          0.10070645809173584,
+          0.10062768826117882,
+          0.10060800038851224
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 13,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.11578181656924161,
+      "baseline_ms": 0.10035200302417462,
+      "baseline_over_ours": 0.8667337065329302,
+      "samples_ms": {
+        "ours": [
+          0.11578181656924161,
+          0.11580509489232843,
+          0.11574690992181952
+        ],
+        "baseline": [
+          0.10041107581211971,
+          0.10035200302417462,
+          0.10019446336306058
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 11,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.11415272409265692,
+      "baseline_ms": 0.10020431188436654,
+      "baseline_over_ours": 0.8778092041240422,
+      "samples_ms": {
+        "ours": [
+          0.11415272409265692,
+          0.11414109576832164,
+          0.11418764157728716
+        ],
+        "baseline": [
+          0.10020431188436654,
+          0.10024369679964505,
+          0.10018461484175462
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 11,
+        "baseline": 13
+      }
+    },
+    {
+      "function": "hgemm_wmma_m16n16k16_mma4x4_warp4x4_stages_dsmem",
+      "shape_mnk": [
+        2048,
+        2048,
+        2048
+      ],
+      "config": [
+        4,
+        true,
+        512
+      ],
+      "accuracy_passed": false,
+      "graph_replay_verified": true,
+      "ours_ms": 0.12488145178014581,
+      "baseline_ms": 0.10021415123572716,
+      "baseline_over_ours": 0.8024742650506217,
+      "samples_ms": {
+        "ours": [
+          0.12485818429426714,
+          0.12488145178014581,
+          0.12488145178014581
+        ],
+        "baseline": [
+          0.10017476632044865,
+          0.10021415123572716,
+          0.1002732331936176
+        ]
+      },
+      "calls_per_graph": 8,
+      "replays_per_sample": {
+        "ours": 11,
+        "baseline": 13
+      }
+    }
+  ],
+  "passed": false,
+  "outputs_sha256": "6ffd46dcd3c377db843a889cea7e6c64d1761ed4a74a93def06ba39ac1fcd1f5"
+}

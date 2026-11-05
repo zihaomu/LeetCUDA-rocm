@@ -11,7 +11,7 @@ def gemm_checks(module, lib):
         or (module == "sgemm" and "_sliced_k16_" in name)
     )
     dtype = torch.float16 if module == "hgemm" else torch.float32
-    # Original HGEMM variants accumulate in FP16, unlike the WMMA FP32 API.
+    # Keep the established HGEMM gate. AMD WMMA explicitly uses FP32 state.
     atol, rtol = (0.01, 0.01) if dtype == torch.float16 else (2e-4, 2e-4)
     results = []
     stream = torch.cuda.Stream()
@@ -29,7 +29,8 @@ def gemm_checks(module, lib):
                 out = torch.full(
                     (m, n), float("nan"), device="cuda", dtype=dtype
                 )
-                getattr(lib, name)(a, b, out)
+                options = (3, True, 256) if "_stages" in name else ()
+                getattr(lib, name)(a, b, out, *options)
                 expected = a.double() @ b.double()
                 failure = None
                 try:
