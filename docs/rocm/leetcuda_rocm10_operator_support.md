@@ -391,7 +391,7 @@ BN/stages 保持原约定；此差异及量化损失在报告中明确列出。
 | HGEMV 的 CuTe 变体 | 3/3已支持 | 均明确提升FP32累加；原FP16失败保留，性能按形状记录 |
 | Matrix Transpose 的 CuTe 变体 | 已支持 | 11 个接口已用显式 HIP 布局实现；CUDA CuTe 源码保留 |
 | Reduce Sum 的 BF16 自身累加变体 | 3/3已支持，精度升级 | 原BF16失败保留；使用补偿FP32、确定性两级归约 |
-| FP8/FP4 GEMM、FFPA 扩展 | 三者功能通过，整体性能未完成 | E4M3/E5M2、NVFP4完整链路及FFPA三路径已接入；FFPA双卡各2755、跨平台1700份比较通过；性能仍有差距，FP4需补完整链路5090共享输入对照 |
+| FP8/FP4 GEMM、FFPA 扩展 | 三者功能通过，整体性能未完成 | E4M3/E5M2、NVFP4完整链路及FFPA三路径已接入；FFPA双卡各2755、跨平台1700份比较通过；性能仍有差距，FP4完整链两张AMD和5090各1560项、跨平台全部逐位一致 |
 | 新增 Attention 的扩展功能 | 计划范围功能完成 | 独立`attention`支持GQA、bool/加性mask、显式Philox dropout、Q/K/V一阶梯度及D≤256；NQ≠NK左上因果。双卡、5090、性能和空间通过；二阶导数/mask梯度明确不支持 |
 | `kernels/cutlass`、CuTe DSL 示例 | 未移植 | NVIDIA 库、指令及对应编译入口 |
 | `kernels/swizzle` 示例 | 未移植 | 独立布局、矩阵乘和转置示例 |
@@ -500,3 +500,5 @@ FFPA补充范围已功能验收：三个Split-D路径，双卡各2755项、5090�
 独立补充范围以[逐项清单](leetcuda_rocm10_supplemental_scope.md)为准；[base/SGEMV正式报告](interview_base_20261106.md)已完成。
 
 独立SGEMM四路径已验收：[234项双卡与原CUDA专项、234项共同输出比较](interview_sgemm_20261106.md)，四kernel零scratch。interview功能40/53、完整跨平台34/53；其余范围继续执行。
+
+NVFP4完整链跨平台证据已闭合：[1560项全部逐位一致](fp4_cross_20261106.md)。两端各48性能配置已测，AMD相对本机BF16库仍有明显差距，继续优化。interview功能和完整跨平台当前均40/53。

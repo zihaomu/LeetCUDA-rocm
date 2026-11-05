@@ -14,12 +14,12 @@
 | flash_attn.cuh | 8 | 待完成 | 待完成 |
 | ffpa_attn.cuh | 3 | 完成 | 完成；原CUDA同步缺陷及显式修复分别保留 |
 | FP8头文件 | 5 | 完成，E4M3/E5M2 | 完成 |
-| FP4头文件 | 6 | 完成 | 待补完整量化链共享输入对照 |
-| 合计 | **53** | **40/53（75.47%）** | **34/53（64.15%）** |
+| FP4头文件 | 6 | 完成 | 完成；1560项共同输出全部逐位一致 |
+| 合计 | **53** | **40/53（75.47%）** | **40/53（75.47%）** |
 
 base/SGEMV：[双卡和5090各370项、跨平台370项](interview_base_20261106.md)。
 FFPA：[三种Split-D实现](ffpa_20261106.md)。FP8：[两种格式完整链路](fp8_e5m2_20261106.md)。
-FP4：[既有AMD完整链路](fp4_pipeline_20261103.md)。逐头文件数据见[JSON清单](leetcuda_rocm10_supplemental_scope.json)。
+FP4：[完整链跨平台验收](fp4_cross_20261106.md)。逐头文件数据见[JSON清单](leetcuda_rocm10_supplemental_scope.json)。
 这些头文件也供book/tests复用；后续统一AMD构建入口显式映射测试范围，不声称原CUDA命令直接适用于HIP。
 
 ## 其他必须项
