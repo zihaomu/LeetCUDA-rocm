@@ -104,6 +104,34 @@ if mma_keys:
         for p in mma_report["performance"]
     )
 fp8_report_path = root / "docs/rocm/fp8_pipeline_20261103.json"
+async_hgemm_path = root / "docs/rocm/async_hgemm_20261106/hip.json"
+async_hgemm_keys = {
+    key
+    for key in qualified
+    if key[0] == "hgemm"
+    and key[1].startswith("hgemm_t_")
+    and key[1].endswith("_async")
+}
+if async_hgemm_keys:
+    async_hgemm_report = json.loads(async_hgemm_path.read_text())
+    assert async_hgemm_report["passed"] and async_hgemm_report["isa"]["passed"]
+    assert async_hgemm_keys == {
+        ("hgemm", name) for name in async_hgemm_report["variants"]
+    }
+    assert async_hgemm_report["original_accumulator"] == "FP16"
+    assert async_hgemm_report["rocm_accumulator"] == "FP32"
+    for field in ("checks", "boundaries", "scheduling_controls"):
+        assert async_hgemm_report[field] and all(
+            c["passed"] for c in async_hgemm_report[field]
+        )
+    assert len(async_hgemm_report["isa"]["kernels"]) == 3
+    assert len(async_hgemm_report["performance"]) == 9
+    assert all(
+        p["accuracy_passed"]
+        and p["graph_replay_verified"]
+        and p["synchronous_bitwise_equal"]
+        for p in async_hgemm_report["performance"]
+    )
 flash_keys = {
     key
     for key in qualified
@@ -398,6 +426,20 @@ for source in sorted((root / "kernels").rglob("*")):
                 ).hexdigest(),
                 "performance_status": "measured_pending_optimization",
             }
+        if (module, name) in async_hgemm_keys:
+            entries[-1]["implementation"] = {
+                "mechanism": "Native SIMT FP32 FMA; original three microtiles; VGPR prefetch, explicit load-counter wait, two LDS slots",
+                "original_accumulator": "FP16",
+                "rocm_accumulator": "FP32",
+                "precision_changed": True,
+                "numeric_semantics": "FP16 I/O with explicit FP32 state upgrade; same per-output K order; synchronous scheduling control is bitwise equal",
+                "variant_geometry": async_hgemm_report["variants"][name],
+                "performance_status": "measured_pending_optimization",
+                "evidence": str(async_hgemm_path.relative_to(root)),
+                "evidence_sha256": hashlib.sha256(
+                    async_hgemm_path.read_bytes()
+                ).hexdigest(),
+            }
         if (module, name) in low_keys:
             cute = name == "flash_attn_cute"
             vt = name.endswith("_swizzle_qkv") and "tiling_qkv_" not in name
@@ -595,6 +637,10 @@ if wmma_keys:
     if low_keys:
         qualified_cuda_path = (
             root / "docs/rocm/flash_low_20261105/qualified206_cuda.json"
+        )
+    if async_hgemm_keys:
+        qualified_cuda_path = (
+            root / "docs/rocm/async_hgemm_20261106/qualified209_cuda.json"
         )
     qualified_cuda = json.loads(qualified_cuda_path.read_text())
     assert qualified_cuda["passed"]

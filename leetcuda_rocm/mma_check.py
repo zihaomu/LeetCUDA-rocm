@@ -203,8 +203,8 @@ def numerical(fn, a, b, config, checks, identifier, reference=None):
     return actual
 
 
-def boundaries(lib, checks):
-    for name in VARIANTS:
+def boundaries(lib, checks, variants=None):
+    for name in VARIANTS if variants is None else variants:
         fn = getattr(lib, name)
         for config in options(name, True):
             for seed in (17, 93):

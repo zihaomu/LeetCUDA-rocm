@@ -150,6 +150,13 @@ def cuda_build(module, names, original, cutlass):
         "mat_transpose": ("mat-transpose/mat_transpose_cute.cu",),
         "hgemm": ("hgemm/cublas/hgemm_cublas.cu",)
         + (
+            ("hgemm/naive/hgemm_async.cu",)
+            if any(
+                n.startswith("hgemm_t_") and n.endswith("_async") for n in names
+            )
+            else ()
+        )
+        + (
             ("hgemm/wmma/hgemm_wmma.cu", "hgemm/wmma/hgemm_wmma_stage.cu")
             if any(n.startswith("hgemm_wmma_") for n in names)
             else ()

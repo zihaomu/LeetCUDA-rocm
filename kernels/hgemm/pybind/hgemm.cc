@@ -143,7 +143,7 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   TORCH_BINDING_COMMON_EXTENSION(hgemm_cublas_tensor_op_nn)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_cublas_tensor_op_tn)
 #endif
-#ifndef LEETCUDA_ROCM
+#if !defined(LEETCUDA_ROCM) || defined(LEETCUDA_ROCM_BLAS_ONLY)
   // Copy Async
   TORCH_BINDING_COMMON_EXTENSION(hgemm_t_8x8_sliced_k16_f16x8_pack_dbuf_async)
   TORCH_BINDING_COMMON_EXTENSION(hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf_async)

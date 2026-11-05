@@ -234,8 +234,8 @@ hgemm_t_8x8_sliced_k16_f16x8_pack_dbuf_async_kernel(half *a, half *b, half *c,
 
 #pragma unroll
   for (int tk = 0; tk < BK; tk++) {
-    LDST128BITS(r_comp_a[0]) = LDST128BITS(s_a[1][tk][ty * TM]);
-    LDST128BITS(r_comp_b[0]) = LDST128BITS(s_b[1][tk][tx * TN]);
+    LDST128BITS(r_comp_a[0]) = LDST128BITS(s_a[((K + BK - 1) / BK - 1) & 1][tk][ty * TM]);
+    LDST128BITS(r_comp_b[0]) = LDST128BITS(s_b[((K + BK - 1) / BK - 1) & 1][tk][tx * TN]);
 
 #pragma unroll
     for (int tm = 0; tm < TM; tm++) {
@@ -472,8 +472,8 @@ hgemm_t_8x8_sliced_k32_f16x8_pack_dbuf_async_kernel(half *a, half *b, half *c,
 
 #pragma unroll
   for (int tk = 0; tk < BK; tk++) {
-    LDST128BITS(r_comp_a[0]) = LDST128BITS(s_a[1][tk][ty * TM]);
-    LDST128BITS(r_comp_b[0]) = LDST128BITS(s_b[1][tk][tx * TN]);
+    LDST128BITS(r_comp_a[0]) = LDST128BITS(s_a[((K + BK - 1) / BK - 1) & 1][tk][ty * TM]);
+    LDST128BITS(r_comp_b[0]) = LDST128BITS(s_b[((K + BK - 1) / BK - 1) & 1][tk][tx * TN]);
 
 #pragma unroll
     for (int tm = 0; tm < TM; tm++) {
@@ -726,9 +726,9 @@ hgemm_t_16x8_sliced_k32_f16x8_pack_dbuf_async_kernel(half *a, half *b, half *c,
 
 #pragma unroll
   for (int tk = 0; tk < BK; tk++) {
-    LDST128BITS(r_comp_a[0]) = LDST128BITS(s_a[1][tk][ty * TM]);
-    LDST128BITS(r_comp_a[8]) = LDST128BITS(s_a[1][tk][ty * TM + 8]);
-    LDST128BITS(r_comp_b[0]) = LDST128BITS(s_b[1][tk][tx * TN]);
+    LDST128BITS(r_comp_a[0]) = LDST128BITS(s_a[((K + BK - 1) / BK - 1) & 1][tk][ty * TM]);
+    LDST128BITS(r_comp_a[8]) = LDST128BITS(s_a[((K + BK - 1) / BK - 1) & 1][tk][ty * TM + 8]);
+    LDST128BITS(r_comp_b[0]) = LDST128BITS(s_b[((K + BK - 1) / BK - 1) & 1][tk][tx * TN]);
 
 #pragma unroll
     for (int tm = 0; tm < TM; tm++) {

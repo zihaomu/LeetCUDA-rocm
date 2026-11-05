@@ -464,8 +464,8 @@ def main():
     from .environment import verify
     from .loader import load, source_paths
 
-    identity = verify()
     torch.cuda.set_device(args.device)
+    identity = verify()
     lib = load("flash_attn")
     report = dict(
         environment=identity,
