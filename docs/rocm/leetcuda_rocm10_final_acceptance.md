@@ -41,3 +41,5 @@ HIP_VISIBLE_DEVICES=2,1 scripts/rocm/qualify_all.sh --output artifacts/rocm/full
 
 工作区文档镜像位于`/home/zihaomu/zihaomu_workspace/leetcuda_workspace/doc`。5090实验目录为`/home/zihaomu/zihaomu_workspace/test_lap/leetcuda_rocm10`；原CUDA快照保持独立，修改参考与原始失败均保留。
 交付分支：[zihaomu/LeetCUDA-rocm 的 rocm10](https://github.com/zihaomu/LeetCUDA-rocm/tree/rocm10)。完整实验记录见[实时进度](leetcuda_rocm10_live_progress.md)。
+
+实现与完整验收证据提交：[`8da0434`](https://github.com/zihaomu/LeetCUDA-rocm/commit/8da0434)，已推送`rocm10`；后续提交仅同步最终发布状态。
