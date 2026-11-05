@@ -1,0 +1,485 @@
+// RDNA4 rewrites of split-Q, shared-KV/QKV, Os2g and CuTe attention.
+// MMA variants explicitly upgrade QK accumulation to FP32 to pass large-logit
+// checks. PV remains native FP16 WMMA. Running output keeps the original type:
+// split-Q/Os2g always FP16, shared variants FP16 at D>=256, otherwise FP32.
+// CuTe keeps both products and output in FP32 and its distinct BR/BC geometry.
+#include <c10/cuda/CUDAException.h>
+#include <c10/cuda/CUDAGuard.h>
+#include <cuda_runtime.h>
+#include <torch/extension.h>
+#include <type_traits>
+
+namespace {
+using H8 = _Float16 __attribute__((ext_vector_type(8)));
+using F8 = float __attribute__((ext_vector_type(8)));
+using U4 = unsigned __attribute__((ext_vector_type(4)));
+
+__device__ __forceinline__ U4 issue8(const _Float16 *p) {
+  U4 r;
+  asm volatile("global_load_b128 %0, %1, off" : "=v"(r) : "v"(p) : "memory");
+  return r;
+}
+__device__ __forceinline__ H8 finish8(U4 &r) {
+  asm volatile("s_wait_loadcnt 0" : "+v"(r)::"memory");
+  return __builtin_bit_cast(H8, r);
+}
+
+template <int Rows, int D, int Threads>
+__device__ __forceinline__ void issue(const _Float16 *src, int row0, int n,
+                                      U4 *r) {
+  constexpr int Count = (Rows * D + Threads * 8 - 1) / (Threads * 8);
+#pragma unroll
+  for (int i = 0; i < Count; ++i) {
+    int x = (threadIdx.x + i * Threads) * 8;
+    int row = row0 + x / D, col = x % D;
+    if (x < Rows * D && row < n && reinterpret_cast<uintptr_t>(src) % 16 == 0) {
+      r[i] = issue8(src + row * D + col);
+    } else {
+      H8 h = {};
+#pragma unroll
+      for (int j = 0; j < 8; ++j)
+        if (x < Rows * D && row < n)
+          h[j] = src[row * D + col + j];
+      r[i] = __builtin_bit_cast(U4, h);
+    }
+  }
+}
+
+// XOR within 16-half panels. For V, apply after transposition, on its
+// reduction coordinate. This is an involution, preserves eight-half vectors and
+// changes LDS addresses without changing any matrix/softmax arithmetic.
+template <int Cols, bool Swizzle>
+__host__ __device__ __forceinline__ int lds_index(int row, int col) {
+  return row * Cols + (Swizzle ? (col ^ (((row >> 2) & 1) << 3)) : col);
+}
+
+template <int Rows, int Cols, int Threads, bool Transpose = false,
+          bool Swizzle = false>
+__device__ __forceinline__ void publish(_Float16 *dst, U4 *r) {
+  constexpr int Count = (Rows * Cols + Threads * 8 - 1) / (Threads * 8);
+#pragma unroll
+  for (int i = 0; i < Count; ++i) {
+    H8 h = finish8(r[i]);
+    int x = (threadIdx.x + i * Threads) * 8;
+    if (x < Rows * Cols) {
+      if constexpr (Swizzle && !Transpose) {
+        // The permutation preserves each aligned eight-half vector. Express
+        // that guarantee explicitly; per-element XOR inhibits LLVM combining.
+        *reinterpret_cast<H8 *>(dst +
+                                lds_index<Cols, true>(x / Cols, x % Cols)) = h;
+      } else {
+#pragma unroll
+        for (int j = 0; j < 8; ++j)
+          dst[Transpose ? lds_index<Rows, Swizzle>(x % Cols + j, x / Cols)
+                        : lds_index<Cols, Swizzle>(x / Cols, x % Cols + j)] =
+              h[j];
+      }
+    }
+  }
+}
+
+// The shared *_swizzle_qkv API receives contiguous V[B,H,D,N].
+// Load along N so those variants preserve vector global reads before swizzling.
+template <int Rows, int D, int Threads, int Mask>
+__device__ __forceinline__ void issue_v(const _Float16 *v, int key0, int n,
+                                        U4 *r) {
+  if constexpr (Mask != 7)
+    issue<Rows, D, Threads>(v, key0, n, r);
+  else {
+    constexpr int Count = (Rows * D + Threads * 8 - 1) / (Threads * 8);
+#pragma unroll
+    for (int i = 0; i < Count; ++i) {
+      int x = (threadIdx.x + i * Threads) * 8, d = x / Rows,
+          key = key0 + x % Rows;
+      if (x < Rows * D && key + 8 <= n &&
+          reinterpret_cast<uintptr_t>(v + d * n + key) % 16 == 0)
+        r[i] = issue8(v + d * n + key);
+      else {
+        H8 value = {};
+#pragma unroll
+        for (int j = 0; j < 8; ++j)
+          if (d < D && key + j < n)
+            value[j] = v[d * n + key + j];
+        r[i] = __builtin_bit_cast(U4, value);
+      }
+    }
+  }
+}
+template <int Rows, int D, int Threads, int Mask>
+__device__ __forceinline__ void publish_v(_Float16 *dst, U4 *r) {
+  if constexpr (Mask == 7)
+    publish<D, Rows, Threads, false, true>(dst, r);
+  else
+    publish<Rows, D, Threads, true, (Mask & 4) != 0>(dst, r);
+}
+
+// Kind 0: separate Q/K/V; 1: shared K/V; 2: shared Q/K/V;
+// 3: shared Q/K/V with LDS output epilogue; 4: explicit CuTe tile mapping.
+template <int D, int Stage, int Kind> struct Config {
+  static constexpr int BR = Kind == 4   ? (D <= 64    ? 128
+                                           : D == 128 ? 64
+                                                      : 32)
+                            : Kind == 0 ? 64
+                            : D == 256  ? 64
+                                        : 128;
+  static constexpr int BC = Kind == 4               ? BR
+                            : Kind == 0             ? (D < 128 ? 64 : 16)
+                            : Kind == 1 && D >= 128 ? 32
+                                                    : 64;
+  static constexpr int OD = D, Threads = BR * 2;
+  static constexpr int Q = BR * D, KV = Stage * BC * D;
+  static constexpr int Data =
+      Kind >= 2 ? (Q > KV ? Q : KV) : Q + KV + (Kind == 0 ? BC * D : 0);
+  static constexpr int HalfElements = Data + BR * BC;
+  static constexpr int QLoads = (Q + Threads * 8 - 1) / (Threads * 8);
+  static constexpr int KVLoads = (BC * D + Threads * 8 - 1) / (Threads * 8);
+};
+
+template <int D, int Stage, int Kind, int Mask = 0>
+__global__ void __launch_bounds__((Config<D, Stage, Kind>::Threads))
+    attention_low_shared(const _Float16 *q, const _Float16 *k,
+                         const _Float16 *v, _Float16 *o, int n) {
+  using C = Config<D, Stage, Kind>;
+  using State =
+      std::conditional_t<Kind != 4 && (Kind == 0 || Kind == 3 || D >= 256), H8,
+                         F8>;
+  constexpr int BR = C::BR, BC = C::BC, OD = C::OD, Threads = C::Threads;
+  extern __shared__ __align__(16) _Float16 lds[];
+  _Float16 *sq = lds;
+  _Float16 *skbase = Kind >= 2 ? lds : lds + C::Q;
+  _Float16 *sk = skbase;
+  _Float16 *sv = skbase + (Kind == 0 ? Stage : Stage - 1) * BC * D;
+  _Float16 *p = lds + C::Data;
+  int base = blockIdx.y * n * D;
+  q += base;
+  k += base;
+  v += base;
+  o += base;
+  int q0 = blockIdx.x * BR;
+  constexpr int od0 = 0;
+  int lane = threadIdx.x % 32, wave = threadIdx.x / 32;
+  H8 qcache[D / 16];
+  {
+    U4 qr[C::QLoads];
+    issue<BR, D, Threads>(q, q0, n, qr);
+    publish<BR, D, Threads, false, (Mask & 1) != 0>(sq, qr);
+    __syncthreads();
+    if constexpr (Kind >= 2) {
+#pragma unroll
+      for (int d = 0; d < D / 16; ++d)
+#pragma unroll
+        for (int x = 0; x < 8; ++x)
+          qcache[d][x] = sq[lds_index<D, (Mask & 1) != 0>(
+              wave * 16 + lane % 16, d * 16 + lane / 16 * 8 + x)];
+      // Q has moved to registers; its entire LDS region can now hold K/V.
+      __syncthreads();
+    }
+  }
+  U4 kr[C::KVLoads], vr[C::KVLoads];
+  State output[OD / 16] = {};
+  F8 maximum, denominator = {};
+#pragma unroll
+  for (int x = 0; x < 8; ++x)
+    maximum[x] = -INFINITY;
+  float scale = rsqrtf(float(D));
+  if constexpr (Stage == 2) {
+    issue<BC, D, Threads>(k, 0, n, kr);
+    publish<BC, D, Threads, false, (Mask & 2) != 0>(sk, kr);
+    __syncthreads();
+  }
+  for (int key0 = 0; key0 < n; key0 += BC) {
+    if constexpr (Kind == 0)
+      sk = skbase + ((key0 / BC) % Stage) * BC * D;
+    if constexpr (Stage == 1) {
+      issue<BC, D, Threads>(k, key0, n, kr);
+      publish<BC, D, Threads, false, (Mask & 2) != 0>(sk, kr);
+      __syncthreads();
+    } else {
+      // Keep pending V global loads in VGPRs while QK uses K in LDS.
+      issue_v<BC, D, Threads, Mask>(v, key0, n, vr);
+    }
+    F8 score[BC / 16] = {};
+#pragma unroll
+    for (int d = 0; d < D / 16; ++d) {
+      H8 a;
+      if constexpr (Kind >= 2) {
+        a = qcache[d];
+      } else {
+#pragma unroll
+        for (int x = 0; x < 8; ++x)
+          a[x] = sq[lds_index<D, (Mask & 1) != 0>(wave * 16 + lane % 16,
+                                                  d * 16 + lane / 16 * 8 + x)];
+      }
+#pragma unroll
+      for (int j = 0; j < BC / 16; ++j) {
+        H8 b;
+#pragma unroll
+        for (int x = 0; x < 8; ++x)
+          b[x] = sk[lds_index<D, (Mask & 2) != 0>(j * 16 + lane % 16,
+                                                  d * 16 + lane / 16 * 8 + x)];
+        score[j] =
+            __builtin_amdgcn_wmma_f32_16x16x16_f16_w32_gfx12(a, b, score[j]);
+      }
+    }
+    __syncthreads();
+    if constexpr (Stage == 1)
+      issue_v<BC, D, Threads, Mask>(v, key0, n, vr);
+    publish_v<BC, D, Threads, Mask>(sv, vr);
+    if constexpr (Stage == 2) {
+      if (key0 + BC < n)
+        issue<BC, D, Threads>(k, key0 + BC, n, kr);
+    }
+    // Each group of 16 lanes owns the same eight rows and distinct columns.
+    F8 alpha;
+#pragma unroll
+    for (int x = 0; x < 8; ++x) {
+      float mx = -INFINITY;
+#pragma unroll
+      for (int j = 0; j < BC / 16; ++j) {
+        score[j][x] =
+            key0 + j * 16 + lane % 16 < n ? score[j][x] * scale : -INFINITY;
+        mx = fmaxf(mx, score[j][x]);
+      }
+#pragma unroll
+      for (int delta = 8; delta > 0; delta /= 2)
+        mx = fmaxf(mx, __shfl_xor(mx, delta, 16));
+      mx = fmaxf(maximum[x], mx);
+      alpha[x] = expf(maximum[x] - mx);
+      float sum = 0;
+#pragma unroll
+      for (int j = 0; j < BC / 16; ++j) {
+        float prob = expf(score[j][x] - mx);
+        sum += prob;
+        int row = wave * 16 + lane / 16 * 8 + x;
+        p[row * BC + j * 16 + lane % 16] = (_Float16)prob;
+      }
+#pragma unroll
+      for (int delta = 8; delta > 0; delta /= 2)
+        sum += __shfl_xor(sum, delta, 16);
+      denominator[x] = fmaf(alpha[x], denominator[x], sum);
+      maximum[x] = mx;
+    }
+    __syncthreads(); // Publish V and FP16 P before the PV matrix product.
+#pragma unroll
+    for (int d = 0; d < OD / 16; ++d) {
+      std::conditional_t<Kind == 4, F8, H8> pv = {};
+#pragma unroll
+      for (int j = 0; j < BC / 16; ++j) {
+        H8 a, b;
+#pragma unroll
+        for (int x = 0; x < 8; ++x) {
+          a[x] = p[(wave * 16 + lane % 16) * BC + j * 16 + lane / 16 * 8 + x];
+          b[x] =
+              od0 + d * 16 + lane % 16 < D
+                  ? sv[lds_index<BC, (Mask & 4) != 0>(
+                        od0 + d * 16 + lane % 16, j * 16 + lane / 16 * 8 + x)]
+                  : (_Float16)0;
+        }
+        if constexpr (Kind == 4)
+          pv = __builtin_amdgcn_wmma_f32_16x16x16_f16_w32_gfx12(a, b, pv);
+        else
+          pv = __builtin_amdgcn_wmma_f16_16x16x16_f16_w32_gfx12(a, b, pv);
+      }
+#pragma unroll
+      for (int x = 0; x < 8; ++x)
+        output[d][x] = fmaf(alpha[x], float(output[d][x]), float(pv[x]));
+    }
+    if constexpr (Stage == 2) {
+      if (key0 + BC < n) {
+        _Float16 *next =
+            Kind == 0 ? skbase + (((key0 / BC) + 1) % Stage) * BC * D : sk;
+        publish<BC, D, Threads, false, (Mask & 2) != 0>(next, kr);
+      }
+    }
+    __syncthreads();
+  }
+#pragma unroll
+  for (int d = 0; d < D / 16; ++d)
+#pragma unroll
+    for (int x = 0; x < 8; ++x) {
+      int row = wave * 16 + lane / 16 * 8 + x;
+      _Float16 value = (_Float16)(float(output[d][x]) / denominator[x]);
+      if constexpr (Kind == 3)
+        sq[row * D + d * 16 + lane % 16] = value;
+      else if (q0 + row < n)
+        o[(q0 + row) * D + d * 16 + lane % 16] = value;
+    }
+  if constexpr (Kind == 3) {
+    // Os2g keeps FP16 register state through the key loop, then reuses Q LDS
+    // for the normalized result and coalesces 128-bit output stores.
+    __syncthreads();
+    for (int x = threadIdx.x * 8; x < BR * D; x += Threads * 8) {
+      if (q0 + x / D < n) {
+        H8 value = *reinterpret_cast<const H8 *>(sq + x);
+        if (reinterpret_cast<uintptr_t>(o) % 16 == 0)
+          *reinterpret_cast<H8 *>(o + q0 * D + x) = value;
+        else {
+#pragma unroll
+          for (int j = 0; j < 8; ++j)
+            o[q0 * D + x + j] = value[j];
+        }
+      }
+    }
+  }
+}
+
+void check(torch::Tensor q, torch::Tensor k, torch::Tensor v, torch::Tensor o,
+           bool vt) {
+  TORCH_CHECK(q.is_cuda() && k.device() == q.device() &&
+                  v.device() == q.device() && o.device() == q.device(),
+              "expected one GPU");
+  TORCH_CHECK(q.dim() == 4 && q.sizes() == k.sizes() && v.dim() == 4 &&
+                  v.size(0) == q.size(0) && v.size(1) == q.size(1) &&
+                  v.size(2) == q.size(vt ? 3 : 2) &&
+                  v.size(3) == q.size(vt ? 2 : 3) && q.sizes() == o.sizes(),
+              "expected Q/K/O[B,H,N,D], V matching the API storage layout");
+  for (auto t : {q, k, v, o}) {
+    TORCH_CHECK(t.scalar_type() == at::kHalf && t.is_contiguous(),
+                "expected contiguous FP16");
+    TORCH_CHECK(!t.requires_grad(), "forward only");
+  }
+  TORCH_CHECK(!o.is_alias_of(q) && !o.is_alias_of(k) && !o.is_alias_of(v),
+              "output aliases input");
+  TORCH_CHECK(q.numel() < INT32_MAX && q.size(2) < INT32_MAX - 128 &&
+                  q.size(0) <= 65535 && q.size(1) <= 65535 &&
+                  q.size(0) * q.size(1) <= 65535,
+              "index or grid range exceeded");
+}
+
+template <int D, int Stage, int Kind, int Mask = 0>
+void launch(torch::Tensor q, torch::Tensor k, torch::Tensor v,
+            torch::Tensor o) {
+  using C = Config<D, Stage, Kind>;
+  static_assert(C::HalfElements * 2 <= 65536);
+  dim3 grid((q.size(2) + C::BR - 1) / C::BR, q.size(0) * q.size(1));
+  attention_low_shared<D, Stage, Kind, Mask>
+      <<<grid, C::Threads, C::HalfElements * 2>>>(
+          reinterpret_cast<const _Float16 *>(q.data_ptr()),
+          reinterpret_cast<const _Float16 *>(k.data_ptr()),
+          reinterpret_cast<const _Float16 *>(v.data_ptr()),
+          reinterpret_cast<_Float16 *>(o.data_ptr()), q.size(2));
+  C10_CUDA_KERNEL_LAUNCH_CHECK();
+}
+
+template <int Kind, int Mask = 0>
+void dispatch(torch::Tensor q, torch::Tensor k, torch::Tensor v,
+              torch::Tensor o, int stages) {
+  check(q, k, v, o, Mask == 7);
+  int d = q.size(3);
+  bool supported = Kind == 4
+                       ? (d == 16 || d == 32 || d == 64 || d == 128 || d == 256)
+                       : d == 32 || d == 64 || d == 96 || d == 128 ||
+                             (Kind != 0 && d == 256 && stages <= 1);
+  TORCH_CHECK(supported, "unsupported head dimension/stage combination");
+  if (!q.numel())
+    return;
+  c10::cuda::CUDAGuard guard(q.device());
+#define HEAD(D)                                                                \
+  case D:                                                                      \
+    if constexpr (Kind == 4)                                                   \
+      launch<D, 1, Kind, Mask>(q, k, v, o);                                    \
+    else if (stages > 1)                                                       \
+      launch<D, 2, Kind, Mask>(q, k, v, o);                                    \
+    else                                                                       \
+      launch<D, 1, Kind, Mask>(q, k, v, o);                                    \
+    break;
+  switch (d) {
+  case 16:
+    if constexpr (Kind == 4)
+      launch<16, 1, Kind, Mask>(q, k, v, o);
+    break;
+  HEAD(32) HEAD(64) HEAD(128) case 96:
+    if constexpr (Kind != 4) {
+      if (stages > 1)
+        launch<96, 2, Kind, Mask>(q, k, v, o);
+      else
+        launch<96, 1, Kind, Mask>(q, k, v, o);
+    }
+    break;
+  case 256:
+    if constexpr (Kind != 0)
+      launch<256, 1, Kind, Mask>(q, k, v, o);
+    break;
+  }
+#undef HEAD
+}
+} // namespace
+
+void flash_attn_mma_stages_split_q(torch::Tensor q, torch::Tensor k,
+                                   torch::Tensor v, torch::Tensor o,
+                                   int stages) {
+  dispatch<0, 0>(q, k, v, o, stages);
+}
+
+void flash_attn_mma_stages_split_q_shared_qkv_Os2g(torch::Tensor q,
+                                                   torch::Tensor k,
+                                                   torch::Tensor v,
+                                                   torch::Tensor o,
+                                                   int stages) {
+  dispatch<3, 0>(q, k, v, o, stages);
+}
+
+void flash_attn_mma_stages_split_q_shared_kv(torch::Tensor q, torch::Tensor k,
+                                             torch::Tensor v, torch::Tensor o,
+                                             int stages) {
+  dispatch<1, 0>(q, k, v, o, stages);
+}
+
+void flash_attn_mma_stages_split_q_shared_kv_swizzle_q(torch::Tensor q,
+                                                       torch::Tensor k,
+                                                       torch::Tensor v,
+                                                       torch::Tensor o,
+                                                       int stages) {
+  dispatch<1, 1>(q, k, v, o, stages);
+}
+
+void flash_attn_mma_stages_split_q_shared_kv_swizzle_qk(torch::Tensor q,
+                                                        torch::Tensor k,
+                                                        torch::Tensor v,
+                                                        torch::Tensor o,
+                                                        int stages) {
+  dispatch<1, 3>(q, k, v, o, stages);
+}
+
+void flash_attn_mma_stages_split_q_shared_kv_swizzle_qkv(torch::Tensor q,
+                                                         torch::Tensor k,
+                                                         torch::Tensor v,
+                                                         torch::Tensor o,
+                                                         int stages) {
+  dispatch<1, 7>(q, k, v, o, stages);
+}
+
+void flash_attn_mma_stages_split_q_shared_qkv(torch::Tensor q, torch::Tensor k,
+                                              torch::Tensor v, torch::Tensor o,
+                                              int stages) {
+  dispatch<2, 0>(q, k, v, o, stages);
+}
+
+void flash_attn_mma_stages_split_q_shared_qkv_swizzle_q(torch::Tensor q,
+                                                        torch::Tensor k,
+                                                        torch::Tensor v,
+                                                        torch::Tensor o,
+                                                        int stages) {
+  dispatch<2, 1>(q, k, v, o, stages);
+}
+
+void flash_attn_mma_stages_split_q_shared_qkv_swizzle_qk(torch::Tensor q,
+                                                         torch::Tensor k,
+                                                         torch::Tensor v,
+                                                         torch::Tensor o,
+                                                         int stages) {
+  dispatch<2, 3>(q, k, v, o, stages);
+}
+
+void flash_attn_mma_stages_split_q_shared_qkv_swizzle_qkv(torch::Tensor q,
+                                                          torch::Tensor k,
+                                                          torch::Tensor v,
+                                                          torch::Tensor o,
+                                                          int stages) {
+  dispatch<2, 7>(q, k, v, o, stages);
+}
+
+void flash_attn_cute(torch::Tensor q, torch::Tensor k, torch::Tensor v,
+                     torch::Tensor o) {
+  dispatch<4>(q, k, v, o, 1);
+}

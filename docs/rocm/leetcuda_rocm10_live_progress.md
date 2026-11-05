@@ -1,15 +1,15 @@
 # LeetCUDA ROCm 10 持续迁移进度
 
-最近更新（UTC）：2026-11-05T15:17:07+00:00。任务状态：**执行中**。
+最近更新（UTC）：2026-11-05T15:54:42+00:00。任务状态：**执行中**。
 
 用户要求：完成后续计划中的所有算子任务，完成前持续推进；每次关键实验结束即时追加本文件。仓库镜像与工作区 `doc` 同步。
 
 ## 最近正式验收的状态
 
 - 基线提交：`5b7926c7d339356eee6a1531ec9af8e844dc81e7`。
-- 原接口：**186/229（81.22%）**；待迁移 **27**，精度未验收 **16**。
+- 原接口：**206/229（89.96%）**；待迁移 **7**，精度未验收 **16**。
 - 已完成 B1：三个 swizzle 功能支持；性能 1/3 达标。
-- 当前执行：B3验收完成，186/229；推进B4的20个Attention。低精度QK失败已复现，QK FP32/PV FP16研究通过992项，原CUDA审计运行中。
+- 当前执行：B4已完成功能验收：206/229，原Attention29/29；继续B5三个异步HGEMM的专项、ISA与性能验收。
 
 ## 固定工作队列
 
@@ -17,8 +17,8 @@
 | --- | ---: | --- | --- |
 | B2 shared rr | 2 | 功能完成，性能待优化 | 真实寄存器生命周期变化、VGPR/scratch、FP32 输出状态、双卡和原 CUDA 对照 |
 | B3 HGEMM MMA/CuTe | 11 | 功能完成，显式FP32升级／性能待优化 | 原算术模型、tile/TN/stage/swizzle、长 K 与奇数 tile |
-| B4 其余 Attention | 20 | 进行中，低精度模型与QK升级实验 | 低精度模型、布局/分工，split-KV、Os2g、CuTe 的独立机制 |
-| B5 异步 HGEMM | 3 | 待执行 | 真实异步流水线；区分原精度失败与搬运错误 |
+| B4 其余 Attention | 20 | 功能完成，19项QK升级／性能待优化 | 低精度模型、布局/分工，split-KV、Os2g、CuTe 的独立机制 |
+| B5 异步 HGEMM | 3 | 进行中，候选首轮18项通过 | 真实异步流水线；区分原精度失败与搬运错误 |
 | B6 TF32 SGEMM | 3 | 待执行 | TF32 输入舍入、实际矩阵路径、数学模式 |
 | B7 WS-HGEMM | 1 | 待执行 | producer/consumer 分工和同步 |
 | 既有精度未验收 | 16 | 待执行 | 保留失败证据，验证原语义或明确记录精度升级；门限不放宽 |
@@ -29,26 +29,6 @@
 
 | 模块 | 接口 | 正式状态 |
 | --- | --- | --- |
-| flash_attn | `flash_attn_mma_stages_split_kv` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_shared_kv` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_shared_qkv` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_tiling_qk` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_tiling_qkv` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_shared_kv_swizzle_q` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_shared_kv_swizzle_qk` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_shared_kv_swizzle_qkv` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_shared_qkv_swizzle_q` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_shared_qkv_swizzle_qk` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_shared_qkv_swizzle_qkv` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_tiling_qk_swizzle_q` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_tiling_qk_swizzle_qk` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_tiling_qk_swizzle_qkv` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_tiling_qkv_swizzle_q` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_tiling_qkv_swizzle_qk` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_tiling_qkv_swizzle_qkv` | pending |
-| flash_attn | `flash_attn_cute` | pending |
-| flash_attn | `flash_attn_mma_stages_split_q_shared_qkv_Os2g` | pending |
 | hgemm | `hgemm_naive_f16` | numerical_rejected |
 | hgemm | `hgemm_sliced_k_f16` | numerical_rejected |
 | hgemm | `hgemm_t_8x8_sliced_k_f16x4` | numerical_rejected |
@@ -114,3 +94,27 @@
 - **2026-11-05T15:15:49+00:00**：B3验收闭环完成：全库24模块186接口1048项、全接口376组原输入对照通过。准备正式更新到186/229。B4首个研究结论：8个低精度tiling入口，原FP16 QK/PV模型在大logits出现32/992失败，最大误差0.524；仅把QK累加升级FP32、保留FP16 PV与原输出状态后992/992通过。两版源码/结果均保存，下一步原CUDA验证该精度限制并实现其余布局/分工。
 
 - **2026-11-05T15:17:07+00:00**：正式库存更新到186/229=81.22%，剩27待迁移+16精度未验收；21个接口明确记录累加精度升级。B3源码、最终harness、全库adapter hash审计通过，文档镜像已更新，准备提交。实时MD脚本现在从正式库存刷新比例和待验收清单，避免进度文字落后于证据。
+
+- **2026-11-05T15:24:07+00:00**：B3提交90fda90已推送fork/rocm10。B4原CUDA审计确认大logits精度失败，并在shared_kv_swizzle_qkv发生非法显存访问；保留原始日志，改为每入口独立进程继续完整审计，避免单一CUDA错误中断其余接口。物理4/5新预约已生效，后续AMD计算改用空闲物理6（HIP5），不占用预约卡。
+
+- **2026-11-05T15:25:36+00:00**：B4已写入19个独立配置候选：8个tiling、8个shared/swizzle、split-Q、Os2g、CuTe。Os2g按原源码实现最终LDS→global输出重排；CuTe保留独立BR/BC与FP32双矩阵积。其余MMA仅升级QK，PV保持FP16。新代码在物理6（HIP5）隔离编译，未提前增加正式数量。
+
+- **2026-11-05T15:28:39+00:00**：B4审计纠正：shared_kv_swizzle_qkv、shared_qkv_swizzle_qkv、tiling_qk_swizzle_qkv原调用明确传入转置V[B,H,D,N]。之前使用普通V的CUDA失败不能归为原版数值缺陷，完整保留并标为测试契约错误；正在修正AMD入口和双方harness。D96非法访问仍需在正确布局下独立复验。split-KV首轮66/66通过。
+
+- **2026-11-05T15:32:08+00:00**：B4正确V布局复验中，原CUDA三个V转置入口仍出现异常，正定位到具体D/stage及加载公式。AMD已保留真正V转置输入，不在接口内部用Torch替代计算。专项harness覆盖布局、尾部、未对齐、canary、精确FP16/FP32状态和双设备。物理6出现其他大任务占用；物理4/5预约已释放且空闲，后续正式测量改用HIP6,7。
+
+- **2026-11-05T15:33:38+00:00**：B4正确布局下19个候选1732/1732首轮通过。进一步审计确认：两个shared swizzle-QKV原CUDA在D96用256//96划分V导致行索引到127，正确V布局仍非法访问；tiling-QK swizzle-QKV原版实际BR=BC=D，N128/D96属于非法shape而非算子失败。AMD已修正这一特殊几何，保留BC=D的状态舍入间隔；D256只缩小query tile以适配64KiB LDS。正式验收将区分原版索引错误与不合法CUDA输入。
+
+- **2026-11-05T15:37:49+00:00**：B4全部新增实现已集成，首次完整编译成功。专项在开始数值阶段前因telemetry调用少传backend参数退出，已修正harness后重跑，未将该试跑算验收。CUDA最终隔离审计继续，正确布局下两个shared swizzle-QKV除已复现D96原索引错误外的配置均可执行。同步开始B5三个SIMT异步HGEMM候选的源码研究，保留原三种microtile并显式采用FP32累加。
+
+- **2026-11-05T15:40:05+00:00**：B4主卡专项6677/6677通过：1799共享输入、4552边界、210精确状态、116双设备检查；276条性能记录已生成。210个特化均有实际WMMA且LDS≤64KiB，其中24个存在scratch spill，保留性能限制。原CUDA最终审计1799计划用例中1759执行、1707通过、52大logits精度失败；另24项因已复现D96索引错误未执行，16项不属于原N%D合法域。第二张AMD卡正在复验，正式库存仍186。
+
+- **2026-11-05T15:43:04+00:00**：B4双卡各6677项专项通过，1707/1707组双方通过参考的共同输入对照通过（107逐位一致）；原CUDA52项精度失败未被掩盖。全库24模块206接口1088项已通过，但正式库存待416组全接口对照与旧9入口回归完成后更新。性能实测：各入口相对同卡Torch SDPA几何平均0.1305–0.4722×，CuTe0.2444×，split-KV0.2157×；功能支持不宣称性能达标。
+
+- **2026-11-05T15:44:59+00:00**：B4旧9入口929项输出与冻结二进制全部逐位一致。三轮420条计时中1条首次出现10.94%退化，样本显示单轮波动（0.0477/0.1108/0.0528ms），其余419条通过；保留完整首轮结果并对全部420条重新配对测量。全接口AMD416组已通过，5090正在编译29个Attention原源文件的完整模块。
+
+- **2026-11-05T15:48:52+00:00**：B4旧入口完整复测又出现3/420偶发计时超限，源码和929项逐位结果未变；不以重复抽样挑选通过。改进计时控制：将Python GC显式放到计时区外，完整重测420条，采样提高到40ms×5；保留此前全部失败样本。B5三种异步HGEMM首轮18/18通过，包括K4096/4097、非方阵尾部、K0；暂未正式入账。
+
+- **2026-11-05T15:51:24+00:00**：B4最终全接口对照416/416通过，新增实现对应源码和全部adapter的84项SHA审计通过。旧9入口的两个HSACO .text段分别与B2冻结版逐字节相同，已保存指令段SHA证据；当前计时改进仅排除Python GC干扰，不修改性能门限或丢弃先前失败数据。B4详细阶段文档已写入doc/flash_low_20261105.md。
+
+- **2026-11-05T15:54:42+00:00**：B4正式入账：206/229=89.96%，剩7待迁移+16精度未验收；40项显式累加精度升级。最终全库1088项、跨平台416组、双卡各6677项通过。旧9入口GC控制后的三轮420条计时全部在10%以内；此前两轮1/3条超限记录与机器指令段完全一致的证据均保留。支持清单、计划、README和doc镜像已更新，准备提交后继续B5。

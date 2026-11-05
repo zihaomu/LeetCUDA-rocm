@@ -56,6 +56,9 @@ EXTRA_SOURCES = {
     "flash_attn": (
         "rocm/flash_attention_shared.cu",
         "rocm/flash_attention_tiled.cu",
+        "rocm/flash_attention_low_shared.cu",
+        "rocm/flash_attention_low_tiled.cu",
+        "rocm/flash_attention_split_kv.cu",
     ),
 }
 

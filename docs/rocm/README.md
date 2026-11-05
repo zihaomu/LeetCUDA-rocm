@@ -5,15 +5,20 @@ LeetCUDA 算法，不会把自定义 kernel 替换成 PyTorch 实现。PyTorch �
 测试参考。当前目标是 **ROCm 10.1.0 / Radeon AI PRO R9700 / gfx1201**。
 尚未完成整个仓库的 NVIDIA 专用 kernel 迁移。
 
+2026-11-05 第八轮 B4：**206/229（89.96%）**，原Attention **29/29**功能通过。
+双卡各6677项、全库1088项、全接口416组对照通过。19个入口明确只升级QK累加，
+三项swizzle-QKV保留转置V契约；性能待优化。剩7待迁移+16精度未验收，继续B5。
+见[B4报告](flash_low_20261105.md)和[实时进度](leetcuda_rocm10_live_progress.md)。
+
 2026-11-05 第七轮 B3：**186/229（81.22%）**，新增11个MMA/CuTe HGEMM，
 明确采用FP32累加、保留FP16 I/O。双卡各2947项、全库1048项与376组全接口对照通过。
 原CUDA的64项长K精度失败和40项stage5资源错误单独保留；AMD36个特化无scratch。
-当前27待迁移、16精度未验收，继续B4。见[B3报告](mma_hgemm_20261105.md)。
+该批结束时27待迁移、16精度未验收，后续B4已完成。见[B3报告](mma_hgemm_20261105.md)。
 
 2026-11-05 第六轮 B2：**175/229（76.42%）**，新增两个shared rr Attention入口，
 原Attention达到9/29。两卡各660项专项、191组原CUDA/AMD对照、全库971项与
 全接口354组对照全部通过。FP32输出状态保持不变；大D寄存器压力降低，性能仍需优化。
-当前38待迁移、16精度未验收，正在继续B3。主卡PCI a3（物理GPU5/HIP7），复验卡PCI43（物理GPU2/HIP1）。
+该批结束时38待迁移、16精度未验收，后续B3/B4已完成。主卡PCI a3（物理GPU5/HIP7），复验卡PCI43（物理GPU2/HIP1）。
 见[B2结果](flash_rr_20261105.md)、[资格报告](flash_rr_20261105/qualification175.json)、
 [实时进度](leetcuda_rocm10_live_progress.md)。
 
@@ -143,13 +148,13 @@ export HIP_VISIBLE_DEVICES=5
 | rope, embedding, histogram | 原生 kernel |
 | sgemv, hgemv | k16 / k32 / k128；新增 `hgemv_tensor_core_cute`，明确采用 FP32 WMMA 累加 |
 | sgemm | 10 个同步 FP32 kernel、3 个 AMD VGPR 预取变体，以及 hipBLAS FP32 GEMM |
-| hgemm | hipBLAS FP16 NN/TN（COMPUTE_16F），以及 9 个 AMD WMMA 变体（FP32 累加）；共 11/36 个接口 |
-| flash_attn | shared 2、tiling 2、FP32 Q/QK/QKV swizzle 3，共 7/29；FP16 I/O，tiling/swizzle 在 D>=256 保留 FP16 输出状态；swizzle 性能 1/3 达标 |
+| hgemm | hipBLAS FP16 NN/TN、9个WMMA与11个MMA/CuTe变体；共22/36接口，矩阵变体明确FP32累加 |
+| flash_attn | 原29/29入口全部功能通过，19项只升级QK；保留split-KV分工、Os2g、CuTe及三项V转置契约；性能独立记录 |
 | mat_transpose | 25 个接口：14 个原实现及 11 个显式 HIP 布局变体 |
 | nms | IoU ballot + 单 block 顺序消除 |
 | merge_attn_states | FP32/FP16/BF16 状态合并、可选 LSE、空状态和输入契约检查 |
 
-最新通过情况以 [`qualification_20261105_flash_swizzle.json`](qualification_20261105_flash_swizzle.json) 为准，
+最新通过情况以 [`flash_low_20261105/qualification206.json`](flash_low_20261105/qualification206.json) 为准，
 [`qualification.json`](qualification.json) 保留 2026-11-02 的历史结果。两种规模、
 非默认 stream、独立数值参考用于基础资格检查；这不是所有 shape 的支持承诺。
 低精度累加变体使用报告中单独记录的容差，不等同于 FP32 累加精度。
@@ -163,8 +168,8 @@ BF16 自身累加在随机输入测试中超过精度门限，因此保守地排
 
 - `kernels/interview/build.sh` 的整套 C++ benchmark；FP8/FP4 头文件已有 AMD 分支和
   `scripts/rocm/build_bench.sh {fp8,fp4} --run --performance` 专用入口（选择其中一个名称）。
-- `kernels/hgemm` 中剩余的 MMA/PTX、CuTe、标量异步路径，`ws-hgemm` 与
-  `flash-attn` 剩余 25 个绑定变体，以及未绑定 WGMMA/TMA 和 FFPA；9 个 WMMA HGEMM 已迁移。
+- 三个异步HGEMM、三个TF32 SGEMM、一个WS-HGEMM，以及未绑定WGMMA/TMA和FFPA；
+  9个WMMA HGEMM、11个MMA/CuTe HGEMM和29个原Attention已完成。
   FP8 E4M3 与 NVFP4 完整链路已单独接入。
 - 原目录下的 Python 大规模性能脚本、TensorRT、Nsight 示例。
 

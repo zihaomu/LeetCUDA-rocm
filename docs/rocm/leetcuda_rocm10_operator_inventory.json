@@ -9,11 +9,11 @@
     "Additional AMD compute interfaces and their quantization helpers are recorded separately, outside the original-export denominator.",
     "Pending portability categories are source-review estimates, not successful compilation or execution results."
   ],
-  "git_revision": "0c9b78686a1eda2d2b9b706809279ee69a233e46",
+  "git_revision": "90fda90a612a9f478d8f2c48639c33a149b49a18",
   "worktree_has_changes": true,
-  "evidence": "docs/rocm/mma_hgemm_20261105/qualification186.json",
-  "evidence_timestamp_utc": "2026-11-05T15:09:00.970950+00:00",
-  "evidence_sha256": "37502bf5ab00448c90a46b96e4f79d7c7b252aaee076d383c876de7d0df4daf6",
+  "evidence": "docs/rocm/flash_low_20261105/qualification206.json",
+  "evidence_timestamp_utc": "2026-11-05T15:41:17.909429+00:00",
+  "evidence_sha256": "db7988a2f4c4eb24b7e20e2801c6efb589d8fba084a8d475051aeeb23c978670",
   "research_evidence": "docs/rocm/hgemm_research_20261103.json",
   "research_evidence_sha256": "5983853d5b4ed033e2f4527e94b0780da696dcbfd932f7820163f0619f0dba6a",
   "gemv_research_evidence": "docs/rocm/hgemv_research_20261103.json",
@@ -29,7 +29,7 @@
     "kernels/elementwise/elementwise.cu": "d9908c2e4f4546c9a80c57bc9ebd88a0c5a53e70ffdf0b84f7b2dcf0bb1f9b87",
     "kernels/elu/elu.cu": "888350fe60666479af92f94866e7146f6df5ef6edc15e0be72b0adf101cf1611",
     "kernels/embedding/embedding.cu": "4a14c703c5bdfca7b3df248709803b3efcb850cb08b7e4f18b0ca03ffc4d2570",
-    "kernels/flash-attn/pybind/flash_attn.cc": "c63f24f2d290f45ecad7f27ccd410f77f5d409165e6701d828284ba891cf7ca5",
+    "kernels/flash-attn/pybind/flash_attn.cc": "f18439ea8a7fb3ae4292b1bc7716d9c8fbdca657f1e17747451c90b441210090",
     "kernels/gelu/gelu.cu": "64f8619cedb58aad8a05d208a6de8221ebf3f4d6e162d03b0a58ba3f9f17931b",
     "kernels/hardshrink/hardshrink.cu": "ebc8f0678d0d14015b42219905da35a17122e5b9453c729e7724b75e03766620",
     "kernels/hardswish/hardswish.cu": "12a3c10a584cccde9c845d6971754e4385576b8897b8d53cc709294cb2cecb4d",
@@ -54,25 +54,25 @@
   "summary": {
     "total_modules": 25,
     "total_original_compute_entrypoints": 229,
-    "qualified": 186,
-    "pending": 27,
+    "qualified": 206,
     "numerical_rejected": 16,
-    "qualified_percent": 81.22,
-    "qualified_with_explicit_accumulator_upgrade": 21,
-    "fully_qualified_modules": 19,
-    "partially_qualified_modules": 5,
+    "pending": 7,
+    "qualified_percent": 89.96,
+    "qualified_with_explicit_accumulator_upgrade": 40,
+    "fully_qualified_modules": 20,
+    "partially_qualified_modules": 4,
     "no_qualified_exports_modules": 1,
     "reason_counts": {
-      "validated": 186,
-      "matrix_isa_or_cute_rewrite": 23,
+      "validated": 206,
       "fp16_accumulation_error": 11,
       "async_copy_rewrite": 3,
       "fp16_gemv_accuracy": 2,
       "bf16_accumulation_error": 3,
-      "blas_backend_port": 1
+      "blas_backend_port": 1,
+      "matrix_isa_or_cute_rewrite": 3
     },
     "cuda_tested_interfaces": 229,
-    "cuda_all_selected_cases_passed_interfaces": 190,
+    "cuda_all_selected_cases_passed_interfaces": 171,
     "cuda_scope": "Selected cases with explicit original/patched source per entry; not whole-project qualification"
   },
   "excluded_helpers": [
@@ -140,10 +140,10 @@
       "module": "flash_attn",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
       "total": 29,
-      "qualified": 9,
-      "pending": 20,
+      "qualified": 29,
+      "pending": 0,
       "numerical_rejected": 0,
-      "qualified_percent": 31.03
+      "qualified_percent": 100.0
     },
     {
       "module": "gelu",
@@ -339,8 +339,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -355,8 +355,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -371,8 +371,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -387,8 +387,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -403,8 +403,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -419,8 +419,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -435,8 +435,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -451,8 +451,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -467,8 +467,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -483,8 +483,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -499,8 +499,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -515,8 +515,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -531,8 +531,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -547,8 +547,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -563,8 +563,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -579,8 +579,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -595,8 +595,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -611,8 +611,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -627,8 +627,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -643,8 +643,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -659,8 +659,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -675,8 +675,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -691,111 +691,293 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_kv",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 173,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 172,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 66,
+        "accuracy_passed_cases": 64,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 174,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 173,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 66,
+        "accuracy_passed_cases": 64,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_shared_kv",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 175,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 174,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 75,
+        "accuracy_passed_cases": 73,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_shared_qkv",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 176,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 175,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 75,
+        "accuracy_passed_cases": 73,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_tiling_qk",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 177,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 176,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128,
+            256,
+            512,
+            1024
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256,
+            512,
+            1024
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 124,
+        "accuracy_passed_cases": 120,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_tiling_qkv",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 178,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 177,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128,
+            256,
+            512,
+            1024
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256,
+            512,
+            1024
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 124,
+        "accuracy_passed_cases": 120,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_shared_kv_acc_f32",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 180,
+      "line": 178,
       "status": "qualified",
       "reason": "validated",
       "implementation": {
@@ -823,7 +1005,7 @@
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_shared_qkv_acc_f32",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 182,
+      "line": 180,
       "status": "qualified",
       "reason": "validated",
       "implementation": {
@@ -851,7 +1033,7 @@
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_tiling_qk_acc_f32",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 184,
+      "line": 182,
       "status": "qualified",
       "reason": "validated",
       "implementation": {
@@ -879,7 +1061,7 @@
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_tiling_qkv_acc_f32",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 186,
+      "line": 184,
       "status": "qualified",
       "reason": "validated",
       "implementation": {
@@ -907,199 +1089,573 @@
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_shared_kv_swizzle_q",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 190,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 187,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 75,
+        "accuracy_passed_cases": 73,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_shared_kv_swizzle_qk",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 192,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 189,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 75,
+        "accuracy_passed_cases": 73,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_shared_kv_swizzle_qkv",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 194,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 191,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,D,N]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 63,
+        "accuracy_passed_cases": 61,
+        "all_cases_passed": false,
+        "not_executed_cases": 12,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_shared_qkv_swizzle_q",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 196,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 193,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 75,
+        "accuracy_passed_cases": 73,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_shared_qkv_swizzle_qk",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 198,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 195,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 75,
+        "accuracy_passed_cases": 73,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_shared_qkv_swizzle_qkv",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 200,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 197,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,D,N]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 63,
+        "accuracy_passed_cases": 61,
+        "all_cases_passed": false,
+        "not_executed_cases": 12,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_tiling_qk_swizzle_q",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 202,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 199,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128,
+            256,
+            512,
+            1024
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256,
+            512,
+            1024
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 124,
+        "accuracy_passed_cases": 120,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_tiling_qk_swizzle_qk",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 204,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 201,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128,
+            256,
+            512,
+            1024
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256,
+            512,
+            1024
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 124,
+        "accuracy_passed_cases": 120,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_tiling_qk_swizzle_qkv",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 206,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 203,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,D,N]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128,
+            256
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 68,
+        "accuracy_passed_cases": 66,
+        "all_cases_passed": false,
+        "not_executed_cases": 16,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_tiling_qkv_swizzle_q",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 208,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 205,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128,
+            256,
+            512,
+            1024
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256,
+            512,
+            1024
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 124,
+        "accuracy_passed_cases": 120,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_tiling_qkv_swizzle_qk",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 210,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 207,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128,
+            256,
+            512,
+            1024
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256,
+            512,
+            1024
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 124,
+        "accuracy_passed_cases": 120,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_tiling_qkv_swizzle_qkv",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 212,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 209,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128,
+            256,
+            512,
+            1024
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256,
+            512,
+            1024
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 124,
+        "accuracy_passed_cases": 120,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_q",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 215,
+      "line": 211,
       "status": "qualified",
       "reason": "validated",
       "implementation": {
@@ -1131,7 +1687,7 @@
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_qk",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 217,
+      "line": 213,
       "status": "qualified",
       "reason": "validated",
       "implementation": {
@@ -1163,7 +1719,7 @@
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_qkv",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 219,
+      "line": 215,
       "status": "qualified",
       "reason": "validated",
       "implementation": {
@@ -1195,39 +1751,91 @@
       "module": "flash_attn",
       "function": "flash_attn_cute",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 222,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 217,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP32 QK/PV",
+        "rocm_accumulator": "FP32 QK/PV",
+        "precision_changed": false,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "0": [
+            16,
+            32,
+            64,
+            128,
+            256
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 40,
+        "accuracy_passed_cases": 40,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_shared_qkv_Os2g",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 225,
-      "status": "pending",
-      "reason": "matrix_isa_or_cute_rewrite",
+      "line": 220,
+      "status": "qualified",
+      "reason": "validated",
+      "implementation": {
+        "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+        "original_accumulator": "FP16 QK/PV",
+        "rocm_accumulator": "FP32 QK; FP16 PV",
+        "precision_changed": true,
+        "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+        "v_storage_layout": "contiguous [B,H,N,D]",
+        "head_dimensions_by_stage": {
+          "2": [
+            32,
+            64,
+            96,
+            128
+          ],
+          "1": [
+            32,
+            64,
+            96,
+            128,
+            256
+          ]
+        },
+        "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+        "performance_status": "measured_pending_optimization",
+        "evidence": "docs/rocm/flash_low_20261105/hip.json",
+        "evidence_sha256": "448f0d95f0ef1c4d071a2a1262c0719c8259a541c1ff2f315c196e2c17c06859"
+      },
       "cuda_comparison": {
-        "source_kind": "upstream_original",
-        "cases": 3,
-        "accuracy_passed_cases": 3,
-        "all_cases_passed": true,
-        "evidence": "docs/rocm/cross_5090_20261105/pending56_cuda.json",
-        "evidence_sha256": "2dc07e56c3f13b257b43a9e5c152a2b0704b1c92abe8b8aaec321608d976c6b7"
+        "source_kind": "upstream_original_with_current_stream_launches",
+        "cases": 75,
+        "accuracy_passed_cases": 73,
+        "all_cases_passed": false,
+        "not_executed_cases": 0,
+        "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+        "evidence": "docs/rocm/flash_low_20261105/cuda_original.json",
+        "evidence_sha256": "8fbb5a6f8f00c0aabf16553923ca9ddc087d74d42497581908c6c45cdcdbab1b"
       }
     },
     {
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_shared_kv_acc_f32_rr",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 229,
+      "line": 223,
       "status": "qualified",
       "reason": "validated",
       "implementation": {
@@ -1255,7 +1863,7 @@
       "module": "flash_attn",
       "function": "flash_attn_mma_stages_split_q_shared_qkv_acc_f32_rr",
       "source": "kernels/flash-attn/pybind/flash_attn.cc",
-      "line": 231,
+      "line": 225,
       "status": "qualified",
       "reason": "validated",
       "implementation": {
@@ -1291,8 +1899,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1307,8 +1915,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1323,8 +1931,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1339,8 +1947,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1355,8 +1963,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1371,8 +1979,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1387,8 +1995,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1403,8 +2011,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1419,8 +2027,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1435,8 +2043,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1451,8 +2059,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1467,8 +2075,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1483,8 +2091,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1499,8 +2107,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1515,8 +2123,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1531,8 +2139,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1547,8 +2155,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1563,8 +2171,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1755,8 +2363,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -1771,8 +2379,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2489,8 +3097,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2505,8 +3113,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2521,8 +3129,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2579,8 +3187,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2595,8 +3203,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2611,8 +3219,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2627,8 +3235,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2643,8 +3251,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2659,8 +3267,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2675,8 +3283,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2691,8 +3299,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2707,8 +3315,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2723,8 +3331,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2739,8 +3347,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2755,8 +3363,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2771,8 +3379,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2787,8 +3395,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2803,8 +3411,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2819,8 +3427,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2835,8 +3443,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2851,8 +3459,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2867,8 +3475,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2883,8 +3491,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2899,8 +3507,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2915,8 +3523,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2931,8 +3539,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2947,8 +3555,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2963,8 +3571,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2979,8 +3587,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -2995,8 +3603,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3011,8 +3619,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3027,8 +3635,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3043,8 +3651,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3059,8 +3667,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3075,8 +3683,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3091,8 +3699,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3107,8 +3715,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3123,8 +3731,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3139,8 +3747,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3155,8 +3763,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3171,8 +3779,8 @@
         "cases": 6,
         "accuracy_passed_cases": 6,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3187,8 +3795,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3203,8 +3811,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3219,8 +3827,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3235,8 +3843,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3251,8 +3859,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3267,8 +3875,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3283,8 +3891,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3299,8 +3907,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3363,8 +3971,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3379,8 +3987,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3395,8 +4003,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3411,8 +4019,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3427,8 +4035,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3443,8 +4051,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3459,8 +4067,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3475,8 +4083,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3491,8 +4099,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3507,8 +4115,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3523,8 +4131,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3539,8 +4147,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3555,8 +4163,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3571,8 +4179,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3587,8 +4195,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3603,8 +4211,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3619,8 +4227,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3635,8 +4243,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3651,8 +4259,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3667,8 +4275,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3683,8 +4291,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3699,8 +4307,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3715,8 +4323,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3731,8 +4339,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3747,8 +4355,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3763,8 +4371,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3779,8 +4387,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3795,8 +4403,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3811,8 +4419,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3827,8 +4435,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3843,8 +4451,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3859,8 +4467,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3875,8 +4483,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3891,8 +4499,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3907,8 +4515,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3923,8 +4531,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3939,8 +4547,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3955,8 +4563,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3977,8 +4585,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -3999,8 +4607,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4021,8 +4629,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4085,8 +4693,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4101,8 +4709,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4117,8 +4725,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4133,8 +4741,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4149,8 +4757,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4165,8 +4773,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4181,8 +4789,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4197,8 +4805,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4213,8 +4821,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4229,8 +4837,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4245,8 +4853,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4261,8 +4869,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4277,8 +4885,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4293,8 +4901,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4309,8 +4917,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4325,8 +4933,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4341,8 +4949,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4357,8 +4965,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4373,8 +4981,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4389,8 +4997,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4405,8 +5013,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4421,8 +5029,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4437,8 +5045,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {
@@ -4453,8 +5061,8 @@
         "cases": 2,
         "accuracy_passed_cases": 2,
         "all_cases_passed": true,
-        "evidence": "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json",
-        "evidence_sha256": "16a3718651ade1ad42cc313358b347a7399fadf5ff11d6dd68be168ff8923f29"
+        "evidence": "docs/rocm/flash_low_20261105/qualified206_cuda.json",
+        "evidence_sha256": "df891e84bd1545ec581c13344620841b398e69bd650879fc3a83e2ff666eb5a5"
       }
     },
     {

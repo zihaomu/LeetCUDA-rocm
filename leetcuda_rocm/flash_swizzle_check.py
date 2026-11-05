@@ -371,7 +371,15 @@ def devices(lib):
     )
     rows = []
     for name in sorted(n for n in dir(lib) if n.startswith("flash_attn_")):
-        fn = getattr(lib, name)
+        original_fn = getattr(lib, name)
+
+        def fn(q, k, v, out, stage):
+            if name.endswith("_swizzle_qkv") and "tiling_qkv_" not in name:
+                v = v.transpose(-1, -2).contiguous()
+            return original_fn(
+                q, k, v, out, *(() if name == "flash_attn_cute" else (stage,))
+            )
+
         for device in (selected, other):
             with torch.cuda.device(device):
                 stream = torch.cuda.Stream()

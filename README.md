@@ -48,8 +48,13 @@ apt install -y cublas-cuda-13 cudnn9-cuda-13 && apt install -y ccache
 
 An initial ROCm 10.1.0 port of the basic kernels is available for Radeon AI PRO
 R9700 (`gfx1201`). See the [ROCm setup, support scope and validation](docs/rocm/README.md).
-Current numerical qualification covers **186/229 original interfaces (81.22%)**.
-B3 adds eleven MMA/CuTe HGEMM ports with explicit FP32 accumulation, validated by
+Current numerical qualification covers **206/229 original interfaces (89.96%)**.
+B4 completes all **29 original Attention interfaces**, adding 20 distinct implementations.
+Both AMD GPUs pass 6677 targeted checks; all 416 interface comparison cases pass.
+Nineteen MMA variants explicitly upgrade only QK accumulation. Three retain transposed V
+storage. Performance remains below Torch SDPA; original CUDA precision/indexing failures
+are recorded separately. See the [B4 results](docs/rocm/flash_low_20261105.md).
+B3 added eleven MMA/CuTe HGEMM ports with explicit FP32 accumulation, validated by
 2947 checks per AMD GPU and 376 all-interface CUDA/AMD comparisons. Original CUDA
 long-K precision failures and oversized stage5 allocations remain documented.
 See the [B3 results](docs/rocm/mma_hgemm_20261105.md).
@@ -84,7 +89,7 @@ exact FP16 expansion and FP16 WMMA, with prepacked weights and a C++ benchmark;
 see the [FP4 qualification report](docs/rocm/fp4_pipeline_20261103.md).
 The four Triton examples now pass shared-input CUDA/ROCm checks, including layer-norm
 backward and empty attention states. See the [complete support inventory](docs/rocm/leetcuda_rocm10_operator_support.md).
-The remaining NVIDIA MMA/PTX/CUTLASS variants and full interview benchmark still require CUDA.
+Seven original interfaces, sixteen low-precision accuracy cases, and the remaining standalone benchmark/FFPA scope are still in progress.
 
 ```bash
 ./scripts/rocm/run.sh

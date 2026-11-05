@@ -111,6 +111,26 @@ def cuda_build(module, names, original, cutlass):
 
     extras = {
         "flash_attn": (
+            "flash-attn/cutlass/flash_attn_cute.cu",
+            "flash-attn/mma/basic/flash_attn_mma_share_kv.cu",
+            "flash-attn/mma/basic/flash_attn_mma_share_qkv.cu",
+            "flash-attn/mma/basic/flash_attn_mma_split_kv.cu",
+            "flash-attn/mma/basic/flash_attn_mma_split_q.cu",
+            "flash-attn/mma/basic/flash_attn_mma_tiling_qk.cu",
+            "flash-attn/mma/basic/flash_attn_mma_tiling_qkv.cu",
+            "flash-attn/mma/others/flash_attn_mma_share_qkv_Os2g.cu",
+            "flash-attn/mma/swizzle/flash_attn_mma_share_kv_swizzle_q.cu",
+            "flash-attn/mma/swizzle/flash_attn_mma_share_kv_swizzle_qk.cu",
+            "flash-attn/mma/swizzle/flash_attn_mma_share_kv_swizzle_qkv.cu",
+            "flash-attn/mma/swizzle/flash_attn_mma_share_qkv_swizzle_q.cu",
+            "flash-attn/mma/swizzle/flash_attn_mma_share_qkv_swizzle_qk.cu",
+            "flash-attn/mma/swizzle/flash_attn_mma_share_qkv_swizzle_qkv.cu",
+            "flash-attn/mma/swizzle/flash_attn_mma_tiling_qk_swizzle_q.cu",
+            "flash-attn/mma/swizzle/flash_attn_mma_tiling_qk_swizzle_qk.cu",
+            "flash-attn/mma/swizzle/flash_attn_mma_tiling_qk_swizzle_qkv.cu",
+            "flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_q.cu",
+            "flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_qk.cu",
+            "flash-attn/mma/swizzle/flash_attn_mma_tiling_qkv_swizzle_qkv.cu",
             "flash-attn/mma/basic/flash_attn_mma_share_kv_F32F16F16F32.cu",
             "flash-attn/mma/basic/flash_attn_mma_share_qkv_F32F16F16F32.cu",
             "flash-attn/mma/basic/flash_attn_mma_tiling_qk_F32F16F16F32.cu",
@@ -191,7 +211,11 @@ def cuda_build(module, names, original, cutlass):
         ),
     ]
     headers = (
-        sorted((original / "kernels/flash-attn").rglob("*.h"))
+        sorted(
+            p
+            for p in (original / "kernels/flash-attn").rglob("*")
+            if p.suffix in (".h", ".hpp")
+        )
         if module == "flash_attn"
         else (
             sorted((original / "kernels/hgemm").rglob("*.h"))

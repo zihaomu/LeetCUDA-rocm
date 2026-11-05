@@ -75,7 +75,14 @@ def case(module, name, rows):
         reference = (
             q.double() @ k.double().transpose(-1, -2) / (d**0.5)
         ).softmax(-1) @ v.double()
-        return (q, k, v, out, stage), reference.half(), out, 0.003, 0.003
+        if name.endswith("_swizzle_qkv") and "tiling_qkv_" not in name:
+            v = v.transpose(-1, -2).contiguous()
+        args = (
+            (q, k, v, out)
+            if name == "flash_attn_cute"
+            else (q, k, v, out, stage)
+        )
+        return args, reference.half(), out, 0.003, 0.003
     """Return arguments, independently computed expected output and tolerance."""
     dtype = torch.float16 if module in ("hgemm", "hgemv") else dtype_for(name)
     x = random((rows, 256), dtype)

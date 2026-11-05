@@ -109,6 +109,7 @@ flash_keys = {
     for key in qualified
     if key[0] == "flash_attn"
     and "_shared_" in key[1]
+    and "_acc_f32" in key[1]
     and not key[1].endswith("_rr")
 }
 rr_keys = {
@@ -140,6 +141,7 @@ tiled_keys = {
     for key in qualified
     if key[0] == "flash_attn"
     and "_tiling_" in key[1]
+    and "_acc_f32" in key[1]
     and "_swizzle_" not in key[1]
 }
 swizzle_keys = {
@@ -147,6 +149,32 @@ swizzle_keys = {
     for key in qualified
     if key[0] == "flash_attn" and "_acc_f32_swizzle_" in key[1]
 }
+low_keys = {
+    key
+    for key in qualified
+    if key[0] == "flash_attn" and "_acc_f32" not in key[1]
+}
+low_path = root / "docs/rocm/flash_low_20261105/hip.json"
+if low_keys:
+    low_report = json.loads(low_path.read_text())
+    assert low_report["passed"] and low_report["isa"]["passed"]
+    assert low_keys == {
+        ("flash_attn", c["function"]) for c in low_report["checks"]
+    }
+    for field in ("checks", "boundaries", "storage", "devices"):
+        assert low_report[field] and all(c["passed"] for c in low_report[field])
+    assert len(low_report["isa"]["kernels"]) == 210
+    assert all(
+        p["accuracy_passed"] and p["graph_replay_verified"]
+        for p in low_report["performance"]
+    )
+    low_contracts = {
+        c["function"]: c
+        for c in json.loads(
+            (root / "leetcuda_rocm/flash_low_contracts.json").read_text()
+        )
+    }
+
 swizzle_path = root / "docs/rocm/flash_swizzle_20261105/hip.json"
 swizzle_performance_path = (
     root / "docs/rocm/flash_swizzle_20261105/acceptance.json"
@@ -370,6 +398,28 @@ for source in sorted((root / "kernels").rglob("*")):
                 ).hexdigest(),
                 "performance_status": "measured_pending_optimization",
             }
+        if (module, name) in low_keys:
+            cute = name == "flash_attn_cute"
+            vt = name.endswith("_swizzle_qkv") and "tiling_qkv_" not in name
+            entries[-1]["implementation"] = {
+                "mechanism": "Native gfx1201 WMMA; distinct split-Q/split-KV, shared LDS lifetimes, Q/K/V XOR layouts, tiling, Os2g LDS output and CuTe geometry",
+                "original_accumulator": "FP32 QK/PV" if cute else "FP16 QK/PV",
+                "rocm_accumulator": (
+                    "FP32 QK/PV" if cute else "FP32 QK; FP16 PV"
+                ),
+                "precision_changed": not cute,
+                "numeric_semantics": "Explicit QK-only precision upgrade for 19 MMA interfaces; preserve FP16 PV and original FP16/FP32 output-state type; CuTe unchanged FP32",
+                "v_storage_layout": (
+                    "contiguous [B,H,D,N]" if vt else "contiguous [B,H,N,D]"
+                ),
+                "head_dimensions_by_stage": low_contracts[name]["dimensions"],
+                "architecture_adaptation": "D256 shared BR64; transposed-V tiling-QK keeps original BC=D with BR32 at D256; LDS P exchange and guarded tails",
+                "performance_status": "measured_pending_optimization",
+                "evidence": str(low_path.relative_to(root)),
+                "evidence_sha256": hashlib.sha256(
+                    low_path.read_bytes()
+                ).hexdigest(),
+            }
         if (module, name) in flash_keys:
             entries[-1]["implementation"] = {
                 "mechanism": "Native gfx1201 split-Q WMMA attention; distinct shared-KV or shared-QKV LDS lifetime",
@@ -542,6 +592,10 @@ if wmma_keys:
         qualified_cuda_path = (
             root / "docs/rocm/mma_hgemm_20261105/qualified186_cuda.json"
         )
+    if low_keys:
+        qualified_cuda_path = (
+            root / "docs/rocm/flash_low_20261105/qualified206_cuda.json"
+        )
     qualified_cuda = json.loads(qualified_cuda_path.read_text())
     assert qualified_cuda["passed"]
     by_function = collections.defaultdict(list)
@@ -622,6 +676,28 @@ for keys, flash_cuda_path in (
             "evidence": str(flash_cuda_path.relative_to(root)),
             "evidence_sha256": hashlib.sha256(
                 flash_cuda_path.read_bytes()
+            ).hexdigest(),
+        }
+if low_keys:
+    low_cuda_path = root / "docs/rocm/flash_low_20261105/cuda_original.json"
+    low_cuda = json.loads(low_cuda_path.read_text())
+    for key in low_keys:
+        checks = [c for c in low_cuda["checks"] if c["function"] == key[1]]
+        excluded = [
+            c for c in low_cuda["not_executed"] if c["function"] == key[1]
+        ]
+        assert checks
+        cuda_coverage[key] = {
+            "source_kind": "upstream_original_with_current_stream_launches",
+            "cases": len(checks),
+            "accuracy_passed_cases": sum(c["passed"] for c in checks),
+            "all_cases_passed": all(c["passed"] for c in checks)
+            and not excluded,
+            "not_executed_cases": len(excluded),
+            "scope": "Preserve large-logit FP16 QK failures; two shared swizzle-QKV D96 indexing defects; tiling-QK swizzle-QKV requires N%D==0. Transposed V contract honored.",
+            "evidence": str(low_cuda_path.relative_to(root)),
+            "evidence_sha256": hashlib.sha256(
+                low_cuda_path.read_bytes()
             ).hexdigest(),
         }
 assert set(cuda_coverage) == {(e["module"], e["function"]) for e in entries}

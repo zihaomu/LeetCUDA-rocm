@@ -145,7 +145,7 @@ void flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_qkv(
 void flash_attn_cute(torch::Tensor Q, torch::Tensor K, torch::Tensor V,
                      torch::Tensor O);
 // Others
-#ifdef BUILD_FLASH_ATTN_MMA_OTHERS
+#if defined(BUILD_FLASH_ATTN_MMA_OTHERS) || defined(LEETCUDA_ROCM)
 // O collective store using shared memory, O s2g.
 void flash_attn_mma_stages_split_q_shared_qkv_Os2g(torch::Tensor Q,
                                                    torch::Tensor K,
@@ -168,7 +168,6 @@ void flash_attn_mma_stages_split_q_shared_kv_acc_f32_rr(torch::Tensor Q,
 #endif
 
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
-#ifndef LEETCUDA_ROCM
   // Basic
   TORCH_BINDING_COMMON_EXTENSION(flash_attn_mma_stages_split_kv)
   TORCH_BINDING_COMMON_EXTENSION(flash_attn_mma_stages_split_q)
@@ -176,7 +175,6 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   TORCH_BINDING_COMMON_EXTENSION(flash_attn_mma_stages_split_q_shared_qkv)
   TORCH_BINDING_COMMON_EXTENSION(flash_attn_mma_stages_split_q_tiling_qk)
   TORCH_BINDING_COMMON_EXTENSION(flash_attn_mma_stages_split_q_tiling_qkv)
-#endif
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_shared_kv_acc_f32)
   TORCH_BINDING_COMMON_EXTENSION(
@@ -185,7 +183,6 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
       flash_attn_mma_stages_split_q_tiling_qk_acc_f32)
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_tiling_qkv_acc_f32)
-#ifndef LEETCUDA_ROCM
   // Swizzle
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_shared_kv_swizzle_q)
@@ -211,19 +208,16 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
       flash_attn_mma_stages_split_q_tiling_qkv_swizzle_qk)
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_tiling_qkv_swizzle_qkv)
-#endif
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_q)
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_qk)
   TORCH_BINDING_COMMON_EXTENSION(
       flash_attn_mma_stages_split_q_tiling_qkv_acc_f32_swizzle_qkv)
-#ifndef LEETCUDA_ROCM
   TORCH_BINDING_COMMON_EXTENSION(flash_attn_cute)
   // Others
-#ifdef BUILD_FLASH_ATTN_MMA_OTHERS
+#if defined(BUILD_FLASH_ATTN_MMA_OTHERS) || defined(LEETCUDA_ROCM)
   TORCH_BINDING_COMMON_EXTENSION(flash_attn_mma_stages_split_q_shared_qkv_Os2g)
-#endif
 #endif
 #if defined(BUILD_FLASH_ATTN_MMA_OTHERS) || defined(LEETCUDA_ROCM)
   TORCH_BINDING_COMMON_EXTENSION(
