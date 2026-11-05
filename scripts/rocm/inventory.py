@@ -59,6 +59,32 @@ if matrix_gemv_key in qualified:
     assert matrix_gemv["original_accumulator"] == "FP16"
     assert matrix_gemv["rocm_accumulator"] == "FP32"
     rejected.discard(matrix_gemv_key)
+vector_gemv_path = root / "docs/rocm/hgemv_vector_20261106/hip.json"
+vector_gemv_keys = {
+    key
+    for key in qualified
+    if key[0] == "hgemv" and key[1] in ("hgemv_f16_cute", "hgemv_f16x8_cute")
+}
+if vector_gemv_keys:
+    vector_gemv_report = json.loads(vector_gemv_path.read_text())
+    assert vector_gemv_report["passed"] and vector_gemv_report["isa"]["passed"]
+    assert vector_gemv_keys == {
+        ("hgemv", n) for n in vector_gemv_report["variants"]
+    }
+    assert (
+        vector_gemv_report["original_accumulator"] == "FP16"
+        and vector_gemv_report["rocm_accumulator"] == "FP32"
+    )
+    for field in ("checks", "boundaries", "half_controls"):
+        assert vector_gemv_report[field] and all(
+            c["passed"] for c in vector_gemv_report[field]
+        )
+    assert len(vector_gemv_report["performance"]) == 6
+    assert all(
+        p["accuracy_passed"] and p["graph_replay_verified"]
+        for p in vector_gemv_report["performance"]
+    )
+    rejected.difference_update(vector_gemv_keys)
 wmma_path = root / "docs/rocm/wmma_hgemm_20261105.json"
 wmma_keys = {
     key
@@ -446,6 +472,21 @@ for source in sorted((root / "kernels").rglob("*")):
                     matrix_gemv_path.read_bytes()
                 ).hexdigest(),
             }
+        if (module, name) in vector_gemv_keys:
+            entries[-1]["implementation"] = {
+                "mechanism": "Native scalar/packed SIMT FMA and wave XOR reduction; one output row per wave, four waves per CTA",
+                "original_accumulator": "FP16",
+                "rocm_accumulator": "FP32",
+                "precision_changed": True,
+                "numeric_semantics": "FP16 I/O; explicit FP32 products, lane state and wave reduction; packed path retains tile-local even/odd pairing",
+                "packing": 8 if "x8" in name else 1,
+                "architecture_adaptation": "CuTe copy layout translated to explicit lane indexing, guarded tails and unaligned vector fallback",
+                "performance_status": "measured_per_workload",
+                "evidence": str(vector_gemv_path.relative_to(root)),
+                "evidence_sha256": hashlib.sha256(
+                    vector_gemv_path.read_bytes()
+                ).hexdigest(),
+            }
         if (module, name) in wmma_keys:
             entries[-1]["implementation"] = {
                 "mechanism": "Native gfx1201 WMMA; variant-specific block/warp tiles, LDS ring and grid swizzle",
@@ -737,6 +778,10 @@ if wmma_keys:
         qualified_cuda_path = (
             root / "docs/rocm/ws_hgemm_20261106/qualified213_cuda.json"
         )
+    if vector_gemv_keys:
+        qualified_cuda_path = (
+            root / "docs/rocm/hgemv_vector_20261106/qualified215_cuda.json"
+        )
     qualified_cuda = json.loads(qualified_cuda_path.read_text())
     assert qualified_cuda["passed"]
     by_function = collections.defaultdict(list)
@@ -823,6 +868,25 @@ if ws_keys:
             "evidence_sha256": hashlib.sha256(
                 ws_cuda_path.read_bytes()
             ).hexdigest(),
+        }
+if vector_gemv_keys:
+    vector_cuda_path = (
+        root / "docs/rocm/hgemv_vector_20261106/cuda_original.json"
+    )
+    vector_cuda = json.loads(vector_cuda_path.read_text())
+    for key in vector_gemv_keys:
+        checks = [c for c in vector_cuda["checks"] if c["function"] == key[1]]
+        cuda_coverage[key] = {
+            "source_kind": "upstream_original_with_current_stream_launches",
+            "cases": len(checks),
+            "accuracy_passed_cases": sum(c["passed"] for c in checks),
+            "all_cases_passed": all(c["passed"] for c in checks),
+            "scope": "Expanded long K preserves original half accumulation failures; packed local state initialization correction reported separately",
+            "evidence": str(vector_cuda_path.relative_to(root)),
+            "evidence_sha256": hashlib.sha256(
+                vector_cuda_path.read_bytes()
+            ).hexdigest(),
+            "initialization_fixed_evidence": "docs/rocm/hgemv_vector_20261106/cuda_fixed.json",
         }
 if mma_keys:
     mma_cuda_path = root / "docs/rocm/mma_hgemm_20261105/cuda_original.json"

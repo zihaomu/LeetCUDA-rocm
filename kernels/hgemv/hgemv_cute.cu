@@ -171,6 +171,7 @@ __global__ void hgemv_f16x8_cute_kernel(half *Aptr, half *Bptr, half *Cptr,
     auto tArA_half2 = recast<half2>(tArA);
     auto tBrB_half2 = recast<half2>(tBrB);
     auto sum_half2 = make_tensor<half2>(make_shape(Int<1>{}));
+    clear(sum_half2); // Initialize the per-tile packed accumulator.
 
 #pragma unroll
     for (int iter_elem = 0; iter_elem < size(tArA_half2); iter_elem++) {
