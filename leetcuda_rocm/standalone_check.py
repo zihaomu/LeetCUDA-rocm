@@ -41,23 +41,30 @@ def run(args):
         compiler = "/usr/local/cuda/bin/nvcc"
         flags = ["-O3", "-std=c++20", "-arch=sm_120a", "-x", "cu"]
         directory = ROOT / ".cache/cuda_comparison"
-    source = ROOT / "kernels/rocm/interview_base_bench.cpp"
+    source = ROOT / f"kernels/rocm/interview_{args.suite}_bench.cpp"
     files = [
         source,
         ROOT / "kernels/rocm/bench_runtime.hpp",
-        include / "interview/sgemv.cuh",
+        include
+        / (
+            "interview/sgemv.cuh"
+            if args.suite == "base"
+            else "interview/sgemm.cuh"
+        ),
         include / "interview/base.cuh",
         include / "interview/common.cuh",
     ]
     if args.backend == "hip":
         files.append(ROOT / "kernels/rocm/interview_common_hip.cuh")
+    if args.backend == "hip" and args.suite == "sgemm":
+        files.append(ROOT / "kernels/rocm/interview_sgemm_hip.cuh")
     sources = {str(p): sha(p) for p in files}
     digest = hashlib.sha256(
         json.dumps([sources, flags], sort_keys=True).encode()
     ).hexdigest()[:16]
-    folder = directory / f"interview_base_{digest}"
+    folder = directory / f"interview_{args.suite}_{digest}"
     folder.mkdir(parents=True, exist_ok=True)
-    binary = folder / "base_bench"
+    binary = folder / f"{args.suite}_bench"
     command = [
         compiler,
         *flags,
@@ -86,11 +93,16 @@ def run(args):
     report = dict(
         timestamp_utc=datetime.now(timezone.utc).isoformat(),
         backend=args.backend,
+        suite=args.suite,
         environment=identity,
         source_kind=(
             "native_port_of_original_SIMT"
-            if args.backend == "hip"
-            else "upstream_original"
+            if args.suite == "base"
+            else (
+                "SIMT_and_BF16_WMMA_single_TF32"
+                if args.backend == "hip"
+                else "upstream_original"
+            )
         ),
         upstream_commit=UPSTREAM,
         sources_sha256=sources,
@@ -111,7 +123,7 @@ def run(args):
             else None
         ),
         passed=result.returncode == 0
-        and len(checks) == 370
+        and len(checks) == {"base": 370, "sgemm": 234}[args.suite]
         and all(c["passed"] for c in checks),
     )
     if args.backend == "hip":
@@ -172,6 +184,7 @@ def main():
     p = argparse.ArgumentParser(__doc__)
     sub = p.add_subparsers(dest="command", required=True)
     r = sub.add_parser("run")
+    r.add_argument("--suite", choices=("base", "sgemm"), default="base")
     r.add_argument("--backend", choices=("hip", "cuda"), required=True)
     r.add_argument("--device", type=int, default=0)
     r.add_argument("--fixtures", type=Path, required=True)

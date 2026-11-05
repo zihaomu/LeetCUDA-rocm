@@ -123,3 +123,5 @@ M5补充证据：[GQA/mask/dropout/反向](attention_training_20261106.md)。原
 FFPA证据：[三种Split-D前向](ffpa_20261106.md)。新增1个独立API（含3种真实路径），独立计算API共8个；原接口仍229/229。原CUDA18项同步缺陷保留，显式修复后1220/1220与1700份比较通过。M6的base/SGEMV独立22 kernel扩大验收已完成：双卡及5090各370项，370项跨平台对照通过，含178项Graph replay；继续其他独立实现和完整构建清单；不能以此宣称M6全部完成。
 
 M6补充证据：[base/SGEMV 22个kernel](interview_base_20261106.md)，[独立范围逐项清单](leetcuda_rocm10_supplemental_scope.md)。
+
+独立SGEMM四路径已验收：[234项双卡与原CUDA专项、234项共同输出比较](interview_sgemm_20261106.md)，四kernel零scratch。interview功能40/53、完整跨平台34/53；其余范围继续执行。

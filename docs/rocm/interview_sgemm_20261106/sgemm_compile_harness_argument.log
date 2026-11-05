@@ -1,0 +1,36 @@
+{"profile": "rocm10-foundation-r9700-v1", "passed": true, "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03", "output": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/222dd52904f942eca039e01d2194dd08.json"}
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/rocm/interview_sgemm_bench.cpp:63:23: error: use of undeclared identifier 'exponent'
+   63 |     v = std::ldexp(v, exponent);
+      |                       ^~~~~~~~
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/rocm/interview_sgemm_bench.cpp:65:24: error: use of undeclared identifier 'exponent'
+   65 |     v = std::ldexp(v, -exponent);
+      |                        ^~~~~~~~
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/rocm/interview_sgemm_bench.cpp:71:49: error: use of undeclared identifier 'exponent'
+   71 |                    "/exponent" + std::to_string(exponent);
+      |                                                 ^~~~~~~~
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/rocm/interview_sgemm_bench.cpp:145:9: error: no matching function for call to 'matrix'
+  145 |         matrix(h, fixture, 128, 128, 16, seed, true, exponent);
+      |         ^~~~~~
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/rocm/interview_sgemm_bench.cpp:55:6: note: candidate function not viable: requires 7 arguments, but 8 were provided
+   55 | void matrix(Harness &h, const std::vector<float> &fixture, int m, int n, int k,
+      |      ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   56 |             int seed, bool tf32) {
+      |             ~~~~~~~~~~~~~~~~~~~
+4 errors generated when compiling for gfx1201.
+failed to execute:/opt/rocm/core-10.1/lib/llvm/bin/clang++  --offload-arch=gfx1201 --driver-mode=g++ --hip-link  -O3 -std=c++20 -DLEETCUDA_ROCM=1 -I /home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels -x hip /home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/rocm/interview_sgemm_bench.cpp -o "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/cpp/interview_sgemm_53c3db594530985a/sgemm_bench"
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/standalone_check.py", line 203, in <module>
+    main()
+    ~~~~^^
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/standalone_check.py", line 199, in main
+    globals()[args.command](args)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/standalone_check.py", line 78, in run
+    subprocess.run(command, check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/python/cpython-3.13.13-linux-x86_64-gnu/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/opt/rocm/bin/hipcc', '-O3', '-std=c++20', '--offload-arch=gfx1201', '-DLEETCUDA_ROCM=1', '-I', '/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels', '/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/rocm/interview_sgemm_bench.cpp', '-o', '/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/cpp/interview_sgemm_53c3db594530985a/sgemm_bench']' returned non-zero exit status 1.

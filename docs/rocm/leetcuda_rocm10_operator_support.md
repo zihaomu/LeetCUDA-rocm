@@ -498,3 +498,5 @@ export HIP_VISIBLE_DEVICES=2
 FFPA补充范围已功能验收：三个Split-D路径，双卡各2755项、5090修复参考1220项、跨平台1700份输出/LSE、C++729项通过；27特化零scratch。原CUDA18项stage3尾部故障保留并提供显式修复。两端各135性能配置完成，性能差距仍开放。见[FFPA报告](ffpa_20261106.md)。
 
 独立补充范围以[逐项清单](leetcuda_rocm10_supplemental_scope.md)为准；[base/SGEMV正式报告](interview_base_20261106.md)已完成。
+
+独立SGEMM四路径已验收：[234项双卡与原CUDA专项、234项共同输出比较](interview_sgemm_20261106.md)，四kernel零scratch。interview功能40/53、完整跨平台34/53；其余范围继续执行。

@@ -1,7 +1,9 @@
 #pragma once
 #include "base.cuh"
+#if !defined(LEETCUDA_ROCM)
 #include <mma.h>
 using namespace nvcuda;
+#endif
 
 // sgemm.cuh: Phase 7a SGEMM
 // Phase 7: GEMM — 矩阵矩阵乘（GPU 最重要的算子，面试核心考点）
@@ -197,6 +199,9 @@ __global__ void sgemm_vec4(float *a, float *b, float *c, int M, int N, int K) {
 //   8 个 MMA/warp × 8 warps = 64 个 MMA/block，每个 MMA 64 个 TF32 MAC
 //   总计 4096 个 TF32 MAC/cycle/block（理论峰值）
 
+#if defined(LEETCUDA_ROCM)
+#include "../rocm/interview_sgemm_hip.cuh"
+#else
 // ---- FP32 → TF32 格式转换 kernel ----
 // TF32 格式：sign 1bit + exponent 8bit + mantissa 10bit（共 19bit，存储为 32bit float）
 // wmma::__float_to_tf32() 将 FP32 舍入到 TF32 精度（mantissa 23bit → 10bit）
@@ -432,3 +437,5 @@ __global__ void sgemm_tf32(float *A, float *B, float *C, int M, int N, int K) {
 }
 
 // =============================================================================
+
+#endif // LEETCUDA_ROCM

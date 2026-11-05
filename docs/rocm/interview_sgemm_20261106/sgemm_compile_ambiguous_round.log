@@ -1,0 +1,57 @@
+{"profile": "rocm10-foundation-r9700-v1", "passed": true, "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03", "output": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/4cb5fa47200f4cb7aa67b719d8d69601.json"}
+In file included from /home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/rocm/interview_sgemm_bench.cpp:2:
+In file included from /home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/interview/sgemm.cuh:203:
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/interview/../rocm/interview_sgemm_hip.cuh:118:26: error: call to 'round' is ambiguous
+  118 |               sum = fmaf(round(a[row * (8 + kPadA) + k]),
+      |                          ^~~~~
+/opt/rocm/core-10.1/lib/llvm/lib/clang/24/include/__clang_hip_cmath.h:248:19: note: candidate function
+  248 | __DEF_FUN1(float, round)
+      |                   ^
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/interview/../rocm/interview_sgemm_hip.cuh:14:25: note: candidate function
+   14 | __device__ inline float round(float x) {
+      |                         ^
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/interview/../rocm/interview_sgemm_hip.cuh:119:26: error: call to 'round' is ambiguous
+  119 |                          round(b[k * (128 + kPadB) + col]), sum);
+      |                          ^~~~~
+/opt/rocm/core-10.1/lib/llvm/lib/clang/24/include/__clang_hip_cmath.h:248:19: note: candidate function
+  248 | __DEF_FUN1(float, round)
+      |                   ^
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/interview/../rocm/interview_sgemm_hip.cuh:14:25: note: candidate function
+   14 | __device__ inline float round(float x) {
+      |                         ^
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/interview/../rocm/interview_sgemm_hip.cuh:131:17: error: call to 'round' is ambiguous
+  131 |           parts(round(value), hi, lo);
+      |                 ^~~~~
+/opt/rocm/core-10.1/lib/llvm/lib/clang/24/include/__clang_hip_cmath.h:248:19: note: candidate function
+  248 | __DEF_FUN1(float, round)
+      |                   ^
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/interview/../rocm/interview_sgemm_hip.cuh:14:25: note: candidate function
+   14 | __device__ inline float round(float x) {
+      |                         ^
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/interview/../rocm/interview_sgemm_hip.cuh:142:17: error: call to 'round' is ambiguous
+  142 |           parts(round(value), hi, lo);
+      |                 ^~~~~
+/opt/rocm/core-10.1/lib/llvm/lib/clang/24/include/__clang_hip_cmath.h:248:19: note: candidate function
+  248 | __DEF_FUN1(float, round)
+      |                   ^
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/interview/../rocm/interview_sgemm_hip.cuh:14:25: note: candidate function
+   14 | __device__ inline float round(float x) {
+      |                         ^
+4 errors generated when compiling for gfx1201.
+failed to execute:/opt/rocm/core-10.1/lib/llvm/bin/clang++  --offload-arch=gfx1201 --driver-mode=g++ --hip-link  -O3 -std=c++20 -DLEETCUDA_ROCM=1 -I /home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels -x hip /home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/rocm/interview_sgemm_bench.cpp -o "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/cpp/interview_sgemm_8ea91e3e49d4b567/sgemm_bench"
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/standalone_check.py", line 203, in <module>
+    main()
+    ~~~~^^
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/standalone_check.py", line 199, in main
+    globals()[args.command](args)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/standalone_check.py", line 78, in run
+    subprocess.run(command, check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/python/cpython-3.13.13-linux-x86_64-gnu/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/opt/rocm/bin/hipcc', '-O3', '-std=c++20', '--offload-arch=gfx1201', '-DLEETCUDA_ROCM=1', '-I', '/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels', '/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/kernels/rocm/interview_sgemm_bench.cpp', '-o', '/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/cpp/interview_sgemm_8ea91e3e49d4b567/sgemm_bench']' returned non-zero exit status 1.
