@@ -849,12 +849,24 @@ TORCH_BINDING_REDUCE(f16x2, f16, torch::kHalf, half, 2, float)
 TORCH_BINDING_REDUCE(f16x2, f32, torch::kHalf, half, 2, float)
 TORCH_BINDING_REDUCE(f16x8_pack, f16, torch::kHalf, half, 8, float)
 TORCH_BINDING_REDUCE(f16x8_pack, f32, torch::kHalf, half, 8, float)
+#if !defined(LEETCUDA_ROCM) || defined(LEETCUDA_REDUCE_BF16_CONTROL)
 TORCH_BINDING_REDUCE(bf16, bf16, torch::kBFloat16, __nv_bfloat16, 1, float)
+#else
+torch::Tensor block_all_reduce_sum_bf16_bf16(torch::Tensor);
+#endif
 TORCH_BINDING_REDUCE(bf16, f32, torch::kBFloat16, __nv_bfloat16, 1, float)
+#if !defined(LEETCUDA_ROCM) || defined(LEETCUDA_REDUCE_BF16_CONTROL)
 TORCH_BINDING_REDUCE(bf16x2, bf16, torch::kBFloat16, __nv_bfloat16, 2, float)
+#else
+torch::Tensor block_all_reduce_sum_bf16x2_bf16(torch::Tensor);
+#endif
 TORCH_BINDING_REDUCE(bf16x2, f32, torch::kBFloat16, __nv_bfloat16, 2, float)
+#if !defined(LEETCUDA_ROCM) || defined(LEETCUDA_REDUCE_BF16_CONTROL)
 TORCH_BINDING_REDUCE(bf16x8_pack, bf16, torch::kBFloat16, __nv_bfloat16, 8,
                      float)
+#else
+torch::Tensor block_all_reduce_sum_bf16x8_pack_bf16(torch::Tensor);
+#endif
 TORCH_BINDING_REDUCE(bf16x8_pack, f32, torch::kBFloat16, __nv_bfloat16, 8,
                      float)
 TORCH_BINDING_REDUCE(fp8_e4m3, f16, torch::kFloat8_e4m3fn, __nv_fp8_storage_t,
@@ -877,13 +889,11 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_f16x2_f32)
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_f16x8_pack_f16)
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_f16x8_pack_f32)
-#ifndef LEETCUDA_ROCM
-  // These teaching variants accumulate in BF16 and exceed the ROCm numerical
-  // qualification threshold. Use the explicitly named FP32 accumulators.
+  // AMD explicitly upgrades these original BF16-accumulator APIs to
+  // compensated FP32; original CUDA kernels and evidence remain intact.
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_bf16_bf16)
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_bf16x2_bf16)
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_bf16x8_pack_bf16)
-#endif
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_bf16_f32)
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_bf16x2_f32)
   TORCH_BINDING_COMMON_EXTENSION(block_all_reduce_sum_bf16x8_pack_f32)

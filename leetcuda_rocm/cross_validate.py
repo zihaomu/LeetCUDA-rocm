@@ -218,11 +218,9 @@ def build(module, backend, original, cutlass):
         }[module]
         sources = [(ROOT / "kernels" / p).read_text() for p in paths]
         if module == "reduce":
-            token = "#ifndef LEETCUDA_ROCM\n  // These teaching variants"
-            assert sources[0].count(token) == 1
-            sources[0] = sources[0].replace(
-                token, "#if 1\n  // These teaching variants"
-            )
+            # Retain the original BF16 arithmetic as a private control after
+            # the public API explicitly upgrades to compensated FP32.
+            sources[0] = "#define LEETCUDA_REDUCE_BF16_CONTROL 1\n" + sources[0]
         else:
             sources.insert(0, binding(NAMES[module]))
         lib = _load(

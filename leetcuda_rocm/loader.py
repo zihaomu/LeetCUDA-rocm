@@ -46,6 +46,7 @@ KERNELS = {
 }
 
 EXTRA_SOURCES = {
+    "reduce": ("rocm/reduce_precision.cu",),
     "ws_hgemm": ("rocm/ws_hgemm.cu",),
     "hgemv": (
         "rocm/hgemv_matrix_precision.cu",

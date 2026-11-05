@@ -1,0 +1,95 @@
+{"profile": "rocm10-foundation-r9700-v1", "passed": true, "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03", "output": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/40a175a40b9b4b24ac3e75da0baa163c.json"}
+[92mSuccessfully preprocessed all matching files.[0m
+Traceback (most recent call last):
+  File "/opt/venv/lib/python3.13/site-packages/torch/utils/cpp_extension.py", line 2935, in _run_ninja_build
+    subprocess.run(
+    ~~~~~~~~~~~~~~^
+        command,
+        ^^^^^^^^
+    ...<4 lines>...
+        check=True,
+        ^^^^^^^^^^^
+        env=env)
+        ^^^^^^^^
+  File "/opt/python/cpython-3.13.13-linux-x86_64-gnu/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['ninja', '-v', '-j', '2']' returned non-zero exit status 1.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/continuation_all/u2/probe.py", line 8, in <module>
+    lib=_load('reduce_precision_probe',tuple(_prepare(s) for s in (b,(root/'reduce_precision_probe.cu').read_text())),cache_key(identity),identity['gpu_architecture'],False)
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/loader.py", line 175, in _load
+    return torch_load(
+        name=f"leetcuda_rocm_{name}_{digest}",
+    ...<11 lines>...
+        ],
+    )
+  File "/opt/venv/lib/python3.13/site-packages/torch/utils/cpp_extension.py", line 1966, in load
+    return _jit_compile(
+        name,
+    ...<11 lines>...
+        is_standalone,
+        keep_intermediates=keep_intermediates)
+  File "/opt/venv/lib/python3.13/site-packages/torch/utils/cpp_extension.py", line 2427, in _jit_compile
+    _write_ninja_file_and_build_library(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        name=name,
+        ^^^^^^^^^^
+    ...<9 lines>...
+        with_sycl=with_sycl,
+        ^^^^^^^^^^^^^^^^^^^^
+        is_standalone=is_standalone)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.13/site-packages/torch/utils/cpp_extension.py", line 2584, in _write_ninja_file_and_build_library
+    _run_ninja_build(
+    ~~~~~~~~~~~~~~~~^
+        build_directory,
+        ^^^^^^^^^^^^^^^^
+        verbose,
+        ^^^^^^^^
+        error_prefix=f"Error building extension '{name}'")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.13/site-packages/torch/utils/cpp_extension.py", line 2952, in _run_ninja_build
+    raise RuntimeError(message) from e
+RuntimeError: Error building extension 'leetcuda_rocm_reduce_precision_probe_3cee95821c67c38b': [1/3] /opt/rocm/bin/hipcc  -DWITH_HIP -DTORCH_EXTENSION_NAME=leetcuda_rocm_reduce_precision_probe_3cee95821c67c38b -DTORCH_API_INCLUDE_EXTENSION_H -isystem /opt/venv/lib/python3.13/site-packages/torch/include -isystem /opt/venv/lib/python3.13/site-packages/torch/include/torch/csrc/api/include -isystem /opt/venv/lib/python3.13/site-packages/torch/include/THH -isystem /opt/rocm/include -isystem /opt/python/cpython-3.13.13-linux-x86_64-gnu/include/python3.13 -O3 -std=c++20 -D__HIP_PLATFORM_AMD__=1 -DUSE_ROCM=1 -DHIPBLAS_V2 -fPIC -DCUDA_HAS_FP16=1 -D__HIP_NO_HALF_OPERATORS__=1 -D__HIP_NO_HALF_CONVERSIONS__=1 -DHIP_ENABLE_WARP_SYNC_BUILTINS=1 -std=c++20 --offload-arch=gfx1201 -fno-gpu-rdc -O3 -std=c++20 -DLEETCUDA_ROCM=1 -U__HIP_NO_HALF_OPERATORS__ -U__HIP_NO_HALF_CONVERSIONS__ -c /home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/torch/reduce_precision_probe_3cee95821c67c38b/reduce_precision_probe_1.hip -o reduce_precision_probe_1.cuda.o 
+FAILED: [code=1] reduce_precision_probe_1.cuda.o 
+/opt/rocm/bin/hipcc  -DWITH_HIP -DTORCH_EXTENSION_NAME=leetcuda_rocm_reduce_precision_probe_3cee95821c67c38b -DTORCH_API_INCLUDE_EXTENSION_H -isystem /opt/venv/lib/python3.13/site-packages/torch/include -isystem /opt/venv/lib/python3.13/site-packages/torch/include/torch/csrc/api/include -isystem /opt/venv/lib/python3.13/site-packages/torch/include/THH -isystem /opt/rocm/include -isystem /opt/python/cpython-3.13.13-linux-x86_64-gnu/include/python3.13 -O3 -std=c++20 -D__HIP_PLATFORM_AMD__=1 -DUSE_ROCM=1 -DHIPBLAS_V2 -fPIC -DCUDA_HAS_FP16=1 -D__HIP_NO_HALF_OPERATORS__=1 -D__HIP_NO_HALF_CONVERSIONS__=1 -DHIP_ENABLE_WARP_SYNC_BUILTINS=1 -std=c++20 --offload-arch=gfx1201 -fno-gpu-rdc -O3 -std=c++20 -DLEETCUDA_ROCM=1 -U__HIP_NO_HALF_OPERATORS__ -U__HIP_NO_HALF_CONVERSIONS__ -c /home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/torch/reduce_precision_probe_3cee95821c67c38b/reduce_precision_probe_1.hip -o reduce_precision_probe_1.cuda.o 
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/torch/reduce_precision_probe_3cee95821c67c38b/reduce_precision_probe_1.hip:64:41: error: expected ';' after expression
+   64 |  if(blocks>1)hipLaunchKernelGGL(({finish), dim3(1),dim3(256), 0, at::cuda::getCurrentCUDAStream(), reinterpret_cast<const Sum*>(parts.data_ptr()),y.data_ptr<float>(),blocks);C10_CUDA_KERNEL_LAUNCH_CHECK();}
+      |                                         ^
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/torch/reduce_precision_probe_3cee95821c67c38b/reduce_precision_probe_1.hip:64:41: error: expected expression
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/torch/reduce_precision_probe_3cee95821c67c38b/reduce_precision_probe_1.hip:64:14: error: expected expression
+   64 |  if(blocks>1)hipLaunchKernelGGL(({finish), dim3(1),dim3(256), 0, at::cuda::getCurrentCUDAStream(), reinterpret_cast<const Sum*>(parts.data_ptr()),y.data_ptr<float>(),blocks);C10_CUDA_KERNEL_LAUNCH_CHECK();}
+      |              ^
+/opt/rocm/include/hip/amd_detail/amd_hip_runtime.h:226:83: note: expanded from macro 'hipLaunchKernelGGL'
+  226 | #define hipLaunchKernelGGL(kernelName, ...) hipLaunchKernelGGLInternal((kernelName), __VA_ARGS__)
+      |                                                                                   ^
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/torch/reduce_precision_probe_3cee95821c67c38b/reduce_precision_probe_1.hip:65:2: error: expected 'while' in do/while loop
+   65 |  return y;
+      |  ^
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/torch/reduce_precision_probe_3cee95821c67c38b/reduce_precision_probe_1.hip:64:14: note: to match this 'do'
+   64 |  if(blocks>1)hipLaunchKernelGGL(({finish), dim3(1),dim3(256), 0, at::cuda::getCurrentCUDAStream(), reinterpret_cast<const Sum*>(parts.data_ptr()),y.data_ptr<float>(),blocks);C10_CUDA_KERNEL_LAUNCH_CHECK();}
+      |              ^
+/opt/rocm/include/hip/amd_detail/amd_hip_runtime.h:226:45: note: expanded from macro 'hipLaunchKernelGGL'
+  226 | #define hipLaunchKernelGGL(kernelName, ...) hipLaunchKernelGGLInternal((kernelName), __VA_ARGS__)
+      |                                             ^
+/opt/rocm/include/hip/amd_detail/amd_hip_runtime.h:222:3: note: expanded from macro 'hipLaunchKernelGGLInternal'
+  222 |   do {                                                                                             \
+      |   ^
+/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/torch/reduce_precision_probe_3cee95821c67c38b/reduce_precision_probe_1.hip:64:35: warning: expression result unused [-Wunused-value]
+   64 |  if(blocks>1)hipLaunchKernelGGL(({finish), dim3(1),dim3(256), 0, at::cuda::getCurrentCUDAStream(), reinterpret_cast<const Sum*>(parts.data_ptr()),y.data_ptr<float>(),blocks);C10_CUDA_KERNEL_LAUNCH_CHECK();}
+      |                                   ^~~~~~
+/opt/rocm/include/hip/amd_detail/amd_hip_runtime.h:226:73: note: expanded from macro 'hipLaunchKernelGGL'
+  226 | #define hipLaunchKernelGGL(kernelName, ...) hipLaunchKernelGGLInternal((kernelName), __VA_ARGS__)
+      |                                                                         ^~~~~~~~~~
+/opt/rocm/include/hip/amd_detail/amd_hip_runtime.h:223:5: note: expanded from macro 'hipLaunchKernelGGLInternal'
+  223 |     kernelName<<<(numBlocks), (numThreads), (memPerBlock), (streamId)>>>(__VA_ARGS__);             \
+      |     ^~~~~~~~~~
+1 warning and 4 errors generated when compiling for gfx1201.
+failed to execute:/opt/rocm/core-10.1/lib/llvm/bin/clang++  --offload-arch=gfx1201  -DWITH_HIP -DTORCH_EXTENSION_NAME=leetcuda_rocm_reduce_precision_probe_3cee95821c67c38b -DTORCH_API_INCLUDE_EXTENSION_H -isystem /opt/venv/lib/python3.13/site-packages/torch/include -isystem /opt/venv/lib/python3.13/site-packages/torch/include/torch/csrc/api/include -isystem /opt/venv/lib/python3.13/site-packages/torch/include/THH -isystem /opt/rocm/include -isystem /opt/python/cpython-3.13.13-linux-x86_64-gnu/include/python3.13 -O3 -std=c++20 -D__HIP_PLATFORM_AMD__=1 -DUSE_ROCM=1 -DHIPBLAS_V2 -fPIC -DCUDA_HAS_FP16=1 -D__HIP_NO_HALF_OPERATORS__=1 -D__HIP_NO_HALF_CONVERSIONS__=1 -DHIP_ENABLE_WARP_SYNC_BUILTINS=1 -std=c++20 -fno-gpu-rdc -O3 -std=c++20 -DLEETCUDA_ROCM=1 -U__HIP_NO_HALF_OPERATORS__ -U__HIP_NO_HALF_CONVERSIONS__ -c -x hip /home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/torch/reduce_precision_probe_3cee95821c67c38b/reduce_precision_probe_1.hip -o "reduce_precision_probe_1.cuda.o"
+[2/3] /opt/rocm/bin/hipcc  -DWITH_HIP -DTORCH_EXTENSION_NAME=leetcuda_rocm_reduce_precision_probe_3cee95821c67c38b -DTORCH_API_INCLUDE_EXTENSION_H -isystem /opt/venv/lib/python3.13/site-packages/torch/include -isystem /opt/venv/lib/python3.13/site-packages/torch/include/torch/csrc/api/include -isystem /opt/venv/lib/python3.13/site-packages/torch/include/THH -isystem /opt/rocm/include -isystem /opt/python/cpython-3.13.13-linux-x86_64-gnu/include/python3.13 -O3 -std=c++20 -D__HIP_PLATFORM_AMD__=1 -DUSE_ROCM=1 -DHIPBLAS_V2 -fPIC -DCUDA_HAS_FP16=1 -D__HIP_NO_HALF_OPERATORS__=1 -D__HIP_NO_HALF_CONVERSIONS__=1 -DHIP_ENABLE_WARP_SYNC_BUILTINS=1 -std=c++20 --offload-arch=gfx1201 -fno-gpu-rdc -O3 -std=c++20 -DLEETCUDA_ROCM=1 -U__HIP_NO_HALF_OPERATORS__ -U__HIP_NO_HALF_CONVERSIONS__ -c /home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/torch/reduce_precision_probe_3cee95821c67c38b/reduce_precision_probe_0.hip -o reduce_precision_probe_0.cuda.o 
+ninja: build stopped: subcommand failed.
+

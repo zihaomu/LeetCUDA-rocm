@@ -4,8 +4,8 @@
 文档更新连续推进。本文是工作计划，完成状态以实际验证报告为准。
 
 批次接口与量化门槛见[批次支持与验收计划](leetcuda_rocm10_next_batch_plan.md)。
-**B1–B7原43个pending接口已完成功能验收，U1完成后当前215/229（93.89%）；剩14个精度未验收入口。**
-最新双卡HGEMV专项各150项，全库25模块1179项、434组CUDA/AMD共同输入通过。
+**B1–B7原43个pending接口已完成功能验收，U2完成后当前218/229（95.20%）；剩11个精度未验收入口。**
+最新双卡Reduce专项各252项，全库25模块1185项、440组CUDA/AMD共同输入通过。
 性能、FFPA、训练Attention、FP8 E5M2与独立构建/非绑定范围仍在执行，整体迁移尚未完成。
 
 实时执行状态见[持续迁移进度](leetcuda_rocm10_live_progress.md)，每次关键实验即时更新。
@@ -26,7 +26,7 @@
 | C++ benchmark、全库集成与性能回归 | 5～10 人日 | 独立构建、依赖后端、规模覆盖、性能波动与回退 |
 
 这些工作包存在重叠，总体按约 20～40 人日规划，不将各项上界机械相加为精确工期。
-额外的性能优化预算约 10～20 人日。215/229=93.89% 是原 Python 扩展接口覆盖率，
+额外的性能优化预算约 10～20 人日。218/229=95.20% 是原 Python 扩展接口覆盖率，
 不代表已经完成同等比例的整体工程工作。
 
 ## 验收原则
@@ -58,21 +58,21 @@
 | M6 | 独立 C++ benchmark 与整体回归 | FP8/FP4 专用 C++ 入口已接入锁定环境；5090 原多模块 benchmark 已完成构建及 10 组运行审计；整体 AMD 入口与严格跨平台门限仍待推进 |
 | M7 | 性能收敛和最终验收 | 待推进；记录各 workload 与基线的差距，关闭所有必须项 |
 
-U1两个HGEMV已完成功能验收，当前执行U2三个BF16 Reduce，随后U3十一个同步SIMT HGEMM。
+U1两个HGEMV和U2三个BF16 Reduce已完成功能验收，当前执行U3十一个同步SIMT HGEMM。
 这些入口的原低精度误差已实测；继续使用明确标记的FP32精度升级方案，保留历史失败，不放宽门限。
 B1 Q/QK性能目标未达，QKV三轮约1.117×达标；其余批次已测量性能，差距与资源问题按报告保留。
 
 跨平台环境：`nvidia-5090x2` 的 `/home/zihaomu/zihaomu_workspace/test_lap/leetcuda_rocm10`。
 固定CUDA镜像、上游快照和共享输入，区分原算法误差、原CUDA故障与移植问题。
 用户授权推送 `zihaomu/LeetCUDA-rocm` 的 `rocm10` 分支；阶段提交不表示整体迁移完成。
-所有229接口有CUDA运行证据；当前215个已支持接口的434组全库共同输入通过。
+所有229接口有CUDA运行证据；当前218个已支持接口的440组全库共同输入通过。
 扩大专项仍保留原CUDA长K精度、部分Attention索引和stage资源失败，不能将小形状回归解释为原版全范围正确。
 
 ## 证据与进度入口
 
 - [算子支持清单](leetcuda_rocm10_operator_support.md)
 - [逐接口数据](leetcuda_rocm10_operator_inventory.json)
-- [当前基础资格报告](ws_hgemm_20261106/qualification213.json)
+- [当前基础资格报告](reduce_precision_20261106/qualification218.json)
 - [本轮 swizzle、双卡与 173 接口对照](flash_swizzle_20261105.md)
 - [本轮 tiling FlashAttention 与 170 接口对照](flash_tiled_20261105.md)
 - [本轮两个原 FlashAttention 接口与设备身份校验](flash_shared_20261105.md)
@@ -111,3 +111,5 @@ B6证据：[TF32x3 SGEMM验收](tf32_sgemm_20261106.md)。当前212/229，剩1�
 B7证据：[独立producer/consumer WS-HGEMM](ws_hgemm_20261106.md)。当前213/229，pending=0，16个精度未验收；44个累加精度升级及3个输入精度升级。继续U1–U3及M4–M7。
 
 U1证据：[scalar/packed HGEMV](hgemv_vector_20261106.md)。当前215/229，剩14个精度未验收；46个累加升级及3个输入精度升级。继续U2/U3和整体补充范围。
+
+U2证据：[BF16 Reduce](reduce_precision_20261106.md)。当前218/229，剩11个精度未验收；49个累加升级及3个输入精度升级。继续U3及整体补充范围。

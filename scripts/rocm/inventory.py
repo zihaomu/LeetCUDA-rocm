@@ -85,6 +85,37 @@ if vector_gemv_keys:
         for p in vector_gemv_report["performance"]
     )
     rejected.difference_update(vector_gemv_keys)
+reduce_precision_path = root / "docs/rocm/reduce_precision_20261106/hip.json"
+reduce_precision_keys = {
+    key
+    for key in qualified
+    if key[0] == "reduce"
+    and key[1]
+    in (
+        "block_all_reduce_sum_bf16_bf16",
+        "block_all_reduce_sum_bf16x2_bf16",
+        "block_all_reduce_sum_bf16x8_pack_bf16",
+    )
+}
+if reduce_precision_keys:
+    reduce_precision_report = json.loads(reduce_precision_path.read_text())
+    assert (
+        reduce_precision_report["passed"]
+        and reduce_precision_report["isa"]["passed"]
+    )
+    assert reduce_precision_keys == {
+        ("reduce", n) for n in reduce_precision_report["variants"]
+    }
+    for field in ("checks", "boundaries", "bf16_controls"):
+        assert reduce_precision_report[field] and all(
+            c["passed"] for c in reduce_precision_report[field]
+        )
+    assert len(reduce_precision_report["performance"]) == 9
+    assert all(
+        p["accuracy_passed"] and p["graph_replay_verified"]
+        for p in reduce_precision_report["performance"]
+    )
+    rejected.difference_update(reduce_precision_keys)
 wmma_path = root / "docs/rocm/wmma_hgemm_20261105.json"
 wmma_keys = {
     key
@@ -487,6 +518,22 @@ for source in sorted((root / "kernels").rglob("*")):
                     vector_gemv_path.read_bytes()
                 ).hexdigest(),
             }
+        if (module, name) in reduce_precision_keys:
+            entries[-1]["implementation"] = {
+                "mechanism": "Native scalar/x2/x8 loads, compensated FP32 wave/block reduction and deterministic second-stage reduction",
+                "original_accumulator": "BF16",
+                "rocm_accumulator": "compensated FP32",
+                "precision_changed": True,
+                "numeric_semantics": "BF16 input, FP32 output; explicit FP32 main/residual state replaces BF16 partials and unordered atomics",
+                "packing": reduce_precision_report["variants"][name],
+                "amd_accuracy_gate": {"atol": 0.0002, "rtol": 0.00002},
+                "original_cuda_cross_gate": {"atol": 0.15, "rtol": 0.01},
+                "performance_status": "measured_per_workload",
+                "evidence": str(reduce_precision_path.relative_to(root)),
+                "evidence_sha256": hashlib.sha256(
+                    reduce_precision_path.read_bytes()
+                ).hexdigest(),
+            }
         if (module, name) in wmma_keys:
             entries[-1]["implementation"] = {
                 "mechanism": "Native gfx1201 WMMA; variant-specific block/warp tiles, LDS ring and grid swizzle",
@@ -782,6 +829,10 @@ if wmma_keys:
         qualified_cuda_path = (
             root / "docs/rocm/hgemv_vector_20261106/qualified215_cuda.json"
         )
+    if reduce_precision_keys:
+        qualified_cuda_path = (
+            root / "docs/rocm/reduce_precision_20261106/qualified218_cuda.json"
+        )
     qualified_cuda = json.loads(qualified_cuda_path.read_text())
     assert qualified_cuda["passed"]
     by_function = collections.defaultdict(list)
@@ -887,6 +938,22 @@ if vector_gemv_keys:
                 vector_cuda_path.read_bytes()
             ).hexdigest(),
             "initialization_fixed_evidence": "docs/rocm/hgemv_vector_20261106/cuda_fixed.json",
+        }
+if reduce_precision_keys:
+    reduce_cuda_path = root / "docs/rocm/reduce_precision_20261106/cuda.json"
+    reduce_cuda = json.loads(reduce_cuda_path.read_text())
+    for key in reduce_precision_keys:
+        checks = [c for c in reduce_cuda["checks"] if c["function"] == key[1]]
+        cuda_coverage[key] = {
+            "source_kind": "upstream_original_with_current_stream_launches",
+            "cases": len(checks),
+            "accuracy_passed_cases": sum(c["passed"] for c in checks),
+            "all_cases_passed": all(c["passed"] for c in checks),
+            "scope": "Original BF16 rounding failures retained; AMD explicitly uses compensated FP32 state and deterministic two-stage reduction",
+            "evidence": str(reduce_cuda_path.relative_to(root)),
+            "evidence_sha256": hashlib.sha256(
+                reduce_cuda_path.read_bytes()
+            ).hexdigest(),
         }
 if mma_keys:
     mma_cuda_path = root / "docs/rocm/mma_hgemm_20261105/cuda_original.json"

@@ -386,16 +386,7 @@ def main():
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "environment": verify(),
         "logical_device": args.device,
-        "excluded_functions": {
-            "reduce": {
-                name: "BF16 accumulation exceeds the numerical threshold; use the named FP32 accumulator"
-                for name in (
-                    "block_all_reduce_sum_bf16_bf16",
-                    "block_all_reduce_sum_bf16x2_bf16",
-                    "block_all_reduce_sum_bf16x8_pack_bf16",
-                )
-            }
-        },
+        "excluded_functions": {},
         "seed": 20261102,
         "modules": {},
         "passed": False,
