@@ -68,6 +68,17 @@ def create_fixtures(args):
                         )
                     continue
                 inputs, expected, out, atol, rtol = case(module, name, rows)
+                # These newly qualified interfaces have a TF32 CUDA oracle.
+                # Keep its historical 0.005 gate from cuda_pending_check;
+                # AMD smoke and tf32_check separately enforce 0.0002 for the
+                # explicitly residual-corrected implementation. Existing
+                # FP32 SGEMM fixtures keep their unchanged 0.0002 threshold.
+                tf32_oracle = module == "sgemm" and (
+                    name == "sgemm_cublas_tf32"
+                    or name.startswith("sgemm_wmma_")
+                )
+                if tf32_oracle:
+                    atol = rtol = 0.005
                 index = (
                     None
                     if out is None
@@ -83,6 +94,13 @@ def create_fixtures(args):
                         expected=expected,
                         atol=atol,
                         rtol=rtol,
+                        **(
+                            {
+                                "precision_contract": "Original TF32 cross-platform gate 0.005; AMD independently qualified at 0.0002 with TF32x3"
+                            }
+                            if tf32_oracle
+                            else {}
+                        ),
                     )
                 )
     for c in cases:
@@ -146,7 +164,12 @@ def cuda_build(module, names, original, cutlass):
             if "hgemv_tensor_core_cute" in names
             else ()
         ),
-        "sgemm": ("sgemm/sgemm_async.cu", "sgemm/sgemm_cublas.cu"),
+        "sgemm": ("sgemm/sgemm_async.cu", "sgemm/sgemm_cublas.cu")
+        + (
+            ("sgemm/sgemm_wmma_tf32_stage.cu",)
+            if any(n.startswith("sgemm_wmma_") for n in names)
+            else ()
+        ),
         "mat_transpose": ("mat-transpose/mat_transpose_cute.cu",),
         "hgemm": ("hgemm/cublas/hgemm_cublas.cu",)
         + (

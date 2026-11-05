@@ -1,0 +1,31 @@
+shared sgemm_cublas_tf32 0
+shared sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages 0
+shared sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem 0
+Traceback (most recent call last):
+  File "/work/leetcuda_rocm/tf32_check.py", line 539, in run
+    fn(a, b, out, *cfg)
+RuntimeError: cuBLAS call failed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/work/leetcuda_rocm/tf32_check.py", line 618, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/work/leetcuda_rocm/tf32_check.py", line 614, in main
+    return run(args)
+           ^^^^^^^^^
+  File "/work/leetcuda_rocm/tf32_check.py", line 538, in run
+    with torch.cuda.graph(graph, stream=stream):
+  File "/usr/local/lib/python3.12/dist-packages/torch/cuda/graphs.py", line 265, in __exit__
+    self.cuda_graph.capture_end()
+  File "/usr/local/lib/python3.12/dist-packages/torch/cuda/graphs.py", line 128, in capture_end
+    super().capture_end()
+torch.AcceleratorError: CUDA error: operation failed due to a previous error during capture
+Search for `cudaErrorStreamCaptureInvalidated' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+

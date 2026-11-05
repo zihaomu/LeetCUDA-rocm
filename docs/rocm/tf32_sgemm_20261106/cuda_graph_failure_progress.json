@@ -1,0 +1,5647 @@
+{
+  "backend": "cuda",
+  "environment": {
+    "torch": "2.9.0a0+145a3a7bda.nv25.10",
+    "cuda": "13.0",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "image": "sha256:42263b2424fc237b34c4fc4a91c30d603c57eed36e37d31ff6d9a4f1f801edee",
+    "uuid": "5864d26e-25e9-041f-2901-2745fccf5e30"
+  },
+  "builds": {
+    "kernels/sgemm/sgemm_cublas.cu": {
+      "source_sha256": {
+        "kernels/sgemm/sgemm_cublas.cu": "fbc2e07d63669dde1b3bb4a452c2f603002b808afdb2198112e117d8cad83a6b"
+      },
+      "current_stream_adaptation": true,
+      "adapted_source_sha256": "1d3aa9a373096bd320fc92fdb948a83c52eb156c85073fc8429e704fc3fb9bb8",
+      "flags": [
+        "-O3",
+        "-std=c++20",
+        "--use_fast_math",
+        "--expt-relaxed-constexpr",
+        "--expt-extended-lambda",
+        "-U__CUDA_NO_HALF_OPERATORS__",
+        "-U__CUDA_NO_HALF_CONVERSIONS__",
+        "-U__CUDA_NO_HALF2_OPERATORS__",
+        "-U__CUDA_NO_BFLOAT16_CONVERSIONS__",
+        "-DNO_CUBLAS_HGEMM_BIN",
+        "-DNO_MMA_HGEMM_BIN",
+        "-DNO_WMMA_HGEMM_BIN",
+        "-DNO_CUTE_HGEMM_BIN",
+        "-DBUILD_FLASH_ATTN_MMA_OTHERS"
+      ],
+      "cutlass_commit": "e05f953a5b3d38adc240df2ff928e0421c2abba3",
+      "binary_sha256": "753f8eb2b32899d9df9ca416a2d11019922468062fe4696dacce0ab5faa5fdb0",
+      "binary": "/work/.cache/cuda_pending/394b9479e49a64a3/leetcuda_pending_394b9479e49a64a3.so"
+    },
+    "kernels/sgemm/sgemm_wmma_tf32_stage.cu": {
+      "source_sha256": {
+        "kernels/sgemm/sgemm_wmma_tf32_stage.cu": "072850ef90d68113dcc1d7580c897f2c379c7b31dbe5af46463b7831a09d29bb"
+      },
+      "current_stream_adaptation": true,
+      "adapted_source_sha256": "d4393d7b0a94855e5e9ba281c7b0cf00583bf2f81be6200a3df3e28087739c4a",
+      "flags": [
+        "-O3",
+        "-std=c++20",
+        "--use_fast_math",
+        "--expt-relaxed-constexpr",
+        "--expt-extended-lambda",
+        "-U__CUDA_NO_HALF_OPERATORS__",
+        "-U__CUDA_NO_HALF_CONVERSIONS__",
+        "-U__CUDA_NO_HALF2_OPERATORS__",
+        "-U__CUDA_NO_BFLOAT16_CONVERSIONS__",
+        "-DNO_CUBLAS_HGEMM_BIN",
+        "-DNO_MMA_HGEMM_BIN",
+        "-DNO_WMMA_HGEMM_BIN",
+        "-DNO_CUTE_HGEMM_BIN",
+        "-DBUILD_FLASH_ATTN_MMA_OTHERS"
+      ],
+      "cutlass_commit": "e05f953a5b3d38adc240df2ff928e0421c2abba3",
+      "binary_sha256": "a4e1ab8178ca9c2b183cc6eec90f07461d038b4a6fd72551af7132714a23b6db",
+      "binary": "/work/.cache/cuda_pending/dfc557a749757848/leetcuda_pending_dfc557a749757848.so"
+    }
+  },
+  "fixture_sha256": "9c9bd6fdab1dca2532f3deb658286d29c339ba1ee8ff89d50d250a46fc4620f8",
+  "harness_sha256": "777da40b7b1d38b0372a8c052f0bffc403c910130395a2c534d97b88b7547d3a",
+  "variants": {
+    "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages": "static LDS / BF16 WMMA",
+    "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem": "dynamic LDS / BF16 WMMA",
+    "sgemm_cublas_tf32": "three quantized hipBLAS products"
+  },
+  "input_precision_changed": true,
+  "original_model": "Single RNA-TF32 product (cuBLAS may choose its implementation)",
+  "rocm_model": "Explicit TF32x3 residual correction; BF16 WMMA or three quantized hipBLAS passes; exceptional exponents use full values",
+  "input_mutation": "AMD leaves inputs unchanged; original WMMA quantizes them in place",
+  "checks": [
+    {
+      "id": "sgemm_cublas_tf32/()/17_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0008854269981384277,
+      "function": "sgemm_cublas_tf32",
+      "input_sha256": [
+        "79327e367c7caa90c3999dada59f830acd0a13d910c6e748c7adb10f5c14c9ad",
+        "008a4ed8ebe77654f40532e6ac6c73e406d00a9f9b48e761b4e4959369168751"
+      ]
+    },
+    {
+      "id": "sgemm_cublas_tf32/()/17_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014480352401733398,
+      "function": "sgemm_cublas_tf32",
+      "input_sha256": [
+        "83028919323df4ce42522f4f13eab5ca5a55ddc1beaef6af0e29830d8477ed61",
+        "6e0cbe74e5180de20727498844ac064e356bf4778e5982dd6d312d6cbd4dd3b8"
+      ]
+    },
+    {
+      "id": "sgemm_cublas_tf32/()/17_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012443065643310547,
+      "function": "sgemm_cublas_tf32",
+      "input_sha256": [
+        "45f4dc4ce30ca5901740c5d5abf934e583ea46989f756646829120aad3327176",
+        "a924fe767e7695ed79ca29eb1ceab16faf830ff990a82fb060e1298f34f5ec94"
+      ]
+    },
+    {
+      "id": "sgemm_cublas_tf32/()/17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012652873992919922,
+      "function": "sgemm_cublas_tf32",
+      "input_sha256": [
+        "4501dc9830c77e9f838013ee74fe1e11fe2ade647fba03850e55206f11fc1333",
+        "e191a8509a90f57cb2da28445c81e9e7b6909cdbce8c128553f6690132cfef8d"
+      ]
+    },
+    {
+      "id": "sgemm_cublas_tf32/()/17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005674839019775391,
+      "function": "sgemm_cublas_tf32",
+      "input_sha256": [
+        "2d3326a4fa089f90735e95259a8e6dfaf0ecee458a29a2578d5ffb9a5b82754e",
+        "9e16c27672b7da0e7e097fcf1ce412f4b211617c5b1b336f6e2a2c6336743663"
+      ]
+    },
+    {
+      "id": "sgemm_cublas_tf32/()/20261106_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010338425636291504,
+      "function": "sgemm_cublas_tf32",
+      "input_sha256": [
+        "8dcb41c9fc9cf7499ab50bad7ab82ad54fd2067a35b79af9b1bc66cd89c3b1db",
+        "d65a643a95e85e862449693207a3d09d7c2e0ace18513a767d9ed44d0ea9f21b"
+      ]
+    },
+    {
+      "id": "sgemm_cublas_tf32/()/20261106_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014600157737731934,
+      "function": "sgemm_cublas_tf32",
+      "input_sha256": [
+        "750edfa2f4f9660150a7046c962762e912ea794f239b89e18355302bac203e06",
+        "52e542fd2915d70275f4d9b7cddb10545c991f73ba360febbd2e0f626e1f24d5"
+      ]
+    },
+    {
+      "id": "sgemm_cublas_tf32/()/20261106_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010577142238616943,
+      "function": "sgemm_cublas_tf32",
+      "input_sha256": [
+        "c95c6ecd17538d256741f7b6826212faff5b0080f099cce9bb4fe7bca35bc2f0",
+        "f8f155e881547e09b841b440ec577f2acd30bf4ab1a8154d251ee4be883aa94e"
+      ]
+    },
+    {
+      "id": "sgemm_cublas_tf32/()/20261106_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0011208206415176392,
+      "function": "sgemm_cublas_tf32",
+      "input_sha256": [
+        "671109965544bee39e36504c81f04ff62ecc3db724774b317fe8efeffefea388",
+        "db8a5ed4392b981e3eafd2537bd8cb3d85ff11774b2481211511237cb958e352"
+      ]
+    },
+    {
+      "id": "sgemm_cublas_tf32/()/20261106_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005772113800048828,
+      "function": "sgemm_cublas_tf32",
+      "input_sha256": [
+        "aa059777e3cac55d8d7de5c82f4204dafa6fc89317baaa48ef24f7af7d1713fc",
+        "21a3a7da0c25b6b7d70fe2baa6ae2d9d5f753f9bcbff136aa6b6278bb74d5f33"
+      ]
+    },
+    {
+      "id": "sgemm_cublas_tf32/()/zero",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_cublas_tf32",
+      "input_sha256": [
+        "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+        "f15e50983cd867cea2646f5be35f2621063f9bcafd2cd65cdf746d4c73ccb862"
+      ]
+    },
+    {
+      "id": "sgemm_cublas_tf32/()/cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_cublas_tf32",
+      "input_sha256": [
+        "ede3e486917072914213134ea2b5e7f19c137874c3227d68462dd0f02855a477",
+        "65c9771e6a59b1069c713d7d52c363d2ff8db7bdb6461148eb61db549a35c7af"
+      ]
+    },
+    {
+      "id": "sgemm_cublas_tf32/()/reciprocal-range",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010231733322143555,
+      "function": "sgemm_cublas_tf32",
+      "input_sha256": [
+        "471ec45c2c238089b9d1bc2f07372090c888a85092357d2bc87821f11b36e25c",
+        "5b40aecc5d5b27101a87b66686978178d8e0d26b50ae48c3d87eac9d441536da"
+      ]
+    },
+    {
+      "id": "sgemm_cublas_tf32/()/rounding-ties",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.00048828125,
+      "function": "sgemm_cublas_tf32",
+      "input_sha256": [
+        "0703362e674e726b3b5d6c70b86801de58b7b23ccbd6ada98779187321c6bb1f",
+        "c41eea0c6b73409ad5a8d8f20ac9989b66e0e29eafaf954a8a361ec0a95633f2"
+      ]
+    },
+    {
+      "id": "sgemm_cublas_tf32/()/uniform",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_cublas_tf32",
+      "input_sha256": [
+        "fbe796e3ec879749a434bc87c4072b73a7ff9af816e1443798df599148e5219a",
+        "cbfac0f203c117852ee0c1bbac1033b7ded580f76850403de1db09412a252a40"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, False, 256)/17_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0008853673934936523,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "79327e367c7caa90c3999dada59f830acd0a13d910c6e748c7adb10f5c14c9ad",
+        "008a4ed8ebe77654f40532e6ac6c73e406d00a9f9b48e761b4e4959369168751"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, False, 256)/17_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014475584030151367,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "83028919323df4ce42522f4f13eab5ca5a55ddc1beaef6af0e29830d8477ed61",
+        "6e0cbe74e5180de20727498844ac064e356bf4778e5982dd6d312d6cbd4dd3b8"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, False, 256)/17_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012444853782653809,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "45f4dc4ce30ca5901740c5d5abf934e583ea46989f756646829120aad3327176",
+        "a924fe767e7695ed79ca29eb1ceab16faf830ff990a82fb060e1298f34f5ec94"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, False, 256)/17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001264810562133789,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "4501dc9830c77e9f838013ee74fe1e11fe2ade647fba03850e55206f11fc1333",
+        "e191a8509a90f57cb2da28445c81e9e7b6909cdbce8c128553f6690132cfef8d"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, False, 256)/17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005567073822021484,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "2d3326a4fa089f90735e95259a8e6dfaf0ecee458a29a2578d5ffb9a5b82754e",
+        "9e16c27672b7da0e7e097fcf1ce412f4b211617c5b1b336f6e2a2c6336743663"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, False, 256)/20261106_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010344088077545166,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "8dcb41c9fc9cf7499ab50bad7ab82ad54fd2067a35b79af9b1bc66cd89c3b1db",
+        "d65a643a95e85e862449693207a3d09d7c2e0ace18513a767d9ed44d0ea9f21b"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, False, 256)/20261106_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014597773551940918,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "750edfa2f4f9660150a7046c962762e912ea794f239b89e18355302bac203e06",
+        "52e542fd2915d70275f4d9b7cddb10545c991f73ba360febbd2e0f626e1f24d5"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, False, 256)/20261106_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001058340072631836,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "c95c6ecd17538d256741f7b6826212faff5b0080f099cce9bb4fe7bca35bc2f0",
+        "f8f155e881547e09b841b440ec577f2acd30bf4ab1a8154d251ee4be883aa94e"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, False, 256)/20261106_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001121029257774353,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "671109965544bee39e36504c81f04ff62ecc3db724774b317fe8efeffefea388",
+        "db8a5ed4392b981e3eafd2537bd8cb3d85ff11774b2481211511237cb958e352"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, False, 256)/20261106_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005752086639404297,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "aa059777e3cac55d8d7de5c82f4204dafa6fc89317baaa48ef24f7af7d1713fc",
+        "21a3a7da0c25b6b7d70fe2baa6ae2d9d5f753f9bcbff136aa6b6278bb74d5f33"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, False, 256)/zero",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+        "f15e50983cd867cea2646f5be35f2621063f9bcafd2cd65cdf746d4c73ccb862"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, False, 256)/cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "ede3e486917072914213134ea2b5e7f19c137874c3227d68462dd0f02855a477",
+        "65c9771e6a59b1069c713d7d52c363d2ff8db7bdb6461148eb61db549a35c7af"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, False, 256)/reciprocal-range",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010236501693725586,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "471ec45c2c238089b9d1bc2f07372090c888a85092357d2bc87821f11b36e25c",
+        "5b40aecc5d5b27101a87b66686978178d8e0d26b50ae48c3d87eac9d441536da"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, False, 256)/rounding-ties",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.00048828125,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "0703362e674e726b3b5d6c70b86801de58b7b23ccbd6ada98779187321c6bb1f",
+        "c41eea0c6b73409ad5a8d8f20ac9989b66e0e29eafaf954a8a361ec0a95633f2"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, False, 256)/uniform",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "fbe796e3ec879749a434bc87c4072b73a7ff9af816e1443798df599148e5219a",
+        "cbfac0f203c117852ee0c1bbac1033b7ded580f76850403de1db09412a252a40"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, True, 256)/17_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0008853673934936523,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "79327e367c7caa90c3999dada59f830acd0a13d910c6e748c7adb10f5c14c9ad",
+        "008a4ed8ebe77654f40532e6ac6c73e406d00a9f9b48e761b4e4959369168751"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, True, 256)/17_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014475584030151367,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "83028919323df4ce42522f4f13eab5ca5a55ddc1beaef6af0e29830d8477ed61",
+        "6e0cbe74e5180de20727498844ac064e356bf4778e5982dd6d312d6cbd4dd3b8"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, True, 256)/17_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012444853782653809,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "45f4dc4ce30ca5901740c5d5abf934e583ea46989f756646829120aad3327176",
+        "a924fe767e7695ed79ca29eb1ceab16faf830ff990a82fb060e1298f34f5ec94"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, True, 256)/17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001264810562133789,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "4501dc9830c77e9f838013ee74fe1e11fe2ade647fba03850e55206f11fc1333",
+        "e191a8509a90f57cb2da28445c81e9e7b6909cdbce8c128553f6690132cfef8d"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, True, 256)/17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005567073822021484,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "2d3326a4fa089f90735e95259a8e6dfaf0ecee458a29a2578d5ffb9a5b82754e",
+        "9e16c27672b7da0e7e097fcf1ce412f4b211617c5b1b336f6e2a2c6336743663"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, True, 256)/20261106_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010344088077545166,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "8dcb41c9fc9cf7499ab50bad7ab82ad54fd2067a35b79af9b1bc66cd89c3b1db",
+        "d65a643a95e85e862449693207a3d09d7c2e0ace18513a767d9ed44d0ea9f21b"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, True, 256)/20261106_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014597773551940918,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "750edfa2f4f9660150a7046c962762e912ea794f239b89e18355302bac203e06",
+        "52e542fd2915d70275f4d9b7cddb10545c991f73ba360febbd2e0f626e1f24d5"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, True, 256)/20261106_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001058340072631836,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "c95c6ecd17538d256741f7b6826212faff5b0080f099cce9bb4fe7bca35bc2f0",
+        "f8f155e881547e09b841b440ec577f2acd30bf4ab1a8154d251ee4be883aa94e"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, True, 256)/20261106_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001121029257774353,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "671109965544bee39e36504c81f04ff62ecc3db724774b317fe8efeffefea388",
+        "db8a5ed4392b981e3eafd2537bd8cb3d85ff11774b2481211511237cb958e352"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, True, 256)/20261106_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005752086639404297,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "aa059777e3cac55d8d7de5c82f4204dafa6fc89317baaa48ef24f7af7d1713fc",
+        "21a3a7da0c25b6b7d70fe2baa6ae2d9d5f753f9bcbff136aa6b6278bb74d5f33"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, True, 256)/zero",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+        "f15e50983cd867cea2646f5be35f2621063f9bcafd2cd65cdf746d4c73ccb862"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, True, 256)/cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "ede3e486917072914213134ea2b5e7f19c137874c3227d68462dd0f02855a477",
+        "65c9771e6a59b1069c713d7d52c363d2ff8db7bdb6461148eb61db549a35c7af"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, True, 256)/reciprocal-range",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010236501693725586,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "471ec45c2c238089b9d1bc2f07372090c888a85092357d2bc87821f11b36e25c",
+        "5b40aecc5d5b27101a87b66686978178d8e0d26b50ae48c3d87eac9d441536da"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, True, 256)/rounding-ties",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.00048828125,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "0703362e674e726b3b5d6c70b86801de58b7b23ccbd6ada98779187321c6bb1f",
+        "c41eea0c6b73409ad5a8d8f20ac9989b66e0e29eafaf954a8a361ec0a95633f2"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(2, True, 256)/uniform",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "fbe796e3ec879749a434bc87c4072b73a7ff9af816e1443798df599148e5219a",
+        "cbfac0f203c117852ee0c1bbac1033b7ded580f76850403de1db09412a252a40"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, False, 256)/17_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0008853673934936523,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "79327e367c7caa90c3999dada59f830acd0a13d910c6e748c7adb10f5c14c9ad",
+        "008a4ed8ebe77654f40532e6ac6c73e406d00a9f9b48e761b4e4959369168751"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, False, 256)/17_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014475584030151367,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "83028919323df4ce42522f4f13eab5ca5a55ddc1beaef6af0e29830d8477ed61",
+        "6e0cbe74e5180de20727498844ac064e356bf4778e5982dd6d312d6cbd4dd3b8"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, False, 256)/17_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012444853782653809,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "45f4dc4ce30ca5901740c5d5abf934e583ea46989f756646829120aad3327176",
+        "a924fe767e7695ed79ca29eb1ceab16faf830ff990a82fb060e1298f34f5ec94"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, False, 256)/17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001264810562133789,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "4501dc9830c77e9f838013ee74fe1e11fe2ade647fba03850e55206f11fc1333",
+        "e191a8509a90f57cb2da28445c81e9e7b6909cdbce8c128553f6690132cfef8d"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, False, 256)/17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005567073822021484,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "2d3326a4fa089f90735e95259a8e6dfaf0ecee458a29a2578d5ffb9a5b82754e",
+        "9e16c27672b7da0e7e097fcf1ce412f4b211617c5b1b336f6e2a2c6336743663"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, False, 256)/20261106_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010344088077545166,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "8dcb41c9fc9cf7499ab50bad7ab82ad54fd2067a35b79af9b1bc66cd89c3b1db",
+        "d65a643a95e85e862449693207a3d09d7c2e0ace18513a767d9ed44d0ea9f21b"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, False, 256)/20261106_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014597773551940918,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "750edfa2f4f9660150a7046c962762e912ea794f239b89e18355302bac203e06",
+        "52e542fd2915d70275f4d9b7cddb10545c991f73ba360febbd2e0f626e1f24d5"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, False, 256)/20261106_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001058340072631836,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "c95c6ecd17538d256741f7b6826212faff5b0080f099cce9bb4fe7bca35bc2f0",
+        "f8f155e881547e09b841b440ec577f2acd30bf4ab1a8154d251ee4be883aa94e"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, False, 256)/20261106_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001121029257774353,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "671109965544bee39e36504c81f04ff62ecc3db724774b317fe8efeffefea388",
+        "db8a5ed4392b981e3eafd2537bd8cb3d85ff11774b2481211511237cb958e352"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, False, 256)/20261106_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005752086639404297,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "aa059777e3cac55d8d7de5c82f4204dafa6fc89317baaa48ef24f7af7d1713fc",
+        "21a3a7da0c25b6b7d70fe2baa6ae2d9d5f753f9bcbff136aa6b6278bb74d5f33"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, False, 256)/zero",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+        "f15e50983cd867cea2646f5be35f2621063f9bcafd2cd65cdf746d4c73ccb862"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, False, 256)/cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "ede3e486917072914213134ea2b5e7f19c137874c3227d68462dd0f02855a477",
+        "65c9771e6a59b1069c713d7d52c363d2ff8db7bdb6461148eb61db549a35c7af"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, False, 256)/reciprocal-range",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010236501693725586,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "471ec45c2c238089b9d1bc2f07372090c888a85092357d2bc87821f11b36e25c",
+        "5b40aecc5d5b27101a87b66686978178d8e0d26b50ae48c3d87eac9d441536da"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, False, 256)/rounding-ties",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.00048828125,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "0703362e674e726b3b5d6c70b86801de58b7b23ccbd6ada98779187321c6bb1f",
+        "c41eea0c6b73409ad5a8d8f20ac9989b66e0e29eafaf954a8a361ec0a95633f2"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, False, 256)/uniform",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "fbe796e3ec879749a434bc87c4072b73a7ff9af816e1443798df599148e5219a",
+        "cbfac0f203c117852ee0c1bbac1033b7ded580f76850403de1db09412a252a40"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, True, 256)/17_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0008853673934936523,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "79327e367c7caa90c3999dada59f830acd0a13d910c6e748c7adb10f5c14c9ad",
+        "008a4ed8ebe77654f40532e6ac6c73e406d00a9f9b48e761b4e4959369168751"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, True, 256)/17_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014475584030151367,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "83028919323df4ce42522f4f13eab5ca5a55ddc1beaef6af0e29830d8477ed61",
+        "6e0cbe74e5180de20727498844ac064e356bf4778e5982dd6d312d6cbd4dd3b8"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, True, 256)/17_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012444853782653809,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "45f4dc4ce30ca5901740c5d5abf934e583ea46989f756646829120aad3327176",
+        "a924fe767e7695ed79ca29eb1ceab16faf830ff990a82fb060e1298f34f5ec94"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, True, 256)/17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001264810562133789,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "4501dc9830c77e9f838013ee74fe1e11fe2ade647fba03850e55206f11fc1333",
+        "e191a8509a90f57cb2da28445c81e9e7b6909cdbce8c128553f6690132cfef8d"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, True, 256)/17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005567073822021484,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "2d3326a4fa089f90735e95259a8e6dfaf0ecee458a29a2578d5ffb9a5b82754e",
+        "9e16c27672b7da0e7e097fcf1ce412f4b211617c5b1b336f6e2a2c6336743663"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, True, 256)/20261106_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010344088077545166,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "8dcb41c9fc9cf7499ab50bad7ab82ad54fd2067a35b79af9b1bc66cd89c3b1db",
+        "d65a643a95e85e862449693207a3d09d7c2e0ace18513a767d9ed44d0ea9f21b"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, True, 256)/20261106_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014597773551940918,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "750edfa2f4f9660150a7046c962762e912ea794f239b89e18355302bac203e06",
+        "52e542fd2915d70275f4d9b7cddb10545c991f73ba360febbd2e0f626e1f24d5"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, True, 256)/20261106_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001058340072631836,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "c95c6ecd17538d256741f7b6826212faff5b0080f099cce9bb4fe7bca35bc2f0",
+        "f8f155e881547e09b841b440ec577f2acd30bf4ab1a8154d251ee4be883aa94e"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, True, 256)/20261106_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001121029257774353,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "671109965544bee39e36504c81f04ff62ecc3db724774b317fe8efeffefea388",
+        "db8a5ed4392b981e3eafd2537bd8cb3d85ff11774b2481211511237cb958e352"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, True, 256)/20261106_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005752086639404297,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "aa059777e3cac55d8d7de5c82f4204dafa6fc89317baaa48ef24f7af7d1713fc",
+        "21a3a7da0c25b6b7d70fe2baa6ae2d9d5f753f9bcbff136aa6b6278bb74d5f33"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, True, 256)/zero",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+        "f15e50983cd867cea2646f5be35f2621063f9bcafd2cd65cdf746d4c73ccb862"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, True, 256)/cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "ede3e486917072914213134ea2b5e7f19c137874c3227d68462dd0f02855a477",
+        "65c9771e6a59b1069c713d7d52c363d2ff8db7bdb6461148eb61db549a35c7af"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, True, 256)/reciprocal-range",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010236501693725586,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "471ec45c2c238089b9d1bc2f07372090c888a85092357d2bc87821f11b36e25c",
+        "5b40aecc5d5b27101a87b66686978178d8e0d26b50ae48c3d87eac9d441536da"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, True, 256)/rounding-ties",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.00048828125,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "0703362e674e726b3b5d6c70b86801de58b7b23ccbd6ada98779187321c6bb1f",
+        "c41eea0c6b73409ad5a8d8f20ac9989b66e0e29eafaf954a8a361ec0a95633f2"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(3, True, 256)/uniform",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "fbe796e3ec879749a434bc87c4072b73a7ff9af816e1443798df599148e5219a",
+        "cbfac0f203c117852ee0c1bbac1033b7ded580f76850403de1db09412a252a40"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, False, 256)/17_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0008853673934936523,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "79327e367c7caa90c3999dada59f830acd0a13d910c6e748c7adb10f5c14c9ad",
+        "008a4ed8ebe77654f40532e6ac6c73e406d00a9f9b48e761b4e4959369168751"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, False, 256)/17_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014475584030151367,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "83028919323df4ce42522f4f13eab5ca5a55ddc1beaef6af0e29830d8477ed61",
+        "6e0cbe74e5180de20727498844ac064e356bf4778e5982dd6d312d6cbd4dd3b8"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, False, 256)/17_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012444853782653809,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "45f4dc4ce30ca5901740c5d5abf934e583ea46989f756646829120aad3327176",
+        "a924fe767e7695ed79ca29eb1ceab16faf830ff990a82fb060e1298f34f5ec94"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, False, 256)/17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001264810562133789,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "4501dc9830c77e9f838013ee74fe1e11fe2ade647fba03850e55206f11fc1333",
+        "e191a8509a90f57cb2da28445c81e9e7b6909cdbce8c128553f6690132cfef8d"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, False, 256)/17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005567073822021484,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "2d3326a4fa089f90735e95259a8e6dfaf0ecee458a29a2578d5ffb9a5b82754e",
+        "9e16c27672b7da0e7e097fcf1ce412f4b211617c5b1b336f6e2a2c6336743663"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, False, 256)/20261106_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010344088077545166,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "8dcb41c9fc9cf7499ab50bad7ab82ad54fd2067a35b79af9b1bc66cd89c3b1db",
+        "d65a643a95e85e862449693207a3d09d7c2e0ace18513a767d9ed44d0ea9f21b"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, False, 256)/20261106_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014597773551940918,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "750edfa2f4f9660150a7046c962762e912ea794f239b89e18355302bac203e06",
+        "52e542fd2915d70275f4d9b7cddb10545c991f73ba360febbd2e0f626e1f24d5"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, False, 256)/20261106_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001058340072631836,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "c95c6ecd17538d256741f7b6826212faff5b0080f099cce9bb4fe7bca35bc2f0",
+        "f8f155e881547e09b841b440ec577f2acd30bf4ab1a8154d251ee4be883aa94e"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, False, 256)/20261106_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001121029257774353,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "671109965544bee39e36504c81f04ff62ecc3db724774b317fe8efeffefea388",
+        "db8a5ed4392b981e3eafd2537bd8cb3d85ff11774b2481211511237cb958e352"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, False, 256)/20261106_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005752086639404297,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "aa059777e3cac55d8d7de5c82f4204dafa6fc89317baaa48ef24f7af7d1713fc",
+        "21a3a7da0c25b6b7d70fe2baa6ae2d9d5f753f9bcbff136aa6b6278bb74d5f33"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, False, 256)/zero",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+        "f15e50983cd867cea2646f5be35f2621063f9bcafd2cd65cdf746d4c73ccb862"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, False, 256)/cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "ede3e486917072914213134ea2b5e7f19c137874c3227d68462dd0f02855a477",
+        "65c9771e6a59b1069c713d7d52c363d2ff8db7bdb6461148eb61db549a35c7af"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, False, 256)/reciprocal-range",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010236501693725586,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "471ec45c2c238089b9d1bc2f07372090c888a85092357d2bc87821f11b36e25c",
+        "5b40aecc5d5b27101a87b66686978178d8e0d26b50ae48c3d87eac9d441536da"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, False, 256)/rounding-ties",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.00048828125,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "0703362e674e726b3b5d6c70b86801de58b7b23ccbd6ada98779187321c6bb1f",
+        "c41eea0c6b73409ad5a8d8f20ac9989b66e0e29eafaf954a8a361ec0a95633f2"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, False, 256)/uniform",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "fbe796e3ec879749a434bc87c4072b73a7ff9af816e1443798df599148e5219a",
+        "cbfac0f203c117852ee0c1bbac1033b7ded580f76850403de1db09412a252a40"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, True, 256)/17_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0008853673934936523,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "79327e367c7caa90c3999dada59f830acd0a13d910c6e748c7adb10f5c14c9ad",
+        "008a4ed8ebe77654f40532e6ac6c73e406d00a9f9b48e761b4e4959369168751"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, True, 256)/17_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014475584030151367,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "83028919323df4ce42522f4f13eab5ca5a55ddc1beaef6af0e29830d8477ed61",
+        "6e0cbe74e5180de20727498844ac064e356bf4778e5982dd6d312d6cbd4dd3b8"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, True, 256)/17_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012444853782653809,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "45f4dc4ce30ca5901740c5d5abf934e583ea46989f756646829120aad3327176",
+        "a924fe767e7695ed79ca29eb1ceab16faf830ff990a82fb060e1298f34f5ec94"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, True, 256)/17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001264810562133789,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "4501dc9830c77e9f838013ee74fe1e11fe2ade647fba03850e55206f11fc1333",
+        "e191a8509a90f57cb2da28445c81e9e7b6909cdbce8c128553f6690132cfef8d"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, True, 256)/17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005567073822021484,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "2d3326a4fa089f90735e95259a8e6dfaf0ecee458a29a2578d5ffb9a5b82754e",
+        "9e16c27672b7da0e7e097fcf1ce412f4b211617c5b1b336f6e2a2c6336743663"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, True, 256)/20261106_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010344088077545166,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "8dcb41c9fc9cf7499ab50bad7ab82ad54fd2067a35b79af9b1bc66cd89c3b1db",
+        "d65a643a95e85e862449693207a3d09d7c2e0ace18513a767d9ed44d0ea9f21b"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, True, 256)/20261106_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014597773551940918,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "750edfa2f4f9660150a7046c962762e912ea794f239b89e18355302bac203e06",
+        "52e542fd2915d70275f4d9b7cddb10545c991f73ba360febbd2e0f626e1f24d5"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, True, 256)/20261106_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001058340072631836,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "c95c6ecd17538d256741f7b6826212faff5b0080f099cce9bb4fe7bca35bc2f0",
+        "f8f155e881547e09b841b440ec577f2acd30bf4ab1a8154d251ee4be883aa94e"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, True, 256)/20261106_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001121029257774353,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "671109965544bee39e36504c81f04ff62ecc3db724774b317fe8efeffefea388",
+        "db8a5ed4392b981e3eafd2537bd8cb3d85ff11774b2481211511237cb958e352"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, True, 256)/20261106_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005752086639404297,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "aa059777e3cac55d8d7de5c82f4204dafa6fc89317baaa48ef24f7af7d1713fc",
+        "21a3a7da0c25b6b7d70fe2baa6ae2d9d5f753f9bcbff136aa6b6278bb74d5f33"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, True, 256)/zero",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+        "f15e50983cd867cea2646f5be35f2621063f9bcafd2cd65cdf746d4c73ccb862"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, True, 256)/cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "ede3e486917072914213134ea2b5e7f19c137874c3227d68462dd0f02855a477",
+        "65c9771e6a59b1069c713d7d52c363d2ff8db7bdb6461148eb61db549a35c7af"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, True, 256)/reciprocal-range",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010236501693725586,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "471ec45c2c238089b9d1bc2f07372090c888a85092357d2bc87821f11b36e25c",
+        "5b40aecc5d5b27101a87b66686978178d8e0d26b50ae48c3d87eac9d441536da"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, True, 256)/rounding-ties",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.00048828125,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "0703362e674e726b3b5d6c70b86801de58b7b23ccbd6ada98779187321c6bb1f",
+        "c41eea0c6b73409ad5a8d8f20ac9989b66e0e29eafaf954a8a361ec0a95633f2"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages/(4, True, 256)/uniform",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages",
+      "input_sha256": [
+        "fbe796e3ec879749a434bc87c4072b73a7ff9af816e1443798df599148e5219a",
+        "cbfac0f203c117852ee0c1bbac1033b7ded580f76850403de1db09412a252a40"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/17_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0008853673934936523,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "79327e367c7caa90c3999dada59f830acd0a13d910c6e748c7adb10f5c14c9ad",
+        "008a4ed8ebe77654f40532e6ac6c73e406d00a9f9b48e761b4e4959369168751"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/17_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014475584030151367,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "83028919323df4ce42522f4f13eab5ca5a55ddc1beaef6af0e29830d8477ed61",
+        "6e0cbe74e5180de20727498844ac064e356bf4778e5982dd6d312d6cbd4dd3b8"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/17_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012444853782653809,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "45f4dc4ce30ca5901740c5d5abf934e583ea46989f756646829120aad3327176",
+        "a924fe767e7695ed79ca29eb1ceab16faf830ff990a82fb060e1298f34f5ec94"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001264810562133789,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "4501dc9830c77e9f838013ee74fe1e11fe2ade647fba03850e55206f11fc1333",
+        "e191a8509a90f57cb2da28445c81e9e7b6909cdbce8c128553f6690132cfef8d"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005567073822021484,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "2d3326a4fa089f90735e95259a8e6dfaf0ecee458a29a2578d5ffb9a5b82754e",
+        "9e16c27672b7da0e7e097fcf1ce412f4b211617c5b1b336f6e2a2c6336743663"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/20261106_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010344088077545166,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "8dcb41c9fc9cf7499ab50bad7ab82ad54fd2067a35b79af9b1bc66cd89c3b1db",
+        "d65a643a95e85e862449693207a3d09d7c2e0ace18513a767d9ed44d0ea9f21b"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/20261106_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014597773551940918,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "750edfa2f4f9660150a7046c962762e912ea794f239b89e18355302bac203e06",
+        "52e542fd2915d70275f4d9b7cddb10545c991f73ba360febbd2e0f626e1f24d5"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/20261106_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001058340072631836,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "c95c6ecd17538d256741f7b6826212faff5b0080f099cce9bb4fe7bca35bc2f0",
+        "f8f155e881547e09b841b440ec577f2acd30bf4ab1a8154d251ee4be883aa94e"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/20261106_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001121029257774353,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "671109965544bee39e36504c81f04ff62ecc3db724774b317fe8efeffefea388",
+        "db8a5ed4392b981e3eafd2537bd8cb3d85ff11774b2481211511237cb958e352"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/20261106_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005752086639404297,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "aa059777e3cac55d8d7de5c82f4204dafa6fc89317baaa48ef24f7af7d1713fc",
+        "21a3a7da0c25b6b7d70fe2baa6ae2d9d5f753f9bcbff136aa6b6278bb74d5f33"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/zero",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+        "f15e50983cd867cea2646f5be35f2621063f9bcafd2cd65cdf746d4c73ccb862"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "ede3e486917072914213134ea2b5e7f19c137874c3227d68462dd0f02855a477",
+        "65c9771e6a59b1069c713d7d52c363d2ff8db7bdb6461148eb61db549a35c7af"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/reciprocal-range",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010236501693725586,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "471ec45c2c238089b9d1bc2f07372090c888a85092357d2bc87821f11b36e25c",
+        "5b40aecc5d5b27101a87b66686978178d8e0d26b50ae48c3d87eac9d441536da"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/rounding-ties",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.00048828125,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "0703362e674e726b3b5d6c70b86801de58b7b23ccbd6ada98779187321c6bb1f",
+        "c41eea0c6b73409ad5a8d8f20ac9989b66e0e29eafaf954a8a361ec0a95633f2"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, False, 256)/uniform",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fbe796e3ec879749a434bc87c4072b73a7ff9af816e1443798df599148e5219a",
+        "cbfac0f203c117852ee0c1bbac1033b7ded580f76850403de1db09412a252a40"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, True, 256)/17_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0008853673934936523,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "79327e367c7caa90c3999dada59f830acd0a13d910c6e748c7adb10f5c14c9ad",
+        "008a4ed8ebe77654f40532e6ac6c73e406d00a9f9b48e761b4e4959369168751"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, True, 256)/17_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014475584030151367,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "83028919323df4ce42522f4f13eab5ca5a55ddc1beaef6af0e29830d8477ed61",
+        "6e0cbe74e5180de20727498844ac064e356bf4778e5982dd6d312d6cbd4dd3b8"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, True, 256)/17_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012444853782653809,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "45f4dc4ce30ca5901740c5d5abf934e583ea46989f756646829120aad3327176",
+        "a924fe767e7695ed79ca29eb1ceab16faf830ff990a82fb060e1298f34f5ec94"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, True, 256)/17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001264810562133789,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "4501dc9830c77e9f838013ee74fe1e11fe2ade647fba03850e55206f11fc1333",
+        "e191a8509a90f57cb2da28445c81e9e7b6909cdbce8c128553f6690132cfef8d"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, True, 256)/17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005567073822021484,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "2d3326a4fa089f90735e95259a8e6dfaf0ecee458a29a2578d5ffb9a5b82754e",
+        "9e16c27672b7da0e7e097fcf1ce412f4b211617c5b1b336f6e2a2c6336743663"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, True, 256)/20261106_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010344088077545166,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "8dcb41c9fc9cf7499ab50bad7ab82ad54fd2067a35b79af9b1bc66cd89c3b1db",
+        "d65a643a95e85e862449693207a3d09d7c2e0ace18513a767d9ed44d0ea9f21b"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, True, 256)/20261106_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014597773551940918,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "750edfa2f4f9660150a7046c962762e912ea794f239b89e18355302bac203e06",
+        "52e542fd2915d70275f4d9b7cddb10545c991f73ba360febbd2e0f626e1f24d5"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, True, 256)/20261106_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001058340072631836,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "c95c6ecd17538d256741f7b6826212faff5b0080f099cce9bb4fe7bca35bc2f0",
+        "f8f155e881547e09b841b440ec577f2acd30bf4ab1a8154d251ee4be883aa94e"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, True, 256)/20261106_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001121029257774353,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "671109965544bee39e36504c81f04ff62ecc3db724774b317fe8efeffefea388",
+        "db8a5ed4392b981e3eafd2537bd8cb3d85ff11774b2481211511237cb958e352"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, True, 256)/20261106_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005752086639404297,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "aa059777e3cac55d8d7de5c82f4204dafa6fc89317baaa48ef24f7af7d1713fc",
+        "21a3a7da0c25b6b7d70fe2baa6ae2d9d5f753f9bcbff136aa6b6278bb74d5f33"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, True, 256)/zero",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+        "f15e50983cd867cea2646f5be35f2621063f9bcafd2cd65cdf746d4c73ccb862"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, True, 256)/cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "ede3e486917072914213134ea2b5e7f19c137874c3227d68462dd0f02855a477",
+        "65c9771e6a59b1069c713d7d52c363d2ff8db7bdb6461148eb61db549a35c7af"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, True, 256)/reciprocal-range",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010236501693725586,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "471ec45c2c238089b9d1bc2f07372090c888a85092357d2bc87821f11b36e25c",
+        "5b40aecc5d5b27101a87b66686978178d8e0d26b50ae48c3d87eac9d441536da"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, True, 256)/rounding-ties",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.00048828125,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "0703362e674e726b3b5d6c70b86801de58b7b23ccbd6ada98779187321c6bb1f",
+        "c41eea0c6b73409ad5a8d8f20ac9989b66e0e29eafaf954a8a361ec0a95633f2"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(2, True, 256)/uniform",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        2,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fbe796e3ec879749a434bc87c4072b73a7ff9af816e1443798df599148e5219a",
+        "cbfac0f203c117852ee0c1bbac1033b7ded580f76850403de1db09412a252a40"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, False, 256)/17_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0008853673934936523,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "79327e367c7caa90c3999dada59f830acd0a13d910c6e748c7adb10f5c14c9ad",
+        "008a4ed8ebe77654f40532e6ac6c73e406d00a9f9b48e761b4e4959369168751"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, False, 256)/17_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014475584030151367,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "83028919323df4ce42522f4f13eab5ca5a55ddc1beaef6af0e29830d8477ed61",
+        "6e0cbe74e5180de20727498844ac064e356bf4778e5982dd6d312d6cbd4dd3b8"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, False, 256)/17_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012444853782653809,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "45f4dc4ce30ca5901740c5d5abf934e583ea46989f756646829120aad3327176",
+        "a924fe767e7695ed79ca29eb1ceab16faf830ff990a82fb060e1298f34f5ec94"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, False, 256)/17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001264810562133789,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "4501dc9830c77e9f838013ee74fe1e11fe2ade647fba03850e55206f11fc1333",
+        "e191a8509a90f57cb2da28445c81e9e7b6909cdbce8c128553f6690132cfef8d"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, False, 256)/17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005567073822021484,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "2d3326a4fa089f90735e95259a8e6dfaf0ecee458a29a2578d5ffb9a5b82754e",
+        "9e16c27672b7da0e7e097fcf1ce412f4b211617c5b1b336f6e2a2c6336743663"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, False, 256)/20261106_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010344088077545166,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "8dcb41c9fc9cf7499ab50bad7ab82ad54fd2067a35b79af9b1bc66cd89c3b1db",
+        "d65a643a95e85e862449693207a3d09d7c2e0ace18513a767d9ed44d0ea9f21b"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, False, 256)/20261106_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014597773551940918,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "750edfa2f4f9660150a7046c962762e912ea794f239b89e18355302bac203e06",
+        "52e542fd2915d70275f4d9b7cddb10545c991f73ba360febbd2e0f626e1f24d5"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, False, 256)/20261106_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001058340072631836,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "c95c6ecd17538d256741f7b6826212faff5b0080f099cce9bb4fe7bca35bc2f0",
+        "f8f155e881547e09b841b440ec577f2acd30bf4ab1a8154d251ee4be883aa94e"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, False, 256)/20261106_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001121029257774353,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "671109965544bee39e36504c81f04ff62ecc3db724774b317fe8efeffefea388",
+        "db8a5ed4392b981e3eafd2537bd8cb3d85ff11774b2481211511237cb958e352"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, False, 256)/20261106_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005752086639404297,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "aa059777e3cac55d8d7de5c82f4204dafa6fc89317baaa48ef24f7af7d1713fc",
+        "21a3a7da0c25b6b7d70fe2baa6ae2d9d5f753f9bcbff136aa6b6278bb74d5f33"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, False, 256)/zero",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+        "f15e50983cd867cea2646f5be35f2621063f9bcafd2cd65cdf746d4c73ccb862"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, False, 256)/cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "ede3e486917072914213134ea2b5e7f19c137874c3227d68462dd0f02855a477",
+        "65c9771e6a59b1069c713d7d52c363d2ff8db7bdb6461148eb61db549a35c7af"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, False, 256)/reciprocal-range",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010236501693725586,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "471ec45c2c238089b9d1bc2f07372090c888a85092357d2bc87821f11b36e25c",
+        "5b40aecc5d5b27101a87b66686978178d8e0d26b50ae48c3d87eac9d441536da"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, False, 256)/rounding-ties",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.00048828125,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "0703362e674e726b3b5d6c70b86801de58b7b23ccbd6ada98779187321c6bb1f",
+        "c41eea0c6b73409ad5a8d8f20ac9989b66e0e29eafaf954a8a361ec0a95633f2"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, False, 256)/uniform",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fbe796e3ec879749a434bc87c4072b73a7ff9af816e1443798df599148e5219a",
+        "cbfac0f203c117852ee0c1bbac1033b7ded580f76850403de1db09412a252a40"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/17_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0008853673934936523,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "79327e367c7caa90c3999dada59f830acd0a13d910c6e748c7adb10f5c14c9ad",
+        "008a4ed8ebe77654f40532e6ac6c73e406d00a9f9b48e761b4e4959369168751"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/17_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014475584030151367,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "83028919323df4ce42522f4f13eab5ca5a55ddc1beaef6af0e29830d8477ed61",
+        "6e0cbe74e5180de20727498844ac064e356bf4778e5982dd6d312d6cbd4dd3b8"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/17_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012444853782653809,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "45f4dc4ce30ca5901740c5d5abf934e583ea46989f756646829120aad3327176",
+        "a924fe767e7695ed79ca29eb1ceab16faf830ff990a82fb060e1298f34f5ec94"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001264810562133789,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "4501dc9830c77e9f838013ee74fe1e11fe2ade647fba03850e55206f11fc1333",
+        "e191a8509a90f57cb2da28445c81e9e7b6909cdbce8c128553f6690132cfef8d"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005567073822021484,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "2d3326a4fa089f90735e95259a8e6dfaf0ecee458a29a2578d5ffb9a5b82754e",
+        "9e16c27672b7da0e7e097fcf1ce412f4b211617c5b1b336f6e2a2c6336743663"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/20261106_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010344088077545166,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "8dcb41c9fc9cf7499ab50bad7ab82ad54fd2067a35b79af9b1bc66cd89c3b1db",
+        "d65a643a95e85e862449693207a3d09d7c2e0ace18513a767d9ed44d0ea9f21b"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/20261106_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014597773551940918,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "750edfa2f4f9660150a7046c962762e912ea794f239b89e18355302bac203e06",
+        "52e542fd2915d70275f4d9b7cddb10545c991f73ba360febbd2e0f626e1f24d5"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/20261106_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001058340072631836,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "c95c6ecd17538d256741f7b6826212faff5b0080f099cce9bb4fe7bca35bc2f0",
+        "f8f155e881547e09b841b440ec577f2acd30bf4ab1a8154d251ee4be883aa94e"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/20261106_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001121029257774353,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "671109965544bee39e36504c81f04ff62ecc3db724774b317fe8efeffefea388",
+        "db8a5ed4392b981e3eafd2537bd8cb3d85ff11774b2481211511237cb958e352"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/20261106_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005752086639404297,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "aa059777e3cac55d8d7de5c82f4204dafa6fc89317baaa48ef24f7af7d1713fc",
+        "21a3a7da0c25b6b7d70fe2baa6ae2d9d5f753f9bcbff136aa6b6278bb74d5f33"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/zero",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+        "f15e50983cd867cea2646f5be35f2621063f9bcafd2cd65cdf746d4c73ccb862"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "ede3e486917072914213134ea2b5e7f19c137874c3227d68462dd0f02855a477",
+        "65c9771e6a59b1069c713d7d52c363d2ff8db7bdb6461148eb61db549a35c7af"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/reciprocal-range",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010236501693725586,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "471ec45c2c238089b9d1bc2f07372090c888a85092357d2bc87821f11b36e25c",
+        "5b40aecc5d5b27101a87b66686978178d8e0d26b50ae48c3d87eac9d441536da"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/rounding-ties",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.00048828125,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "0703362e674e726b3b5d6c70b86801de58b7b23ccbd6ada98779187321c6bb1f",
+        "c41eea0c6b73409ad5a8d8f20ac9989b66e0e29eafaf954a8a361ec0a95633f2"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(3, True, 256)/uniform",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        3,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fbe796e3ec879749a434bc87c4072b73a7ff9af816e1443798df599148e5219a",
+        "cbfac0f203c117852ee0c1bbac1033b7ded580f76850403de1db09412a252a40"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, False, 256)/17_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0008853673934936523,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "79327e367c7caa90c3999dada59f830acd0a13d910c6e748c7adb10f5c14c9ad",
+        "008a4ed8ebe77654f40532e6ac6c73e406d00a9f9b48e761b4e4959369168751"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, False, 256)/17_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014475584030151367,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "83028919323df4ce42522f4f13eab5ca5a55ddc1beaef6af0e29830d8477ed61",
+        "6e0cbe74e5180de20727498844ac064e356bf4778e5982dd6d312d6cbd4dd3b8"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, False, 256)/17_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012444853782653809,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "45f4dc4ce30ca5901740c5d5abf934e583ea46989f756646829120aad3327176",
+        "a924fe767e7695ed79ca29eb1ceab16faf830ff990a82fb060e1298f34f5ec94"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, False, 256)/17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001264810562133789,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "4501dc9830c77e9f838013ee74fe1e11fe2ade647fba03850e55206f11fc1333",
+        "e191a8509a90f57cb2da28445c81e9e7b6909cdbce8c128553f6690132cfef8d"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, False, 256)/17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005567073822021484,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "2d3326a4fa089f90735e95259a8e6dfaf0ecee458a29a2578d5ffb9a5b82754e",
+        "9e16c27672b7da0e7e097fcf1ce412f4b211617c5b1b336f6e2a2c6336743663"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, False, 256)/20261106_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010344088077545166,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "8dcb41c9fc9cf7499ab50bad7ab82ad54fd2067a35b79af9b1bc66cd89c3b1db",
+        "d65a643a95e85e862449693207a3d09d7c2e0ace18513a767d9ed44d0ea9f21b"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, False, 256)/20261106_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014597773551940918,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "750edfa2f4f9660150a7046c962762e912ea794f239b89e18355302bac203e06",
+        "52e542fd2915d70275f4d9b7cddb10545c991f73ba360febbd2e0f626e1f24d5"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, False, 256)/20261106_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001058340072631836,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "c95c6ecd17538d256741f7b6826212faff5b0080f099cce9bb4fe7bca35bc2f0",
+        "f8f155e881547e09b841b440ec577f2acd30bf4ab1a8154d251ee4be883aa94e"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, False, 256)/20261106_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001121029257774353,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "671109965544bee39e36504c81f04ff62ecc3db724774b317fe8efeffefea388",
+        "db8a5ed4392b981e3eafd2537bd8cb3d85ff11774b2481211511237cb958e352"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, False, 256)/20261106_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005752086639404297,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "aa059777e3cac55d8d7de5c82f4204dafa6fc89317baaa48ef24f7af7d1713fc",
+        "21a3a7da0c25b6b7d70fe2baa6ae2d9d5f753f9bcbff136aa6b6278bb74d5f33"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, False, 256)/zero",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+        "f15e50983cd867cea2646f5be35f2621063f9bcafd2cd65cdf746d4c73ccb862"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, False, 256)/cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "ede3e486917072914213134ea2b5e7f19c137874c3227d68462dd0f02855a477",
+        "65c9771e6a59b1069c713d7d52c363d2ff8db7bdb6461148eb61db549a35c7af"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, False, 256)/reciprocal-range",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010236501693725586,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "471ec45c2c238089b9d1bc2f07372090c888a85092357d2bc87821f11b36e25c",
+        "5b40aecc5d5b27101a87b66686978178d8e0d26b50ae48c3d87eac9d441536da"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, False, 256)/rounding-ties",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.00048828125,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "0703362e674e726b3b5d6c70b86801de58b7b23ccbd6ada98779187321c6bb1f",
+        "c41eea0c6b73409ad5a8d8f20ac9989b66e0e29eafaf954a8a361ec0a95633f2"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, False, 256)/uniform",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fbe796e3ec879749a434bc87c4072b73a7ff9af816e1443798df599148e5219a",
+        "cbfac0f203c117852ee0c1bbac1033b7ded580f76850403de1db09412a252a40"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, True, 256)/17_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0008853673934936523,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "79327e367c7caa90c3999dada59f830acd0a13d910c6e748c7adb10f5c14c9ad",
+        "008a4ed8ebe77654f40532e6ac6c73e406d00a9f9b48e761b4e4959369168751"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, True, 256)/17_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014475584030151367,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "83028919323df4ce42522f4f13eab5ca5a55ddc1beaef6af0e29830d8477ed61",
+        "6e0cbe74e5180de20727498844ac064e356bf4778e5982dd6d312d6cbd4dd3b8"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, True, 256)/17_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012444853782653809,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "45f4dc4ce30ca5901740c5d5abf934e583ea46989f756646829120aad3327176",
+        "a924fe767e7695ed79ca29eb1ceab16faf830ff990a82fb060e1298f34f5ec94"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, True, 256)/17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001264810562133789,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "4501dc9830c77e9f838013ee74fe1e11fe2ade647fba03850e55206f11fc1333",
+        "e191a8509a90f57cb2da28445c81e9e7b6909cdbce8c128553f6690132cfef8d"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, True, 256)/17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005567073822021484,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "2d3326a4fa089f90735e95259a8e6dfaf0ecee458a29a2578d5ffb9a5b82754e",
+        "9e16c27672b7da0e7e097fcf1ce412f4b211617c5b1b336f6e2a2c6336743663"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, True, 256)/20261106_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010344088077545166,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "8dcb41c9fc9cf7499ab50bad7ab82ad54fd2067a35b79af9b1bc66cd89c3b1db",
+        "d65a643a95e85e862449693207a3d09d7c2e0ace18513a767d9ed44d0ea9f21b"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, True, 256)/20261106_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014597773551940918,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "750edfa2f4f9660150a7046c962762e912ea794f239b89e18355302bac203e06",
+        "52e542fd2915d70275f4d9b7cddb10545c991f73ba360febbd2e0f626e1f24d5"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, True, 256)/20261106_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001058340072631836,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "c95c6ecd17538d256741f7b6826212faff5b0080f099cce9bb4fe7bca35bc2f0",
+        "f8f155e881547e09b841b440ec577f2acd30bf4ab1a8154d251ee4be883aa94e"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, True, 256)/20261106_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001121029257774353,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "671109965544bee39e36504c81f04ff62ecc3db724774b317fe8efeffefea388",
+        "db8a5ed4392b981e3eafd2537bd8cb3d85ff11774b2481211511237cb958e352"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, True, 256)/20261106_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005752086639404297,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "aa059777e3cac55d8d7de5c82f4204dafa6fc89317baaa48ef24f7af7d1713fc",
+        "21a3a7da0c25b6b7d70fe2baa6ae2d9d5f753f9bcbff136aa6b6278bb74d5f33"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, True, 256)/zero",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+        "f15e50983cd867cea2646f5be35f2621063f9bcafd2cd65cdf746d4c73ccb862"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, True, 256)/cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "ede3e486917072914213134ea2b5e7f19c137874c3227d68462dd0f02855a477",
+        "65c9771e6a59b1069c713d7d52c363d2ff8db7bdb6461148eb61db549a35c7af"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, True, 256)/reciprocal-range",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010236501693725586,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "471ec45c2c238089b9d1bc2f07372090c888a85092357d2bc87821f11b36e25c",
+        "5b40aecc5d5b27101a87b66686978178d8e0d26b50ae48c3d87eac9d441536da"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, True, 256)/rounding-ties",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.00048828125,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "0703362e674e726b3b5d6c70b86801de58b7b23ccbd6ada98779187321c6bb1f",
+        "c41eea0c6b73409ad5a8d8f20ac9989b66e0e29eafaf954a8a361ec0a95633f2"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(4, True, 256)/uniform",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        4,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fbe796e3ec879749a434bc87c4072b73a7ff9af816e1443798df599148e5219a",
+        "cbfac0f203c117852ee0c1bbac1033b7ded580f76850403de1db09412a252a40"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, False, 256)/17_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        5,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0008853673934936523,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "79327e367c7caa90c3999dada59f830acd0a13d910c6e748c7adb10f5c14c9ad",
+        "008a4ed8ebe77654f40532e6ac6c73e406d00a9f9b48e761b4e4959369168751"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, False, 256)/17_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        5,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014475584030151367,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "83028919323df4ce42522f4f13eab5ca5a55ddc1beaef6af0e29830d8477ed61",
+        "6e0cbe74e5180de20727498844ac064e356bf4778e5982dd6d312d6cbd4dd3b8"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, False, 256)/17_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        5,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012444853782653809,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "45f4dc4ce30ca5901740c5d5abf934e583ea46989f756646829120aad3327176",
+        "a924fe767e7695ed79ca29eb1ceab16faf830ff990a82fb060e1298f34f5ec94"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, False, 256)/17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        5,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001264810562133789,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "4501dc9830c77e9f838013ee74fe1e11fe2ade647fba03850e55206f11fc1333",
+        "e191a8509a90f57cb2da28445c81e9e7b6909cdbce8c128553f6690132cfef8d"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, False, 256)/17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        5,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005567073822021484,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "2d3326a4fa089f90735e95259a8e6dfaf0ecee458a29a2578d5ffb9a5b82754e",
+        "9e16c27672b7da0e7e097fcf1ce412f4b211617c5b1b336f6e2a2c6336743663"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, False, 256)/20261106_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        5,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010344088077545166,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "8dcb41c9fc9cf7499ab50bad7ab82ad54fd2067a35b79af9b1bc66cd89c3b1db",
+        "d65a643a95e85e862449693207a3d09d7c2e0ace18513a767d9ed44d0ea9f21b"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, False, 256)/20261106_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        5,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014597773551940918,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "750edfa2f4f9660150a7046c962762e912ea794f239b89e18355302bac203e06",
+        "52e542fd2915d70275f4d9b7cddb10545c991f73ba360febbd2e0f626e1f24d5"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, False, 256)/20261106_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        5,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001058340072631836,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "c95c6ecd17538d256741f7b6826212faff5b0080f099cce9bb4fe7bca35bc2f0",
+        "f8f155e881547e09b841b440ec577f2acd30bf4ab1a8154d251ee4be883aa94e"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, False, 256)/20261106_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        5,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001121029257774353,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "671109965544bee39e36504c81f04ff62ecc3db724774b317fe8efeffefea388",
+        "db8a5ed4392b981e3eafd2537bd8cb3d85ff11774b2481211511237cb958e352"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, False, 256)/20261106_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        5,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005752086639404297,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "aa059777e3cac55d8d7de5c82f4204dafa6fc89317baaa48ef24f7af7d1713fc",
+        "21a3a7da0c25b6b7d70fe2baa6ae2d9d5f753f9bcbff136aa6b6278bb74d5f33"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, False, 256)/zero",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        5,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+        "f15e50983cd867cea2646f5be35f2621063f9bcafd2cd65cdf746d4c73ccb862"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, False, 256)/cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        5,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "ede3e486917072914213134ea2b5e7f19c137874c3227d68462dd0f02855a477",
+        "65c9771e6a59b1069c713d7d52c363d2ff8db7bdb6461148eb61db549a35c7af"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, False, 256)/reciprocal-range",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        5,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010236501693725586,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "471ec45c2c238089b9d1bc2f07372090c888a85092357d2bc87821f11b36e25c",
+        "5b40aecc5d5b27101a87b66686978178d8e0d26b50ae48c3d87eac9d441536da"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, False, 256)/rounding-ties",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        5,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.00048828125,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "0703362e674e726b3b5d6c70b86801de58b7b23ccbd6ada98779187321c6bb1f",
+        "c41eea0c6b73409ad5a8d8f20ac9989b66e0e29eafaf954a8a361ec0a95633f2"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, False, 256)/uniform",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        5,
+        false,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fbe796e3ec879749a434bc87c4072b73a7ff9af816e1443798df599148e5219a",
+        "cbfac0f203c117852ee0c1bbac1033b7ded580f76850403de1db09412a252a40"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/17_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0008853673934936523,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "79327e367c7caa90c3999dada59f830acd0a13d910c6e748c7adb10f5c14c9ad",
+        "008a4ed8ebe77654f40532e6ac6c73e406d00a9f9b48e761b4e4959369168751"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/17_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014475584030151367,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "83028919323df4ce42522f4f13eab5ca5a55ddc1beaef6af0e29830d8477ed61",
+        "6e0cbe74e5180de20727498844ac064e356bf4778e5982dd6d312d6cbd4dd3b8"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/17_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0012444853782653809,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "45f4dc4ce30ca5901740c5d5abf934e583ea46989f756646829120aad3327176",
+        "a924fe767e7695ed79ca29eb1ceab16faf830ff990a82fb060e1298f34f5ec94"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/17_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001264810562133789,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "4501dc9830c77e9f838013ee74fe1e11fe2ade647fba03850e55206f11fc1333",
+        "e191a8509a90f57cb2da28445c81e9e7b6909cdbce8c128553f6690132cfef8d"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/17_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005567073822021484,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "2d3326a4fa089f90735e95259a8e6dfaf0ecee458a29a2578d5ffb9a5b82754e",
+        "9e16c27672b7da0e7e097fcf1ce412f4b211617c5b1b336f6e2a2c6336743663"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/20261106_256_256_128",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010344088077545166,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "8dcb41c9fc9cf7499ab50bad7ab82ad54fd2067a35b79af9b1bc66cd89c3b1db",
+        "d65a643a95e85e862449693207a3d09d7c2e0ace18513a767d9ed44d0ea9f21b"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/20261106_256_512_256",
+      "shape_mnk": [
+        256,
+        512,
+        256
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0014597773551940918,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "750edfa2f4f9660150a7046c962762e912ea794f239b89e18355302bac203e06",
+        "52e542fd2915d70275f4d9b7cddb10545c991f73ba360febbd2e0f626e1f24d5"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/20261106_384_256_136",
+      "shape_mnk": [
+        384,
+        256,
+        136
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001058340072631836,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "c95c6ecd17538d256741f7b6826212faff5b0080f099cce9bb4fe7bca35bc2f0",
+        "f8f155e881547e09b841b440ec577f2acd30bf4ab1a8154d251ee4be883aa94e"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/20261106_256_1024_160",
+      "shape_mnk": [
+        256,
+        1024,
+        160
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.001121029257774353,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "671109965544bee39e36504c81f04ff62ecc3db724774b317fe8efeffefea388",
+        "db8a5ed4392b981e3eafd2537bd8cb3d85ff11774b2481211511237cb958e352"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/20261106_256_256_4096",
+      "shape_mnk": [
+        256,
+        256,
+        4096
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.005752086639404297,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "aa059777e3cac55d8d7de5c82f4204dafa6fc89317baaa48ef24f7af7d1713fc",
+        "21a3a7da0c25b6b7d70fe2baa6ae2d9d5f753f9bcbff136aa6b6278bb74d5f33"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/zero",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fa43239bcee7b97ca62f007cc68487560a39e19f74f3dde7486db3f98df8e471",
+        "f15e50983cd867cea2646f5be35f2621063f9bcafd2cd65cdf746d4c73ccb862"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/cancellation",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "ede3e486917072914213134ea2b5e7f19c137874c3227d68462dd0f02855a477",
+        "65c9771e6a59b1069c713d7d52c363d2ff8db7bdb6461148eb61db549a35c7af"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/reciprocal-range",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0010236501693725586,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "471ec45c2c238089b9d1bc2f07372090c888a85092357d2bc87821f11b36e25c",
+        "5b40aecc5d5b27101a87b66686978178d8e0d26b50ae48c3d87eac9d441536da"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/rounding-ties",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": false,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.00048828125,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "0703362e674e726b3b5d6c70b86801de58b7b23ccbd6ada98779187321c6bb1f",
+        "c41eea0c6b73409ad5a8d8f20ac9989b66e0e29eafaf954a8a361ec0a95633f2"
+      ]
+    },
+    {
+      "id": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem/(5, True, 256)/uniform",
+      "shape_mnk": [
+        256,
+        256,
+        128
+      ],
+      "config": [
+        5,
+        true,
+        256
+      ],
+      "passed": true,
+      "finite": true,
+      "canary_passed": true,
+      "inputs_unchanged": true,
+      "atol": 0.005,
+      "rtol": 0.005,
+      "max_abs_error": 0.0,
+      "function": "sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem",
+      "input_sha256": [
+        "fbe796e3ec879749a434bc87c4072b73a7ff9af816e1443798df599148e5219a",
+        "cbfac0f203c117852ee0c1bbac1033b7ded580f76850403de1db09412a252a40"
+      ]
+    }
+  ],
+  "boundaries": [],
+  "strict_controls": [],
+  "rounding": [],
+  "performance": [],
+  "passed": false
+}

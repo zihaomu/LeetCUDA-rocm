@@ -140,6 +140,32 @@ flash_keys = {
     and "_acc_f32" in key[1]
     and not key[1].endswith("_rr")
 }
+tf32_path = root / "docs/rocm/tf32_sgemm_20261106/hip.json"
+tf32_keys = {
+    key
+    for key in qualified
+    if key[0] == "sgemm"
+    and (key[1] == "sgemm_cublas_tf32" or key[1].startswith("sgemm_wmma_"))
+}
+if tf32_keys:
+    tf32_report = json.loads(tf32_path.read_text())
+    assert tf32_report["passed"] and tf32_report["isa"]["passed"]
+    assert tf32_keys == {("sgemm", n) for n in tf32_report["variants"]}
+    assert tf32_report["input_precision_changed"]
+    for field in ("checks", "boundaries", "strict_controls", "rounding"):
+        assert tf32_report[field] and all(
+            c["passed"] for c in tf32_report[field]
+        )
+    assert len(tf32_report["isa"]["kernels"]) == 7
+    assert all(
+        k["bf16_wmma"] and not k["scratch_bytes"] and k["prefetch_order_sites"]
+        for k in tf32_report["isa"]["kernels"]
+    )
+    assert len(tf32_report["performance"]) == 45
+    assert all(
+        p["accuracy_passed"] and p["graph_replay_verified"]
+        for p in tf32_report["performance"]
+    )
 rr_keys = {
     key
     for key in qualified
@@ -440,6 +466,28 @@ for source in sorted((root / "kernels").rglob("*")):
                     async_hgemm_path.read_bytes()
                 ).hexdigest(),
             }
+        if (module, name) in tf32_keys:
+            entries[-1]["implementation"] = {
+                "mechanism": tf32_report["variants"][name],
+                "original_accumulator": "FP32",
+                "rocm_accumulator": "FP32",
+                "precision_changed": True,
+                "input_precision_changed": True,
+                "numeric_semantics": "Explicit RNA-TF32 high/residual decomposition and three-product correction; not single TF32 multiplication or native TF32 ISA",
+                "input_mutation": "AMD keeps inputs unchanged; original WMMA modifies them in place",
+                "exceptional_exponents": "Outside [2^-96,2^112], native tile uses FP32 scalar FMA; BLAS splitter retains full input in high component",
+                "amd_accuracy_gate": {"atol": 0.0002, "rtol": 0.0002},
+                "original_cuda_cross_gate": {
+                    "atol": 0.005,
+                    "rtol": 0.005,
+                    "source": "Unchanged historical TF32 pending-interface gate",
+                },
+                "performance_status": "measured_pending_optimization",
+                "evidence": str(tf32_path.relative_to(root)),
+                "evidence_sha256": hashlib.sha256(
+                    tf32_path.read_bytes()
+                ).hexdigest(),
+            }
         if (module, name) in low_keys:
             cute = name == "flash_attn_cute"
             vt = name.endswith("_swizzle_qkv") and "tiling_qkv_" not in name
@@ -642,6 +690,10 @@ if wmma_keys:
         qualified_cuda_path = (
             root / "docs/rocm/async_hgemm_20261106/qualified209_cuda.json"
         )
+    if tf32_keys:
+        qualified_cuda_path = (
+            root / "docs/rocm/tf32_sgemm_20261106/qualified212_cuda.json"
+        )
     qualified_cuda = json.loads(qualified_cuda_path.read_text())
     assert qualified_cuda["passed"]
     by_function = collections.defaultdict(list)
@@ -677,6 +729,40 @@ if wmma_keys:
             "evidence": str(wmma_cuda_path.relative_to(root)),
             "evidence_sha256": hashlib.sha256(
                 wmma_cuda_path.read_bytes()
+            ).hexdigest(),
+        }
+if async_hgemm_keys:
+    async_cuda_path = root / "docs/rocm/async_hgemm_20261106/cuda.json"
+    async_cuda = json.loads(async_cuda_path.read_text())
+    for key in async_hgemm_keys:
+        checks = [c for c in async_cuda["checks"] if c["function"] == key[1]]
+        cuda_coverage[key] = {
+            "source_kind": "upstream_original_with_current_stream_launches",
+            "cases": len(checks),
+            "accuracy_passed_cases": sum(c["passed"] for c in checks),
+            "all_cases_passed": all(c["passed"] for c in checks),
+            "scope": "Expanded inputs preserve original FP16 errors and odd-tile epilogue failures; slot-only CUDA correction is reported separately",
+            "evidence": str(async_cuda_path.relative_to(root)),
+            "evidence_sha256": hashlib.sha256(
+                async_cuda_path.read_bytes()
+            ).hexdigest(),
+            "slot_fixed_evidence": "docs/rocm/async_hgemm_20261106/cuda_fixed.json",
+        }
+if tf32_keys:
+    tf32_cuda_path = root / "docs/rocm/tf32_sgemm_20261106/cuda.json"
+    tf32_cuda = json.loads(tf32_cuda_path.read_text())
+    assert tf32_cuda["passed"]
+    for key in tf32_keys:
+        checks = [c for c in tf32_cuda["checks"] if c["function"] == key[1]]
+        cuda_coverage[key] = {
+            "source_kind": "upstream_original_with_current_stream_kernel_launches",
+            "cases": len(checks),
+            "accuracy_passed_cases": sum(c["passed"] for c in checks),
+            "all_cases_passed": all(c["passed"] for c in checks),
+            "scope": "Original single TF32 at historical 0.005 gate; AMD TF32x3 separately passes 0.0002; original cuBLAS graph unsupported",
+            "evidence": str(tf32_cuda_path.relative_to(root)),
+            "evidence_sha256": hashlib.sha256(
+                tf32_cuda_path.read_bytes()
             ).hexdigest(),
         }
 if mma_keys:
@@ -808,6 +894,13 @@ snapshot = {
         "qualified_percent": round(100 * counts["qualified"] / len(entries), 2),
         "qualified_with_explicit_accumulator_upgrade": sum(
             e.get("implementation", {}).get("precision_changed", False)
+            and not e.get("implementation", {}).get(
+                "input_precision_changed", False
+            )
+            for e in entries
+        ),
+        "qualified_with_explicit_input_precision_upgrade": sum(
+            e.get("implementation", {}).get("input_precision_changed", False)
             for e in entries
         ),
         "fully_qualified_modules": fully_qualified,

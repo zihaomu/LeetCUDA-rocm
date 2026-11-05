@@ -761,12 +761,11 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   TORCH_BINDING_COMMON_EXTENSION(sgemm_t_8x4_sliced_k16_f32x4_bcf_dbuf_async)
   TORCH_BINDING_COMMON_EXTENSION(sgemm_t_8x8_sliced_k16_f32x4_bcf_dbuf_async)
   TORCH_BINDING_COMMON_EXTENSION(sgemm_t_8x16_sliced_k16_f32x4_bcf_dbuf_async)
-#ifndef LEETCUDA_ROCM
+  // CUDA TF32 or the explicitly compensated AMD TF32 decomposition backend.
   // cuBLAS Tensor Cores
   TORCH_BINDING_COMMON_EXTENSION(sgemm_cublas_tf32)
   // WMMA API Tensor Cores, stage, thread block swizzle, dsmem
   TORCH_BINDING_COMMON_EXTENSION(sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages)
   TORCH_BINDING_COMMON_EXTENSION(
       sgemm_wmma_m16n16k8_mma4x2_warp2x4_stages_dsmem)
-#endif
 }

@@ -46,7 +46,11 @@ KERNELS = {
 
 EXTRA_SOURCES = {
     "hgemv": ("rocm/hgemv_matrix_precision.cu",),
-    "sgemm": ("sgemm/sgemm_async.cu", "rocm/blas_backend.cu"),
+    "sgemm": (
+        "sgemm/sgemm_async.cu",
+        "rocm/blas_backend.cu",
+        "rocm/sgemm_tf32.cu",
+    ),
     "mat_transpose": ("rocm/mat_transpose_layouts.cu",),
     "hgemm": (
         "rocm/blas_backend.cu",
