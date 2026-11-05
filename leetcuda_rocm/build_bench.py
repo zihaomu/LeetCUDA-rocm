@@ -17,6 +17,9 @@ from .isa import hip_isa
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("module", choices=("fp8", "fp4"))
+    parser.add_argument(
+        "--fp8-format", choices=("e4m3", "e5m2"), default="e4m3"
+    )
     parser.add_argument("--device", type=int, default=0)
     parser.add_argument("--run", action="store_true")
     parser.add_argument("--performance", action="store_true")
@@ -26,11 +29,15 @@ def main():
         default=None,
     )
     args = parser.parse_args()
+    if args.module != "fp8" and args.fp8_format != "e4m3":
+        parser.error("--fp8-format only applies to fp8")
     output_dir = (
         ROOT
         / "artifacts/rocm"
         / ("fp8_native" if args.module == "fp8" else "fp4")
     )
+    if args.module == "fp8" and args.fp8_format == "e5m2":
+        output_dir = output_dir / "e5m2"
     if args.output is None:
         args.output = output_dir / "cpp.json"
     if args.performance:
@@ -47,7 +54,7 @@ def main():
         )
     ]
     digest = hashlib.sha256(
-        b"".join(p.read_bytes() for p in sources)
+        b"".join(p.read_bytes() for p in sources) + args.fp8_format.encode()
     ).hexdigest()[:16]
     directory = (
         ROOT
@@ -64,6 +71,7 @@ def main():
         "-std=c++20",
         "--offload-arch=gfx1201",
         "-DLEETCUDA_ROCM=1",
+        *(["-DLEETCUDA_FP8_E5M2=1"] if args.fp8_format == "e5m2" else []),
         "-I",
         str(ROOT / "kernels"),
         str(sources[0]),
@@ -103,16 +111,13 @@ def main():
         "linked_runtime_sha256": libraries,
         "isa": hip_isa(binary, output_dir / "cpp_isa"),
         "module": args.module,
+        "fp8_format": args.fp8_format if args.module == "fp8" else None,
         "checks": [],
         "performance": [],
         "executed": args.run,
         "benchmark_method": (
             "HIP graphs of 32 calls, "
-            + (
-                "adaptive replays targeting 40ms"
-                if args.module == "fp4"
-                else "32 replays per sample"
-            )
+            + "adaptive replays targeting 40ms"
             + ", five alternating samples; hipBLAS BF16 FP32-accumulation baseline; allocations and offline B quantization excluded"
         ),
     }

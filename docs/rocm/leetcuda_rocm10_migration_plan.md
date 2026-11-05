@@ -6,7 +6,7 @@
 批次接口与量化门槛见[批次支持与验收计划](leetcuda_rocm10_next_batch_plan.md)。
 **B1–B7原43个pending接口已完成功能验收，U3完成后当前229/229（100%）；原公开接口全部功能验收。**
 最新双卡SIMT HGEMM专项各891项，全库25模块1262项、462组同精度CUDA参考/AMD共同输入通过，原FP16树460/462。
-性能、FFPA、训练Attention、FP8 E5M2与独立构建/非绑定范围仍在执行，整体迁移尚未完成。
+FP8 E5M2完整链路已验收；性能、FFPA、训练Attention与独立构建/非绑定范围仍在执行，整体迁移尚未完成。
 
 实时执行状态见[持续迁移进度](leetcuda_rocm10_live_progress.md)，每次关键实验即时更新。
 
@@ -53,8 +53,8 @@
 | M1 | 139 个现有原始接口、AMD WMMA GEMM/FA | 已验证；保持回归与历史记录 |
 | M2 | 布局转置、HGEMV、BLAS 后端 | 功能完成；HGEMV6/6，标量/packed/矩阵三项显式FP32升级；性能按workload记录 |
 | M3 | 剩余 GEMM/Attention 原始变体与异步流水线 | 已完成3个异步SGEMM、9个WMMA和11个MMA/CuTe HGEMM、29个原Attention；B4双卡各6677项，全库1088项及416组对照通过。B5异步HGEMM双卡各216项、全库1109项和422组对照通过；B6双卡各883项、全库1173项和428组对照也通过；B7也通过双卡各131项、全库1175项及430组对照；U1–U3也全部完成，原接口229/229；性能单独记录 |
-| M4 | FP8/FP4 GEMM、FFPA | FP8 E4M3 与 NVFP4 完整量化链路、离线 B 功能通过；FP4 用精确 FP16 展开及 FP16 WMMA；性能待优化，FFPA 待推进 |
-| M5 | GQA/mask/dropout/backward 与原 Triton 示例 | 四个 Triton 示例两张 AMD 卡与 5090 各 195 项通过，包括 LayerNorm 梯度；Attention GQA/mask/dropout/backward 仍待推进 |
+| M4 | FP8/FP4 GEMM、FFPA | FP8 E4M3/E5M2 与 NVFP4 完整量化链路、离线 B 功能通过；FP4 用精确 FP16 展开及 FP16 WMMA；性能待优化，FFPA 待推进 |
+| M5 | GQA/mask/dropout/backward 与原 Triton 示例 | 四个 Triton 示例两张 AMD 卡与 5090 各 195 项通过，包括 LayerNorm 梯度；Attention GQA/mask/dropout/backward扩大验收中，首轮377项发现1个BF16单key梯度问题并修正；未正式支持 |
 | M6 | 独立 C++ benchmark 与整体回归 | FP8/FP4 专用 C++ 入口已接入锁定环境；5090 原多模块 benchmark 已完成构建及 10 组运行审计；整体 AMD 入口与严格跨平台门限仍待推进 |
 | M7 | 性能收敛和最终验收 | 待推进；记录各 workload 与基线的差距，关闭所有必须项 |
 
@@ -115,3 +115,5 @@ U1证据：[scalar/packed HGEMV](hgemv_vector_20261106.md)。当前215/229，剩
 U2证据：[BF16 Reduce](reduce_precision_20261106.md)。当前218/229，剩11个精度未验收；49个累加升级及3个输入精度升级。继续U3及整体补充范围。
 
 U3证据：[同步SIMT HGEMM](hgemm_simt_20261106.md)。原229接口功能闭合，60个累加升级及3个输入升级。E5M2完整链路原型24项通过，继续正式验收及M4–M7，不在此阶段停止。
+
+E5M2证据：[完整链路与跨平台验收](fp8_e5m2_20261106.md)。两格式双卡各756项、每格式C++143项、两端各800共享检查及480输出比较通过，性能继续优化。

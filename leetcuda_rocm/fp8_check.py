@@ -1,8 +1,9 @@
-"""Qualify the native FP8 pipeline against an independent CPU E4M3 oracle."""
+"""Qualify the native FP8 pipeline against an independent CPU E4M3/E5M2 oracle."""
 
 import argparse
 import hashlib
 import json
+import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -33,10 +34,53 @@ ATOL, RTOL = (
 )  # BF16 output: one relative ULP, plus near-zero floor.
 
 
+FP8_FORMAT = "e4m3"
+MAX_FINITE = 448.0
+DTYPE = torch.float8_e4m3fn
+
+
+def configure(fp8_format):
+    global FP8_FORMAT, MAX_FINITE, DTYPE, CODES, VALUES, MIDPOINTS
+    FP8_FORMAT = fp8_format
+    if fp8_format == "e5m2":
+        MAX_FINITE = 57344.0
+        DTYPE = torch.float8_e5m2
+        CODES = np.arange(124, dtype=np.int32)
+        VALUES = np.where(
+            CODES < 4,
+            CODES * 2.0**-16,
+            (4 + CODES % 4) * np.exp2(CODES // 4 - 17),
+        ).astype(np.float32)
+    else:
+        MAX_FINITE = 448.0
+        DTYPE = torch.float8_e4m3fn
+        CODES = np.arange(127, dtype=np.int32)
+        VALUES = np.where(
+            CODES < 8,
+            CODES * 2.0**-9,
+            (8 + CODES % 8) * np.exp2(CODES // 8 - 10),
+        ).astype(np.float32)
+    MIDPOINTS = (VALUES[:-1] + VALUES[1:]) / np.float32(2)
+
+
+def _gemm(*args, **kwargs):
+    return fp8_gemm(*args, fp8_format=FP8_FORMAT, **kwargs)
+
+
+def _quantize(*args, **kwargs):
+    return quantize_fp8_weight(*args, fp8_format=FP8_FORMAT, **kwargs)
+
+
+def _lib(device):
+    return _native(device, FP8_FORMAT)
+
+
 def encode(x):
-    magnitude = np.minimum(np.abs(x), np.float32(448))
+    magnitude = np.minimum(np.abs(x), np.float32(MAX_FINITE))
     lower = np.searchsorted(MIDPOINTS, magnitude, side="left")
-    ties = (lower < 126) & (magnitude == MIDPOINTS[np.minimum(lower, 125)])
+    ties = (lower < len(VALUES) - 1) & (
+        magnitude == MIDPOINTS[np.minimum(lower, len(MIDPOINTS) - 1)]
+    )
     nearest = lower + (ties & ((lower & 1) != 0))
     return (nearest | (np.signbit(x).astype(np.int32) << 7)).astype(np.uint8)
 
@@ -54,8 +98,8 @@ def quantize_reference(x, individual):
     for start in range(0, len(x), stride):
         part = x[start : start + stride]
         amax = np.abs(part).max()
-        inv = np.float32(448) / amax if amax else np.float32(0)
-        scales.append(amax / np.float32(448))
+        inv = np.float32(MAX_FINITE) / amax if amax else np.float32(0)
+        scales.append(amax / np.float32(MAX_FINITE))
         codes[start : start + stride] = encode(part * inv)
     return codes, np.asarray(scales, dtype=np.float32)
 
@@ -103,11 +147,15 @@ def check_case(shape, seed, pattern, checks):
         a *= 2.0**exponent
         b *= 2.0**-exponent
     elif pattern == "rounding":
-        # Exact ties and both signed zeros, with amax=448 => scale=1.
+        # Exact ties and both signed zeros, with amax=max_finite => scale=1.
         values = (
             torch.from_numpy(
                 np.concatenate(
-                    (MIDPOINTS, -MIDPOINTS, [448.0, -448.0, 0.0, -0.0])
+                    (
+                        MIDPOINTS,
+                        -MIDPOINTS,
+                        [MAX_FINITE, -MAX_FINITE, 0.0, -0.0],
+                    )
                 )
             )
             .bfloat16()
@@ -123,7 +171,7 @@ def check_case(shape, seed, pattern, checks):
                 torch.arange(b.numel(), device="cuda") % len(values)
             ].reshape_as(b)
         )
-    lib = _native(a.device.index)
+    lib = _lib(a.device.index)
     full_precision = a.double() @ b.double()
     for mode in MODES:
         row, col = mode.startswith("row"), mode.endswith("col")
@@ -139,7 +187,7 @@ def check_case(shape, seed, pattern, checks):
             a8 = torch.empty_like(a, dtype=torch.uint8)
             ascale = torch.empty(len(sa), device=a.device, dtype=torch.float32)
             lib.quantize_a(a, a8, ascale, row)
-            weight = quantize_fp8_weight(b, per_col=col)
+            weight = _quantize(b, per_col=col)
             np.testing.assert_array_equal(a8.cpu().numpy(), aq)
             np.testing.assert_array_equal(weight.data.cpu().numpy(), bq)
             np.testing.assert_allclose(
@@ -153,7 +201,7 @@ def check_case(shape, seed, pattern, checks):
                     **meta,
                     "kind": "quantization",
                     "passed": True,
-                    "codes": "CPU E4M3 RNE oracle, bitwise equal",
+                    "codes": f"CPU {FP8_FORMAT} RNE oracle, bitwise equal",
                     "scale_rtol": 2e-7,
                 }
             )
@@ -173,7 +221,7 @@ def check_case(shape, seed, pattern, checks):
                 record = {**meta, "kind": "gemm", "use_ws": ws, "path": path}
                 try:
                     if path == "full":
-                        out = fp8_gemm(a, b, mode=mode, use_ws=ws)
+                        out = _gemm(a, b, mode=mode, use_ws=ws)
                     elif path == "offline_b":
                         out = fp8_gemm_prepacked(
                             a, weight, per_row=row, use_ws=ws
@@ -237,33 +285,33 @@ def contracts(checks, guard_device):
     checks.append({"kind": "public_exports", "passed": True})
     a = torch.ones(16, 16, device="cuda", dtype=torch.bfloat16)
     b = a.clone()
-    w = quantize_fp8_weight(b)
-    lib = _native(a.device.index)
+    w = _quantize(b)
+    lib = _lib(a.device.index)
     size = lib.workspace_size(16, 16, 16)
     storage = torch.empty(size + 256, dtype=torch.uint8, device=a.device)
     bad_a = torch.ones(a.numel() + 1, device=a.device, dtype=a.dtype)[
         1:
     ].view_as(a)
     cases = {
-        "cpu": lambda: fp8_gemm(a.cpu(), b),
-        "dtype": lambda: fp8_gemm(a.float(), b),
-        "rank": lambda: fp8_gemm(a.flatten(), b),
-        "noncontiguous": lambda: fp8_gemm(a.T, b),
-        "gradient": lambda: fp8_gemm(a.clone().requires_grad_(), b),
-        "unaligned_input": lambda: fp8_gemm(bad_a, b),
-        "k_mismatch": lambda: fp8_gemm(a, b[:8]),
-        "k_alignment": lambda: fp8_gemm(a[:, :15].contiguous(), b[:15]),
-        "n_alignment": lambda: fp8_gemm(a, b[:, :15].contiguous()),
-        "empty": lambda: fp8_gemm(a[:0], b),
-        "mode": lambda: fp8_gemm(a, b, mode="tensor"),
-        "workspace_size": lambda: fp8_gemm(a, b, workspace=storage[:16]),
-        "workspace_alignment": lambda: fp8_gemm(
+        "cpu": lambda: _gemm(a.cpu(), b),
+        "dtype": lambda: _gemm(a.float(), b),
+        "rank": lambda: _gemm(a.flatten(), b),
+        "noncontiguous": lambda: _gemm(a.T, b),
+        "gradient": lambda: _gemm(a.clone().requires_grad_(), b),
+        "unaligned_input": lambda: _gemm(bad_a, b),
+        "k_mismatch": lambda: _gemm(a, b[:8]),
+        "k_alignment": lambda: _gemm(a[:, :15].contiguous(), b[:15]),
+        "n_alignment": lambda: _gemm(a, b[:, :15].contiguous()),
+        "empty": lambda: _gemm(a[:0], b),
+        "mode": lambda: _gemm(a, b, mode="tensor"),
+        "workspace_size": lambda: _gemm(a, b, workspace=storage[:16]),
+        "workspace_alignment": lambda: _gemm(
             a, b, workspace=storage[16 : 16 + size]
         ),
-        "workspace_dtype": lambda: fp8_gemm(a, b, workspace=storage.float()),
-        "output_alias": lambda: fp8_gemm(a, b, out=a),
-        "output_shape": lambda: fp8_gemm(a, b, out=torch.empty_like(a[:8])),
-        "output_dtype": lambda: fp8_gemm(a, b, out=a.float()),
+        "workspace_dtype": lambda: _gemm(a, b, workspace=storage.float()),
+        "output_alias": lambda: _gemm(a, b, out=a),
+        "output_shape": lambda: _gemm(a, b, out=torch.empty_like(a[:8])),
+        "output_dtype": lambda: _gemm(a, b, out=a.float()),
         "packed_k": lambda: fp8_gemm_prepacked(a[:, :8].contiguous(), w),
         "packed_dtype": lambda: fp8_gemm_prepacked(
             a, FP8Weight(w.data.float(), w.scales, True)
@@ -289,6 +337,24 @@ def contracts(checks, guard_device):
         except (ValueError, RuntimeError) as exc:
             record.update(passed=True, rejection=str(exc))
         checks.append(record)
+    for kind, call in (
+        ("invalid_format", lambda: fp8_gemm(a, b, fp8_format="fnuz")),
+        (
+            "invalid_weight_format",
+            lambda: fp8_gemm_prepacked(
+                a, FP8Weight(w.data, w.scales, True, "fnuz")
+            ),
+        ),
+    ):
+        try:
+            call()
+        except ValueError:
+            checks.append(dict(kind=kind, passed=True))
+        else:
+            checks.append(dict(kind=kind, passed=False))
+    checks.append(
+        dict(kind="weight_format_tag", passed=w.fp8_format == FP8_FORMAT)
+    )
     # Valid offset; optionally select another device after checking occupancy.
     storage_a = torch.ones(a.numel() + 8, device=a.device, dtype=a.dtype)
     offset_a = storage_a[8:].view_as(a)
@@ -296,7 +362,7 @@ def contracts(checks, guard_device):
     alternate = old if guard_device is None else guard_device
     torch.cuda.set_device(alternate)
     try:
-        out = fp8_gemm(offset_a, b)
+        out = _gemm(offset_a, b)
         torch.testing.assert_close(
             out, torch.full_like(a, 16), atol=ATOL, rtol=RTOL
         )
@@ -324,7 +390,7 @@ def performance():
         ]
         out, ref = torch.empty_like(a), torch.empty_like(a)
         full_precision = a.double() @ b.double()
-        lib = _native(a.device.index)
+        lib = _lib(a.device.index)
         full_ws = torch.empty(
             lib.workspace_size(n, n, n), dtype=torch.uint8, device=a.device
         )
@@ -334,7 +400,7 @@ def performance():
         baseline = lambda: torch.mm(a, b, out=ref)
         for mode in MODES:
             row, col = mode.startswith("row"), mode.endswith("col")
-            w = quantize_fp8_weight(b, per_col=col)
+            w = _quantize(b, per_col=col)
             a8 = torch.empty_like(a, dtype=torch.uint8)
             sa = torch.empty(
                 n if row else (n + 127) // 128,
@@ -342,23 +408,22 @@ def performance():
                 dtype=torch.float32,
             )
             lib.quantize_a(a, a8, sa, row)
-            # Decode already checked native bytes, then use independent FP64 GEMM.
-            expected = (
-                (
-                    a8.view(torch.float8_e4m3fn).double()
-                    @ w.data.view(torch.float8_e4m3fn).double().T
-                )
-                * (sa if row else sa.repeat_interleave(128))[:, None].double()
-                * (w.scales if col else w.scales.repeat_interleave(128))[
-                    None, :
-                ].double()
-            ).bfloat16()
+            # Validate encoding on these performance inputs too, then use
+            # the independent CPU format definition and FP64 matrix product.
+            aq, sa_cpu = quantize_reference(a, row)
+            bq, sb_cpu = quantize_reference(b.T, col)
+            np.testing.assert_array_equal(a8.cpu().numpy(), aq)
+            np.testing.assert_array_equal(w.data.cpu().numpy(), bq)
+            expected = oracle(aq, bq, sa_cpu, sb_cpu, row, col, a.device)
+            preparation = timed_pair(
+                lambda: lib.quantize_b(b, w.data, w.scales, col), baseline
+            )
             for ws in (False, True):
                 paths = {
                     "quantized": lambda: lib.quantized(
                         a8, w.data, sa, w.scales, out, row, col, ws
                     ),
-                    "full": lambda: fp8_gemm(
+                    "full": lambda: _gemm(
                         a, b, mode=mode, use_ws=ws, workspace=full_ws, out=out
                     ),
                     "offline_b": lambda: fp8_gemm_prepacked(
@@ -370,6 +435,17 @@ def performance():
                     torch.testing.assert_close(
                         out, expected, atol=ATOL, rtol=RTOL
                     )
+                    prior = out.clone()
+                    stream = torch.cuda.Stream()
+                    stream.wait_stream(torch.cuda.current_stream())
+                    graph = torch.cuda.CUDAGraph()
+                    with torch.cuda.graph(graph, stream=stream):
+                        fn()
+                    with torch.cuda.stream(stream):
+                        out.fill_(float("nan"))
+                        graph.replay()
+                    stream.synchronize()
+                    assert torch.equal(out, prior), "graph replay failed"
                     timing = timed_pair(fn, baseline)
                     record = {
                         "shape_mnk": [n, n, n],
@@ -378,7 +454,9 @@ def performance():
                         "path": path,
                         "baseline": "torch.mm BF16, no FP8 quantization",
                         "passed": True,
+                        "graph_replay_verified": True,
                         "unquantized_error": error_metrics(out, full_precision),
+                        "offline_b_preparation": preparation,
                         "quantization_timed": {
                             "quantized": "none",
                             "full": "A and B",
@@ -393,23 +471,29 @@ def performance():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--fp8-format", choices=("e4m3", "e5m2"), default="e4m3"
+    )
     parser.add_argument("--device", type=int, default=0)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--performance", action="store_true")
     parser.add_argument("--guard-device", type=int)
     args = parser.parse_args()
+    args.output = args.output.resolve()
+    configure(args.fp8_format)
     torch.cuda.set_device(args.device)
     torch.set_grad_enabled(False)
     report = {
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "environment": verify(),
         "logical_device": args.device,
+        "fp8_format": FP8_FORMAT,
         "checks": [],
         "performance": [],
         "passed": False,
-        "oracle": "CPU E4M3 RNE bitwise quantization, FP64 quantized GEMM, BF16 output",
+        "oracle": f"CPU {FP8_FORMAT} RNE bitwise quantization, FP64 quantized GEMM, BF16 output",
         "numeric_gate": {"atol": ATOL, "rtol": RTOL},
-        "input_scope": "finite BF16; quantization uses FP32 amax/448 and 448/amax; no guarantee for FP32 scale underflow/overflow",
+        "input_scope": "finite BF16; quantization uses FP32 amax/max_finite and max_finite/amax; no guarantee for FP32 scale underflow/overflow",
         "source_sha256": {
             str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
             for p in [
@@ -451,12 +535,22 @@ def main():
         contracts(report["checks"], args.guard_device)
     stream.synchronize()
     report["stream"] = "non-default"
-    lib = _native(args.device)
+    lib = _lib(args.device)
+    frozen = args.output.parent / f"{args.output.stem}_binaries/native.so"
+    frozen.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(lib.__file__, frozen)
+    report["native_binary_sha256"] = hashlib.sha256(
+        frozen.read_bytes()
+    ).hexdigest()
+    report["native_binary"] = str(frozen.relative_to(ROOT))
     report["isa"] = hip_isa(
-        lib.__file__,
-        ROOT / f"artifacts/rocm/fp8_native/isa_device{args.device}",
+        frozen,
+        args.output.parent / f"{args.output.stem}_isa",
     )
-    assert "v_wmma_f32_16x16x16_fp8_fp8" in report["isa"]["instructions"]
+    instruction = "v_wmma_f32_16x16x16_" + (
+        "bf8_bf8" if FP8_FORMAT == "e5m2" else "fp8_fp8"
+    )
+    assert instruction in report["isa"]["instructions"]
     if args.performance and all(x["passed"] for x in report["checks"]):
         try:
             report["performance"] = performance()

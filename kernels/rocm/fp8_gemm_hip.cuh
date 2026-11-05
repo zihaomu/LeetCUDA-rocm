@@ -9,7 +9,15 @@
 #include <stdexcept>
 
 namespace fp8_gemm {
-constexpr float kE4M3Max = 448.0f; // e4m3 最大有限值（饱和上界）
+// Build each format as a separate native module, with identical scale modes.
+#if defined(LEETCUDA_FP8_E5M2)
+constexpr float kFP8Max = 57344.0f;
+constexpr auto kFP8Format = __HIP_E5M2;
+#else
+constexpr float kFP8Max = 448.0f;
+constexpr auto kFP8Format = __HIP_E4M3;
+#endif
+constexpr float kE4M3Max = 448.0f; // Preserve the original header constant.
 constexpr int kScaleBlock = 128;   // per-block 量化粒度（固定 128）
 
 enum class Fp8GemmScaleMode {
@@ -26,17 +34,17 @@ union Vec8BF16 { // 8 x bf16 = 16B, 量化 kernel 的向量化 IO 单元
 };
 static_assert(sizeof(Vec8BF16) == 16, "Vec8BF16 must be 128-bit");
 
-// f32 -> e4m3 两条打包；HIP RNE/satfinite 保留原 CUDA 量化语义。
-// satfinite 保证 x*inv_δ 舍入越界时饱和到 ±448 而非 NaN.
-__device__ __forceinline__ unsigned short cvt_f2_to_e4m3x2(float lo, float hi) {
+// f32 -> selected FP8 format, packed pairs with HIP RNE/satfinite.
+// Saturate at the selected finite maximum (448 or 57344).
+__device__ __forceinline__ unsigned short cvt_f2_to_fp8x2(float lo, float hi) {
   return __hip_cvt_float2_to_fp8x2(make_float2(lo, hi), __HIP_SATFINITE,
-                                   __HIP_E4M3);
+                                   kFP8Format);
 }
 
 // =============================================================================
 // Phase 9.2: 量化前处理 kernel(A 行主序保形 / B 转置到 B8T[N,K])
 // =============================================================================
-// A[M,K] bf16 -> A8[M,K] e4m3 行主序；GEMM 按 (BM,BK) 搬入 LDS。
+// A[M,K] bf16 -> A8[M,K] FP8 行主序；GEMM 按 (BM,BK) 搬入 LDS。
 //
 // per-row 版：warp-per-row, 一 warp 负责一整行。amax 经 shfl_xor 蝶形归约，
 // 量化与写回同行完成。K 是运行时参数无法在寄存器缓存整行，gmem 读两遍
@@ -63,8 +71,8 @@ __global__ void quantize_a_perrow_kernel(const hip_bfloat16 *__restrict__ X,
   for (int off = 16; off > 0; off >>= 1) // warp 内蝶形归约
     amax = fmaxf(amax, __shfl_xor_sync(0xffffffffULL, amax, off));
 
-  const float s = amax / kE4M3Max;
-  const float inv_s = (amax == 0.0f) ? 0.0f : kE4M3Max / amax;
+  const float s = amax / kFP8Max;
+  const float inv_s = (amax == 0.0f) ? 0.0f : kFP8Max / amax;
   if (lane == 0)
     scale[row] = s;
 
@@ -75,8 +83,8 @@ __global__ void quantize_a_perrow_kernel(const hip_bfloat16 *__restrict__ X,
     unsigned short *o2 = reinterpret_cast<unsigned short *>(&out);
 #pragma unroll
     for (int e = 0; e < kVec; e += 2)
-      o2[e / 2] = cvt_f2_to_e4m3x2(float(v.elem[e]) * inv_s,
-                                   float(v.elem[e + 1]) * inv_s);
+      o2[e / 2] = cvt_f2_to_fp8x2(float(v.elem[e]) * inv_s,
+                                  float(v.elem[e + 1]) * inv_s);
     *reinterpret_cast<uint2 *>(yr + c) = out; // 8 x e4m3 = 8B
   }
 }
@@ -125,9 +133,9 @@ __global__ void quantize_a_perblock_kernel(const hip_bfloat16 *__restrict__ X,
   __syncthreads();
   amax = warp_max[0];
 
-  const float inv_s = (amax == 0.0f) ? 0.0f : kE4M3Max / amax;
+  const float inv_s = (amax == 0.0f) ? 0.0f : kFP8Max / amax;
   if (tid == 0)
-    scale[blockIdx.x] = amax / kE4M3Max;
+    scale[blockIdx.x] = amax / kFP8Max;
 
   for (int i = tid; i < kScaleBlock * dv; i += kThreads) { // pass 2: 量化
     const int r = i / dv, c = (i % dv) * kVec;
@@ -139,8 +147,8 @@ __global__ void quantize_a_perblock_kernel(const hip_bfloat16 *__restrict__ X,
     unsigned short *o2 = reinterpret_cast<unsigned short *>(&out);
 #pragma unroll
     for (int e = 0; e < kVec; e += 2)
-      o2[e / 2] = cvt_f2_to_e4m3x2(float(v.elem[e]) * inv_s,
-                                   float(v.elem[e + 1]) * inv_s);
+      o2[e / 2] = cvt_f2_to_fp8x2(float(v.elem[e]) * inv_s,
+                                  float(v.elem[e + 1]) * inv_s);
     *reinterpret_cast<uint2 *>(Y + row * K + c) = out;
   }
 }
@@ -208,8 +216,8 @@ __global__ void quantize_bt_kernel(const hip_bfloat16 *__restrict__ B,
       if (n0 + n >= N)
         continue;
       const float am = samax[n];
-      scale[n0 + n] = am / kE4M3Max;
-      samax[n] = (am == 0.0f) ? 0.0f : kE4M3Max / am;
+      scale[n0 + n] = am / kFP8Max;
+      samax[n] = (am == 0.0f) ? 0.0f : kFP8Max / am;
     }
   } else {
     __syncthreads();
@@ -218,8 +226,8 @@ __global__ void quantize_bt_kernel(const hip_bfloat16 *__restrict__ B,
       for (int n = 0; n < kBNt; ++n)
         m = fmaxf(m, samax[n]);
       if (n0 < N)
-        scale[n0 / kScaleBlock] = m / kE4M3Max;
-      samax[0] = (m == 0.0f) ? 0.0f : kE4M3Max / m;
+        scale[n0 / kScaleBlock] = m / kFP8Max;
+      samax[0] = (m == 0.0f) ? 0.0f : kFP8Max / m;
     }
   }
   __syncthreads();
@@ -234,7 +242,7 @@ __global__ void quantize_bt_kernel(const hip_bfloat16 *__restrict__ B,
         const int n = c8 + e;
         const float inv_s = kPerCol ? samax[n] : samax[0];
         tile_t[n][r] = __hip_cvt_float_to_fp8(float(tile[r][n]) * inv_s,
-                                              __HIP_SATFINITE, __HIP_E4M3);
+                                              __HIP_SATFINITE, kFP8Format);
       }
     }
     __syncthreads();
@@ -281,6 +289,14 @@ struct Fp8GemmTraits {
 
 using Fp8Fragment = int __attribute__((ext_vector_type(2)));
 using AccFragment = float __attribute__((ext_vector_type(8)));
+__device__ __forceinline__ AccFragment wmma_fp8(Fp8Fragment a, Fp8Fragment b,
+                                                AccFragment c) {
+#if defined(LEETCUDA_FP8_E5M2)
+  return __builtin_amdgcn_wmma_f32_16x16x16_bf8_bf8_w32_gfx12(a, b, c);
+#else
+  return __builtin_amdgcn_wmma_f32_16x16x16_fp8_fp8_w32_gfx12(a, b, c);
+#endif
+}
 
 template <int BK> __device__ __forceinline__ int lds_index(int row, int col) {
   return row * BK + (col ^ ((row & 3) * 16));
@@ -332,8 +348,7 @@ __device__ void compute_gemm_tile(const uint8_t *tile,
     for (int i = 0; i < 2; ++i)
 #pragma unroll
       for (int j = 0; j < 2; ++j)
-        acc[i][j] = __builtin_amdgcn_wmma_f32_16x16x16_fp8_fp8_w32_gfx12(
-            af[i], bf[j], acc[i][j]);
+        acc[i][j] = wmma_fp8(af[i], bf[j], acc[i][j]);
   }
 }
 

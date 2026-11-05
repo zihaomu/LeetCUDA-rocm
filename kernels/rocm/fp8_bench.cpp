@@ -41,13 +41,22 @@ template <typename T> struct Buffer {
 // Independent scalar definition: no HIP FP8 conversion or production reducer.
 float decode(uint8_t code) {
   const int x = code & 127;
+#if defined(LEETCUDA_FP8_E5M2)
+  const float v = x < 4 ? std::ldexp(float(x), -16)
+                        : std::ldexp(float(4 + x % 4), x / 4 - 17);
+#else
   const float v = x < 8 ? std::ldexp(float(x), -9)
                         : std::ldexp(float(8 + x % 8), x / 8 - 10);
+#endif
   return (code & 128) ? -v : v;
 }
 uint8_t encode(float x) {
-  const float magnitude = std::min(std::abs(x), 448.f);
+  const float magnitude = std::min(std::abs(x), kFP8Max);
+#if defined(LEETCUDA_FP8_E5M2)
+  int lo = 0, hi = 123;
+#else
   int lo = 0, hi = 126;
+#endif
   while (lo < hi) {
     const int mid = (lo + hi) / 2;
     const float edge = (decode(mid) + decode(mid + 1)) / 2;
@@ -74,8 +83,8 @@ Quantized quantize(const std::vector<BF16> &input, int rows, int k,
     for (int r = start; r < std::min(start + group, rows); ++r)
       for (int c = 0; c < k; ++c)
         amax = std::max(amax, std::abs(read(r, c)));
-    q.scale.push_back(amax / 448.f);
-    const float inv = amax == 0 ? 0 : 448.f / amax;
+    q.scale.push_back(amax / kFP8Max);
+    const float inv = amax == 0 ? 0 : kFP8Max / amax;
     for (int r = start; r < std::min(start + group, rows); ++r)
       for (int c = 0; c < k; ++c)
         q.code[size_t(r) * k + c] = encode(read(r, c) * inv);
@@ -154,13 +163,21 @@ struct Graph {
   float measure() {
     check(hipGraphLaunch(executable, stream));
     check(hipEventRecord(start, stream));
-    for (int i = 0; i < 32; ++i)
+    check(hipGraphLaunch(executable, stream));
+    check(hipEventRecord(stop, stream));
+    check(hipEventSynchronize(stop));
+    float probe;
+    check(hipEventElapsedTime(&probe, start, stop));
+    const int repeats =
+        std::max(1, int(std::ceil(40.0f / std::max(probe, 1e-4f))));
+    check(hipEventRecord(start, stream));
+    for (int i = 0; i < repeats; ++i)
       check(hipGraphLaunch(executable, stream));
     check(hipEventRecord(stop, stream));
     check(hipEventSynchronize(stop));
     float ms;
     check(hipEventElapsedTime(&ms, start, stop));
-    return ms / 1024;
+    return ms / (32 * repeats);
   }
 };
 
@@ -222,6 +239,18 @@ void run_shape(int m, int n, int k, bool bench, hipStream_t stream,
     if (a8.download() != qa.code || bt8.download() != qb.code)
       throw std::runtime_error(
           "quantization differs from independent CPU codes");
+    std::array<float, 5> preparation_samples = {};
+    float preparation_ms = 0;
+    if (bench) {
+      Graph preparation(
+          [&]() { fp8_gemm_quantize_b(b.p, bt8.p, sb.p, n, k, col, stream); },
+          stream);
+      for (int sample = 0; sample < 5; ++sample)
+        preparation_samples[sample] = preparation.measure();
+      auto ordered = preparation_samples;
+      std::sort(ordered.begin(), ordered.end());
+      preparation_ms = ordered[2];
+    }
     for (bool use_ws : {false, true}) {
       std::array<std::function<void()>, 3> functions = {
           [&]() {
@@ -250,6 +279,13 @@ void run_shape(int m, int n, int k, bool bench, hipStream_t stream,
                   << ",\"max_abs_error\":" << error << ",\"passed\":true}\n";
         if (bench) {
           Graph ours(functions[path], stream), base(baseline, stream);
+          check(hipMemsetAsync(c.p, 0xff, c.count * sizeof(BF16), stream));
+          check(hipGraphLaunch(ours.executable, stream));
+          check(hipStreamSynchronize(stream));
+          const auto replay = c.download();
+          if (!std::equal(result.begin(), result.end(), replay.begin(),
+                          [](BF16 x, BF16 y) { return float(x) == float(y); }))
+            throw std::runtime_error("FP8 graph replay failed");
           std::array<float, 5> ot, bt;
           for (int t = 0; t < 5; ++t) {
             if (t % 2) {
@@ -262,9 +298,15 @@ void run_shape(int m, int n, int k, bool bench, hipStream_t stream,
           }
           // A linked library can change iostream flags. Keep sub-us precision.
           std::cout << std::defaultfloat << std::setprecision(10)
-                    << "{\"kind\":\"performance\",\"shape_mnk\":[" << m << ','
-                    << n << ',' << k << "],\"mode\":" << mode
-                    << ",\"use_ws\":" << use_ws << ",\"path\":\"" << names[path]
+                    << "{\"kind\":\"performance\",\"graph_replay_verified\":"
+                       "true,\"shape_mnk\":["
+                    << m << ',' << n << ',' << k
+                    << "],\"offline_b_preparation_ms\":" << preparation_ms
+                    << ",\"offline_b_preparation_samples_ms\":[";
+          for (int sample = 0; sample < 5; ++sample)
+            std::cout << (sample ? "," : "") << preparation_samples[sample];
+          std::cout << "],\"mode\":" << mode << ",\"use_ws\":" << use_ws
+                    << ",\"path\":\"" << names[path]
                     << "\",\"ours_samples_ms\":[";
           for (int t = 0; t < 5; ++t)
             std::cout << (t ? "," : "") << ot[t];
