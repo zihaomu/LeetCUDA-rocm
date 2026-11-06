@@ -1,5 +1,7 @@
 # interview 独立 FlashAttention：8个定义的ROCm验收
 
+本文保留初次功能验收及性能基线。后续[第二阶段优化](performance_phase2_results.md)已取得约1.202×加速，生产spill由14/16降至13/16，最大scratch由1408B降至752B；新的双卡及跨平台回归另行归档。
+
 2026-11-06。`flash_attn.cuh`的8个GPU定义已有独立AMD实现与真实5090对照，interview功能覆盖可达53/53。原Python接口仍229/229，二者分母独立。新增公开计算入口`interview_flash_attention`，共7种计算调度；另1个定义是布局复制smoke。
 
 ## 实现与契约

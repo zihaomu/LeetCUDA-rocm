@@ -103,37 +103,49 @@ __device__ __forceinline__ void commit_tile(Pending<Count> &pending,
           value;
   }
 }
-template <int D, int QC>
+template <int D, int QC, bool Packed = false>
 __device__ __forceinline__ void consume_qk(const _Float16 *tile, F8 &score,
                                            int wave, int lane) {
   if (wave < BC / 16) {
 #pragma unroll
     for (int kk = 0; kk < QC; kk += 16) {
       H8 q, k;
+      if constexpr (Packed) {
+        int col = kk + lane / 16 * 8;
+        q = *reinterpret_cast<const H8 *>(tile + index(lane % 16, col, QC));
+        k = *reinterpret_cast<const H8 *>(
+            tile + index(BR + wave * 16 + lane % 16, col, QC));
+      } else {
 #pragma unroll
-      for (int x = 0; x < 8; x++) {
-        int col = kk + lane / 16 * 8 + x;
-        q[x] = tile[index(lane % 16, col, QC)];
-        k[x] = tile[index(BR + wave * 16 + lane % 16, col, QC)];
+        for (int x = 0; x < 8; x++) {
+          int col = kk + lane / 16 * 8 + x;
+          q[x] = tile[index(lane % 16, col, QC)];
+          k[x] = tile[index(BR + wave * 16 + lane % 16, col, QC)];
+        }
       }
       score = __builtin_amdgcn_wmma_f32_16x16x16_f16_w32_gfx12(q, k, score);
     }
   }
 }
+template <bool Packed = false>
 __device__ __forceinline__ void consume_v(const _Float16 *p, const _Float16 *v,
                                           F8 &acc, int wave, int lane) {
 #pragma unroll
   for (int kk = 0; kk < BC; kk += 16) {
     H8 a, b;
+    if constexpr (Packed)
+      a = *reinterpret_cast<const H8 *>(p + (lane % 16) * BC + kk +
+                                        lane / 16 * 8);
 #pragma unroll
     for (int x = 0; x < 8; x++) {
-      a[x] = p[(lane % 16) * BC + kk + lane / 16 * 8 + x];
+      if constexpr (!Packed)
+        a[x] = p[(lane % 16) * BC + kk + lane / 16 * 8 + x];
       b[x] = v[index(kk + lane / 16 * 8 + x, (wave % 4) * 16 + lane % 16, 64)];
     }
     acc = __builtin_amdgcn_wmma_f32_16x16x16_f16_w32_gfx12(a, b, acc);
   }
 }
-template <int Fragments>
+template <bool Packed = false, int Fragments>
 __device__ __forceinline__ void
 output_chunk(const _Float16 *p, const _Float16 *v, F8 (&acc)[Fragments],
              int chunk, int wave, int lane) {
@@ -143,7 +155,7 @@ output_chunk(const _Float16 *p, const _Float16 *v, F8 (&acc)[Fragments],
   case I:                                                                      \
     if constexpr (Fragments > I) {                                             \
       if (wave / 4 == chunk % 2)                                               \
-        consume_v(p, v, acc[I], wave, lane);                                   \
+        consume_v<Packed>(p, v, acc[I], wave, lane);                           \
       asm volatile("" : "+v"(acc[I])::"memory");                               \
     }                                                                          \
     break
@@ -323,7 +335,7 @@ __global__ __launch_bounds__(Kind == 1 ? 288 : 256) void kernel(
         if (stats && delay == 2 && wave == 0)
           for (int d = 0; d < 256; d++)
             __builtin_amdgcn_s_sleep(1);
-        consume_qk<D, QC>(s.qk + slot * QSize, score, wave, lane);
+        consume_qk<D, QC, true>(s.qk + slot * QSize, score, wave, lane);
         if (stats && consumer == 0)
           atomicExch(stats + 1, seq + 1);
         publish(&s.qdone[slot][wave], seq + 1);
@@ -368,7 +380,7 @@ __global__ __launch_bounds__(Kind == 1 ? 288 : 256) void kernel(
         if (stats && delay == 2 && wave == 0)
           for (int d = 0; d < 256; d++)
             __builtin_amdgcn_s_sleep(1);
-        output_chunk(s.p, s.v + slot * VSize, acc, chunk, wave, lane);
+        output_chunk<true>(s.p, s.v + slot * VSize, acc, chunk, wave, lane);
         if (stats && consumer == 0)
           atomicExch(stats + 3, seq + 1);
         publish(&s.vdone[slot][wave], seq + 1);

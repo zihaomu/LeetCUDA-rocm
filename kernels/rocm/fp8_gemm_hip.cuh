@@ -261,10 +261,107 @@ __global__ void quantize_bt_kernel(const hip_bfloat16 *__restrict__ B,
   }
 }
 
+// Two kernel B path: reduce the scale once, then transpose/quantize independent
+// KxN tiles. Public output scales retain the original FP32 amax/max-finite.
+template <bool PerCol>
+__global__ void bt_scale_kernel(const hip_bfloat16 *__restrict__ b,
+                                float *__restrict__ scales, int K, int N) {
+  int tid = threadIdx.x;
+  float am = 0.0f;
+  __shared__ float partial[256];
+  if constexpr (PerCol) {
+    int n = int(blockIdx.x) * 32 + tid % 32;
+    if (n < N)
+      for (int k = tid / 32; k < K; k += 8)
+        am = fmaxf(am, fabsf(float(b[size_t(k) * N + n])));
+    partial[tid] = am;
+    __syncthreads();
+    if (tid < 32 && n < N) {
+#pragma unroll
+      for (int w = 1; w < 8; ++w)
+        am = fmaxf(am, partial[w * 32 + tid]);
+      scales[n] = am / kFP8Max;
+    }
+  } else {
+    int n0 = int(blockIdx.x) * 128;
+    for (size_t pack = tid; pack < size_t(K) * 16; pack += 256) {
+      int k = pack / 16, n = n0 + (pack % 16) * 8;
+      if (n < N) {
+        Vec8BF16 v = *reinterpret_cast<const Vec8BF16 *>(b + size_t(k) * N + n);
+#pragma unroll
+        for (int j = 0; j < 8; ++j)
+          am = fmaxf(am, fabsf(float(v.elem[j])));
+      }
+    }
+#pragma unroll
+    for (int step = 16; step; step /= 2)
+      am = fmaxf(am, __shfl_xor(am, step, 32));
+    if (tid % 32 == 0)
+      partial[tid / 32] = am;
+    __syncthreads();
+    if (tid == 0) {
+#pragma unroll
+      for (int w = 1; w < 8; ++w)
+        am = fmaxf(am, partial[w]);
+      scales[blockIdx.x] = am / kFP8Max;
+    }
+  }
+}
+__device__ __forceinline__ float bt_inverse(float scale) {
+  // The original amax is an exactly representable BF16 magnitude. Rounding the
+  // reconstructed product to BF16 recovers it before the original FP32 divide.
+  float am = float(hip_bfloat16(scale * kFP8Max));
+  return am == 0.0f ? 0.0f : kFP8Max / am;
+}
+template <bool PerCol>
+__global__ void
+bt_quantize_tiles(const hip_bfloat16 *__restrict__ b, uint8_t *__restrict__ bt,
+                  const float *__restrict__ scales, int K, int N) {
+  constexpr int Tile = 32, Stride = 40;
+  __shared__ __align__(16) uint8_t transposed[Tile][Stride];
+  int tid = threadIdx.x, tiles_n = (N + 31) / 32;
+  int n0 = (blockIdx.x % tiles_n) * Tile, k0 = (blockIdx.x / tiles_n) * Tile;
+  int r = tid / 4, c = (tid % 4) * 8;
+  if (k0 + r < K && n0 + c < N) {
+    Vec8BF16 v =
+        *reinterpret_cast<const Vec8BF16 *>(b + size_t(k0 + r) * N + n0 + c);
+#pragma unroll
+    for (int j = 0; j < 8; j += 2) {
+      float lo =
+          float(v.elem[j]) * bt_inverse(scales[PerCol ? n0 + c + j : n0 / 128]);
+      float hi = float(v.elem[j + 1]) *
+                 bt_inverse(scales[PerCol ? n0 + c + j + 1 : n0 / 128]);
+      unsigned short packed = cvt_f2_to_fp8x2(lo, hi);
+      transposed[c + j][r] = uint8_t(packed);
+      transposed[c + j + 1][r] = uint8_t(packed >> 8);
+    }
+  }
+  __syncthreads();
+  int n = tid / 4, k = (tid % 4) * 8;
+  if (n0 + n < N && k0 + k < K)
+    *reinterpret_cast<uint2 *>(bt + size_t(n0 + n) * K + k0 + k) =
+        *reinterpret_cast<const uint2 *>(&transposed[n][k]);
+}
+
 // B 侧量化入口：全链路(fp8_gemm_bf16)与权重离线量化(Phase 9.8)共用同一实现。
 inline void fp8_gemm_quantize_b(const hip_bfloat16 *B, uint8_t *b8t, float *sb,
                                 int N, int K, bool per_col_b,
                                 hipStream_t stream) {
+  // Keep one launch for wide, short matrices: the two-pass setup is slower.
+  if (K >= 256 && N >= 64 && (N <= 512 || K >= 1024)) {
+    if (per_col_b) {
+      bt_scale_kernel<true><<<(N + 31) / 32, 256, 0, stream>>>(B, sb, K, N);
+      bt_quantize_tiles<true>
+          <<<((N + 31) / 32) * ((K + 31) / 32), 128, 0, stream>>>(B, b8t, sb, K,
+                                                                  N);
+    } else {
+      bt_scale_kernel<false><<<(N + 127) / 128, 256, 0, stream>>>(B, sb, K, N);
+      bt_quantize_tiles<false>
+          <<<((N + 31) / 32) * ((K + 31) / 32), 128, 0, stream>>>(B, b8t, sb, K,
+                                                                  N);
+    }
+    return;
+  }
   if (per_col_b)
     quantize_bt_kernel<true>
         <<<(N + 127) / 128, 256, 0, stream>>>(B, b8t, sb, K, N);

@@ -124,21 +124,19 @@ template <class C, int D>
 __device__ __forceinline__ void q_fragment(const _Float16 *q, int wave, int kk,
                                            bool padded, H8 &a) {
   int lane = threadIdx.x % 32;
-#pragma unroll
-  for (int x = 0; x < 8; x++)
-    a[x] = q[C::template index<C::BR>(wave * 16 + lane % 16,
-                                      kk * 16 + lane / 16 * 8 + x, padded)];
+  a = *reinterpret_cast<const H8 *>(
+      q + C::template index<C::BR>(wave * 16 + lane % 16,
+                                   kk * 16 + lane / 16 * 8, padded));
 }
 template <class C, int D>
 __device__ __forceinline__ void k_fragments(const _Float16 *k, int kk,
                                             bool padded, H8 (&b)[C::BC / 16]) {
   int lane = threadIdx.x % 32;
 #pragma unroll
-  for (int j = 0; j < C::BC / 16; j++)
-#pragma unroll
-    for (int x = 0; x < 8; x++)
-      b[j][x] = k[C::template index<C::BC>(
-          j * 16 + lane % 16, kk * 16 + lane / 16 * 8 + x, padded)];
+  for (int j = 0; j < C::BC / 16; ++j)
+    b[j] = *reinterpret_cast<const H8 *>(
+        k + C::template index<C::BC>(j * 16 + lane % 16,
+                                     kk * 16 + lane / 16 * 8, padded));
 }
 template <int Kind, int D, class C>
 __device__ __forceinline__ void

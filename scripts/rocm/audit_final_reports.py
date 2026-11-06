@@ -19,6 +19,18 @@ def sha(path):
 
 
 def main():
+    # The historical full run remains immutable. Four optimized sources have
+    # newer, independently audited numerical and paired-performance evidence.
+    from audit_performance_phase2 import main as audit_phase2
+
+    phase2 = audit_phase2(quiet=True)
+
+    def source_matches(path, digest):
+        current = sha(ROOT / path)
+        if current != digest:
+            assert phase2["baseline_sources"].get(path) == digest, path
+            assert phase2["current_sources"].get(path) == current, path
+
     manifest = read(FULL / "manifest.json")
     assert manifest["passed"] and len(manifest["suites"]) == 23
     for row in manifest["suites"]:
@@ -77,7 +89,7 @@ def main():
     assert sum(counts.values()) == 15163
     for field in ("source_files_sha256", "adapter_sha256"):
         for path, digest in original[field].items():
-            assert sha(ROOT / path) == digest, path
+            source_matches(path, digest)
 
     cross = read(FULL / "qualified229_final_comparison.json")
     assert not cross["missing_cuda"] and not cross["missing_hip"]
@@ -112,7 +124,7 @@ def main():
         )
         assert "/frozen/" in data["isa"]["build_cache_binary"]
         for path, digest in data["builds"]["hip"]["source_sha256"].items():
-            assert sha(ROOT / path) == digest, path
+            source_matches(path, digest)
     regression = read(B1 / "existing_regression.json")
     assert regression["passed"] and regression["performance_no_regression"]
     assert regression["current_binary_sha256"] == report["isa"]["binary_sha256"]
@@ -120,7 +132,7 @@ def main():
     audit = read(FULL / "immutable_loader_audit.json")
     assert audit["passed"] and audit["dispatcher_in_frozen_binary"]
     for path, digest in audit["source_sha256"].items():
-        assert sha(ROOT / path) == digest, path
+        source_matches(path, digest)
     inventory = read(DOCS / "leetcuda_rocm10_operator_inventory.json")
     assert inventory["summary"]["qualified"] == 229
     assert len(inventory["additional_qualified_amd_interfaces"]) == 9
@@ -130,10 +142,12 @@ def main():
             dict(
                 passed=True,
                 functional_checks=sum(counts.values()),
+                functional_checks_scope="historical full run; four implementations requalified in phase2",
                 cross_cases=462,
                 original_interfaces=229,
                 b1_performance_entries=3,
-                source_hashes="matched",
+                source_hashes="matched; four optimized sources use phase2 evidence",
+                phase2_performance=phase2["audited_performance"],
             )
         )
     )

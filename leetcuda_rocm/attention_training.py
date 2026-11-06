@@ -467,6 +467,10 @@ class _Attention(torch.autograd.Function):
         dout = dout.contiguous()
         dq, dk, dv = (torch.empty_like(x) for x in (q, k, v))
         delta = torch.empty_like(lse)
+        delta_options = dict(ctx.options)
+        if q.shape[-1] == 256:
+            # Eight waves remove delta spills on the qualified gfx1201 path.
+            delta_options["num_warps"] = 8
         with torch.cuda.device(q.device):
             if q.numel():
                 # Recompute softmax delta from unrounded probabilities and dP.
@@ -484,7 +488,7 @@ class _Attention(torch.autograd.Function):
                     ctx.offset,
                     TQ=32,
                     TK=64,
-                    **ctx.options
+                    **delta_options
                 )
                 _backward_q[
                     (triton.cdiv(q.shape[2], 32), q.shape[0] * q.shape[1])

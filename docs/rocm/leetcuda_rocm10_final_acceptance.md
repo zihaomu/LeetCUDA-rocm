@@ -2,6 +2,8 @@
 
 2026-11-06。计划中的算子实现、独立构建、跨平台验证和明确量化的性能门槛已完成；M0–M7及B1–B7、U1–U3关闭。本轮最后新增8个interview FlashAttention定义和24个补充GPU定义，最终统一验收15组、**15163项全部通过**。
 
+后续[第二阶段性能优化](performance_phase2_results.md)已完成：对冻结旧AMD实现，独立FA约1.202×、FP8完整在线约1.577×、FFPA WS约1.073×、D256前向+反向约1.087×，均通过固定配置三轮门槛。四个受影响实现已重新专项验收；下述15163项仍指先前完整运行，未冒充本次重新执行。FP4另见[独立研究目标](fp4_research_goal.md)。
+
 | 独立统计范围 | 总数 | 已支持 | 未验收 | 比例 |
 | --- | ---: | ---: | ---: | ---: |
 | 原公开计算接口 | 229 | 229 | 0 | 100% |
@@ -25,7 +27,7 @@
 
 ## 仍然存在的限制
 
-功能覆盖完成不表示所有workload都达到成熟ROCm库性能。FP8/FP4、FFPA的WS路径、训练Attention D256及独立FA仍有性能差距；独立FA的16个生产特化中14个有spill。这些不是未实现的算子，后续优化仍有实际价值；当前计划没有为它们设定统一性能比值门槛。
+功能覆盖完成不表示所有workload都达到成熟ROCm库性能。第二阶段已有上述收益，但独立FA仍有13/16生产特化spill（最大scratch752B）；FFPA WS的LDS占用及训练Attention的dQ/dKV仍有优化空间。第二阶段门槛衡量对旧AMD实现的改进，不代表已追平成熟库。FP4仍采用FP16展开计算，未开始新一轮性能实验。
 
 AMD没有原样执行NVIDIA TMA/WGMMA/CuTe编译器：采用已验证的AMD载入、同步、WMMA及对应算法后端。NVFP4精确展开为FP16后使用WMMA，未声称原生FP4矩阵指令。5090不能执行Hopper WGMMA，该部分明确采用独立数学参考。
 
@@ -42,4 +44,4 @@ HIP_VISIBLE_DEVICES=2,1 scripts/rocm/qualify_all.sh --output artifacts/rocm/full
 工作区文档镜像位于`/home/zihaomu/zihaomu_workspace/leetcuda_workspace/doc`。5090实验目录为`/home/zihaomu/zihaomu_workspace/test_lap/leetcuda_rocm10`；原CUDA快照保持独立，修改参考与原始失败均保留。
 交付分支：[zihaomu/LeetCUDA-rocm 的 rocm10](https://github.com/zihaomu/LeetCUDA-rocm/tree/rocm10)。完整实验记录见[实时进度](leetcuda_rocm10_live_progress.md)。
 
-实现与完整验收证据提交：[`8da0434`](https://github.com/zihaomu/LeetCUDA-rocm/commit/8da0434)，已推送`rocm10`；后续提交仅同步最终发布状态。
+初次实现与完整验收证据提交：[`8da0434`](https://github.com/zihaomu/LeetCUDA-rocm/commit/8da0434)。第二阶段在`87edbab`基线上修改四个实现，新证据和源码审计见[第二阶段报告](performance_phase2_results.md)，沿用`rocm10`分支交付。

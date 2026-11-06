@@ -1,0 +1,339 @@
+{
+  "environment": {
+    "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03",
+    "rocm_release": "10.1.0",
+    "python": "3.13.13",
+    "torch": "2.14.0+rocm10.1.0",
+    "triton": "3.8.0+git669b31ac.rocm10.1.0",
+    "hip_build": "7.16.26385",
+    "cxx11_abi": true,
+    "visible_device_pci_bus_ids": [
+      "0000:43:00.0"
+    ],
+    "selected_device_pci_bus_id": "0000:43:00.0",
+    "gpu_architecture": "gfx1201",
+    "gpu_name": "AMD Radeon AI PRO R9700",
+    "visible_devices": "1",
+    "foundation_report": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/80e251b71f8e457cb0903927b40a0b7d.json"
+  },
+  "build": {
+    "binary": "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/.cache/rocm10/59fd7d638c6f8c646bbe/torch/frozen/808a20ed29ad25fef0644b6b20851389a8245259fb2ef214519df3927b137c5a/leetcuda_rocm_interview_attention_03cd2d5792b42f30.so",
+    "binary_sha256": "808a20ed29ad25fef0644b6b20851389a8245259fb2ef214519df3927b137c5a",
+    "source_sha256": {
+      "kernels/rocm/interview_common_hip.cuh": "8411eb9cfd0d96eb073d248527eb70f9555fea0e8635681aac36650b44420664",
+      "kernels/rocm/interview_flash_attention_hip.cuh": "0032b1383fdc89e8c58619bfc70dcdb7104e2719ebf8df9d7a2153919deafea4",
+      "leetcuda_rocm/native/interview_attention_bindings.cpp": "fdc6f0a5e69c5f7bd5c06c6011630f5db2eaa19035bf96a6b599653b94ce7c7b"
+    }
+  },
+  "isa": {
+    "binary": "artifacts/rocm/performance_phase2/fa/packed_lds/binaries/808a20ed29ad25fef0644b6b20851389a8245259fb2ef214519df3927b137c5a.so",
+    "binary_sha256": "808a20ed29ad25fef0644b6b20851389a8245259fb2ef214519df3927b137c5a",
+    "build_cache_binary": ".cache/rocm10/59fd7d638c6f8c646bbe/torch/frozen/808a20ed29ad25fef0644b6b20851389a8245259fb2ef214519df3927b137c5a/leetcuda_rocm_interview_attention_03cd2d5792b42f30.so",
+    "objects": [
+      {
+        "target": "hip-amdgcn-amd-amdhsa--gfx1201",
+        "bundle_offset": 0,
+        "object_offset": 4096,
+        "hsaco": "artifacts/rocm/performance_phase2/fa/packed_lds/canonical_resources_isa/object0.hsaco",
+        "hsaco_sha256": "2740b2fbe1eb406a34a3dba8fb5e141da896528973b7b39994b401fe532f4b3d",
+        "assembly": "artifacts/rocm/performance_phase2/fa/packed_lds/canonical_resources_isa/object0.amdgcn",
+        "assembly_sha256": "499acc8f69890ea6ae90694939027fad48f35f3723711d4c77d65a31ba34c0f3"
+      }
+    ],
+    "assembly": "artifacts/rocm/performance_phase2/fa/packed_lds/canonical_resources_isa/kernel.amdgcn",
+    "assembly_sha256": "499acc8f69890ea6ae90694939027fad48f35f3723711d4c77d65a31ba34c0f3",
+    "instructions": [
+      "v_wmma_f32_16x16x16_f16"
+    ]
+  },
+  "kernels": [
+    {
+      "kind": 0,
+      "d": 32,
+      "audit": true,
+      "vgpr": 216,
+      "spill": 0,
+      "scratch": 0,
+      "lds": 39936
+    },
+    {
+      "kind": 0,
+      "d": 32,
+      "audit": false,
+      "vgpr": 216,
+      "spill": 0,
+      "scratch": 0,
+      "lds": 39936
+    },
+    {
+      "kind": 0,
+      "d": 64,
+      "audit": true,
+      "vgpr": 256,
+      "spill": 71,
+      "scratch": 272,
+      "lds": 64512
+    },
+    {
+      "kind": 0,
+      "d": 64,
+      "audit": false,
+      "vgpr": 256,
+      "spill": 71,
+      "scratch": 272,
+      "lds": 64512
+    },
+    {
+      "kind": 0,
+      "d": 128,
+      "audit": true,
+      "vgpr": 256,
+      "spill": 92,
+      "scratch": 372,
+      "lds": 65536
+    },
+    {
+      "kind": 0,
+      "d": 128,
+      "audit": false,
+      "vgpr": 256,
+      "spill": 93,
+      "scratch": 376,
+      "lds": 65536
+    },
+    {
+      "kind": 1,
+      "d": 64,
+      "audit": true,
+      "vgpr": 256,
+      "spill": 56,
+      "scratch": 228,
+      "lds": 58368
+    },
+    {
+      "kind": 1,
+      "d": 64,
+      "audit": false,
+      "vgpr": 256,
+      "spill": 56,
+      "scratch": 228,
+      "lds": 58368
+    },
+    {
+      "kind": 1,
+      "d": 128,
+      "audit": true,
+      "vgpr": 256,
+      "spill": 140,
+      "scratch": 564,
+      "lds": 60416
+    },
+    {
+      "kind": 1,
+      "d": 128,
+      "audit": false,
+      "vgpr": 256,
+      "spill": 108,
+      "scratch": 436,
+      "lds": 60416
+    },
+    {
+      "kind": 2,
+      "d": 64,
+      "audit": true,
+      "vgpr": 256,
+      "spill": 6,
+      "scratch": 28,
+      "lds": 50176
+    },
+    {
+      "kind": 2,
+      "d": 64,
+      "audit": false,
+      "vgpr": 256,
+      "spill": 0,
+      "scratch": 0,
+      "lds": 50176
+    },
+    {
+      "kind": 2,
+      "d": 128,
+      "audit": true,
+      "vgpr": 256,
+      "spill": 125,
+      "scratch": 504,
+      "lds": 52224
+    },
+    {
+      "kind": 2,
+      "d": 128,
+      "audit": false,
+      "vgpr": 256,
+      "spill": 69,
+      "scratch": 280,
+      "lds": 52224
+    },
+    {
+      "kind": 3,
+      "d": 64,
+      "audit": true,
+      "vgpr": 256,
+      "spill": 32,
+      "scratch": 132,
+      "lds": 50176
+    },
+    {
+      "kind": 3,
+      "d": 64,
+      "audit": false,
+      "vgpr": 256,
+      "spill": 32,
+      "scratch": 132,
+      "lds": 50176
+    },
+    {
+      "kind": 3,
+      "d": 128,
+      "audit": true,
+      "vgpr": 256,
+      "spill": 63,
+      "scratch": 256,
+      "lds": 58368
+    },
+    {
+      "kind": 3,
+      "d": 128,
+      "audit": false,
+      "vgpr": 256,
+      "spill": 63,
+      "scratch": 256,
+      "lds": 58368
+    },
+    {
+      "kind": 4,
+      "d": 64,
+      "audit": true,
+      "vgpr": 256,
+      "spill": 62,
+      "scratch": 252,
+      "lds": 54272
+    },
+    {
+      "kind": 4,
+      "d": 64,
+      "audit": false,
+      "vgpr": 256,
+      "spill": 55,
+      "scratch": 224,
+      "lds": 54272
+    },
+    {
+      "kind": 4,
+      "d": 128,
+      "audit": true,
+      "vgpr": 256,
+      "spill": 173,
+      "scratch": 696,
+      "lds": 58368
+    },
+    {
+      "kind": 4,
+      "d": 128,
+      "audit": false,
+      "vgpr": 256,
+      "spill": 158,
+      "scratch": 636,
+      "lds": 58368
+    },
+    {
+      "kind": 5,
+      "d": 64,
+      "audit": true,
+      "vgpr": 256,
+      "spill": 14,
+      "scratch": 60,
+      "lds": 46080
+    },
+    {
+      "kind": 5,
+      "d": 64,
+      "audit": false,
+      "vgpr": 256,
+      "spill": 0,
+      "scratch": 0,
+      "lds": 46080
+    },
+    {
+      "kind": 5,
+      "d": 128,
+      "audit": true,
+      "vgpr": 256,
+      "spill": 157,
+      "scratch": 632,
+      "lds": 50176
+    },
+    {
+      "kind": 5,
+      "d": 128,
+      "audit": false,
+      "vgpr": 256,
+      "spill": 101,
+      "scratch": 408,
+      "lds": 50176
+    },
+    {
+      "kind": 7,
+      "d": 64,
+      "audit": true,
+      "vgpr": 256,
+      "spill": 38,
+      "scratch": 156,
+      "lds": 37888
+    },
+    {
+      "kind": 7,
+      "d": 64,
+      "audit": false,
+      "vgpr": 256,
+      "spill": 35,
+      "scratch": 144,
+      "lds": 37888
+    },
+    {
+      "kind": 7,
+      "d": 96,
+      "audit": true,
+      "vgpr": 256,
+      "spill": 103,
+      "scratch": 416,
+      "lds": 31744
+    },
+    {
+      "kind": 7,
+      "d": 96,
+      "audit": false,
+      "vgpr": 256,
+      "spill": 82,
+      "scratch": 332,
+      "lds": 31744
+    },
+    {
+      "kind": 7,
+      "d": 128,
+      "audit": true,
+      "vgpr": 256,
+      "spill": 196,
+      "scratch": 788,
+      "lds": 41984
+    },
+    {
+      "kind": 7,
+      "d": 128,
+      "audit": false,
+      "vgpr": 256,
+      "spill": 187,
+      "scratch": 752,
+      "lds": 41984
+    }
+  ]
+}

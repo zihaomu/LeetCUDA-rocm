@@ -1,0 +1,17 @@
+{"profile": "rocm10-foundation-r9700-v1", "passed": true, "image_id": "sha256:a79c374ab2bc93c0e4358da6c7bda5cb84cf1308e8aff74fc99fc95c511cbd03", "output": "/workspaces/deepinfer_workspace/artifacts/amd/rocm10/foundation-environment-reports/84e3050af8524ec7a43ff7bdd4ab827a.json"}
+Traceback (most recent call last):
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/performance_phase2/cpp_check.py", line 9, in <module>
+    build_bench.main()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/build_bench.py", line 112, in main
+    "isa": hip_isa(binary, output_dir / "cpp_isa"),
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/artifacts/rocm/performance_phase2/cpp_check.py", line 8, in <lambda>
+    build_bench.hip_isa=lambda binary,unused:original(binary,output.parent/(output.stem+'_isa'))
+                                             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA/leetcuda_rocm/isa.py", line 64, in hip_isa
+    "assembly": str(assembly.relative_to(ROOT)),
+                    ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/opt/python/cpython-3.13.13-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py", line 385, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: 'artifacts/rocm/performance_phase2/fp8/tiled_quantization/cpp_e4m3_isa/kernel.amdgcn' is not in the subpath of '/home/zihaomu/zihaomu_workspace/leetcuda_workspace/LeetCUDA'
